@@ -18,17 +18,35 @@ internal static class SceneManager
     /// シーンの非同期ロード (キャンセル不可)
     /// </summary>
     /// <param name="scene">遷移するシーン</param>
-    /// <param name="onProgressChanged">ロード進捗が更新された時のコールバック</param>
     /// <param name="onDoingCleanupAsync">リソースを解放中の演出用タスク (メソッド内でキャンセルされる)</param>
+    /// <param name="onProgressChanged">ロード進捗が更新された時のコールバック</param>
     /// <param name="onCompletedAsync">すべて完了後の演出用タスク (キャンセル不可)</param>
     /// <returns></returns>
     internal static async UniTaskVoid LoadAsync(
         this Scene scene,
-        Action<float> onProgressChanged = null,
         Func<Ct, UniTaskVoid> onDoingCleanupAsync = null,
+        Action<float> onProgressChanged = null,
         Func<UniTask> onCompletedAsync = null
     )
     {
+        // クリーンアップ
+        // シーン遷移中は Resources.UnloadUnusedAssets() が完了しないため、ここで実行する
+        if (onDoingCleanupAsync != null)
+        {
+            Cts ctsOnDoingCleanup = new();
+            onDoingCleanupAsync(ctsOnDoingCleanup.Token).Forget();
+
+            await Cleanupper.RunAsync(Ct.None);
+
+            ctsOnDoingCleanup.Cancel();
+            ctsOnDoingCleanup.Dispose();
+        }
+        else
+        {
+            await Cleanupper.RunAsync(Ct.None);
+        }
+        await UniTask.NextFrame();
+
         // ロード準備
         AsyncOperation op = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneNames[scene]);
         op.allowSceneActivation = false;
@@ -53,25 +71,6 @@ internal static class SceneManager
 
             await UniTask.NextFrame();
         }
-
-        // クリーンアップ
-        if (onDoingCleanupAsync != null)
-        {
-            Cts ctsOnDoingCleanup = new();
-            onDoingCleanupAsync(ctsOnDoingCleanup.Token).Forget();
-
-            // await Cleanupper.RunAsync();
-            Cleanupper.RunOnlyGC(); //TODO: Resources.UnloadUnusedAssets() が完了しないので、暫定GCのみにする
-
-            ctsOnDoingCleanup.Cancel();
-            ctsOnDoingCleanup.Dispose();
-        }
-        else
-        {
-            // await Cleanupper.RunAsync();
-            Cleanupper.RunOnlyGC(); //TODO: Resources.UnloadUnusedAssets() が完了しないので、暫定GCのみにする
-        }
-        await UniTask.NextFrame();
 
         // 完了
         if (onCompletedAsync != null)

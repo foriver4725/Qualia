@@ -25,23 +25,23 @@ namespace MyScripts.Runtime
             loadingText.text = string.Empty;
 
             scene.LoadAsync(
-                onProgressChanged: progress => loadingText.text = $"{progress * 100f:0.0}%",
                 onDoingCleanupAsync: async ct =>
                 {
                     while (!ct.IsCancellationRequested)
                     {
-                        loadingText.text = "不要なリソースを削除中.";
+                        loadingText.text = "不要なリソースを解放中.";
                         await 0.2f.SecAwait(ct: ct);
-                        loadingText.text = "不要なリソースを削除中..";
+                        loadingText.text = "不要なリソースを解放中..";
                         await 0.2f.SecAwait(ct: ct);
-                        loadingText.text = "不要なリソースを削除中...";
+                        loadingText.text = "不要なリソースを解放中...";
                         await 0.2f.SecAwait(ct: ct);
                     }
                 },
+                onProgressChanged: progress => loadingText.text = $"ロード中 : {progress * 100f:0.0}%",
                 onCompletedAsync: async () =>
                 {
                     loadingText.text = "ファイナライズ中(すぐに完了します)...";
-                    await 0.2f.SecAwait();
+                    await 0.1f.SecAwait();
                 }
             ).Forget();
         }
