@@ -16,6 +16,8 @@
         [SerializeField] private ParticleSystem[] sosSign_rottenEggSmell;
         [SerializeField] private ParticleSystem[] sosSign_contaminatedWater;
         [SerializeField] private TextMeshProUGUI triggerText; // トリガーを教えるUI
+        [SerializeField] private SOSSignFindManager sosSignFindManager;
+        [SerializeField] private TimeScoreManager timeScoreManager;
 
         // Awake で初期化
         private CharacterType currentType; // 現在のキャラクターの種類
@@ -55,6 +57,24 @@
             UpdateSOSSignsVisibility(currentType);
             // トリガーUIを更新
             UpdateTriggerText(currentType, GetNext(currentType));
+
+            {
+                List<Collider> sosSignColliders = new(64);
+                foreach (var kv in sosSigns)
+                {
+                    foreach (var v in kv.Value)
+                    {
+                        if (!v.transform.parent.TryGetComponent(out Collider c)) continue;
+                        sosSignColliders.Add(c);
+                    }
+                }
+
+                sosSignFindManager.Setup(
+                    sosSignColliders.AsReadOnly(),
+                    () => currentType == CharacterType.Human,
+                    timeScoreManager.DecrementLeftAmount
+                );
+            }
 
             WaitInputAndTriggerAsync(destroyCancellationToken).Forget();
         }

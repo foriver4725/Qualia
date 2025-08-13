@@ -10,8 +10,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2239677793117777547, guid: 5f748ef53f8e6954392ab172c23db175, type: 3}
       propertyPath: m_Name
-      value: SOSSign_ContaminatedWater Variant
+      value: SOSSign_ContaminatedWater
       objectReference: {fileID: 0}
+    - target: {fileID: 7708375565998228190, guid: 5f748ef53f8e6954392ab172c23db175, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 99a2e6868653c2743b1cdbfd942abd04, type: 2}
     - target: {fileID: 7939171000004802562, guid: 5f748ef53f8e6954392ab172c23db175, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

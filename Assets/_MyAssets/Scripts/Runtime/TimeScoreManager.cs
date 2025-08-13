@@ -28,9 +28,6 @@
 
         private async UniTaskVoid CountTimeAsync(Ct ct)
         {
-            // 適当に、５個見つけたものとする
-            leftAmount -= 5;
-
             while (!ct.IsCancellationRequested)
             {
                 remainingTime -= Time.deltaTime;
@@ -43,7 +40,7 @@
                     break;
                 }
 
-                UpdateUI(leftAmount, remainingTime);
+                UpdateUI(leftAmount, remainingTime); // 毎フレーム更新されるので、ここ以外で実行する必要はなさそう
                 await UniTask.NextFrame(cancellationToken: ct);
             }
 
@@ -60,5 +57,7 @@
 
             leftText.text = $"残り{leftAmount}個";
         }
+
+        internal void DecrementLeftAmount() => leftAmount--;
     }
 }
