@@ -10,7 +10,7 @@ namespace MyScripts.Runtime
         private void Awake()
         {
             resultText.text = $"{ScoreHolder.FoundAmount}/{ScoreHolder.ShouldFoundAmount}";
-            oneMoreButton.onClick.AddListener(static () => Scene.Main.Load());
+            oneMoreButton.onClick.AddListener(static () => LoadManager.Instance.BeginLoad(Scene.Main));
         }
     }
 }

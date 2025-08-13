@@ -51,7 +51,7 @@ namespace MyScripts.Runtime
 
             // タイムアップ時の処理
             ScoreHolder.FoundAmount = (byte)(ScoreHolder.ShouldFoundAmount - leftAmount); // スコアを受け渡す
-            Scene.Result.Load();
+            LoadManager.Instance.BeginLoad(Scene.Result);
         }
 
         private void UpdateUI(int leftAmount, float remainingTime)
