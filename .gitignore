@@ -103,6 +103,9 @@ InitTestScene*.unity*
 # macOS
 *.DS_Store
 
+# Visual Studio Code
+.vscode/
+
 # External assets
 /[Aa]ssets/TextMesh\ Pro/
 /[Aa]ssets/TextMesh\ Pro.meta

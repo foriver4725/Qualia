@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace MyScripts.Common;
+﻿namespace MyScripts.Common;
 
 internal static class MyLogger
 {
