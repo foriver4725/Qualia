@@ -4,7 +4,7 @@
     {
         [SerializeField] private TextMeshProUGUI timeText;
         [SerializeField] private TextMeshProUGUI leftText;
-        [SerializeField, Range(0.0f, 180.0f)] private float timeLimit;
+        [SerializeField, Range(0.0f, 3600.0f)] private float timeLimit;
 
         // Awake で初期化
         private int leftAmount;

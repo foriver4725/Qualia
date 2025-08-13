@@ -10365,7 +10365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeText: {fileID: 1159964572}
   leftText: {fileID: 306161353}
-  timeLimit: 90
+  timeLimit: 300
 --- !u!1 &2119124802
 GameObject:
   m_ObjectHideFlags: 0
