@@ -59,9 +59,9 @@
         {
             while (!ct.IsCancellationRequested)
             {
-                // 試しにFキーで切り替え
                 // 人間 → 犬 → 貝 → 人間
-                await UniTask.WaitUntil(() => Input.GetKeyDown(KeyCode.F), timing: PlayerLoopTiming.Update, cancellationToken: ct);
+                await UniTask.WaitUntil(() => InputManager.Instance.InGameTriggerCharacter.Bool,
+                    timing: PlayerLoopTiming.Update, cancellationToken: ct);
 
                 // プレイヤー側の移動があるため、LateUpdateのタイミングまで待つ
                 await UniTask.Yield(PlayerLoopTiming.PostLateUpdate);
