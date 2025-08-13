@@ -1,5 +1,3 @@
-using MyScripts.Common;
-
 namespace MyScripts.Runtime
 {
     internal sealed class LoadManager : ASingletonMonoBehaviour<LoadManager>

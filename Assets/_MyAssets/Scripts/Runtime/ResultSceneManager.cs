@@ -1,6 +1,4 @@
-﻿using MyScripts.Common;
-
-namespace MyScripts.Runtime
+﻿namespace MyScripts.Runtime
 {
     internal sealed class ResultSceneManager : MonoBehaviour
     {

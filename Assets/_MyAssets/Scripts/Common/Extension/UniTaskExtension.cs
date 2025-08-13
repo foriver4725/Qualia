@@ -1,4 +1,4 @@
-namespace MyScripts.Common;
+namespace MyScripts.Common.Extension;
 
 internal static class UniTaskExtension
 {
