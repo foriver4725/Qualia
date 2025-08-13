@@ -7,6 +7,6 @@ internal static class RuntimeSettingsInitializer
     {
         Screen.SetResolution(1920, 1080, true);
         QualitySettings.vSyncCount = 1;
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 30;
     }
 }

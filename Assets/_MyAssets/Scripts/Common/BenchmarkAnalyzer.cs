@@ -39,8 +39,8 @@ namespace MyScripts.Common
 
             Color fpsColor = fps switch
             {
-                > 50 => Color.green,
-                > 30 => Color.yellow,
+                > 24 => Color.green,
+                > 18 => Color.yellow,
                 _ => Color.red
             };
             Color memColor = memoryP switch
