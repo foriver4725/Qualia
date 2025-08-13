@@ -2,6 +2,7 @@
 
 internal enum Scene : byte
 {
+    Title,
     Main,
     Result,
 }
@@ -10,6 +11,7 @@ internal static class SceneManager
 {
     private static readonly Dictionary<Scene, string> sceneNames = new()
     {
+        { Scene.Title, "Title" },
         { Scene.Main, "Main" },
         { Scene.Result, "Result" }
     };

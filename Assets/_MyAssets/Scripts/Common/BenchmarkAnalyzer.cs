@@ -4,11 +4,12 @@ namespace MyScripts.Common
 {
     internal sealed class BenchmarkAnalyzer : MonoBehaviour
     {
+        [SerializeField] private GameObject root;
         [SerializeField] private TextMeshProUGUI text;
 
-        private readonly StringBuilder sb = new(256);
-
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
+
+        private readonly StringBuilder sb = new(256);
 
         private int cnt = 0;
         private float preT = 0f;
@@ -43,10 +44,10 @@ namespace MyScripts.Common
                 > 18 => Color.yellow,
                 _ => Color.red
             };
-            Color memColor = memoryP switch
+            Color memColor = allocatedMemory switch
             {
-                < 0.5f => Color.green,
-                < 0.8f => Color.yellow,
+                < 1200 => Color.green,
+                < 2400 => Color.yellow,
                 _ => Color.red
             };
 
@@ -70,6 +71,12 @@ namespace MyScripts.Common
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static float ByteToMegabyte(long n) => (n >> 10) / 1024f;
 
+#else
+        private void Awake()
+        {
+            root.SetActive(false);
+            this.enabled = false;
+        }
 #endif
     }
 }

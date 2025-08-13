@@ -232,6 +232,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8555641963083085199, guid: cfe4c3b8c32b2174381443e93d17c43b, type: 3}
   m_PrefabInstance: {fileID: 420792127}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &420792130 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6436414795189314963, guid: cfe4c3b8c32b2174381443e93d17c43b, type: 3}
+  m_PrefabInstance: {fileID: 420792127}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &583253922
 GameObject:
   m_ObjectHideFlags: 0
@@ -1025,6 +1030,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BenchmarkAnalyzer
       objectReference: {fileID: 0}
+    - target: {fileID: 2647695351907517699, guid: c1b49177460419e41bc956d4eaa16dfb, type: 3}
+      propertyPath: root
+      value: 
+      objectReference: {fileID: 420792130}
     - target: {fileID: 2647695351907517699, guid: c1b49177460419e41bc956d4eaa16dfb, type: 3}
       propertyPath: text
       value: 

@@ -5,10 +5,13 @@
         [SerializeField] private TextMeshProUGUI resultText;
         [SerializeField] private Button oneMoreButton;
 
-        private void Awake()
+        private void Awake() => Impl(destroyCancellationToken).Forget();
+
+        private async UniTaskVoid Impl(Ct ct)
         {
             resultText.text = $"{ScoreHolder.FoundAmount}/{ScoreHolder.ShouldFoundAmount}";
-            oneMoreButton.onClick.AddListener(static () => LoadManager.Instance.BeginLoad(Scene.Main));
+            await oneMoreButton.OnClickAsync(ct);
+            LoadManager.Instance.BeginLoad(Scene.Main);
         }
     }
 }
