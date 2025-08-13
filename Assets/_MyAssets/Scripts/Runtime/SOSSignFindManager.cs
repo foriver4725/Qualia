@@ -14,34 +14,44 @@ namespace MyScripts.Runtime
             {
                 Collider col = sosSignCollider;
 
-                // プレイヤーが自身にTriggerEnterして、
-                // プレイヤーが人間のキャラクターの時...
                 col.OnTriggerEnterAsObservable()
-                    .Where(c =>
-                        ReferenceEquals(c, playerCapsuleCollider)
-                        && isCharacterHuman?.Invoke() == true
-                    )
+                    .Where(c => ReferenceEquals(c, playerCapsuleCollider))
                     .SubscribeAwait(async (c, ct) =>
                     {
-                        LogManager.Instance.ShowManually("左クリックで取り除く");
+                        if (isCharacterHuman?.Invoke() == true)
+                        {
+                            LogManager.Instance.ShowManually("左クリックで取り除く");
 
-                        // 決定の入力 or TriggerExit まで待つ
-                        int i = await UniTask.WhenAny(
-                            UniTask.WaitUntil(() => InputManager.Instance.InGameSubmit.Bool, cancellationToken: ct),
-                            col.OnTriggerExitAsObservable()
+                            // 決定の入力 or TriggerExit まで待つ
+                            int i = await UniTask.WhenAny(
+                                UniTask.WaitUntil(() => InputManager.Instance.InGameSubmit.Bool, cancellationToken: ct),
+                                col.OnTriggerExitAsObservable()
+                                    .Where(c => ReferenceEquals(c, playerCapsuleCollider))
+                                    .FirstAsync(cancellationToken: ct)
+                                    .AsUniTask()
+                            );
+
+                            if (i == 0) // 決定された
+                            {
+                                // 取り除く
+                                col.gameObject.SetActive(false);
+                                onFind?.Invoke();
+                            }
+
+                            LogManager.Instance.ShowManually(string.Empty);
+                        }
+                        else
+                        {
+                            LogManager.Instance.ShowManually("人間でないと取り除けない");
+
+                            // TriggerExit まで待つ
+                            await col.OnTriggerExitAsObservable()
                                 .Where(c => ReferenceEquals(c, playerCapsuleCollider))
                                 .FirstAsync(cancellationToken: ct)
-                                .AsUniTask()
-                        );
+                                .AsUniTask();
 
-                        if (i == 0) // 決定された
-                        {
-                            // 取り除く
-                            col.gameObject.SetActive(false);
-                            onFind?.Invoke();
+                            LogManager.Instance.ShowManually(string.Empty);
                         }
-
-                        LogManager.Instance.ShowManually(string.Empty);
                     })
                     .AddTo(col);
             }
