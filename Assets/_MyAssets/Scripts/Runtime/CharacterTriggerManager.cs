@@ -13,11 +13,14 @@
         [SerializeField] private Transform humanCapsule;
         [SerializeField] private Transform dogCapsule;
         [SerializeField] private Transform shellCapsule;
+        [SerializeField] private ParticleSystem[] sosSign_rottenEggSmell;
+        [SerializeField] private ParticleSystem[] sosSign_contaminatedWater;
         [SerializeField] private TextMeshProUGUI triggerText; // トリガーを教えるUI
 
         // Awake で初期化
         private CharacterType currentType; // 現在のキャラクターの種類
         private Dictionary<CharacterType, Transform> characterCapsules; // 各キャラクターの最新座標を保持 (ワールド座標)
+        private Dictionary<CharacterType, ParticleSystem[]> sosSigns; // 各キャラクターが認知できるSOSサイン
 
         private static readonly Dictionary<CharacterType, string> characterNames = new()
         {
@@ -30,17 +33,26 @@
         {
             currentType = CharacterType.Human;
 
-            characterCapsules = new Dictionary<CharacterType, Transform>
+            characterCapsules = new()
             {
                 { CharacterType.Human, humanCapsule },
                 { CharacterType.Dog, dogCapsule },
                 { CharacterType.Shell, shellCapsule }
             };
 
+            sosSigns = new()
+            {
+                { CharacterType.Human, Array.Empty<ParticleSystem>() },
+                { CharacterType.Dog, sosSign_rottenEggSmell },
+                { CharacterType.Shell, sosSign_contaminatedWater }
+            };
+
             // プレイヤーを人間のカプセルの所に移動させる
             playerTransform.SetPositionAndRotation(humanCapsule.position, humanCapsule.rotation);
             // 人間のカプセルは非表示
             humanCapsule.gameObject.SetActive(false);
+            // SOSサインの可視性を初期化
+            UpdateSOSSignsVisibility(currentType);
             // トリガーUIを更新
             UpdateTriggerText(currentType, GetNext(currentType));
 
@@ -94,8 +106,26 @@
                 characterCapsules[to].rotation
             );
 
+            // SOSサインの可視性を更新
+            UpdateSOSSignsVisibility(to);
+
             // トリガーUIを更新
             UpdateTriggerText(to, GetNext(to));
+        }
+
+        private void UpdateSOSSignsVisibility(CharacterType type)
+        {
+            foreach (var kv in sosSigns)
+            {
+                bool isVisible = kv.Key == type;
+
+                // 配列はnullでない想定
+                foreach (var sosSign in kv.Value)
+                {
+                    if (sosSign != null)
+                        sosSign.gameObject.SetActive(isVisible);
+                }
+            }
         }
 
         private void UpdateTriggerText(CharacterType now, CharacterType next)
