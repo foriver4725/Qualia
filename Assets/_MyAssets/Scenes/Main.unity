@@ -2901,6 +2901,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7223576992439528571, guid: f611d77947a7ec74692548d60ef94887, type: 3}
   m_PrefabInstance: {fileID: 763458520}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &776860318
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3703654047573078809, guid: d03d5dfe6e3921042b21390e6e7e4f1c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -75.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703654047573078809, guid: d03d5dfe6e3921042b21390e6e7e4f1c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -24
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703654047573078809, guid: d03d5dfe6e3921042b21390e6e7e4f1c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 143
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703654047573078809, guid: d03d5dfe6e3921042b21390e6e7e4f1c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.09844498
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703654047573078809, guid: d03d5dfe6e3921042b21390e6e7e4f1c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.011804016
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703654047573078809, guid: d03d5dfe6e3921042b21390e6e7e4f1c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.9879875
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703654047573078809, guid: d03d5dfe6e3921042b21390e6e7e4f1c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.1185324
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703654047573078809, guid: d03d5dfe6e3921042b21390e6e7e4f1c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703654047573078809, guid: d03d5dfe6e3921042b21390e6e7e4f1c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703654047573078809, guid: d03d5dfe6e3921042b21390e6e7e4f1c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4782668167740925328, guid: d03d5dfe6e3921042b21390e6e7e4f1c, type: 3}
+      propertyPath: m_Name
+      value: SOSSign_ContaminatedWater Variant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d03d5dfe6e3921042b21390e6e7e4f1c, type: 3}
 --- !u!1001 &784055365
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8929,6 +8986,63 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 4df05c6b1fd9a4e4ba3298f9a9583471, type: 3}
+--- !u!1001 &8171108160487658659
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4367689856343006206, guid: 80e02f0fe17ed994e9f45904e098cfea, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -102.24228
+      objectReference: {fileID: 0}
+    - target: {fileID: 4367689856343006206, guid: 80e02f0fe17ed994e9f45904e098cfea, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -22.83576
+      objectReference: {fileID: 0}
+    - target: {fileID: 4367689856343006206, guid: 80e02f0fe17ed994e9f45904e098cfea, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 142.60716
+      objectReference: {fileID: 0}
+    - target: {fileID: 4367689856343006206, guid: 80e02f0fe17ed994e9f45904e098cfea, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.09844498
+      objectReference: {fileID: 0}
+    - target: {fileID: 4367689856343006206, guid: 80e02f0fe17ed994e9f45904e098cfea, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.011804016
+      objectReference: {fileID: 0}
+    - target: {fileID: 4367689856343006206, guid: 80e02f0fe17ed994e9f45904e098cfea, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.9879875
+      objectReference: {fileID: 0}
+    - target: {fileID: 4367689856343006206, guid: 80e02f0fe17ed994e9f45904e098cfea, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.1185324
+      objectReference: {fileID: 0}
+    - target: {fileID: 4367689856343006206, guid: 80e02f0fe17ed994e9f45904e098cfea, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4367689856343006206, guid: 80e02f0fe17ed994e9f45904e098cfea, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4367689856343006206, guid: 80e02f0fe17ed994e9f45904e098cfea, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5594684772718022007, guid: 80e02f0fe17ed994e9f45904e098cfea, type: 3}
+      propertyPath: m_Name
+      value: SOSSign_RottenEggSmell
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 80e02f0fe17ed994e9f45904e098cfea, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -8939,3 +9053,5 @@ SceneRoots:
   - {fileID: 242693633}
   - {fileID: 957147434}
   - {fileID: 1138208083}
+  - {fileID: 8171108160487658659}
+  - {fileID: 776860318}
