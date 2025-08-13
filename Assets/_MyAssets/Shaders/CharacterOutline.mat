@@ -145,6 +145,7 @@ Material:
     - _Anisotropy: 0
     - _BlendMode: 0
     - _CoatMask: 0
+    - _ColorChangeSpeed: 0.4
     - _CullMode: 2
     - _CullModeForward: 2
     - _Cutoff: 0.5
@@ -246,6 +247,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BeginColor: {r: 1, g: 0.5882353, b: 0, a: 1}
     - _Color: {r: 1, g: 0.5882353, b: 0, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
