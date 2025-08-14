@@ -1,0 +1,25 @@
+﻿global using System;
+global using System.Collections;
+global using System.Collections.Generic;
+global using System.Collections.ObjectModel;
+global using System.Text;
+global using System.Threading;
+global using System.Diagnostics;
+global using System.Runtime.CompilerServices;
+
+global using UnityEngine;
+global using UnityEngine.UI;
+global using TMPro;
+
+global using Cysharp.Threading.Tasks;
+global using DG.Tweening;
+global using R3;
+global using R3.Triggers;
+
+global using Random = UnityEngine.Random;
+global using Debug = UnityEngine.Debug;
+global using Cts = System.Threading.CancellationTokenSource;
+global using Ct = System.Threading.CancellationToken;
+
+global using MyScripts.Common;
+global using MyScripts.Common.Extension;
