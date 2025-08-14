@@ -2717,7 +2717,7 @@ MonoBehaviour:
         overrideMode: 1
         overrideMaterial: {fileID: 2100000, guid: ae0298c7ceec5784aadb7b945cbbccc6, type: 2}
         overrideMaterialPassIndex: 0
-        overrideMaterialPassName: <Unnamed Pass 0>
+        overrideMaterialPassName: FullPass
         overrideShader: {fileID: 0}
         overrideShaderPassIndex: 0
         overrideShaderPassName: Forward
