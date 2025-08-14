@@ -13,6 +13,8 @@ Shader "MyShader/CharacterOutline"
 
         Pass
         {
+            Name "FullPass"
+
             Cull Front
             ZWrite On
             ZTest LEqual
