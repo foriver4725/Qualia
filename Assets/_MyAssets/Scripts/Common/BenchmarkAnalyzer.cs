@@ -15,6 +15,10 @@ namespace MyScripts.Common
         private float preT = 0f;
         private float fps = 0f;
 
+        // FPSと一緒のタイミングで処理
+        private int gcCntInit = -1;
+        private int gcCnt = 0;
+
         private void Update()
         {
             cnt++;
@@ -24,6 +28,10 @@ namespace MyScripts.Common
                 fps = cnt / t;
                 cnt = 0;
                 preT = Time.realtimeSinceStartup;
+
+                if (gcCntInit == -1)
+                    gcCntInit = GC.CollectionCount(0);
+                gcCnt = GC.CollectionCount(0) - gcCntInit;
             }
 
             UpdateText();
@@ -50,11 +58,22 @@ namespace MyScripts.Common
                 < 2400 => Color.yellow,
                 _ => Color.red
             };
+            Color gcCntColor = gcCnt switch
+            {
+                0 => Color.green,
+                < 4 => Color.yellow,
+                _ => Color.red
+            };
 
             sb.Clear();
-            sb.AppendFormat("FPS:<color=#{5}>{0:F2}</color>, Memory(MB):<color=#{6}>{1:F2}/{2:F2}({3:P2},{4:F2} unused)</color>",
-                fps, allocatedMemory, reservedMemory, memoryP, unusedReservedMemory,
-                ColorUtility.ToHtmlStringRGB(fpsColor), ColorUtility.ToHtmlStringRGB(memColor)
+            sb.AppendFormat("FPS : <color=#{0}>{1:F2}</color>,    ",
+                ColorUtility.ToHtmlStringRGB(fpsColor), fps
+            );
+            sb.AppendFormat("Memory(MB) : <color=#{0}>{1:F2}/{2:F2} ({3:P2}, {4:F2} unused)</color>,    ",
+                ColorUtility.ToHtmlStringRGB(memColor), allocatedMemory, reservedMemory, memoryP, unusedReservedMemory
+            );
+            sb.AppendFormat("GC.Collect : <color=#{0}>{1}</color>,    ",
+                ColorUtility.ToHtmlStringRGB(gcCntColor), gcCnt
             );
             text.text = sb.ToString();
         }

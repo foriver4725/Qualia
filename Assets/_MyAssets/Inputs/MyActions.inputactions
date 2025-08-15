@@ -101,6 +101,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Debug",
+            "id": "6d8cc8c2-a7e8-4ecd-a3d9-d638f1281b85",
+            "actions": [
+                {
+                    "name": "FastenTimeLimit",
+                    "type": "Button",
+                    "id": "e38f95d0-2de3-475e-81e8-6ed72eac6b2c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "399e9ac2-0068-480c-afe7-0dc85b9950f7",
+                    "path": "<Keyboard>/f1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FastenTimeLimit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
