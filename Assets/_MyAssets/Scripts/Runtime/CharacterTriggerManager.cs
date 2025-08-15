@@ -20,6 +20,7 @@ namespace MyScripts.Runtime
         [SerializeField] private ParticleSystem[] sosSign_contaminatedWater;
         [SerializeField] private TextMeshProUGUI triggerText; // トリガーを教えるUI
         [SerializeField] private TextMeshProUGUI triggerCtLabel;
+        [SerializeField] private PlayerController pc;
         [SerializeField] private SOSSignFindManager sosSignFindManager;
         [SerializeField] private TimeScoreManager timeScoreManager;
         [SerializeField, Range(0.0f, 5.0f)] private float onTeleportCameraBlendFlowDuration = 0.5f;
@@ -103,10 +104,14 @@ namespace MyScripts.Runtime
                 // 人間 → 犬 → 貝 → 人間
                 await UniTask.WaitUntil(() => !onTriggerCt && InputManager.Instance.InGameTriggerCharacter.Bool,
                     timing: PlayerLoopTiming.Update, cancellationToken: ct);
+
                 // クールタイム中にする(切り替え処理の最後に、falseに戻す)
                 onTriggerCt = true;
                 if (triggerCtLabel != null)
                     triggerCtLabel.enabled = true;
+
+                // プレイヤーコントロールの入力を無効化(切り替え処理の最後に、trueに戻す)
+                pc.IsPcInputEnabled = false;
 
                 // プレイヤー側の移動があるため、LateUpdateのタイミングまで待つ
                 await UniTask.Yield(PlayerLoopTiming.PostLateUpdate);
@@ -180,6 +185,9 @@ namespace MyScripts.Runtime
 
             // カメラの追尾を再開
             playerCameraBrain.enabled = true;
+
+            // プレイヤーコントロールの入力を有効化
+            pc.IsPcInputEnabled = true;
 
             // 切り替えのクールタイムを終了とする
             if (triggerCtLabel != null)

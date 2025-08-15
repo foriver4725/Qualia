@@ -10096,6 +10096,7 @@ MonoBehaviour:
   - {fileID: 1662067021}
   triggerText: {fileID: 1750163212}
   triggerCtLabel: {fileID: 210410217}
+  pc: {fileID: 2390642557826304884}
   sosSignFindManager: {fileID: 658782585}
   timeScoreManager: {fileID: 2065478739}
   onTeleportCameraBlendFlowDuration: 0.5
@@ -10792,6 +10793,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
+--- !u!114 &2390642557826304884 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8645547747250865677, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
+  m_PrefabInstance: {fileID: 2390642557826304883}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f73c5d63ba00ab34aa9b4199649d22f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2872049719366095299
 PrefabInstance:
   m_ObjectHideFlags: 0
