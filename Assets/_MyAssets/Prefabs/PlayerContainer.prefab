@@ -205,9 +205,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f73c5d63ba00ab34aa9b4199649d22f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _controller: {fileID: 3580093262167643481}
-  _param: {fileID: 11400000, guid: 991b2e6848387e445989de5252d1d256, type: 2}
-  _cinemachineCameraTarget: {fileID: 3580093263516302808}
+  controller: {fileID: 3580093262167643481}
+  param: {fileID: 11400000, guid: 991b2e6848387e445989de5252d1d256, type: 2}
+  cinemachineCameraTarget: {fileID: 3580093263516302808}
 --- !u!1 &3580093262659599687 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6328893955218879016, guid: e3206c9c442f260438e02ca353eaf317, type: 3}
