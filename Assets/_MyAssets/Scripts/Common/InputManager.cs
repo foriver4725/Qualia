@@ -13,8 +13,10 @@
         internal InputInfo InGameCancel { get; private set; }
         internal InputInfo InGameTriggerCharacter { get; private set; }
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
         // Debug
         internal InputInfo DebugFastenTimeLimit { get; private set; }
+#endif
 
         private protected sealed override void Init()
         {
@@ -27,7 +29,9 @@
             InGameCancel = Setup(_ia.InGame.Cancel, InputType.Click);
             InGameTriggerCharacter = Setup(_ia.InGame.TriggerCharacter, InputType.Click);
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
             DebugFastenTimeLimit = Setup(_ia.Debug.FastenTimeLimit, InputType.Click);
+#endif
         }
     }
 }
