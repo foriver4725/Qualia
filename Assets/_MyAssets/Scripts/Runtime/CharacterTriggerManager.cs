@@ -203,10 +203,7 @@ namespace MyScripts.Runtime
         }
 
         private void UpdateTriggerText(CharacterType now, CharacterType next)
-            => triggerText.text =
-                $$"""
-                あなたは現在：{{characterNames[now]}}
-                Fキーを押して {{characterNames[next]}} に切り替わる
-                """;
+            => triggerText.SetTextFormat("あなたは現在：{0}\nFキーを押して {1} に切り替わる",
+                characterNames[now], characterNames[next]);
     }
 }

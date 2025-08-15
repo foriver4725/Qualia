@@ -35,7 +35,7 @@ namespace MyScripts.Runtime
                         await 0.2f.SecAwait(ct: ct);
                     }
                 },
-                onProgressChanged: progress => loadingText.text = $"ロード中 : {progress * 100f:0.0}%",
+                onProgressChanged: progress => loadingText.SetTextFormat("ロード中 : {0:P2}", progress),
                 onCompletedAsync: async () =>
                 {
                     loadingText.text = "ファイナライズ中(すぐに完了します)...";

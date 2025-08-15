@@ -4,9 +4,6 @@ namespace MyScripts.Common
     {
         [SerializeField] private TextMeshProUGUI text;
 
-        private void Awake()
-        {
-            text.text = $"v{Application.version}";
-        }
+        private void Awake() => text.SetTextFormat("v{0}", Application.version);
     }
 }

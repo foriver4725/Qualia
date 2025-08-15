@@ -10,8 +10,6 @@ namespace MyScripts.Common
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
 
-        private readonly StringBuilder sb = new(256);
-
         // 一定時間ごとに計測する
         private float time = 0f;
         private float baseTime = 0f;
@@ -88,53 +86,47 @@ namespace MyScripts.Common
         {
             if (text == null) return;
 
-            Color fpsColor = fps switch
+            string fpsColorText = (fps switch
             {
                 > 24 => Color.green,
                 > 18 => Color.yellow,
                 _ => Color.red
-            };
-            Color memoryUsingColor = allocatedMemory switch
+            }).ToHtmlStringRGB();
+            string memoryUsingColorText = (allocatedMemory switch
             {
                 < 1200 => Color.green,
                 < 2400 => Color.yellow,
                 _ => Color.red
-            };
-            Color gcCountColor = gcCount switch
+            }).ToHtmlStringRGB();
+            string gcCountColorText = (gcCount switch
             {
                 0 => Color.green,
                 < 4 => Color.yellow,
                 _ => Color.red
-            };
-            (Color SetPassCallsColor, Color DrawCallsColor) = (
-                setPassCalls switch
-                {
-                    < 200 => Color.green,
-                    < 400 => Color.yellow,
-                    _ => Color.red
-                },
-                drawCalls switch
-                {
-                    < 600 => Color.green,
-                    < 1200 => Color.yellow,
-                    _ => Color.red
-                }
-            );
+            }).ToHtmlStringRGB();
+            string setPassCallsColorText = (setPassCalls switch
+            {
+                < 200 => Color.green,
+                < 400 => Color.yellow,
+                _ => Color.red
+            }).ToHtmlStringRGB();
+            string drawCallsColorText = (drawCalls switch
+            {
+                < 600 => Color.green,
+                < 1200 => Color.yellow,
+                _ => Color.red
+            }).ToHtmlStringRGB();
 
-            sb.Clear();
+            using var sb = ZString.CreateStringBuilder();
             sb.AppendFormat("FPS : <color=#{0}>{1:F2}</color>,    ",
-                ColorUtility.ToHtmlStringRGB(fpsColor), fps
-            );
+                fpsColorText, fps);
             sb.AppendFormat("Memory(MB) : <color=#{0}>{1:F2}/{2:F2} ({3:P2}, {4:F2} unused)</color>,    ",
-                ColorUtility.ToHtmlStringRGB(memoryUsingColor), allocatedMemory, reservedMemory, memoryUsingRate, unusedReservedMemory
-            );
+                memoryUsingColorText, allocatedMemory, reservedMemory, memoryUsingRate, unusedReservedMemory);
             sb.AppendFormat("GC.Collect : <color=#{0}>{1}</color>,    ",
-                ColorUtility.ToHtmlStringRGB(gcCountColor), gcCount
-            );
+                gcCountColorText, gcCount);
             sb.AppendFormat("Calls : SetPass=<color=#{0}>{2}</color>,Draw=<color=#{1}>{3}</color>,    ",
-                ColorUtility.ToHtmlStringRGB(SetPassCallsColor), ColorUtility.ToHtmlStringRGB(DrawCallsColor), setPassCalls, drawCalls
-            );
-            text.text = sb.ToString();
+                setPassCallsColorText, drawCallsColorText, setPassCalls, drawCalls);
+            text.SetText(sb);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

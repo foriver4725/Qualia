@@ -61,9 +61,9 @@
         {
             int remainMin = Mathf.FloorToInt(remainingTime / 60);
             int remainSec = Mathf.FloorToInt(remainingTime % 60);
-            timeText.text = $"{remainMin:D2}:{remainSec:D2}";
+            timeText.SetTextFormat("{0:D2}:{1:D2}", remainMin, remainSec);
 
-            leftText.text = $"残り{leftAmount}個";
+            leftText.SetTextFormat("残り{0}個", leftAmount);
         }
 
         internal void DecrementLeftAmount() => leftAmount--;
