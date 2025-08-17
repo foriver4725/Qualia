@@ -19,6 +19,8 @@ MonoBehaviour:
   nativeHorizontalVelocityAttenuationRateInAir: 0.02
   moveInputInsensitiveTiming: 2
   moveInputInsensitiveRate: 0.2
+  inertiaJumpVelocity: {x: 30, y: 15, z: 30}
+  inertiaJumpCoolTime: 0.1
   rotationSpeed: 1
   cameraClamps: {x: -90, y: 90}
   jumpHeight: 5

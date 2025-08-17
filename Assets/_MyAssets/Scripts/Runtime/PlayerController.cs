@@ -16,9 +16,16 @@ namespace MyScripts.Runtime
 		// player
 		private float rotationVelocity;
 		private Vector2 nativeHorizontalVelocity = Vector2.zero; // 入力によらない水平移動速度 (段々減衰していき,0になる)
+		private Vector3 realHorizontalVelocity;
 		private float verticalVelocity;
 		private static readonly float TerminalVelocity = 53.0f;
 		private bool isGrounded = true;
+		private bool hasBecameGroundedThisFrame = false;
+		private bool hasBecameNotGroundedThisFrame = false;
+		private bool isJumping = false;
+		private bool isSprinting = false;
+		private bool isDoingInertiaJump = false;
+		private bool onInertiaJumpCt = false;
 
 		// timeout deltatime
 		// Awake で初期化
@@ -41,10 +48,11 @@ namespace MyScripts.Runtime
 			{
 				isOwnGravityEnabled = value;
 
-				// 重力を無効化する時は、鉛直方向の速度もリセットする
+				// 重力を無効化する時、各種速度(入力無効で0にならないもの)をリセットする
 				if (!value)
 				{
-					verticalVelocity = 0f;
+					nativeHorizontalVelocity = Vector2.zero;
+					verticalVelocity = 0.0f;
 				}
 			}
 		}
@@ -60,6 +68,7 @@ namespace MyScripts.Runtime
 		{
 			JumpAndGravity();
 			GroundedCheck();
+			DoInertiaJumpIfTheTiming();
 			AttenuateNativeHorizontalVelocity();
 			InputAndFinallyMove();
 		}
@@ -78,9 +87,60 @@ namespace MyScripts.Runtime
 
 		private void GroundedCheck()
 		{
+			bool isGroundedPrev = isGrounded;
+
 			// set sphere position, with offset
 			Vector3 spherePosition = new(transform.position.x, transform.position.y + param.GroundCheckOffset, transform.position.z);
 			isGrounded = Physics.CheckSphere(spherePosition, param.GroundCheckRadius, param.GroundLayers, QueryTriggerInteraction.Ignore);
+
+			hasBecameGroundedThisFrame = isGrounded && !isGroundedPrev;
+			hasBecameNotGroundedThisFrame = !isGrounded && isGroundedPrev;
+
+			// 地面に着地したら、少しだけ(クールタイム)待ってから、再度慣性ジャンプを行えるようにする
+			if (isGrounded && isDoingInertiaJump && !onInertiaJumpCt)
+			{
+				onInertiaJumpCt = true;
+
+				param.InertiaJumpCoolTime.SecAwaitThenDo(() =>
+				{
+					isDoingInertiaJump = false;
+					onInertiaJumpCt = false;
+				}, ct: destroyCancellationToken).Forget();
+			}
+		}
+
+		// 慣性ジャンプ
+		private void DoInertiaJumpIfTheTiming()
+		{
+			// 水平方向にある程度の速度が必要
+			if (realHorizontalVelocity.sqrMagnitude < param.InertiaJumpLimitSpeedSqr) return;
+
+			// ダッシュしていないならダメ
+			if (!isSprinting) return;
+
+			// ジャンプ中ならダメ
+			if (isJumping) return;
+
+			// 慣性ジャンプ中ならダメ
+			if (isDoingInertiaJump) return;
+
+			// 現在、地面から離れたタイミングであるべき
+			if (!hasBecameNotGroundedThisFrame) return;
+
+			//? 目の前が崖の必要がある
+
+			// 処理を行える
+
+			isDoingInertiaJump = true;
+
+			Vector2 directionXZ = new Vector2(realHorizontalVelocity.x, realHorizontalVelocity.z).normalized;
+			Vector3 velocity = new(
+				directionXZ.x * param.InertiaJumpVelocity.x,
+				param.InertiaJumpVelocity.y,
+				directionXZ.y * param.InertiaJumpVelocity.z
+			);
+
+			ApplyOuterVelocity(velocity);
 		}
 
 		private void CameraRotation()
@@ -129,10 +189,10 @@ namespace MyScripts.Runtime
 		{
 			// get input
 			Vector2 input = MoveInput;
-			bool isDoingSprint = SprintInput;
+			isSprinting = SprintInput;
 
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = isDoingSprint ? param.MoveSpeed * param.SprintSpeedMultiplier : param.MoveSpeed;
+			float targetSpeed = isSprinting ? param.MoveSpeed * param.SprintSpeedMultiplier : param.MoveSpeed;
 
 			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
@@ -178,6 +238,9 @@ namespace MyScripts.Runtime
 				inputDirection = transform.right * input.x + transform.forward * input.y;
 			}
 
+			// normalise input direction again
+			inputDirection.Normalize();
+
 			// when it is the timing, make move input insensitive
 			if (param.MoveInputInsensitiveTiming == SPlayerControl.MoveInputInsensitiveTimingType.WhileInAir)
 			{
@@ -195,7 +258,7 @@ namespace MyScripts.Runtime
 			}
 
 			// calculate the real velocity
-			Vector3 realHorizontalVelocity = inputDirection.normalized * speed + new Vector3(nativeHorizontalVelocity.x, 0.0f, nativeHorizontalVelocity.y);
+			realHorizontalVelocity = inputDirection * speed + new Vector3(nativeHorizontalVelocity.x, 0.0f, nativeHorizontalVelocity.y);
 			Vector3 realVelocity = realHorizontalVelocity + new Vector3(0.0f, verticalVelocity, 0.0f);
 
 			// move the player
@@ -221,6 +284,8 @@ namespace MyScripts.Runtime
 				// Jump
 				if (input && jumpTimeoutDelta <= 0.0f)
 				{
+					isJumping = true;
+
 					// the square root of H * -2 * G = how much velocity needed to reach desired height
 					verticalVelocity = Mathf.Sqrt(param.JumpHeight * -2f * param.OwnGravity);
 				}
@@ -229,6 +294,12 @@ namespace MyScripts.Runtime
 				if (jumpTimeoutDelta >= 0.0f)
 				{
 					jumpTimeoutDelta -= Time.deltaTime;
+
+					// ここでジャンプが終了したとみなす
+					if (jumpTimeoutDelta <= 0.0f)
+					{
+						isJumping = false;
+					}
 				}
 			}
 			else
