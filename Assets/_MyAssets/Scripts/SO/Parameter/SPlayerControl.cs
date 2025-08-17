@@ -22,10 +22,6 @@ namespace MyScripts.SO.Parameter
         [SerializeField, Tooltip("移動入力を鈍感にするタイミング")]
         private MoveInputInsensitiveTimingType moveInputInsensitiveTiming = MoveInputInsensitiveTimingType.Never;
         [SerializeField, Tooltip("移動入力を鈍感にするとき,元の入力値の何倍にするか")] private float moveInputInsensitiveRate = 0.5f;
-        [SerializeField, Tooltip("慣性ジャンプで加算する速度(プレイヤーから見た相対ベクトル)")]
-        private Vector3 inertiaJumpVelocity = new(30.0f, 15.0f, 30.0f);
-        [SerializeField, Tooltip("慣性ジャンプに必要な水平速度 の平方")] private float inertiaJumpLimitSpeedSqr = 100.0f;
-        [SerializeField] private float inertiaJumpCoolTime = 0.2f;
         internal float MoveSpeed => moveSpeed;
         internal float SprintSpeedMultiplier => sprintSpeedMultiplier;
         internal float MoveAcceleration => moveAcceleration;
@@ -33,9 +29,6 @@ namespace MyScripts.SO.Parameter
         internal float NativeHorizontalVelocityAttenuationRateInAir => nativeHorizontalVelocityAttenuationRateInAir;
         internal MoveInputInsensitiveTimingType MoveInputInsensitiveTiming => moveInputInsensitiveTiming;
         internal float MoveInputInsensitiveRate => moveInputInsensitiveRate;
-        internal Vector3 InertiaJumpVelocity => inertiaJumpVelocity;
-        internal float InertiaJumpLimitSpeedSqr => inertiaJumpLimitSpeedSqr;
-        internal float InertiaJumpCoolTime => inertiaJumpCoolTime;
 
         [Space(10)]
 
@@ -52,6 +45,16 @@ namespace MyScripts.SO.Parameter
         [SerializeField, Tooltip("プレイヤーは独自の重力を使う. エンジンのデフォルトは -9.81f.")] private float ownGravity = -15.0f;
         internal float JumpHeight => jumpHeight;
         internal float OwnGravity => ownGravity;
+
+        [Space(10)]
+
+        [Header("Inertia Jump")]
+        [SerializeField, Tooltip("加算する速度(プレイヤーから見た相対ベクトル)")] private Vector3 inertiaJumpVelocity = new(30.0f, 15.0f, 30.0f);
+        [SerializeField, Tooltip("必要な水平速度 の平方")] private float inertiaJumpLimitSpeedSqr = 100.0f;
+        [SerializeField] private float inertiaJumpCoolTime = 0.2f;
+        internal Vector3 InertiaJumpVelocity => inertiaJumpVelocity;
+        internal float InertiaJumpLimitSpeedSqr => inertiaJumpLimitSpeedSqr;
+        internal float InertiaJumpCoolTime => inertiaJumpCoolTime;
 
         [Space(10)]
 
