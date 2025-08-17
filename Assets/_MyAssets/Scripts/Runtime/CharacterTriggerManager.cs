@@ -21,6 +21,7 @@ namespace MyScripts.Runtime
         [SerializeField] private TextMeshProUGUI triggerText; // トリガーを教えるUI
         [SerializeField] private TextMeshProUGUI triggerCtLabel;
         [SerializeField] private PlayerController pc;
+        [SerializeField] private GameObject playerCapsule;
         [SerializeField] private SOSSignFindManager sosSignFindManager;
         [SerializeField] private TimeScoreManager timeScoreManager;
         [SerializeField, Range(0.0f, 5.0f)] private float onTeleportCameraBlendFlowDuration = 0.5f;
@@ -30,6 +31,8 @@ namespace MyScripts.Runtime
         private CharacterType currentType; // 現在のキャラクターの種類
         private Dictionary<CharacterType, Transform> characterCapsules; // 各キャラクターの最新座標を保持 (ワールド座標)
         private Dictionary<CharacterType, ParticleSystem[]> sosSigns; // 各キャラクターが認知できるSOSサイン
+        private int characterCapsuleInitLayer;
+        private int CharacterOutlineLayer; // 定数
 
         private bool onTriggerCt = false;
 
@@ -57,6 +60,9 @@ namespace MyScripts.Runtime
                 { CharacterType.Dog, sosSign_rottenEggSmell },
                 { CharacterType.Shell, sosSign_contaminatedWater }
             };
+
+            characterCapsuleInitLayer = playerCapsule.layer;
+            CharacterOutlineLayer = LayerMask.NameToLayer("CharacterOutline");
 
             // プレイヤーを人間のカプセルの所に移動させる
             playerTransform.SetPositionAndRotation(humanCapsule.position, humanCapsule.rotation);
@@ -140,6 +146,8 @@ namespace MyScripts.Runtime
             characterCapsules[to].gameObject.SetActive(false);
             // カメラの追尾を切る
             playerCameraBrain.enabled = false;
+            // プレイヤーカプセルにアウトラインを付ける
+            playerCapsule.layer = CharacterOutlineLayer;
             // 切り替わり後のキャラクターの座標にテレポート
             playerTransform.SetPositionAndRotation(
                 characterCapsules[to].position,
@@ -182,6 +190,9 @@ namespace MyScripts.Runtime
                 .SetEase(Ease.InCubic)
                 .OnComplete(() => playerCameraBrain.transform.rotation = toRotation)
                 .WithCancellation(ct);
+
+            // プレイヤーカプセルのアウトラインを外す
+            playerCapsule.layer = characterCapsuleInitLayer;
 
             // カメラの追尾を再開
             playerCameraBrain.enabled = true;
