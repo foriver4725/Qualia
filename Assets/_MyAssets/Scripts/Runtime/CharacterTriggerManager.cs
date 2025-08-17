@@ -1,4 +1,4 @@
-﻿using Cinemachine;
+using Cinemachine;
 
 namespace MyScripts.Runtime
 {
@@ -25,7 +25,9 @@ namespace MyScripts.Runtime
         [SerializeField] private SOSSignFindManager sosSignFindManager;
         [SerializeField] private TimeScoreManager timeScoreManager;
         [SerializeField, Range(0.0f, 5.0f)] private float onTeleportCameraBlendFlowDuration = 0.5f;
-        [SerializeField, Range(0.0f, 5.0f)] private float onTeleportCameraBlendAimDuration = 0.3f;
+        [SerializeField, Range(0.0f, 1000.0f), Tooltip("Xmを1秒で進む速さ")] private float onTeleportCameraBlendAimDurationRate = 500.0f;
+        [SerializeField, Range(0.0f, 5.0f)] private float onTeleportCameraBlendAimDurationMin = 0.5f;
+        [SerializeField, Range(0.0f, 5.0f)] private float onTeleportCameraBlendAimDurationMax = 2.0f;
 
         // Awake で初期化
         private CharacterType currentType; // 現在のキャラクターの種類
@@ -180,17 +182,20 @@ namespace MyScripts.Runtime
         private async UniTaskVoid DOCameraBlendAsync(Vector3 toPosition, Quaternion toRotation, Ct ct)
         {
             float flowDur = this.onTeleportCameraBlendFlowDuration;
-            float aimDur = this.onTeleportCameraBlendAimDuration;
+
+            Vector3 direction = toPosition - playerCameraBrain.transform.position;
+            float aimDur = direction.magnitude.Remap(0.0f, this.onTeleportCameraBlendAimDurationRate, 0.0f, 1.0f);
+            aimDur = Mathf.Clamp(aimDur, this.onTeleportCameraBlendAimDurationMin, this.onTeleportCameraBlendAimDurationMax);
 
             Vector3 flowEndPosition = playerCameraBrain.transform.position + Vector3.up * 20.0f;
             await playerCameraBrain.transform.DOMove(flowEndPosition, flowDur)
                 .OnUpdate(() =>
                 {
-                    Vector3 direction = toPosition - playerCameraBrain.transform.position;
-                    if (direction != Vector3.zero)
+                    Vector3 directionCurr = toPosition - playerCameraBrain.transform.position;
+                    if (directionCurr != Vector3.zero)
                         playerCameraBrain.transform.rotation = Quaternion.Lerp(
                             playerCameraBrain.transform.rotation,
-                            Quaternion.LookRotation(direction),
+                            Quaternion.LookRotation(directionCurr),
                             Time.deltaTime * 6.0f
                         );
                 })
