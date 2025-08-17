@@ -152,15 +152,20 @@ namespace MyScripts.Runtime
             playerCameraBrain.enabled = false;
             // プレイヤーカプセルにアウトラインを付ける
             playerCapsule.layer = CharacterOutlineLayer;
+            // 切り替わり後は移動した方向が正面になるように回転するので、その回転をここで計算
+            Vector3 targetPosition = characterCapsules[to].position - characterCapsuleLocalPosition;
+            Vector3 targetDirection = targetPosition - playerTransform.position;
+            Vector3 targetDirectionXZ = new(targetDirection.x, 0.0f, targetDirection.z);
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirectionXZ, Vector3.up);
             // 切り替わり後のキャラクターの座標にテレポート
             playerTransform.SetPositionAndRotation(
-                characterCapsules[to].position - characterCapsuleLocalPosition,
-                characterCapsules[to].rotation
+                targetPosition,
+                targetRotation
             );
             // カメラのブレンド演出開始
             DOCameraBlendAsync(
-                characterCapsules[to].position,
-                characterCapsules[to].rotation,
+                targetPosition,
+                targetRotation,
                 destroyCancellationToken
             ).Forget();
 
