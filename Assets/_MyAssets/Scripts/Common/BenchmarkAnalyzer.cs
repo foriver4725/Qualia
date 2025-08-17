@@ -30,6 +30,17 @@ namespace MyScripts.Common
         private long setPassCalls = -1;
         private long drawCalls = -1;
 
+        // 緑, 黄, 赤のHTMLカラーコード
+        private static readonly string[] ColorHtmlTexts = new string[3]
+        {
+            Color.green.ToHtmlStringRGB(),
+            Color.yellow.ToHtmlStringRGB(),
+            Color.red.ToHtmlStringRGB()
+        };
+        private static readonly int ColorGreen = 0;
+        private static readonly int ColorYellow = 1;
+        private static readonly int ColorRed = 2;
+
         private void Awake()
         {
             setPassCallsRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "SetPass Calls Count");
@@ -86,36 +97,36 @@ namespace MyScripts.Common
         {
             if (text == null) return;
 
-            string fpsColorText = (fps switch
+            string fpsColorText = ColorHtmlTexts[fps switch
             {
-                > 24 => Color.green,
-                > 18 => Color.yellow,
-                _ => Color.red
-            }).ToHtmlStringRGB();
-            string memoryUsingColorText = (allocatedMemory switch
+                > 24 => ColorGreen,
+                > 18 => ColorYellow,
+                _ => ColorRed
+            }];
+            string memoryUsingColorText = ColorHtmlTexts[allocatedMemory switch
             {
-                < 1200 => Color.green,
-                < 2400 => Color.yellow,
-                _ => Color.red
-            }).ToHtmlStringRGB();
-            string gcCountColorText = (gcCount switch
+                < 1200 => ColorGreen,
+                < 2400 => ColorYellow,
+                _ => ColorRed
+            }];
+            string gcCountColorText = ColorHtmlTexts[gcCount switch
             {
-                0 => Color.green,
-                < 4 => Color.yellow,
-                _ => Color.red
-            }).ToHtmlStringRGB();
-            string setPassCallsColorText = (setPassCalls switch
+                0 => ColorGreen,
+                < 4 => ColorYellow,
+                _ => ColorRed
+            }];
+            string setPassCallsColorText = ColorHtmlTexts[setPassCalls switch
             {
-                < 200 => Color.green,
-                < 400 => Color.yellow,
-                _ => Color.red
-            }).ToHtmlStringRGB();
-            string drawCallsColorText = (drawCalls switch
+                < 200 => ColorGreen,
+                < 400 => ColorYellow,
+                _ => ColorRed
+            }];
+            string drawCallsColorText = ColorHtmlTexts[drawCalls switch
             {
-                < 600 => Color.green,
-                < 1200 => Color.yellow,
-                _ => Color.red
-            }).ToHtmlStringRGB();
+                < 600 => ColorGreen,
+                < 1200 => ColorYellow,
+                _ => ColorRed
+            }];
 
             using var sb = ZString.CreateStringBuilder();
             sb.AppendFormat("FPS : <color=#{0}>{1:F2}</color>,    ",
