@@ -15,6 +15,8 @@ MonoBehaviour:
   moveSpeed: 10
   sprintSpeedMultiplier: 2
   moveAcceleration: 10
+  nativeHorizontalVelocityAttenuationRateOnGround: 0.5
+  nativeHorizontalVelocityAttenuationRateInAir: 0.02
   rotationSpeed: 1
   cameraClamps: {x: -90, y: 90}
   jumpHeight: 5

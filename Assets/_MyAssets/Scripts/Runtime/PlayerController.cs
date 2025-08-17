@@ -14,8 +14,8 @@ namespace MyScripts.Runtime
 		private float cinemachineTargetPitch;
 
 		// player
-		private float speed;
 		private float rotationVelocity;
+		private Vector2 nativeHorizontalVelocity = Vector2.zero; // 入力によらない水平移動速度 (段々減衰していき,0になる)
 		private float verticalVelocity;
 		private static readonly float TerminalVelocity = 53.0f;
 		private bool isGrounded = true;
@@ -60,12 +60,20 @@ namespace MyScripts.Runtime
 		{
 			JumpAndGravity();
 			GroundedCheck();
-			Move();
+			AttenuateNativeHorizontalVelocity();
+			InputAndFinallyMove();
 		}
 
 		private void LateUpdate()
 		{
 			CameraRotation();
+		}
+
+		// 入力・重力によるものではない、外力による速度増加
+		private void ApplyOuterVelocity(Vector3 velocity)
+		{
+			nativeHorizontalVelocity += new Vector2(velocity.x, velocity.z);
+			verticalVelocity += velocity.y;
 		}
 
 		private void GroundedCheck()
@@ -101,7 +109,23 @@ namespace MyScripts.Runtime
 			}
 		}
 
-		private void Move()
+		private void AttenuateNativeHorizontalVelocity()
+		{
+			// attenuate the native velocity
+			if (nativeHorizontalVelocity != Vector2.zero)
+			{
+				float attenuationRate = isGrounded ?
+					param.NativeHorizontalVelocityAttenuationRateOnGround : param.NativeHorizontalVelocityAttenuationRateInAir;
+				nativeHorizontalVelocity -= nativeHorizontalVelocity * attenuationRate;
+
+				if (nativeHorizontalVelocity.sqrMagnitude < 1e-4f)
+				{
+					nativeHorizontalVelocity = Vector2.zero;
+				}
+			}
+		}
+
+		private void InputAndFinallyMove()
 		{
 			// get input
 			Vector2 input = MoveInput;
@@ -128,6 +152,7 @@ namespace MyScripts.Runtime
 #endif
 
 			// accelerate or decelerate to target speed
+			float speed;
 			if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
 			{
 				// creates curved result rather than a linear one giving a more organic speed change
@@ -153,8 +178,12 @@ namespace MyScripts.Runtime
 				inputDirection = transform.right * input.x + transform.forward * input.y;
 			}
 
+			// calculate the real velocity
+			Vector3 realHorizontalVelocity = inputDirection.normalized * speed + new Vector3(nativeHorizontalVelocity.x, 0.0f, nativeHorizontalVelocity.y);
+			Vector3 realVelocity = realHorizontalVelocity + new Vector3(0.0f, verticalVelocity, 0.0f);
+
 			// move the player
-			controller.Move(inputDirection.normalized * (speed * Time.deltaTime) + new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
+			controller.Move(realVelocity * Time.deltaTime);
 		}
 
 		private void JumpAndGravity()

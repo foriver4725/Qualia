@@ -7,9 +7,13 @@ namespace MyScripts.SO.Parameter
         [SerializeField] private float moveSpeed = 4.0f;
         [SerializeField] private float sprintSpeedMultiplier = 1.5f;
         [SerializeField] private float moveAcceleration = 10.0f;
+        [SerializeField, Tooltip("入力によらない水平移動速度の,地上での減衰係数 (空気抵抗に相当)")] private float nativeHorizontalVelocityAttenuationRateOnGround = 0.50f;
+        [SerializeField, Tooltip("入力によらない水平移動速度の,空中での減衰係数 (空気抵抗に相当)")] private float nativeHorizontalVelocityAttenuationRateInAir = 0.02f;
         internal float MoveSpeed => moveSpeed;
         internal float SprintSpeedMultiplier => sprintSpeedMultiplier;
         internal float MoveAcceleration => moveAcceleration;
+        internal float NativeHorizontalVelocityAttenuationRateOnGround => nativeHorizontalVelocityAttenuationRateOnGround;
+        internal float NativeHorizontalVelocityAttenuationRateInAir => nativeHorizontalVelocityAttenuationRateInAir;
 
         [Space(10)]
 
