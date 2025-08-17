@@ -130,7 +130,7 @@ namespace MyScripts.Runtime
 			// 現在、地面から離れたタイミングであるべき
 			if (!hasBecameNotGroundedThisFrame) return;
 
-			//? 目の前が崖の必要がある
+			//? 目の前が崖であるべきか？
 
 			// 処理を行える
 
