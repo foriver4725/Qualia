@@ -21,7 +21,10 @@
 
             // UIの更新
             UpdateUI(leftAmount, remainingTime);
+        }
 
+        private void Start()
+        {
             // タイマーの開始
             CountTimeAsync(destroyCancellationToken).Forget();
         }
