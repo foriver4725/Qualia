@@ -2,7 +2,7 @@ Shader "MyShader/CharacterOutline"
 {
     Properties
     {
-        _BeginColor ("Begin Color", Color) = (0,0,0,1)
+        _BeginColor ("Begin Color", Color) = (0, 0, 0, 1)
         _Width ("Width", Range(0, 0.1)) = 0.01
         _ColorChangeSpeed ("Color Change Speed", Range(-5, 5)) = 0.2
     }
@@ -16,8 +16,8 @@ Shader "MyShader/CharacterOutline"
             Name "FullPass"
 
             Cull Front
-            ZWrite On
             ZTest LEqual
+            ZWrite On
 
             CGPROGRAM
 
@@ -33,13 +33,13 @@ Shader "MyShader/CharacterOutline"
 
             struct appdata
             {
-                float4 posLS : POSITION;
-                float3 normLS : NORMAL;
+                float4 pos : POSITION;
+                float3 norm : NORMAL;
             };
 
             struct v2f
             {
-                float4 posHPS : SV_POSITION;
+                float4 pos : SV_POSITION;
             };
 
             v2f vert(appdata v)
@@ -48,11 +48,11 @@ Shader "MyShader/CharacterOutline"
 
                 // 頂点座標
                 // MVP
-                o.posHPS = UnityObjectToClipPos(v.posLS);
+                o.pos = UnityObjectToClipPos(v.pos);
 
                 // 法線
                 // MV (本来はここまで)
-                float3 normVS = mul((float3x3)UNITY_MATRIX_IT_MV, v.normLS);
+                float3 normVS = mul((float3x3)UNITY_MATRIX_IT_MV, v.norm);
                 // 無理矢理 PS に変換
                 // ↓↓ の計算と同じ, より最適化されている
                 /*
@@ -64,7 +64,7 @@ Shader "MyShader/CharacterOutline"
 
                 // PS での法線の方向に、頂点座標をオフセット
                 // w乗算することで、頂点座標の遠近を打ち消す、的な感じ
-                o.posHPS.xy += normPS * (_Width * o.posHPS.w);
+                o.pos.xy += normPS * (_Width * o.pos.w);
 
                 return o;
             }
