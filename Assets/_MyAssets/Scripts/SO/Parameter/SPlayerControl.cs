@@ -3,17 +3,33 @@ namespace MyScripts.SO.Parameter
     [CreateAssetMenu(fileName = "_PlayerControl", menuName = "SO/Parameter/PlayerControl")]
     internal sealed class SPlayerControl : ScriptableObject
     {
+        // プレイヤーの移動入力を鈍感にするタイミング
+        internal enum MoveInputInsensitiveTimingType : byte
+        {
+            Never = 0,
+            WhileInAir = 1,
+            WhileInAirAndWhenOuterVelocityIsNotZero = 2,
+        }
+
         [Header("Move")]
         [SerializeField] private float moveSpeed = 4.0f;
         [SerializeField] private float sprintSpeedMultiplier = 1.5f;
         [SerializeField] private float moveAcceleration = 10.0f;
-        [SerializeField, Tooltip("入力によらない水平移動速度の,地上での減衰係数 (空気抵抗に相当)")] private float nativeHorizontalVelocityAttenuationRateOnGround = 0.50f;
-        [SerializeField, Tooltip("入力によらない水平移動速度の,空中での減衰係数 (空気抵抗に相当)")] private float nativeHorizontalVelocityAttenuationRateInAir = 0.02f;
+        [SerializeField, Tooltip("入力によらない水平移動速度の,地上での減衰係数 (空気抵抗に相当)")]
+        private float nativeHorizontalVelocityAttenuationRateOnGround = 0.50f;
+        [SerializeField, Tooltip("入力によらない水平移動速度の,空中での減衰係数 (空気抵抗に相当)")]
+        private float nativeHorizontalVelocityAttenuationRateInAir = 0.02f;
+        [SerializeField, Tooltip("移動入力を鈍感にするタイミング")]
+        private MoveInputInsensitiveTimingType moveInputInsensitiveTiming = MoveInputInsensitiveTimingType.Never;
+        [SerializeField, Range(0.0f, 1.0f), Tooltip("移動入力を鈍感にするとき,元の入力値の何倍にするか")]
+        private float moveInputInsensitiveRate = 0.5f;
         internal float MoveSpeed => moveSpeed;
         internal float SprintSpeedMultiplier => sprintSpeedMultiplier;
         internal float MoveAcceleration => moveAcceleration;
         internal float NativeHorizontalVelocityAttenuationRateOnGround => nativeHorizontalVelocityAttenuationRateOnGround;
         internal float NativeHorizontalVelocityAttenuationRateInAir => nativeHorizontalVelocityAttenuationRateInAir;
+        internal MoveInputInsensitiveTimingType MoveInputInsensitiveTiming => moveInputInsensitiveTiming;
+        internal float MoveInputInsensitiveRate => moveInputInsensitiveRate;
 
         [Space(10)]
 

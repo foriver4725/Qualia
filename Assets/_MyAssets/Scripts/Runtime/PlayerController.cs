@@ -178,6 +178,22 @@ namespace MyScripts.Runtime
 				inputDirection = transform.right * input.x + transform.forward * input.y;
 			}
 
+			// when it is the timing, make move input insensitive
+			if (param.MoveInputInsensitiveTiming == SPlayerControl.MoveInputInsensitiveTimingType.WhileInAir)
+			{
+				if (!isGrounded)
+				{
+					inputDirection *= param.MoveInputInsensitiveRate;
+				}
+			}
+			else if (param.MoveInputInsensitiveTiming == SPlayerControl.MoveInputInsensitiveTimingType.WhileInAirAndWhenOuterVelocityIsNotZero)
+			{
+				if (!isGrounded && nativeHorizontalVelocity != Vector2.zero)
+				{
+					inputDirection *= param.MoveInputInsensitiveRate;
+				}
+			}
+
 			// calculate the real velocity
 			Vector3 realHorizontalVelocity = inputDirection.normalized * speed + new Vector3(nativeHorizontalVelocity.x, 0.0f, nativeHorizontalVelocity.y);
 			Vector3 realVelocity = realHorizontalVelocity + new Vector3(0.0f, verticalVelocity, 0.0f);
