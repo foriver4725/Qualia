@@ -141,7 +141,8 @@ namespace MyScripts.Runtime
                 playerTransform.rotation
             );
             // カプセルをアクティブ化
-            characterCapsules[from].gameObject.SetActive(true);
+            // (カメラにアウトラインが映ってチラついてしまうため、カメラのブレンド演出が始まった後少しだけ経過してから、アクティブにする)
+            0.05f.SecAwaitThenDo(() => characterCapsules[from].gameObject.SetActive(true), ct: destroyCancellationToken).Forget();
 
             // キャラクターの種類を切り替え
             currentType = to;
