@@ -118,6 +118,8 @@ namespace MyScripts.Runtime
 
                 // プレイヤーコントロールの入力を無効化(切り替え処理の最後に、trueに戻す)
                 pc.IsPcInputEnabled = false;
+                // プレイヤーに働く重力を無効化(切り替え処理の最後に、trueに戻す)
+                pc.IsOwnGravityEnabled = false;
 
                 // プレイヤー側の移動があるため、LateUpdateのタイミングまで待つ
                 await UniTask.Yield(PlayerLoopTiming.PostLateUpdate);
@@ -197,6 +199,8 @@ namespace MyScripts.Runtime
             // カメラの追尾を再開
             playerCameraBrain.enabled = true;
 
+            // プレイヤーに働く重力を有効化
+            pc.IsOwnGravityEnabled = true;
             // プレイヤーコントロールの入力を有効化
             pc.IsPcInputEnabled = true;
 
