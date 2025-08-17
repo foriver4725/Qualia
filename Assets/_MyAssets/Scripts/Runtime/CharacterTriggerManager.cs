@@ -31,6 +31,7 @@ namespace MyScripts.Runtime
         private CharacterType currentType; // 現在のキャラクターの種類
         private Dictionary<CharacterType, Transform> characterCapsules; // 各キャラクターの最新座標を保持 (ワールド座標)
         private Dictionary<CharacterType, ParticleSystem[]> sosSigns; // 各キャラクターが認知できるSOSサイン
+        private Vector3 characterCapsuleLocalPosition; // キャラクターカプセルは、ルートからオフセットされている(足元を中心にするため)
         private int characterCapsuleInitLayer;
         private int CharacterOutlineLayer; // 定数
 
@@ -61,6 +62,7 @@ namespace MyScripts.Runtime
                 { CharacterType.Shell, sosSign_contaminatedWater }
             };
 
+            characterCapsuleLocalPosition = playerCapsule.transform.localPosition;
             characterCapsuleInitLayer = playerCapsule.layer;
             CharacterOutlineLayer = LayerMask.NameToLayer("CharacterOutline");
 
@@ -135,7 +137,7 @@ namespace MyScripts.Runtime
 
             // 切り替わり前の所にカプセルを残しておく
             characterCapsules[from].SetPositionAndRotation(
-                playerTransform.position,
+                playerTransform.position + characterCapsuleLocalPosition,
                 playerTransform.rotation
             );
             // カプセルをアクティブ化
@@ -152,7 +154,7 @@ namespace MyScripts.Runtime
             playerCapsule.layer = CharacterOutlineLayer;
             // 切り替わり後のキャラクターの座標にテレポート
             playerTransform.SetPositionAndRotation(
-                characterCapsules[to].position,
+                characterCapsules[to].position - characterCapsuleLocalPosition,
                 characterCapsules[to].rotation
             );
             // カメラのブレンド演出開始
