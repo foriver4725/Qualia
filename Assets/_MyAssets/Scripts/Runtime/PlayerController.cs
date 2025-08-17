@@ -33,6 +33,22 @@ namespace MyScripts.Runtime
 
 		internal bool IsPcInputEnabled { get; set; } = true;
 
+		private bool isOwnGravityEnabled = true;
+		internal bool IsOwnGravityEnabled
+		{
+			get => isOwnGravityEnabled;
+			set
+			{
+				isOwnGravityEnabled = value;
+
+				// 重力を無効化する時は、鉛直方向の速度もリセットする
+				if (!value)
+				{
+					verticalVelocity = 0f;
+				}
+			}
+		}
+
 		private void Awake()
 		{
 			// reset our timeouts on start
@@ -182,10 +198,13 @@ namespace MyScripts.Runtime
 				}
 			}
 
-			// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
-			if (verticalVelocity < TerminalVelocity)
+			if (IsOwnGravityEnabled)
 			{
-				verticalVelocity += param.OwnGravity * Time.deltaTime;
+				// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
+				if (verticalVelocity < TerminalVelocity)
+				{
+					verticalVelocity += param.OwnGravity * Time.deltaTime;
+				}
 			}
 		}
 

@@ -21,6 +21,7 @@ namespace MyScripts.Runtime
         [SerializeField] private TextMeshProUGUI triggerText; // トリガーを教えるUI
         [SerializeField] private TextMeshProUGUI triggerCtLabel;
         [SerializeField] private PlayerController pc;
+        [SerializeField] private GameObject playerCapsule;
         [SerializeField] private SOSSignFindManager sosSignFindManager;
         [SerializeField] private TimeScoreManager timeScoreManager;
         [SerializeField, Range(0.0f, 5.0f)] private float onTeleportCameraBlendFlowDuration = 0.5f;
@@ -30,6 +31,9 @@ namespace MyScripts.Runtime
         private CharacterType currentType; // 現在のキャラクターの種類
         private Dictionary<CharacterType, Transform> characterCapsules; // 各キャラクターの最新座標を保持 (ワールド座標)
         private Dictionary<CharacterType, ParticleSystem[]> sosSigns; // 各キャラクターが認知できるSOSサイン
+        private Vector3 characterCapsuleLocalPosition; // キャラクターカプセルは、ルートからオフセットされている(足元を中心にするため)
+        private int characterCapsuleInitLayer;
+        private int CharacterOutlineLayer; // 定数
 
         private bool onTriggerCt = false;
 
@@ -57,6 +61,10 @@ namespace MyScripts.Runtime
                 { CharacterType.Dog, sosSign_rottenEggSmell },
                 { CharacterType.Shell, sosSign_contaminatedWater }
             };
+
+            characterCapsuleLocalPosition = playerCapsule.transform.localPosition;
+            characterCapsuleInitLayer = playerCapsule.layer;
+            CharacterOutlineLayer = LayerMask.NameToLayer("CharacterOutline");
 
             // プレイヤーを人間のカプセルの所に移動させる
             playerTransform.SetPositionAndRotation(humanCapsule.position, humanCapsule.rotation);
@@ -112,6 +120,8 @@ namespace MyScripts.Runtime
 
                 // プレイヤーコントロールの入力を無効化(切り替え処理の最後に、trueに戻す)
                 pc.IsPcInputEnabled = false;
+                // プレイヤーに働く重力を無効化(切り替え処理の最後に、trueに戻す)
+                pc.IsOwnGravityEnabled = false;
 
                 // プレイヤー側の移動があるため、LateUpdateのタイミングまで待つ
                 await UniTask.Yield(PlayerLoopTiming.PostLateUpdate);
@@ -127,7 +137,7 @@ namespace MyScripts.Runtime
 
             // 切り替わり前の所にカプセルを残しておく
             characterCapsules[from].SetPositionAndRotation(
-                playerTransform.position,
+                playerTransform.position + characterCapsuleLocalPosition,
                 playerTransform.rotation
             );
             // カプセルをアクティブ化
@@ -140,15 +150,22 @@ namespace MyScripts.Runtime
             characterCapsules[to].gameObject.SetActive(false);
             // カメラの追尾を切る
             playerCameraBrain.enabled = false;
+            // プレイヤーカプセルにアウトラインを付ける
+            playerCapsule.layer = CharacterOutlineLayer;
+            // 切り替わり後は移動した方向が正面になるように回転するので、その回転をここで計算
+            Vector3 targetPosition = characterCapsules[to].position - characterCapsuleLocalPosition;
+            Vector3 targetDirection = targetPosition - playerTransform.position;
+            Vector3 targetDirectionXZ = new(targetDirection.x, 0.0f, targetDirection.z);
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirectionXZ, Vector3.up);
             // 切り替わり後のキャラクターの座標にテレポート
             playerTransform.SetPositionAndRotation(
-                characterCapsules[to].position,
-                characterCapsules[to].rotation
+                targetPosition,
+                targetRotation
             );
             // カメラのブレンド演出開始
             DOCameraBlendAsync(
-                characterCapsules[to].position,
-                characterCapsules[to].rotation,
+                targetPosition,
+                targetRotation,
                 destroyCancellationToken
             ).Forget();
 
@@ -183,9 +200,14 @@ namespace MyScripts.Runtime
                 .OnComplete(() => playerCameraBrain.transform.rotation = toRotation)
                 .WithCancellation(ct);
 
+            // プレイヤーカプセルのアウトラインを外す
+            playerCapsule.layer = characterCapsuleInitLayer;
+
             // カメラの追尾を再開
             playerCameraBrain.enabled = true;
 
+            // プレイヤーに働く重力を有効化
+            pc.IsOwnGravityEnabled = true;
             // プレイヤーコントロールの入力を有効化
             pc.IsPcInputEnabled = true;
 

@@ -9653,6 +9653,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4274526753779858, guid: 6a8a77a07da1ab74bb3d34fe70501b7d, type: 3}
   m_PrefabInstance: {fileID: 1924702397}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1933024321 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3580093262219097594, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
+  m_PrefabInstance: {fileID: 2390642557826304883}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1934833113
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10097,6 +10102,7 @@ MonoBehaviour:
   triggerText: {fileID: 1750163212}
   triggerCtLabel: {fileID: 210410217}
   pc: {fileID: 2390642557826304884}
+  playerCapsule: {fileID: 1933024321}
   sosSignFindManager: {fileID: 658782585}
   timeScoreManager: {fileID: 2065478739}
   onTeleportCameraBlendFlowDuration: 0.5

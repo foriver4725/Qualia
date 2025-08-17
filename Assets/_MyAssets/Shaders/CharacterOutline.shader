@@ -33,35 +33,42 @@ Shader "MyShader/CharacterOutline"
 
             struct appdata
             {
-                float4 vertex : POSITION;
-                float3 normal : NORMAL;
+                float4 posLS : POSITION;
+                float3 normLS : NORMAL;
             };
 
             struct v2f
             {
-                float4 pos : SV_POSITION;
+                float4 posHPS : SV_POSITION;
             };
 
             v2f vert(appdata v)
             {
                 v2f o;
 
-                // MVP座標変換
-                o.pos = UnityObjectToClipPos(v.vertex);
+                // 頂点座標
+                // MVP
+                o.posHPS = UnityObjectToClipPos(v.posLS);
 
-                // 法線の座標変換 : モデル空間 -> カメラ空間
-                float3 norm = normalize(mul((float3x3)UNITY_MATRIX_IT_MV, v.normal));
+                // 法線
+                // MV (本来はここまで)
+                float3 normVS = mul((float3x3)UNITY_MATRIX_IT_MV, v.normLS);
+                // 無理矢理 PS に変換
+                // ↓↓ の計算と同じ, より最適化されている
+                /*
+                * float2 normPS = mul(UNITY_MATRIX_P, float4(normVS, 1.0)).xy; // 奥行きを完全に無視
+                */
+                // 参考 : https://gist.github.com/hecomi/9580605
+                float2 normPS = TransformViewToProjection(normVS.xy);
 
-                // 投影
-                float2 offset = TransformViewToProjection(norm.xy);
-
-                // クリップ空間で頂点を動かす
-                o.pos.xy += offset * o.pos.w * _Width;
+                // PS での法線の方向に、頂点座標をオフセット
+                // w乗算することで、頂点座標の遠近を打ち消す、的な感じ
+                o.posHPS.xy += normPS * (_Width * o.posHPS.w);
 
                 return o;
             }
 
-            half4 frag(v2f i) : SV_Target
+            half4 frag(v2f _) : SV_Target
             {
                 half3 hsv = RGB2HSV(_BeginColor);
                 hsv.x = frac(hsv.x + _ColorChangeSpeed * _Time.y); // 経過時間でHueを進める(負値なら逆回転)
