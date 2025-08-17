@@ -112,6 +112,9 @@ namespace MyScripts.Runtime
 		// 慣性ジャンプ
 		private void DoInertiaJumpIfTheTiming()
 		{
+			// 機能が無効なら論外！！
+			if (!param.EnableInertiaJump) return;
+
 			// 水平方向にある程度の速度が必要
 			if (realHorizontalVelocity.sqrMagnitude < param.InertiaJumpLimitSpeedSqr) return;
 
@@ -189,10 +192,11 @@ namespace MyScripts.Runtime
 		{
 			// get input
 			Vector2 input = MoveInput;
-			isSprinting = SprintInput;
+			bool isSprintingInput = SprintInput;
+			isSprinting = isSprintingInput && input.sqrMagnitude >= 0.01f;
 
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = isSprinting ? param.MoveSpeed * param.SprintSpeedMultiplier : param.MoveSpeed;
+			float targetSpeed = isSprintingInput ? param.MoveSpeed * param.SprintSpeedMultiplier : param.MoveSpeed;
 
 			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 

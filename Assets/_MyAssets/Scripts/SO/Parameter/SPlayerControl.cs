@@ -49,9 +49,11 @@ namespace MyScripts.SO.Parameter
         [Space(10)]
 
         [Header("Inertia Jump")]
+        [SerializeField] private bool enableInertiaJump = true;
         [SerializeField, Tooltip("加算する速度(プレイヤーから見た相対ベクトル)")] private Vector3 inertiaJumpVelocity = new(30.0f, 15.0f, 30.0f);
         [SerializeField, Tooltip("必要な水平速度 の平方")] private float inertiaJumpLimitSpeedSqr = 100.0f;
         [SerializeField] private float inertiaJumpCoolTime = 0.2f;
+        internal bool EnableInertiaJump => enableInertiaJump;
         internal Vector3 InertiaJumpVelocity => inertiaJumpVelocity;
         internal float InertiaJumpLimitSpeedSqr => inertiaJumpLimitSpeedSqr;
         internal float InertiaJumpCoolTime => inertiaJumpCoolTime;

@@ -19,12 +19,14 @@ MonoBehaviour:
   nativeHorizontalVelocityAttenuationRateInAir: 0.02
   moveInputInsensitiveTiming: 2
   moveInputInsensitiveRate: 0.2
-  inertiaJumpVelocity: {x: 30, y: 15, z: 30}
-  inertiaJumpCoolTime: 0.1
   rotationSpeed: 1
   cameraClamps: {x: -90, y: 90}
   jumpHeight: 5
   ownGravity: -15
+  enableInertiaJump: 1
+  inertiaJumpVelocity: {x: 30, y: 15, z: 30}
+  inertiaJumpLimitSpeedSqr: 100
+  inertiaJumpCoolTime: 0.1
   jumpTimeout: 0.1
   fallTimeout: 0.15
   groundLayers:
