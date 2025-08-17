@@ -56,10 +56,11 @@ Shader "MyShader/CharacterOutline"
                 // 無理矢理 PS に変換
                 // ↓↓ の計算と同じ, より最適化されている
                 /*
-                * float2 normPS = mul(UNITY_MATRIX_P, float4(normVS, 1.0)).xy; // 奥行きを完全に無視
+                * // 奥行きは無視、正規化するのでw除算すらも必要ない
+                * float2 normPS = normalize(mul(UNITY_MATRIX_P, float4(normVS, 1.0)).xy);
                 */
                 // 参考 : https://gist.github.com/hecomi/9580605
-                float2 normPS = TransformViewToProjection(normVS.xy);
+                float2 normPS = normalize(TransformViewToProjection(normVS.xy));
 
                 // PS での法線の方向に、頂点座標をオフセット
                 // w乗算することで、頂点座標の遠近を打ち消す、的な感じ

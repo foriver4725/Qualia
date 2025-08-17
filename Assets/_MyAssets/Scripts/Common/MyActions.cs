@@ -122,7 +122,7 @@ namespace MyScripts.Common
                 },
                 {
                     ""name"": ""Sprint"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""4a1f2999-30f1-4130-82ae-d2bb31ee73af"",
                     ""expectedControlType"": """",
                     ""processors"": """",
