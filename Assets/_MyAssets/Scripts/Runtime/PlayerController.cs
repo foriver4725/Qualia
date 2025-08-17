@@ -193,16 +193,17 @@ namespace MyScripts.Runtime
 			// get input
 			Vector2 input = MoveInput;
 			bool isSprintingInput = SprintInput;
-			isSprinting = isSprintingInput && input.sqrMagnitude >= 0.01f;
+			// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+			bool hasInput = input != Vector2.zero;
+			isSprinting = isSprintingInput && hasInput;
 
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			float targetSpeed = isSprintingInput ? param.MoveSpeed * param.SprintSpeedMultiplier : param.MoveSpeed;
 
 			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
-			// note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
 			// if there is no input, set the target speed to 0
-			if (input == Vector2.zero) targetSpeed = 0.0f;
+			if (!hasInput) targetSpeed = 0.0f;
 
 			// a reference to the players current horizontal velocity
 			float currentHorizontalSpeed = new Vector3(controller.velocity.x, 0.0f, controller.velocity.z).magnitude;
@@ -234,9 +235,8 @@ namespace MyScripts.Runtime
 			// normalise input direction
 			Vector3 inputDirection = new Vector3(input.x, 0.0f, input.y).normalized;
 
-			// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
 			// if there is a move input rotate player when the player is moving
-			if (input != Vector2.zero)
+			if (hasInput)
 			{
 				// move
 				inputDirection = transform.right * input.x + transform.forward * input.y;
