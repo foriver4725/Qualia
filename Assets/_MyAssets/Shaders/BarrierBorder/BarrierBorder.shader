@@ -3,7 +3,7 @@ Shader "MyShader/BarrierBorder"
     Properties
     {
         _Color ("Color", Color) = (1, 0, 0, 0.5)
-        _Div ("Stripe Division Amount (when parallel to the axis)", Range(1, 100)) = 10
+        _Div ("Stripe Division Amount (when parallel to the axis)", Range(1, 1000)) = 10
         _SlopeX ("Stripe Slope X (auto normalized to be Y is positive)", Float) = 1.0
         _SlopeY ("Stripe Slope Y (auto normalized to be Y is positive)", Float) = 1.0
         _MoveSpeed ("Stripe Slope Move Speed (clockwise is negative)", Range(-5, 5)) = 1.0

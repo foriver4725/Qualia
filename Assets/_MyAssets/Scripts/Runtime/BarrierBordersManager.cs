@@ -42,9 +42,7 @@ namespace MyScripts.Runtime
                         if (border == null) continue;
 
                         // プレイヤーとの距離を計算 (XZ)
-                        Vector3 diff = border.transform.position - playerBody.position;
-                        Vector2 diffXZ = new(diff.x, diff.z);
-                        float distSqr = diffXZ.sqrMagnitude;
+                        float distSqr = CalcDistSqr(border.transform, playerBody.position);
 
                         // プロパティ値を算出
                         (bool enabled, float transparency) = distSqr switch
@@ -66,6 +64,33 @@ namespace MyScripts.Runtime
                 // ずっとは処理が重たいので、16フレーム毎にする
                 await UniTask.DelayFrame(16, cancellationToken: ct);
             }
+        }
+
+        private float CalcDistSqr(Transform border, Vector3 playerPos)
+        {
+            // 参考 : http://marupeke296.com/COL_2D_No5_PolygonToCircle.html
+
+            float borderScaleX = border.lossyScale.x;
+            Vector3 borderStart3D = border.position - border.right * (borderScaleX * 0.5f);
+            Vector3 borderEnd3D = border.position + border.right * (borderScaleX * 0.5f);
+            Vector2 borderStartXZ = new(borderStart3D.x, borderStart3D.z);
+            Vector2 borderEndXZ = new(borderEnd3D.x, borderEnd3D.z);
+
+            Vector2 playerPosXZ = new(playerPos.x, playerPos.z);
+
+            Vector2 S = borderEndXZ - borderStartXZ;
+            Vector2 A = playerPosXZ - borderStartXZ;
+            Vector2 B = playerPosXZ - borderEndXZ;
+
+            bool isOuterSegStart = Vector2.Dot(A, S) <= 0;
+            bool isOuterSegEnd = Vector2.Dot(B, S) >= 0;
+
+            return 0 switch
+            {
+                _ when isOuterSegStart => A.sqrMagnitude,
+                _ when isOuterSegEnd => B.sqrMagnitude,
+                _ => S.CrossSqr(A) / S.sqrMagnitude
+            };
         }
     }
 }
