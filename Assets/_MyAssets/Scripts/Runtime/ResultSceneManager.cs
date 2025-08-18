@@ -9,7 +9,7 @@
 
         private async UniTaskVoid Impl(Ct ct)
         {
-            resultText.text = $"{ScoreHolder.FoundAmount}/{ScoreHolder.ShouldFoundAmount}";
+            resultText.SetTextFormat("{0}/{1}", ScoreHolder.FoundAmount, ScoreHolder.ShouldFoundAmount);
             await oneMoreButton.OnClickAsync(ct);
             LoadManager.Instance.BeginLoad(Scene.Main);
         }

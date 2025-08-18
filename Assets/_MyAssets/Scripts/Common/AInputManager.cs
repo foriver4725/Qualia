@@ -203,8 +203,8 @@ namespace MyScripts.Common
 
     internal abstract class AInputManager<T> : MonoBehaviour where T : AInputManager<T>
     {
+        //TODO: ASingletonMonoBehaviour クラスと同じ内容
         private static T _instance = null;
-
         internal static T Instance
         {
             get
@@ -214,7 +214,7 @@ namespace MyScripts.Common
                     T[] instances = FindObjectsByType<T>(FindObjectsSortMode.None);
                     if (instances == null || instances.Length == 0)
                     {
-                        Debug.LogError($"No instance of {typeof(T).Name} found in the scene. Please ensure there is one instance present.");
+                        $"No instance of {typeof(T).Name} found in the scene. Please ensure there is one instance present.".LogError();
                         return null;
                     }
                     else if (instances.Length == 1)
@@ -223,7 +223,7 @@ namespace MyScripts.Common
                     }
                     else
                     {
-                        Debug.LogWarning($"Multiple instances of {typeof(T).Name} found in the scene. Using the first instance and destroying others.");
+                        $"Multiple instances of {typeof(T).Name} found in the scene. Using the first instance and destroying others.".LogWarning();
                         _instance = instances[0];
                         for (int i = 1; i < instances.Length; ++i)
                         {
@@ -245,7 +245,7 @@ namespace MyScripts.Common
         {
             if (Instance == null)
             {
-                Debug.LogError($"Failed to initialize singleton instance of {typeof(T).Name}. Ensure that there is only one instance in the scene.");
+                $"Failed to initialize singleton instance of {typeof(T).Name}. Ensure that there is only one instance in the scene.".LogError();
                 return;
             }
 

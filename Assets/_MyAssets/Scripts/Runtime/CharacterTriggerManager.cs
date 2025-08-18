@@ -1,4 +1,4 @@
-﻿using Cinemachine;
+using Cinemachine;
 
 namespace MyScripts.Runtime
 {
@@ -20,15 +20,22 @@ namespace MyScripts.Runtime
         [SerializeField] private ParticleSystem[] sosSign_contaminatedWater;
         [SerializeField] private TextMeshProUGUI triggerText; // トリガーを教えるUI
         [SerializeField] private TextMeshProUGUI triggerCtLabel;
+        [SerializeField] private PlayerController pc;
+        [SerializeField] private GameObject playerCapsule;
         [SerializeField] private SOSSignFindManager sosSignFindManager;
         [SerializeField] private TimeScoreManager timeScoreManager;
         [SerializeField, Range(0.0f, 5.0f)] private float onTeleportCameraBlendFlowDuration = 0.5f;
-        [SerializeField, Range(0.0f, 5.0f)] private float onTeleportCameraBlendAimDuration = 0.3f;
+        [SerializeField, Range(0.0f, 1000.0f), Tooltip("Xmを1秒で進む速さ")] private float onTeleportCameraBlendAimDurationRate = 500.0f;
+        [SerializeField, Range(0.0f, 5.0f)] private float onTeleportCameraBlendAimDurationMin = 0.5f;
+        [SerializeField, Range(0.0f, 5.0f)] private float onTeleportCameraBlendAimDurationMax = 2.0f;
 
         // Awake で初期化
         private CharacterType currentType; // 現在のキャラクターの種類
         private Dictionary<CharacterType, Transform> characterCapsules; // 各キャラクターの最新座標を保持 (ワールド座標)
         private Dictionary<CharacterType, ParticleSystem[]> sosSigns; // 各キャラクターが認知できるSOSサイン
+        private Vector3 characterCapsuleLocalPosition; // キャラクターカプセルは、ルートからオフセットされている(足元を中心にするため)
+        private int characterCapsuleInitLayer;
+        private int CharacterOutlineLayer; // 定数
 
         private bool onTriggerCt = false;
 
@@ -56,6 +63,10 @@ namespace MyScripts.Runtime
                 { CharacterType.Dog, sosSign_rottenEggSmell },
                 { CharacterType.Shell, sosSign_contaminatedWater }
             };
+
+            characterCapsuleLocalPosition = playerCapsule.transform.localPosition;
+            characterCapsuleInitLayer = playerCapsule.layer;
+            CharacterOutlineLayer = LayerMask.NameToLayer("CharacterOutline");
 
             // プレイヤーを人間のカプセルの所に移動させる
             playerTransform.SetPositionAndRotation(humanCapsule.position, humanCapsule.rotation);
@@ -103,10 +114,16 @@ namespace MyScripts.Runtime
                 // 人間 → 犬 → 貝 → 人間
                 await UniTask.WaitUntil(() => !onTriggerCt && InputManager.Instance.InGameTriggerCharacter.Bool,
                     timing: PlayerLoopTiming.Update, cancellationToken: ct);
+
                 // クールタイム中にする(切り替え処理の最後に、falseに戻す)
                 onTriggerCt = true;
                 if (triggerCtLabel != null)
                     triggerCtLabel.enabled = true;
+
+                // プレイヤーコントロールの入力を無効化(切り替え処理の最後に、trueに戻す)
+                pc.IsPcInputEnabled = false;
+                // プレイヤーに働く重力を無効化(切り替え処理の最後に、trueに戻す)
+                pc.IsOwnGravityEnabled = false;
 
                 // プレイヤー側の移動があるため、LateUpdateのタイミングまで待つ
                 await UniTask.Yield(PlayerLoopTiming.PostLateUpdate);
@@ -122,11 +139,12 @@ namespace MyScripts.Runtime
 
             // 切り替わり前の所にカプセルを残しておく
             characterCapsules[from].SetPositionAndRotation(
-                playerTransform.position,
+                playerTransform.position + characterCapsuleLocalPosition,
                 playerTransform.rotation
             );
             // カプセルをアクティブ化
-            characterCapsules[from].gameObject.SetActive(true);
+            // (カメラにアウトラインが映ってチラついてしまうため、カメラのブレンド演出が始まった後少しだけ経過してから、アクティブにする)
+            0.05f.SecAwaitThenDo(() => characterCapsules[from].gameObject.SetActive(true), ct: destroyCancellationToken).Forget();
 
             // キャラクターの種類を切り替え
             currentType = to;
@@ -135,15 +153,22 @@ namespace MyScripts.Runtime
             characterCapsules[to].gameObject.SetActive(false);
             // カメラの追尾を切る
             playerCameraBrain.enabled = false;
+            // プレイヤーカプセルにアウトラインを付ける
+            playerCapsule.layer = CharacterOutlineLayer;
+            // 切り替わり後は移動した方向が正面になるように回転するので、その回転をここで計算
+            Vector3 targetPosition = characterCapsules[to].position - characterCapsuleLocalPosition;
+            Vector3 targetDirection = targetPosition - playerTransform.position;
+            Vector3 targetDirectionXZ = new(targetDirection.x, 0.0f, targetDirection.z);
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirectionXZ, Vector3.up);
             // 切り替わり後のキャラクターの座標にテレポート
             playerTransform.SetPositionAndRotation(
-                characterCapsules[to].position,
-                characterCapsules[to].rotation
+                targetPosition,
+                targetRotation
             );
             // カメラのブレンド演出開始
             DOCameraBlendAsync(
-                characterCapsules[to].position,
-                characterCapsules[to].rotation,
+                targetPosition,
+                targetRotation,
                 destroyCancellationToken
             ).Forget();
 
@@ -157,17 +182,20 @@ namespace MyScripts.Runtime
         private async UniTaskVoid DOCameraBlendAsync(Vector3 toPosition, Quaternion toRotation, Ct ct)
         {
             float flowDur = this.onTeleportCameraBlendFlowDuration;
-            float aimDur = this.onTeleportCameraBlendAimDuration;
+
+            Vector3 direction = toPosition - playerCameraBrain.transform.position;
+            float aimDur = direction.magnitude.Remap(0.0f, this.onTeleportCameraBlendAimDurationRate, 0.0f, 1.0f);
+            aimDur = Mathf.Clamp(aimDur, this.onTeleportCameraBlendAimDurationMin, this.onTeleportCameraBlendAimDurationMax);
 
             Vector3 flowEndPosition = playerCameraBrain.transform.position + Vector3.up * 20.0f;
             await playerCameraBrain.transform.DOMove(flowEndPosition, flowDur)
                 .OnUpdate(() =>
                 {
-                    Vector3 direction = toPosition - playerCameraBrain.transform.position;
-                    if (direction != Vector3.zero)
+                    Vector3 directionCurr = toPosition - playerCameraBrain.transform.position;
+                    if (directionCurr != Vector3.zero)
                         playerCameraBrain.transform.rotation = Quaternion.Lerp(
                             playerCameraBrain.transform.rotation,
-                            Quaternion.LookRotation(direction),
+                            Quaternion.LookRotation(directionCurr),
                             Time.deltaTime * 6.0f
                         );
                 })
@@ -178,8 +206,16 @@ namespace MyScripts.Runtime
                 .OnComplete(() => playerCameraBrain.transform.rotation = toRotation)
                 .WithCancellation(ct);
 
+            // プレイヤーカプセルのアウトラインを外す
+            playerCapsule.layer = characterCapsuleInitLayer;
+
             // カメラの追尾を再開
             playerCameraBrain.enabled = true;
+
+            // プレイヤーに働く重力を有効化
+            pc.IsOwnGravityEnabled = true;
+            // プレイヤーコントロールの入力を有効化
+            pc.IsPcInputEnabled = true;
 
             // 切り替えのクールタイムを終了とする
             if (triggerCtLabel != null)
@@ -203,10 +239,7 @@ namespace MyScripts.Runtime
         }
 
         private void UpdateTriggerText(CharacterType now, CharacterType next)
-            => triggerText.text =
-                $$"""
-                あなたは現在：{{characterNames[now]}}
-                Fキーを押して {{characterNames[next]}} に切り替わる
-                """;
+            => triggerText.SetTextFormat("あなたは現在：{0}\nFキーを押して {1} に切り替わる",
+                characterNames[now], characterNames[next]);
     }
 }

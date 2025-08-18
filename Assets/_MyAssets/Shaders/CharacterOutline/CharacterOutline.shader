@@ -2,7 +2,7 @@ Shader "MyShader/CharacterOutline"
 {
     Properties
     {
-        _BeginColor ("Begin Color", Color) = (0,0,0,1)
+        _BeginColor ("Begin Color", Color) = (0, 0, 0, 1)
         _Width ("Width", Range(0, 0.1)) = 0.01
         _ColorChangeSpeed ("Color Change Speed", Range(-5, 5)) = 0.2
     }
@@ -16,8 +16,8 @@ Shader "MyShader/CharacterOutline"
             Name "FullPass"
 
             Cull Front
-            ZWrite On
             ZTest LEqual
+            ZWrite On
 
             CGPROGRAM
 
@@ -33,8 +33,8 @@ Shader "MyShader/CharacterOutline"
 
             struct appdata
             {
-                float4 vertex : POSITION;
-                float3 normal : NORMAL;
+                float4 pos : POSITION;
+                float3 norm : NORMAL;
             };
 
             struct v2f
@@ -46,22 +46,30 @@ Shader "MyShader/CharacterOutline"
             {
                 v2f o;
 
-                // MVP座標変換
-                o.pos = UnityObjectToClipPos(v.vertex);
+                // 頂点座標
+                // MVP
+                o.pos = UnityObjectToClipPos(v.pos);
 
-                // 法線の座標変換 : モデル空間 -> カメラ空間
-                float3 norm = normalize(mul((float3x3)UNITY_MATRIX_IT_MV, v.normal));
+                // 法線
+                // MV (本来はここまで)
+                float3 normVS = mul((float3x3)UNITY_MATRIX_IT_MV, v.norm);
+                // 無理矢理 PS に変換
+                // ↓↓ の計算と同じ, より最適化されている
+                /*
+                * // 奥行きは無視、正規化するのでw除算すらも必要ない
+                * float2 normPS = normalize(mul(UNITY_MATRIX_P, float4(normVS, 1.0)).xy);
+                */
+                // 参考 : https://gist.github.com/hecomi/9580605
+                float2 normPS = normalize(TransformViewToProjection(normVS.xy));
 
-                // 投影
-                float2 offset = TransformViewToProjection(norm.xy);
-
-                // クリップ空間で頂点を動かす
-                o.pos.xy += offset * o.pos.w * _Width;
+                // PS での法線の方向に、頂点座標をオフセット
+                // w乗算することで、頂点座標の遠近を打ち消す、的な感じ
+                o.pos.xy += normPS * (_Width * o.pos.w);
 
                 return o;
             }
 
-            half4 frag(v2f i) : SV_Target
+            half4 frag(v2f _) : SV_Target
             {
                 half3 hsv = RGB2HSV(_BeginColor);
                 hsv.x = frac(hsv.x + _ColorChangeSpeed * _Time.y); // 経過時間でHueを進める(負値なら逆回転)

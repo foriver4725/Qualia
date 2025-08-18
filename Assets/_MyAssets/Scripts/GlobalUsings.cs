@@ -2,7 +2,6 @@
 global using System.Collections;
 global using System.Collections.Generic;
 global using System.Collections.ObjectModel;
-global using System.Text;
 global using System.Threading;
 global using System.Diagnostics;
 global using System.Runtime.CompilerServices;
@@ -15,6 +14,7 @@ global using Cysharp.Threading.Tasks;
 global using DG.Tweening;
 global using R3;
 global using R3.Triggers;
+global using Cysharp.Text;
 
 global using Random = UnityEngine.Random;
 global using Debug = UnityEngine.Debug;
