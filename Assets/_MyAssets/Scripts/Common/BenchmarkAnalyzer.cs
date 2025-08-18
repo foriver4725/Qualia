@@ -10,6 +10,13 @@ namespace MyScripts.Common
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
 
+#if DEVELOPMENT_BUILD
+        // 初回シーン読み込み時、ロードが間に合わずガベコレが計上されてしまうので、最初は少し待つ
+        private static readonly int OnFirstSceneIgnoreFrames = 64;
+        private int onFirstSceneFrames = 0;
+        private bool doEnableOnFirstScene = false;
+#endif
+
         // 一定時間ごとに計測する
         private float time = 0f;
         private float baseTime = 0f;
@@ -55,6 +62,20 @@ namespace MyScripts.Common
 
         private void Update()
         {
+#if DEVELOPMENT_BUILD
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == 0)
+            {
+                if (!doEnableOnFirstScene)
+                {
+                    onFirstSceneFrames++;
+                    if (onFirstSceneFrames > OnFirstSceneIgnoreFrames)
+                        doEnableOnFirstScene = true;
+                    else
+                        return;
+                }
+            }
+#endif
+
             fpsCount++;
             time = Time.realtimeSinceStartup - baseTime;
             if (time >= 0.5f)
