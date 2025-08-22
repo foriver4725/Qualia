@@ -37,6 +37,9 @@ namespace MyScripts.Runtime
 		private Vector2 LookInput => IsPcInputEnabled ? InputManager.Instance.PcLook.Vector2 : Vector2.zero;
 		private bool JumpInput => IsPcInputEnabled ? InputManager.Instance.PcJump.Bool : false;
 		private bool SprintInput => IsPcInputEnabled ? InputManager.Instance.PcSprint.Bool : false;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+		private bool DebugFastenMoveSpeedInput => IsPcInputEnabled ? InputManager.Instance.DebugFastenMoveSpeed.Bool : false;
+#endif
 
 		internal bool IsPcInputEnabled { get; set; } = true;
 
@@ -263,7 +266,14 @@ namespace MyScripts.Runtime
 
 			// calculate the real velocity
 			realHorizontalVelocity = inputDirection * speed + new Vector3(nativeHorizontalVelocity.x, 0.0f, nativeHorizontalVelocity.y);
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+			// fasten the move speed by input for debug
+			//! 結構移動がバグるので注意
+			Vector3 realVelocity = (DebugFastenMoveSpeedInput ? (realHorizontalVelocity * 2.0f) : realHorizontalVelocity)
+				+ new Vector3(0.0f, verticalVelocity, 0.0f);
+#else
 			Vector3 realVelocity = realHorizontalVelocity + new Vector3(0.0f, verticalVelocity, 0.0f);
+#endif
 
 			// move the player
 			controller.Move(realVelocity * Time.deltaTime);
