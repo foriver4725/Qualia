@@ -27,7 +27,7 @@ namespace MyScripts.Runtime
 
                             // 決定の入力 or TriggerExit まで待つ
                             int i = await UniTask.WhenAny(
-                                UniTask.WaitUntil(() => InputManager.Instance.InGameSubmit.Bool, cancellationToken: ct),
+                                UniTask.WaitUntil(() => InputManager.InGameSubmit.Bool, cancellationToken: ct),
                                 col.OnTriggerExitAsObservable()
                                     .Where(c => ReferenceEquals(c, playerCapsuleCollider))
                                     .FirstAsync(cancellationToken: ct)

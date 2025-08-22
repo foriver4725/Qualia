@@ -34,12 +34,12 @@ namespace MyScripts.Runtime
 		private float fallTimeoutDelta;
 
 		// input
-		private Vector2 MoveInput => IsPcInputEnabled ? InputManager.Instance.PcMove.Vector2 : Vector2.zero;
-		private Vector2 LookInput => IsPcInputEnabled ? InputManager.Instance.PcLook.Vector2 : Vector2.zero;
-		private bool JumpInput => IsPcInputEnabled ? InputManager.Instance.PcJump.Bool : false;
-		private bool SprintInput => IsPcInputEnabled ? InputManager.Instance.PcSprint.Bool : false;
+		private Vector2 MoveInput => IsPcInputEnabled ? InputManager.PcMove.Vector2 : Vector2.zero;
+		private Vector2 LookInput => IsPcInputEnabled ? InputManager.PcLook.Vector2 : Vector2.zero;
+		private bool JumpInput => IsPcInputEnabled ? InputManager.PcJump.Bool : false;
+		private bool SprintInput => IsPcInputEnabled ? InputManager.PcSprint.Bool : false;
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
-		private bool DebugFastenMoveSpeedInput => IsPcInputEnabled ? InputManager.Instance.DebugFastenMoveSpeed.Bool : false;
+		private bool DebugFastenMoveSpeedInput => IsPcInputEnabled ? InputManager.DebugFastenMoveSpeed.Bool : false;
 #endif
 
 		internal bool IsPcInputEnabled { get; set; } = true;
