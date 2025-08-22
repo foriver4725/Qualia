@@ -286,6 +286,20 @@ internal static class PropertySetterExtension
         rtf.anchoredPosition = anchoredPos;
     }
 
+    internal static void SetWidth(this RectTransform rtf, float width)
+    {
+        Vector2 sizeDelta = rtf.sizeDelta;
+        sizeDelta.x = width;
+        rtf.sizeDelta = sizeDelta;
+    }
+
+    internal static void SetHeight(this RectTransform rtf, float height)
+    {
+        Vector2 sizeDelta = rtf.sizeDelta;
+        sizeDelta.y = height;
+        rtf.sizeDelta = sizeDelta;
+    }
+
     internal static void SetAlpha(this Text text, float alpha)
     {
         if (text == null) return;
