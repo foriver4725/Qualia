@@ -422,6 +422,15 @@ namespace MyScripts.Common
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FastenMoveSpeed"",
+                    ""type"": ""Button"",
+                    ""id"": ""5b5f0f4f-8471-45f4-9b6f-351e866672f8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -433,6 +442,17 @@ namespace MyScripts.Common
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""FastenTimeLimit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6eff74f7-add2-46ac-bb1d-31ec50011586"",
+                    ""path"": ""<Keyboard>/f2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FastenMoveSpeed"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -455,6 +475,7 @@ namespace MyScripts.Common
             // Debug
             m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
             m_Debug_FastenTimeLimit = m_Debug.FindAction("FastenTimeLimit", throwIfNotFound: true);
+            m_Debug_FastenMoveSpeed = m_Debug.FindAction("FastenMoveSpeed", throwIfNotFound: true);
         }
 
         ~@MyActions()
@@ -785,6 +806,7 @@ namespace MyScripts.Common
         private readonly InputActionMap m_Debug;
         private List<IDebugActions> m_DebugActionsCallbackInterfaces = new List<IDebugActions>();
         private readonly InputAction m_Debug_FastenTimeLimit;
+        private readonly InputAction m_Debug_FastenMoveSpeed;
         /// <summary>
         /// Provides access to input actions defined in input action map "Debug".
         /// </summary>
@@ -800,6 +822,10 @@ namespace MyScripts.Common
             /// Provides access to the underlying input action "Debug/FastenTimeLimit".
             /// </summary>
             public InputAction @FastenTimeLimit => m_Wrapper.m_Debug_FastenTimeLimit;
+            /// <summary>
+            /// Provides access to the underlying input action "Debug/FastenMoveSpeed".
+            /// </summary>
+            public InputAction @FastenMoveSpeed => m_Wrapper.m_Debug_FastenMoveSpeed;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -829,6 +855,9 @@ namespace MyScripts.Common
                 @FastenTimeLimit.started += instance.OnFastenTimeLimit;
                 @FastenTimeLimit.performed += instance.OnFastenTimeLimit;
                 @FastenTimeLimit.canceled += instance.OnFastenTimeLimit;
+                @FastenMoveSpeed.started += instance.OnFastenMoveSpeed;
+                @FastenMoveSpeed.performed += instance.OnFastenMoveSpeed;
+                @FastenMoveSpeed.canceled += instance.OnFastenMoveSpeed;
             }
 
             /// <summary>
@@ -843,6 +872,9 @@ namespace MyScripts.Common
                 @FastenTimeLimit.started -= instance.OnFastenTimeLimit;
                 @FastenTimeLimit.performed -= instance.OnFastenTimeLimit;
                 @FastenTimeLimit.canceled -= instance.OnFastenTimeLimit;
+                @FastenMoveSpeed.started -= instance.OnFastenMoveSpeed;
+                @FastenMoveSpeed.performed -= instance.OnFastenMoveSpeed;
+                @FastenMoveSpeed.canceled -= instance.OnFastenMoveSpeed;
             }
 
             /// <summary>
@@ -955,6 +987,13 @@ namespace MyScripts.Common
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnFastenTimeLimit(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "FastenMoveSpeed" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnFastenMoveSpeed(InputAction.CallbackContext context);
         }
     }
 }
