@@ -5,145 +5,110 @@ namespace MyScripts.Common
     internal enum InputType : byte
     {
         /// <summary>
-        /// 【null】デフォルト値。何も意味しない
+        /// デフォルト値. 何も意味しない<br/>
+        /// 入力は取得する意味がない<br/>
         /// </summary>
         Null,
 
         /// <summary>
-        /// 【bool】そのフレームが、押された瞬間のフレームであるか
+        /// 現在のフレームが押された瞬間のフレームであるか<br/>
+        /// 入力は Bool で取得する<br/>
         /// </summary>
         Click,
 
         /// <summary>
-        /// 【bool】そのフレームが、一定秒数押された瞬間のフレームであるか
+        /// 現在のフレームが一定秒数押された瞬間のフレームであるか<br/>
+        /// 入力は Bool で取得する<br/>
         /// </summary>
         Hold,
 
         /// <summary>
-        /// 【bool】そのフレームにおける、押されているかのフラグ
+        /// 現在のフレームにおける入力値 (真偽値)<br/>
+        /// 入力は Bool で取得する<br/>
+        /// ※ Action Type は Pass Through ではなく Button である想定<br/>
         /// </summary>
         Value0,
 
         /// <summary>
-        /// 【float】そのフレームにおける、1軸の入力の値(単位線 以内)
+        /// 現在のフレームにおける入力値 (正規化スカラー)<br/>
+        /// 入力は Float で取得する<br/>
         /// </summary>
         Value1,
 
         /// <summary>
-        /// 【Vector2】そのフレームにおける、2軸の入力の値(単位円 以内)
+        /// 現在のフレームにおける入力値 (正規化2次元ベクトル)<br/>
+        /// 入力は Vector2 で取得する<br/>
         /// </summary>
         Value2,
 
         /// <summary>
-        /// 【Vector3】そのフレームにおける、3軸の入力の値(単位球 以内)
+        /// 現在のフレームにおける入力値 (正規化3次元ベクトル)<br/>
+        /// 入力は Vector3 で取得する<br/>
         /// </summary>
         Value3
     }
 
-    internal sealed class InputInfo : IDisposable
+    internal sealed class InputInfo
     {
-        private InputAction _inputAction;
-        private readonly InputType _type;
-        private Action<InputAction.CallbackContext>[] _action;
+        private readonly InputType type;
 
         internal bool Bool { get; private set; } = false;
         internal float Float { get; private set; } = 0;
         internal Vector2 Vector2 { get; private set; } = Vector2.zero;
         internal Vector3 Vector3 { get; private set; } = Vector3.zero;
 
-        internal InputInfo(InputAction inputAction, InputType type)
-        {
-            this._inputAction = inputAction;
-            this._type = type;
+        internal InputInfo(InputType type) => this.type = type;
 
-            this._action = this._type switch
+        private void SetBoolTrue(InputAction.CallbackContext _) => Bool = true;
+        private void SetBoolFalse(InputAction.CallbackContext _) => Bool = false;
+        private void ReadToFloat(InputAction.CallbackContext c) => Float = c.ReadValue<float>();
+        private void ReadToVector2(InputAction.CallbackContext c) => Vector2 = c.ReadValue<Vector2>();
+        private void ReadToVector3(InputAction.CallbackContext c) => Vector3 = c.ReadValue<Vector3>();
+
+        internal void Link(InputAction ia, bool doLink)
+        {
+            if (ia == null)
             {
-                InputType.Null => null,
+                "InputAction is null. Cannot link/unlink.".LogError();
+                return;
+            }
 
-                InputType.Click => new Action<InputAction.CallbackContext>[]
-                {
-                    _ => { Bool = true; }
-                },
-
-                InputType.Hold => new Action<InputAction.CallbackContext>[]
-                {
-                    _ => { Bool = true; }
-                },
-
-                InputType.Value0 => new Action<InputAction.CallbackContext>[]
-                {
-                    _ => { Bool = true; },
-                    _ => { Bool = false; }
-                },
-
-                InputType.Value1 => new Action<InputAction.CallbackContext>[]
-                {
-                    e => { Float = e.ReadValue<float>(); }
-                },
-
-                InputType.Value2 => new Action<InputAction.CallbackContext>[]
-                {
-                    e => { Vector2 = e.ReadValue<Vector2>(); }
-                },
-
-                InputType.Value3 => new Action<InputAction.CallbackContext>[]
-                {
-                    e => { Vector3 = e.ReadValue<Vector3>(); }
-                },
-
-                _ => null
-            };
-        }
-
-        public void Dispose()
-        {
-            Array.Clear(_action, 0, _action.Length);
-            _action = null;
-
-            _inputAction = null;
-        }
-
-        internal void Link(bool isLink)
-        {
-            if (_inputAction == null) return;
-            if (_action == null) return;
-
-            if (isLink)
+            if (doLink)
             {
-                switch (_type)
+                switch (type)
                 {
                     case InputType.Null:
                         break;
 
                     case InputType.Click:
-                        _inputAction.performed += _action[0];
+                        ia.performed += SetBoolTrue;
                         break;
 
                     case InputType.Hold:
-                        _inputAction.performed += _action[0];
+                        ia.performed += SetBoolTrue;
                         break;
 
                     case InputType.Value0:
-                        _inputAction.performed += _action[0];
-                        _inputAction.canceled += _action[1];
+                        ia.performed += SetBoolTrue;
+                        ia.canceled += SetBoolFalse;
                         break;
 
                     case InputType.Value1:
-                        _inputAction.started += _action[0];
-                        _inputAction.performed += _action[0];
-                        _inputAction.canceled += _action[0];
+                        ia.started += ReadToFloat;
+                        ia.performed += ReadToFloat;
+                        ia.canceled += ReadToFloat;
                         break;
 
                     case InputType.Value2:
-                        _inputAction.started += _action[0];
-                        _inputAction.performed += _action[0];
-                        _inputAction.canceled += _action[0];
+                        ia.started += ReadToVector2;
+                        ia.performed += ReadToVector2;
+                        ia.canceled += ReadToVector2;
                         break;
 
                     case InputType.Value3:
-                        _inputAction.started += _action[0];
-                        _inputAction.performed += _action[0];
-                        _inputAction.canceled += _action[0];
+                        ia.started += ReadToVector3;
+                        ia.performed += ReadToVector3;
+                        ia.canceled += ReadToVector3;
                         break;
 
                     default:
@@ -152,40 +117,40 @@ namespace MyScripts.Common
             }
             else
             {
-                switch (_type)
+                switch (type)
                 {
                     case InputType.Null:
                         break;
 
                     case InputType.Click:
-                        _inputAction.performed -= _action[0];
+                        ia.performed -= SetBoolTrue;
                         break;
 
                     case InputType.Hold:
-                        _inputAction.performed -= _action[0];
+                        ia.performed -= SetBoolTrue;
                         break;
 
                     case InputType.Value0:
-                        _inputAction.performed -= _action[0];
-                        _inputAction.canceled -= _action[1];
+                        ia.performed -= SetBoolTrue;
+                        ia.canceled -= SetBoolFalse;
                         break;
 
                     case InputType.Value1:
-                        _inputAction.started -= _action[0];
-                        _inputAction.performed -= _action[0];
-                        _inputAction.canceled -= _action[0];
+                        ia.started -= ReadToFloat;
+                        ia.performed -= ReadToFloat;
+                        ia.canceled -= ReadToFloat;
                         break;
 
                     case InputType.Value2:
-                        _inputAction.started -= _action[0];
-                        _inputAction.performed -= _action[0];
-                        _inputAction.canceled -= _action[0];
+                        ia.started -= ReadToVector2;
+                        ia.performed -= ReadToVector2;
+                        ia.canceled -= ReadToVector2;
                         break;
 
                     case InputType.Value3:
-                        _inputAction.started -= _action[0];
-                        _inputAction.performed -= _action[0];
-                        _inputAction.canceled -= _action[0];
+                        ia.started -= ReadToVector3;
+                        ia.performed -= ReadToVector3;
+                        ia.canceled -= ReadToVector3;
                         break;
 
                     default:
@@ -196,14 +161,15 @@ namespace MyScripts.Common
 
         internal void ResetFlags()
         {
-            if (_type == InputType.Click && Bool) Bool = false;
-            else if (_type == InputType.Hold && Bool) Bool = false;
+            if (type == InputType.Click && Bool) Bool = false;
+            else if (type == InputType.Hold && Bool) Bool = false;
         }
     }
 
     internal abstract class AInputManager<T> : MonoBehaviour where T : AInputManager<T>
     {
         //TODO: ASingletonMonoBehaviour クラスと同じ内容
+        #region Singleton
         private static T _instance = null;
         internal static T Instance
         {
@@ -235,11 +201,10 @@ namespace MyScripts.Common
                 return _instance;
             }
         }
+        #endregion
 
-
-
-        private protected MyActions _ia { get; private set; } = null;
-        private List<InputInfo> _inputInfoList;
+        private protected MyActions Source { get; private set; } = null;
+        private List<(InputAction InputAction, InputInfo InputInfo)> inputList;
 
         private void Awake()
         {
@@ -249,44 +214,48 @@ namespace MyScripts.Common
                 return;
             }
 
-            _ia = new();
-            _inputInfoList = new(64);
+            Source = new();
+            inputList = new(64);
 
-            Init();
+            this.Init();
 
-            foreach (InputInfo e in _inputInfoList) e?.Link(true);
+            foreach ((InputAction ia, InputInfo ii) in inputList)
+                ii.Link(ia, true);
         }
+
         private void OnDestroy()
         {
-            foreach (InputInfo e in _inputInfoList) e?.Link(false);
+            foreach ((InputAction ia, InputInfo ii) in inputList)
+                ii.Link(ia, false);
 
-            _ia?.Dispose();
-            foreach (InputInfo e in _inputInfoList) e?.Dispose();
+            Source?.Dispose();
+            Source = null;
 
-            _ia = null;
-            _inputInfoList = null;
+            inputList = null;
         }
 
         private void OnEnable()
         {
-            _ia?.Enable();
+            Source?.Enable();
             InputSystem.onBeforeUpdate += ResetFlags;
         }
+
         private void OnDisable()
         {
-            _ia?.Disable();
+            Source?.Disable();
             InputSystem.onBeforeUpdate -= ResetFlags;
         }
 
         private void ResetFlags()
         {
-            foreach (InputInfo e in _inputInfoList) e?.ResetFlags();
+            foreach ((_, InputInfo ii) in inputList)
+                ii.ResetFlags();
         }
 
         private protected InputInfo Setup(InputAction inputAction, InputType type)
         {
-            InputInfo info = new(inputAction, type);
-            _inputInfoList.Add(info);
+            InputInfo info = new(type);
+            inputList.Add((inputAction, info));
             return info;
         }
 
