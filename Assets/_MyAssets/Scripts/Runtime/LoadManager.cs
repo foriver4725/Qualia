@@ -20,28 +20,39 @@ namespace MyScripts.Runtime
 
             loadingLabel.gameObject.SetActive(true);
             loadingText.gameObject.SetActive(true);
-            loadingText.text = string.Empty;
+
+            Cts labelCts = new();
+            BeginLabelAnimationAsync(labelCts.Token).Forget();
+            loadingText.text = "0.00%";
 
             scene.LoadAsync(
-                onDoingCleanupAsync: async ct =>
+                // 0-50 %
+                afterCleanupEnd: () => loadingText.text = "50.00%",
+                // 50-100%
+                onLoadProgressChanged: p => loadingText.SetTextFormat("{0:F2}%", p.RemapClamped(0.0f, 1.0f, 50.0f, 100.0f)),
+                afterLoadEnd: () =>
                 {
-                    while (!ct.IsCancellationRequested)
-                    {
-                        loadingText.text = "不要なリソースを解放中.";
-                        await 0.2f.SecAwait(ct: ct);
-                        loadingText.text = "不要なリソースを解放中..";
-                        await 0.2f.SecAwait(ct: ct);
-                        loadingText.text = "不要なリソースを解放中...";
-                        await 0.2f.SecAwait(ct: ct);
-                    }
+                    labelCts.Cancel();
+                    labelCts.Dispose();
+                    loadingLabel.text = "ロード完了";
                 },
-                onProgressChanged: progress => loadingText.SetTextFormat("ロード中 : {0:P2}", progress),
-                onCompletedAsync: async () =>
-                {
-                    loadingText.text = "ファイナライズ中(すぐに完了します)...";
-                    await 0.1f.SecAwait();
-                }
+                afterLoadEndBeforeSceneTriggerInvokeBegin: () => loadingText.text = "ファイナライズ中"
             ).Forget();
+        }
+
+        private async UniTaskVoid BeginLabelAnimationAsync(Ct ct)
+        {
+            while (!ct.IsCancellationRequested)
+            {
+                loadingLabel.text = "ロード中";
+                await 0.2f.SecAwait(ct: ct);
+                loadingLabel.text = "ロード中.";
+                await 0.2f.SecAwait(ct: ct);
+                loadingLabel.text = "ロード中..";
+                await 0.2f.SecAwait(ct: ct);
+                loadingLabel.text = "ロード中...";
+                await 0.2f.SecAwait(ct: ct);
+            }
         }
     }
 }
