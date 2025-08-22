@@ -36,7 +36,7 @@
                 remainingTime -= Time.deltaTime;
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
-                if (InputManager.Instance.DebugFastenTimeLimit.Bool)
+                if (InputManager.DebugFastenTimeLimit.Bool)
                 {
                     // デバッグ用 : 時間を早める
                     remainingTime -= 30.0f;

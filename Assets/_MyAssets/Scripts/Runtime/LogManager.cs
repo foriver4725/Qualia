@@ -212,6 +212,6 @@ namespace MyScripts.Runtime
         }
 
         private static async UniTask WaitUntilOffInput(Ct ct)
-            => await UniTask.WaitUntil(() => InputManager.Instance.InGameCancel.Bool, cancellationToken: ct);
+            => await UniTask.WaitUntil(() => InputManager.InGameCancel.Bool, cancellationToken: ct);
     }
 }

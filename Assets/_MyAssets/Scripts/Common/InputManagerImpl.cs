@@ -166,99 +166,50 @@ namespace MyScripts.Common
         }
     }
 
-    internal abstract class AInputManager<T> : MonoBehaviour where T : AInputManager<T>
+    internal static partial class InputManager
     {
-        //TODO: ASingletonMonoBehaviour クラスと同じ内容
-        #region Singleton
-        private static T _instance = null;
-        internal static T Instance
+        private static MyActions source;
+        private static List<(InputAction InputAction, InputInfo InputInfo)> inputList;
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void Initialize()
         {
-            get
-            {
-                if (_instance == null)
-                {
-                    T[] instances = FindObjectsByType<T>(FindObjectsSortMode.None);
-                    if (instances == null || instances.Length == 0)
-                    {
-                        $"No instance of {typeof(T).Name} found in the scene. Please ensure there is one instance present.".LogError();
-                        return null;
-                    }
-                    else if (instances.Length == 1)
-                    {
-                        _instance = instances[0];
-                    }
-                    else
-                    {
-                        $"Multiple instances of {typeof(T).Name} found in the scene. Using the first instance and destroying others.".LogWarning();
-                        _instance = instances[0];
-                        for (int i = 1; i < instances.Length; ++i)
-                        {
-                            Destroy(instances[i]);
-                        }
-                    }
-                }
-
-                return _instance;
-            }
-        }
-        #endregion
-
-        private protected MyActions Source { get; private set; } = null;
-        private List<(InputAction InputAction, InputInfo InputInfo)> inputList;
-
-        private void Awake()
-        {
-            if (Instance == null)
-            {
-                $"Failed to initialize singleton instance of {typeof(T).Name}. Ensure that there is only one instance in the scene.".LogError();
-                return;
-            }
-
-            Source = new();
+            source = new();
             inputList = new(64);
 
-            this.Init();
+            source?.Enable();
+            Bind();
+            InputSystem.onBeforeUpdate += ResetFlags;
 
             foreach ((InputAction ia, InputInfo ii) in inputList)
                 ii.Link(ia, true);
+
+            Application.quitting += Dispose;
         }
 
-        private void OnDestroy()
+        private static void Dispose()
         {
             foreach ((InputAction ia, InputInfo ii) in inputList)
                 ii.Link(ia, false);
 
-            Source?.Dispose();
-            Source = null;
-
+            InputSystem.onBeforeUpdate -= ResetFlags;
+            source?.Disable();
+            source?.Dispose();
+            source = null;
             inputList = null;
         }
 
-        private void OnEnable()
-        {
-            Source?.Enable();
-            InputSystem.onBeforeUpdate += ResetFlags;
-        }
-
-        private void OnDisable()
-        {
-            Source?.Disable();
-            InputSystem.onBeforeUpdate -= ResetFlags;
-        }
-
-        private void ResetFlags()
+        private static void ResetFlags()
         {
             foreach ((_, InputInfo ii) in inputList)
                 ii.ResetFlags();
         }
 
-        private protected InputInfo Setup(InputAction inputAction, InputType type)
+        private static InputInfo Create(InputAction inputAction, InputType type)
         {
             InputInfo info = new(type);
             inputList.Add((inputAction, info));
             return info;
         }
-
-        private protected abstract void Init();
     }
 }
