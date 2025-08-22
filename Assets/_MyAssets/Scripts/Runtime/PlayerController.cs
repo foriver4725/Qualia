@@ -9,6 +9,7 @@ namespace MyScripts.Runtime
 		[SerializeField] private CharacterController controller;
 		[SerializeField] private SPlayerControl param;
 		[SerializeField] private Transform cinemachineCameraTarget;
+		[SerializeField] private Transform teleportBackPoint;
 
 		// cinemachine
 		private float cinemachineTargetPitch;
@@ -74,6 +75,7 @@ namespace MyScripts.Runtime
 			DoInertiaJumpIfTheTiming();
 			AttenuateNativeHorizontalVelocity();
 			InputAndFinallyMove();
+			TeleportBackWhenInvalidPosition();
 		}
 
 		private void LateUpdate()
@@ -336,6 +338,15 @@ namespace MyScripts.Runtime
 					verticalVelocity += param.OwnGravity * Time.deltaTime;
 				}
 			}
+		}
+
+		private void TeleportBackWhenInvalidPosition()
+		{
+			if (controller.transform.position is
+			{ x: < -1600 or > 1600 } or
+			{ y: < -50 or > 500 } or
+			{ z: < -1600 or > 1600 })
+				controller.transform.position = teleportBackPoint.position;
 		}
 
 		private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
