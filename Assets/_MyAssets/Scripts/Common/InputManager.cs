@@ -16,6 +16,7 @@
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
         // Debug
         internal InputInfo DebugFastenTimeLimit { get; private set; }
+        internal InputInfo DebugFastenMoveSpeed { get; private set; }
 #endif
 
         private protected sealed override void Init()
@@ -31,6 +32,7 @@
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             DebugFastenTimeLimit = Setup(_ia.Debug.FastenTimeLimit, InputType.Click);
+            DebugFastenMoveSpeed = Setup(_ia.Debug.FastenMoveSpeed, InputType.Value0);
 #endif
         }
     }
