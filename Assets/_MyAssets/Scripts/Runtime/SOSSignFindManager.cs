@@ -1,8 +1,11 @@
+using MyScripts.SO.Parameter;
+
 namespace MyScripts.Runtime
 {
     internal sealed class SOSSignFindManager : MonoBehaviour
     {
         [SerializeField] private Collider playerCapsuleCollider;
+        [SerializeField] private SSOSSignLogText sosSignLogText;
 
         internal void Setup(
             ReadOnlyCollection<Collider> sosSignColliders,
@@ -36,13 +39,24 @@ namespace MyScripts.Runtime
                                 // 取り除く
                                 col.gameObject.SetActive(false);
                                 onFind?.Invoke();
-                            }
 
-                            LogManager.Instance.ShowManually(string.Empty);
+                                LogManager.Instance.ShowManually(string.Empty);
+                                LogManager.Instance.ShowAutomatically(
+                                    sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnHumanClick)
+                                );
+                            }
+                            else
+                            {
+                                LogManager.Instance.ShowManually(string.Empty);
+                            }
                         }
                         else
                         {
-                            LogManager.Instance.ShowManually("人間でないと取り除けない");
+                            {
+                                using var sb = ZString.CreateStringBuilder();
+                                sb.AppendFormat("{0}\n(人間でないと取り除けない)", sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnAnimalApproach));
+                                LogManager.Instance.ShowManually(sb);
+                            }
 
                             // TriggerExit まで待つ
                             await col.OnTriggerExitAsObservable()
