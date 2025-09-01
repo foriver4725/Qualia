@@ -10,16 +10,10 @@ namespace MyScripts.Runtime
         [SerializeField, Range(0.0f, 0.5f), Tooltip("足音がフェードアウトするまでの時間")] private float fadeOutDuration = 0.2f;
 
         private AudioSource[] audioSources = null;
+        private Tween[] fadeOutTweens = null;
         private bool[] arePlaying = null;
-        // 順番にサウンドを鳴らす
-        // まだ鳴っていないものの先頭を指し示す
-        private int headIndex = 0;
-        // 現在鳴っているものの先頭を指し示す (無いなら、 head と同じ)
-        private int tailIndex = 0;
 
         private SWalkSound.Surface currentSurface = SWalkSound.Surface.None;
-        private List<UniTask> fadeOutTasks = null;
-        private bool isDoingFadeOut = false; // フェードアウト中かどうか
 
         private void Awake()
         {
@@ -34,92 +28,65 @@ namespace MyScripts.Runtime
             if (surface == currentSurface) return;
             currentSurface = surface;
 
-            // PlayNewSound で headIndex が更新されるので、その前の値をコピーして受け渡す
-            FadeoutAndStopAsync(headIndex, destroyCancellationToken).Forget();
-            PlayNewSound();
-        }
-
-        private async UniTaskVoid FadeoutAndStopAsync(int headIndex, Ct ct)
-        {
-            //! 鳴らす → 鳴らさない → 鳴らす → 鳴らさない まで行くと、フェードアウト処理が重複するため、バグる。
-            //! ただ、フェードアウト時間中にそれほどの処理が来ることはまずないと思うので、無視する。
-            if (isDoingFadeOut) return;
-            isDoingFadeOut = true;
-
-            fadeOutTasks.Clear();
-            for (int i = tailIndex; i != headIndex; i = (i + 1) % maxSoundAmount)
+            bool couldPlay = false;
+            for (int _i = 0; _i < maxSoundAmount; _i++)
             {
-                if (!arePlaying[i]) continue;
+                int i = _i;
 
-                fadeOutTasks.Add(
-                    audioSources[i]
+                if (arePlaying[i])
+                {
+                    fadeOutTweens[i]?.Kill(complete: false);
+                    fadeOutTweens[i] = audioSources[i]
                         .DOFade(0.0f, fadeOutDuration)
                         .SetEase(Ease.OutQuad)
                         .OnComplete(() =>
                         {
-                            audioSources[i].Stop();
-                            audioSources[i].clip = null;
-                            arePlaying[i] = false;
-                        })
-                        .OnKill(() =>
-                        {
-                            // 既に Complete が実行されたということなので、何もしない
-                            if (!arePlaying[i])
-                                return;
+                            StopSound(audioSources[i]);
+                            fadeOutTweens[i] = null;
 
-                            audioSources[i].Stop();
-                            audioSources[i].clip = null;
                             arePlaying[i] = false;
-                        })
-                        .WithCancellation(ct)
-                );
+                        });
+                }
+                else if (!couldPlay)
+                {
+                    AudioClip clip = walkSoundRef.GetClip(currentSurface);
+                    if (clip == null)
+                    {
+                        // 何も鳴らさない
+                        couldPlay = true;
+                        continue;
+                    }
+
+                    PlaySound(audioSources[i], clip);
+                    arePlaying[i] = true;
+
+                    couldPlay = true;
+                    continue;
+                }
             }
 
-            try
-            {
-                await UniTask.WhenAll(fadeOutTasks);
-            }
-            finally
-            {
-                fadeOutTasks.Clear();
-                tailIndex = this.headIndex; // 追いつく
-                isDoingFadeOut = false;
-            }
+            if (!couldPlay)
+                "All audio sources are playing. Cannot play new walk sound.".LogWarning();
         }
 
-        private void PlayNewSound()
+        private static void StopSound(AudioSource source)
         {
-            AudioClip clip = walkSoundRef.GetClip(currentSurface);
-            if (clip == null)
-                return; // 何も鳴らさない
+            source.Stop();
+            source.clip = null;
+            source.volume = 0.0f;
+        }
 
-            // 1回しか実行されないはずだが、念のため
-            for (int i = 0; i < maxSoundAmount; i++)
-            {
-                headIndex = (headIndex + 1) % maxSoundAmount;
-                if (headIndex == tailIndex)
-                {
-                    "Reached tail index. Cannot play new walk sound.".LogWarning();
-                    return;
-                }
-
-                if (arePlaying[headIndex]) continue;
-                arePlaying[headIndex] = true;
-
-                audioSources[headIndex].clip = clip;
-                audioSources[headIndex].Play();
-
-                return;
-            }
-
-            "All audio sources are playing. Cannot play new walk sound.".LogWarning();
-            return;
+        private static void PlaySound(AudioSource source, AudioClip clip)
+        {
+            source.clip = clip;
+            source.volume = 1.0f;
+            source.Play();
         }
 
         private void Initialize()
         {
-            fadeOutTasks = new List<UniTask>(maxSoundAmount);
             audioSources = new AudioSource[maxSoundAmount];
+            fadeOutTweens = new Tween[maxSoundAmount];
             arePlaying = new bool[maxSoundAmount];
 
             for (int i = 0; i < maxSoundAmount; i++)
@@ -128,8 +95,11 @@ namespace MyScripts.Runtime
                 source.outputAudioMixerGroup = walkSoundRef.Group;
                 source.playOnAwake = false;
                 source.loop = true;
+                source.pitch = 1.2f;
+                source.volume = 0.0f;
 
                 audioSources[i] = source;
+                fadeOutTweens[i] = null;
                 arePlaying[i] = false;
             }
         }
