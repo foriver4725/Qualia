@@ -29,6 +29,7 @@ namespace MyScripts.Runtime
             AudioClip clip = walkSoundRef.GetClip(surface);
 
             //TODO: 音を鳴らす/止める
+            surface.Log();
         }
     }
 }
