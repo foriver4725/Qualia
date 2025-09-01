@@ -408,7 +408,7 @@ namespace MyScripts.Runtime
 			for (int i = 0; i < borders.Count; i++)
 			{
 				Border border = borders[i];
-				if (border.DoContains(playerPosition, targetLayer))
+				if (border.DoesContain(playerPosition, targetLayer))
 					return true;
 			}
 			return false;
