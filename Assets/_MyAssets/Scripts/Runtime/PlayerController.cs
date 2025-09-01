@@ -1,5 +1,6 @@
 using UnityEngine.InputSystem;
 using MyScripts.SO.Parameter;
+using MyScripts.SO.Reference;
 
 namespace MyScripts.Runtime
 {
@@ -8,8 +9,10 @@ namespace MyScripts.Runtime
 	{
 		[SerializeField] private CharacterController controller;
 		[SerializeField] private SPlayerControl param;
+		[SerializeField] private SWalkSound walkSoundRef;
 		[SerializeField] private Transform cinemachineCameraTarget;
 		[SerializeField] private Transform teleportBackPoint;
+		[SerializeField] private Transform walkSoundRoot;
 
 		// cinemachine
 		private float cinemachineTargetPitch;
