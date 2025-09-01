@@ -10,10 +10,11 @@ namespace MyScripts.SO.Reference
 
         internal enum Surface : byte
         {
-            Grass,
-            Sand,
-            Rock,
-            Water,
+            Unknown = 0,
+            Grass = 1,
+            Sand = 2,
+            Rock = 3,
+            Water = 4,
         }
 
         internal AudioClip GetClip(Surface surface) => surface switch
@@ -22,7 +23,7 @@ namespace MyScripts.SO.Reference
             Surface.Sand => sand,
             Surface.Rock => rock,
             Surface.Water => water,
-            _ => throw new ArgumentOutOfRangeException(nameof(surface), surface, null)
+            _ => grass, // default
         };
     }
 }
