@@ -386,7 +386,10 @@ namespace MyScripts.Runtime
 
 		private SWalkSound.Surface GetSurfaceUnderfoot()
 		{
+			// 空中にいる
 			if (!isGrounded) return SWalkSound.Surface.None;
+			// 止まっている
+			if (controller.velocity.sqrMagnitude < 0.01f) return SWalkSound.Surface.None;
 
 			Vector3 playerPosition = controller.transform.position;
 
@@ -399,7 +402,7 @@ namespace MyScripts.Runtime
 			if (IsPlayerInsideOfAnyBorder(walkSoundBorders.Water, playerPosition, BorderLayer.WalkSound.Water))
 				return SWalkSound.Surface.Water;
 
-			"Player is grounded but not inside of any walk sound border.".LogWarning();
+			"Walk sound can be played but no borders contain the player. Default to Grass.".LogWarning();
 			return SWalkSound.Surface.Grass; // デフォルトは草地
 		}
 
