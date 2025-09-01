@@ -3,10 +3,14 @@ namespace MyScripts.SO.Reference
     [CreateAssetMenu(fileName = "_WalkSound", menuName = "SO/Reference/WalkSound")]
     internal sealed class SWalkSound : ScriptableObject
     {
+        [SerializeField] private AudioMixerGroup group;
+        [Space(10)]
         [SerializeField] private AudioClip grass;
         [SerializeField] private AudioClip sand;
         [SerializeField] private AudioClip rock;
         [SerializeField] private AudioClip water;
+
+        internal AudioMixerGroup Group => group;
 
         internal enum Surface : byte
         {

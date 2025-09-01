@@ -8,6 +8,7 @@ global using System.Runtime.CompilerServices;
 
 global using UnityEngine;
 global using UnityEngine.UI;
+global using UnityEngine.Audio;
 global using TMPro;
 
 global using Cysharp.Threading.Tasks;

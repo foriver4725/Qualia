@@ -17,6 +17,7 @@ namespace MyScripts.Runtime
             for (int i = 0; i < maxSoundAmount; i++)
             {
                 AudioSource source = walkSoundRoot.gameObject.AddComponent<AudioSource>();
+                source.outputAudioMixerGroup = walkSoundRef.Group;
                 source.playOnAwake = false;
                 source.loop = false;
             }
