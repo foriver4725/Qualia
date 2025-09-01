@@ -1,16 +1,36 @@
 using UnityEngine.InputSystem;
 using MyScripts.SO.Parameter;
+using MyScripts.SO.Reference;
 
 namespace MyScripts.Runtime
 {
 	[RequireComponent(typeof(CharacterController))]
 	internal sealed class PlayerController : MonoBehaviour
 	{
+		[Serializable]
+		private sealed class WalkSoundBorders
+		{
+			[SerializeField] private Border[] grass;
+			[SerializeField] private Border[] sand;
+			[SerializeField] private Border[] rock;
+			[SerializeField] private Border[] water;
+
+			internal IReadOnlyList<Border> Grass => grass;
+			internal IReadOnlyList<Border> Sand => sand;
+			internal IReadOnlyList<Border> Rock => rock;
+			internal IReadOnlyList<Border> Water => water;
+		}
+
+		[Header("Player Control")]
 		[SerializeField] private CharacterController controller;
 		[SerializeField] private SPlayerControl param;
-		[SerializeField] private WalkSoundPlayer walkSoundPlayer;
 		[SerializeField] private Transform cinemachineCameraTarget;
 		[SerializeField] private Transform teleportBackPoint;
+		[Space(10)]
+		[Header("Walk Sound")]
+		[SerializeField] private WalkSoundPlayer walkSoundPlayer;
+		[SerializeField] private WalkSoundBorders walkSoundBorders;
+		[SerializeField, Range(0, 64), Tooltip("足音の更新処理を行う間隔 (フレーム)")] private byte walkSoundUpdateInterval = 16;
 
 		// cinemachine
 		private float cinemachineTargetPitch;
@@ -43,8 +63,8 @@ namespace MyScripts.Runtime
 		private bool DebugFastenMoveSpeedInput => IsPcInputEnabled ? InputManager.DebugFastenMoveSpeed.Bool : false;
 #endif
 
+		// constraints
 		internal bool IsPcInputEnabled { get; set; } = true;
-
 		private bool isOwnGravityEnabled = true;
 		internal bool IsOwnGravityEnabled
 		{
@@ -62,6 +82,9 @@ namespace MyScripts.Runtime
 			}
 		}
 
+		// walk sound
+		private byte walkSoundUpdateFrameCounter = 0;
+
 		private void Awake()
 		{
 			// reset our timeouts on start
@@ -77,6 +100,7 @@ namespace MyScripts.Runtime
 			AttenuateNativeHorizontalVelocity();
 			InputAndFinallyMove();
 			TeleportBackWhenInvalidPosition();
+			UpdateWalkSound();
 		}
 
 		private void LateUpdate()
@@ -350,6 +374,47 @@ namespace MyScripts.Runtime
 				controller.transform.position = teleportBackPoint.position;
 		}
 
+		private void UpdateWalkSound()
+		{
+			walkSoundUpdateFrameCounter++;
+			if (walkSoundUpdateFrameCounter < walkSoundUpdateInterval) return;
+			walkSoundUpdateFrameCounter = 0;
+
+			var surface = GetSurfaceUnderfoot();
+			walkSoundPlayer.LetPlay(surface);
+		}
+
+		private SWalkSound.Surface GetSurfaceUnderfoot()
+		{
+			if (!isGrounded) return SWalkSound.Surface.None;
+
+			Vector3 playerPosition = controller.transform.position;
+
+			if (IsPlayerInsideOfAnyBorder(walkSoundBorders.Grass, playerPosition, BorderLayer.WalkSound.Grass))
+				return SWalkSound.Surface.Grass;
+			if (IsPlayerInsideOfAnyBorder(walkSoundBorders.Sand, playerPosition, BorderLayer.WalkSound.Sand))
+				return SWalkSound.Surface.Sand;
+			if (IsPlayerInsideOfAnyBorder(walkSoundBorders.Rock, playerPosition, BorderLayer.WalkSound.Rock))
+				return SWalkSound.Surface.Rock;
+			if (IsPlayerInsideOfAnyBorder(walkSoundBorders.Water, playerPosition, BorderLayer.WalkSound.Water))
+				return SWalkSound.Surface.Water;
+
+			"Player is grounded but not inside of any walk sound border.".LogWarning();
+			return SWalkSound.Surface.Grass; // デフォルトは草地
+		}
+
+		private static bool IsPlayerInsideOfAnyBorder(IReadOnlyList<Border> borders, Vector3 playerPosition, byte targetLayer)
+		{
+			for (int i = 0; i < borders.Count; i++)
+			{
+				Border border = borders[i];
+				if (border.DoContains(playerPosition, targetLayer))
+					return true;
+			}
+			return false;
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
 		{
 			if (lfAngle < -360f) lfAngle += 360f;

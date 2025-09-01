@@ -1,6 +1,4 @@
 using MyScripts.SO.Reference;
-using WalkSurface = MyScripts.SO.Reference.SWalkSound.Surface;
-using WalkSoundLayer = MyScripts.Common.BorderLayer.WalkSound;
 
 namespace MyScripts.Runtime
 {
@@ -24,22 +22,13 @@ namespace MyScripts.Runtime
         }
 
         /// <summary>
-        /// プレイヤーが包含されている足音 Border のレイヤーを受け取り、そのレイヤーに対応する足音を鳴らす
+        /// プレイヤーがいる地面に対応する足音を鳴らす
         /// </summary>
-        internal void LetPlay(byte layer)
+        internal void LetPlay(SWalkSound.Surface surface)
         {
-            WalkSurface surface = layer switch
-            {
-                _ when layer == WalkSoundLayer.Grass => WalkSurface.Grass,
-                _ when layer == WalkSoundLayer.Sand => WalkSurface.Sand,
-                _ when layer == WalkSoundLayer.Rock => WalkSurface.Rock,
-                _ when layer == WalkSoundLayer.Water => WalkSurface.Water,
-                _ => WalkSurface.Grass // default
-            };
-
             AudioClip clip = walkSoundRef.GetClip(surface);
 
-            //TODO: 音を鳴らす
+            //TODO: 音を鳴らす/止める
         }
     }
 }

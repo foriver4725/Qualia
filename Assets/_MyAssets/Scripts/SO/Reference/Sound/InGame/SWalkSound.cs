@@ -14,6 +14,7 @@ namespace MyScripts.SO.Reference
 
         internal enum Surface : byte
         {
+            None,
             Grass,
             Sand,
             Rock,
@@ -22,6 +23,7 @@ namespace MyScripts.SO.Reference
 
         internal AudioClip GetClip(Surface surface) => surface switch
         {
+            Surface.None => null,
             Surface.Grass => grass,
             Surface.Sand => sand,
             Surface.Rock => rock,
