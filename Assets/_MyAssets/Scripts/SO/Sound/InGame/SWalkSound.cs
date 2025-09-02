@@ -30,14 +30,14 @@ namespace MyScripts.SO
             Count,
         }
 
-        internal sealed override AudioClip GetClip(Surface surface) => surface switch
+        internal sealed override AudioClip GetClip(Surface type) => type switch
         {
             Surface.None => null,
             Surface.Grass => grass,
             Surface.Sand => sand,
             Surface.Rock => rock,
             Surface.Water => water,
-            _ => throw new ArgumentOutOfRangeException(nameof(surface), surface, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
     }
 }

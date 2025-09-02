@@ -14,11 +14,11 @@ namespace MyScripts.SO
             Count,
         }
 
-        internal sealed override AudioClip GetClip(Situation situation) => situation switch
+        internal sealed override AudioClip GetClip(Situation type) => type switch
         {
             Situation.CouldRemove => couldRemove,
             Situation.CouldNotRemove => couldNotRemove,
-            _ => throw new ArgumentOutOfRangeException(nameof(situation), situation, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
     }
 }
