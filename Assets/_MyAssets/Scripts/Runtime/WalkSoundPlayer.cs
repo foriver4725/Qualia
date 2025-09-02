@@ -39,7 +39,7 @@ namespace MyScripts.Runtime
                         .SetEase(Ease.OutQuad)
                         .OnComplete(() =>
                         {
-                            StopSound(audioSources[i]);
+                            audioSources[i].LetStop();
                             fadeOutTweens[i] = null;
 
                             arePlaying[i] = false;
@@ -55,9 +55,12 @@ namespace MyScripts.Runtime
                         continue;
                     }
 
-                    PlaySound(audioSources[i], clip,
-                        walkSoundRef.Volume,
-                        isCurrentSprinting ? walkSoundRef.SprintPitch : walkSoundRef.WalkPitch);
+                    audioSources[i].LetPlay
+                    (
+                        clip,
+                        volume: walkSoundRef.Volume,
+                        pitch: isCurrentSprinting ? walkSoundRef.SprintPitch : walkSoundRef.WalkPitch
+                    );
                     arePlaying[i] = true;
 
                     couldPlay = true;
@@ -69,21 +72,6 @@ namespace MyScripts.Runtime
                 "All audio sources are playing. Cannot play new walk sound.".LogWarning();
         }
 
-        private static void StopSound(AudioSource source)
-        {
-            source.Stop();
-            source.clip = null;
-            source.volume = 0.0f;
-        }
-
-        private static void PlaySound(AudioSource source, AudioClip clip, float volume, float pitch)
-        {
-            source.clip = clip;
-            source.volume = volume;
-            source.pitch = pitch;
-            source.Play();
-        }
-
         private void Initialize()
         {
             audioSources = new AudioSource[walkSoundRef.MaxSoundAmount];
@@ -93,11 +81,12 @@ namespace MyScripts.Runtime
             for (int i = 0; i < walkSoundRef.MaxSoundAmount; i++)
             {
                 AudioSource source = walkSoundRoot.gameObject.AddComponent<AudioSource>();
-                source.outputAudioMixerGroup = walkSoundRef.Group;
-                source.playOnAwake = false;
-                source.loop = true;
-                source.volume = 0.0f;
-                source.pitch = walkSoundRef.WalkPitch;
+                source.LetInit
+                (
+                    walkSoundRef.Group,
+                    doLoop: true,
+                    pitch: walkSoundRef.WalkPitch
+                );
 
                 audioSources[i] = source;
                 fadeOutTweens[i] = null;
