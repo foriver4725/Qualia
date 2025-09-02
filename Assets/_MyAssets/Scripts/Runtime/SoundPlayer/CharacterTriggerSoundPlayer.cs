@@ -1,6 +1,6 @@
 namespace MyScripts.Runtime
 {
-    internal sealed class CharacterSoundPlayer : ASoundPlayerWithType<SCharacterTriggerSound, SCharacterTriggerSound.Timing>
+    internal sealed class CharacterTriggerSoundPlayer : ASoundPlayerWithType<SCharacterTriggerSound, SCharacterTriggerSound.Timing>
     {
         private AudioSource[] audioSources = null;
 
