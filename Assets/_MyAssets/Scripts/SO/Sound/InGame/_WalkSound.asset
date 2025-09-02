@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17f9030e25fb45b459938ca523ae5d1f, type: 3}
+  m_Name: _WalkSound
+  m_EditorClassIdentifier: 
+  group: {fileID: 4848499782209731890, guid: 14acf68a80de7bc46b972bdbda1e8aa5, type: 2}
+  grass: {fileID: 8300000, guid: 5e456c4999a2a944ab67c8067cdea1b5, type: 3}
+  sand: {fileID: 8300000, guid: 61a746d3ba8158c4081fd6937a99caca, type: 3}
+  rock: {fileID: 8300000, guid: 4745f3ef8d26e6c4c8b2b6e57f8ea77f, type: 3}
+  water: {fileID: 8300000, guid: 0fcadef19113c4847a75f61987a359b5, type: 3}

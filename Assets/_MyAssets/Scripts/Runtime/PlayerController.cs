@@ -1,14 +1,35 @@
 using UnityEngine.InputSystem;
-using MyScripts.SO.Parameter;
 
 namespace MyScripts.Runtime
 {
 	[RequireComponent(typeof(CharacterController))]
 	internal sealed class PlayerController : MonoBehaviour
 	{
+		[Serializable]
+		private sealed class WalkSoundBorders
+		{
+			[SerializeField] private Border[] grass;
+			[SerializeField] private Border[] sand;
+			[SerializeField] private Border[] rock;
+			[SerializeField] private Border[] water;
+
+			internal IReadOnlyList<Border> Grass => grass;
+			internal IReadOnlyList<Border> Sand => sand;
+			internal IReadOnlyList<Border> Rock => rock;
+			internal IReadOnlyList<Border> Water => water;
+		}
+
+		[Header("Player Control")]
 		[SerializeField] private CharacterController controller;
 		[SerializeField] private SPlayerControl param;
+		[SerializeField] private PlayerControlSoundPlayer soundPlayer;
 		[SerializeField] private Transform cinemachineCameraTarget;
+		[SerializeField] private Transform teleportBackPoint;
+		[Space(10)]
+		[Header("Walk Sound")]
+		[SerializeField] private WalkSoundPlayer walkSoundPlayer;
+		[SerializeField] private WalkSoundBorders walkSoundBorders;
+		[SerializeField, Range(0, 64), Tooltip("足音の更新処理を行う間隔 (フレーム)")] private byte walkSoundUpdateInterval = 16;
 
 		// cinemachine
 		private float cinemachineTargetPitch;
@@ -33,13 +54,16 @@ namespace MyScripts.Runtime
 		private float fallTimeoutDelta;
 
 		// input
-		private Vector2 MoveInput => IsPcInputEnabled ? InputManager.Instance.PcMove.Vector2 : Vector2.zero;
-		private Vector2 LookInput => IsPcInputEnabled ? InputManager.Instance.PcLook.Vector2 : Vector2.zero;
-		private bool JumpInput => IsPcInputEnabled ? InputManager.Instance.PcJump.Bool : false;
-		private bool SprintInput => IsPcInputEnabled ? InputManager.Instance.PcSprint.Bool : false;
+		private Vector2 MoveInput => IsPcInputEnabled ? InputManager.PcMove.Vector2 : Vector2.zero;
+		private Vector2 LookInput => IsPcInputEnabled ? InputManager.PcLook.Vector2 : Vector2.zero;
+		private bool JumpInput => IsPcInputEnabled ? InputManager.PcJump.Bool : false;
+		private bool SprintInput => IsPcInputEnabled ? InputManager.PcSprint.Bool : false;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+		private bool DebugFastenMoveSpeedInput => IsPcInputEnabled ? InputManager.DebugFastenMoveSpeed.Bool : false;
+#endif
 
+		// constraints
 		internal bool IsPcInputEnabled { get; set; } = true;
-
 		private bool isOwnGravityEnabled = true;
 		internal bool IsOwnGravityEnabled
 		{
@@ -57,6 +81,9 @@ namespace MyScripts.Runtime
 			}
 		}
 
+		// walk sound
+		private byte walkSoundUpdateFrameCounter = 0;
+
 		private void Awake()
 		{
 			// reset our timeouts on start
@@ -71,6 +98,8 @@ namespace MyScripts.Runtime
 			DoInertiaJumpIfTheTiming();
 			AttenuateNativeHorizontalVelocity();
 			InputAndFinallyMove();
+			TeleportBackWhenInvalidPosition();
+			UpdateWalkSound();
 		}
 
 		private void LateUpdate()
@@ -144,6 +173,8 @@ namespace MyScripts.Runtime
 			);
 
 			ApplyOuterVelocity(velocity);
+
+			soundPlayer.LetPlay(SPlayerControlSound.Action.InertiaJump);
 		}
 
 		private void CameraRotation()
@@ -263,7 +294,14 @@ namespace MyScripts.Runtime
 
 			// calculate the real velocity
 			realHorizontalVelocity = inputDirection * speed + new Vector3(nativeHorizontalVelocity.x, 0.0f, nativeHorizontalVelocity.y);
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+			// fasten the move speed by input for debug
+			//! 結構移動がバグるので注意
+			Vector3 realVelocity = (DebugFastenMoveSpeedInput ? (realHorizontalVelocity * 2.0f) : realHorizontalVelocity)
+				+ new Vector3(0.0f, verticalVelocity, 0.0f);
+#else
 			Vector3 realVelocity = realHorizontalVelocity + new Vector3(0.0f, verticalVelocity, 0.0f);
+#endif
 
 			// move the player
 			controller.Move(realVelocity * Time.deltaTime);
@@ -328,6 +366,59 @@ namespace MyScripts.Runtime
 			}
 		}
 
+		private void TeleportBackWhenInvalidPosition()
+		{
+			if (controller.transform.position is
+			{ x: < -1600 or > 1600 } or
+			{ y: < -50 or > 500 } or
+			{ z: < -1600 or > 1600 })
+				controller.transform.position = teleportBackPoint.position;
+		}
+
+		private void UpdateWalkSound()
+		{
+			walkSoundUpdateFrameCounter++;
+			if (walkSoundUpdateFrameCounter < walkSoundUpdateInterval) return;
+			walkSoundUpdateFrameCounter = 0;
+
+			var surface = GetSurfaceUnderfoot();
+			walkSoundPlayer.LetPlay(surface, new() { IsSprinting = isSprinting });
+		}
+
+		private SWalkSound.Surface GetSurfaceUnderfoot()
+		{
+			// 空中にいる
+			if (!isGrounded) return SWalkSound.Surface.None;
+			// 止まっている
+			if (controller.velocity.sqrMagnitude < 0.01f) return SWalkSound.Surface.None;
+
+			Vector3 playerPosition = controller.transform.position;
+
+			if (IsPlayerInsideOfAnyBorder(walkSoundBorders.Grass, playerPosition, BorderLayer.WalkSound.Grass))
+				return SWalkSound.Surface.Grass;
+			if (IsPlayerInsideOfAnyBorder(walkSoundBorders.Sand, playerPosition, BorderLayer.WalkSound.Sand))
+				return SWalkSound.Surface.Sand;
+			if (IsPlayerInsideOfAnyBorder(walkSoundBorders.Rock, playerPosition, BorderLayer.WalkSound.Rock))
+				return SWalkSound.Surface.Rock;
+			if (IsPlayerInsideOfAnyBorder(walkSoundBorders.Water, playerPosition, BorderLayer.WalkSound.Water))
+				return SWalkSound.Surface.Water;
+
+			"Walk sound can be played but no borders contain the player. Default to Grass.".LogWarning();
+			return SWalkSound.Surface.Grass; // デフォルトは草地
+		}
+
+		private static bool IsPlayerInsideOfAnyBorder(IReadOnlyList<Border> borders, Vector3 playerPosition, byte targetLayer)
+		{
+			for (int i = 0; i < borders.Count; i++)
+			{
+				Border border = borders[i];
+				if (border.DoesContain(playerPosition, targetLayer))
+					return true;
+			}
+			return false;
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
 		{
 			if (lfAngle < -360f) lfAngle += 360f;

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &6722638726643157787
+--- !u!1001 &5151082192257045655
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -12,10 +12,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SOSSign_ContaminatedWater
       objectReference: {fileID: 0}
-    - target: {fileID: 7708375565998228190, guid: 5f748ef53f8e6954392ab172c23db175, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 99a2e6868653c2743b1cdbfd942abd04, type: 2}
     - target: {fileID: 7939171000004802562, guid: 5f748ef53f8e6954392ab172c23db175, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -56,10 +52,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8342925828088659653, guid: 5f748ef53f8e6954392ab172c23db175, type: 3}
+    - target: {fileID: 8218994799068772911, guid: 5f748ef53f8e6954392ab172c23db175, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 99a2e6868653c2743b1cdbfd942abd04, type: 2}
+      objectReference: {fileID: 2100000, guid: 62315093dde0de34f8a729e3440169e6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

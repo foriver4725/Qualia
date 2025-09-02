@@ -3,6 +3,8 @@ namespace MyScripts.Runtime
     internal sealed class SOSSignFindManager : MonoBehaviour
     {
         [SerializeField] private Collider playerCapsuleCollider;
+        [SerializeField] private SSOSSignLogText sosSignLogText;
+        [SerializeField] private SOSSoundPlayer soundPlayer;
 
         internal void Setup(
             ReadOnlyCollection<Collider> sosSignColliders,
@@ -22,33 +24,44 @@ namespace MyScripts.Runtime
                         {
                             LogManager.Instance.ShowManually("左クリックで取り除く");
 
-                            // 決定の入力 or TriggerExit まで待つ
-                            int i = await UniTask.WhenAny(
-                                UniTask.WaitUntil(() => InputManager.Instance.InGameSubmit.Bool, cancellationToken: ct),
-                                col.OnTriggerExitAsObservable()
-                                    .Where(c => ReferenceEquals(c, playerCapsuleCollider))
-                                    .FirstAsync(cancellationToken: ct)
-                                    .AsUniTask()
-                            );
-
-                            if (i == 0) // 決定された
+                            if (await WaitForClickOrExit(col, ct) == true)
                             {
                                 // 取り除く
                                 col.gameObject.SetActive(false);
                                 onFind?.Invoke();
-                            }
 
-                            LogManager.Instance.ShowManually(string.Empty);
+                                LogManager.Instance.ShowManually(string.Empty);
+                                LogManager.Instance.ShowAutomatically(
+                                    sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnHumanClick)
+                                );
+
+                                soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
+                            }
+                            else
+                            {
+                                LogManager.Instance.ShowManually(string.Empty);
+                            }
                         }
                         else
                         {
-                            LogManager.Instance.ShowManually("人間でないと取り除けない");
+                            {
+                                using var sb = ZString.CreateStringBuilder();
+                                sb.AppendFormat("{0}\n(人間でないと取り除けない)", sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnAnimalApproach));
+                                LogManager.Instance.ShowManually(sb);
+                            }
 
-                            // TriggerExit まで待つ
-                            await col.OnTriggerExitAsObservable()
-                                .Where(c => ReferenceEquals(c, playerCapsuleCollider))
-                                .FirstAsync(cancellationToken: ct)
-                                .AsUniTask();
+                            while (true)
+                            {
+                                if (await WaitForClickOrExit(col, ct) == true)
+                                {
+                                    soundPlayer.LetPlay(SSOSSound.Situation.CouldNotRemove);
+                                    continue;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
 
                             LogManager.Instance.ShowManually(string.Empty);
                         }
@@ -56,5 +69,16 @@ namespace MyScripts.Runtime
                     .AddTo(col);
             }
         }
+
+        // Click したなら true を、 Exit したなら false を返す
+        // 同フレームなら Exit を優先する
+        private async UniTask<bool> WaitForClickOrExit(Collider collider, Ct ct) => await UniTask.WhenAny(
+            // 同フレームなら Exit を優先するために、このタイミングで待つ
+            UniTask.WaitUntil(() => InputManager.InGameSubmit.Bool, timing: PlayerLoopTiming.LastUpdate, cancellationToken: ct),
+            collider.OnTriggerExitAsObservable()
+                .Where(c => ReferenceEquals(c, playerCapsuleCollider))
+                .FirstAsync(cancellationToken: ct)
+                .AsUniTask()
+        ) == 0;
     }
 }

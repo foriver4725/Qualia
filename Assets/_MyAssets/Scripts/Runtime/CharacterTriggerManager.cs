@@ -24,10 +24,12 @@ namespace MyScripts.Runtime
         [SerializeField] private GameObject playerCapsule;
         [SerializeField] private SOSSignFindManager sosSignFindManager;
         [SerializeField] private TimeScoreManager timeScoreManager;
+        [SerializeField] private CharacterTriggerSoundPlayer soundPlayer;
         [SerializeField, Range(0.0f, 5.0f)] private float onTeleportCameraBlendFlowDuration = 0.5f;
         [SerializeField, Range(0.0f, 1000.0f), Tooltip("Xmを1秒で進む速さ")] private float onTeleportCameraBlendAimDurationRate = 500.0f;
         [SerializeField, Range(0.0f, 5.0f)] private float onTeleportCameraBlendAimDurationMin = 0.5f;
         [SerializeField, Range(0.0f, 5.0f)] private float onTeleportCameraBlendAimDurationMax = 2.0f;
+        [SerializeField, Range(0.0f, 5.0f), Tooltip("移動時間がこれより長いならば、移動の効果音も鳴らす")] private float limitDurationOfCloseToEndSound = 1.0f;
 
         // Awake で初期化
         private CharacterType currentType; // 現在のキャラクターの種類
@@ -112,7 +114,7 @@ namespace MyScripts.Runtime
             while (!ct.IsCancellationRequested)
             {
                 // 人間 → 犬 → 貝 → 人間
-                await UniTask.WaitUntil(() => !onTriggerCt && InputManager.Instance.InGameTriggerCharacter.Bool,
+                await UniTask.WaitUntil(() => !onTriggerCt && InputManager.InGameTriggerCharacter.Bool,
                     timing: PlayerLoopTiming.Update, cancellationToken: ct);
 
                 // クールタイム中にする(切り替え処理の最後に、falseに戻す)
@@ -188,6 +190,9 @@ namespace MyScripts.Runtime
             aimDur = Mathf.Clamp(aimDur, this.onTeleportCameraBlendAimDurationMin, this.onTeleportCameraBlendAimDurationMax);
 
             Vector3 flowEndPosition = playerCameraBrain.transform.position + Vector3.up * 20.0f;
+
+            soundPlayer.LetPlay(SCharacterTriggerSound.Timing.Begin);
+
             await playerCameraBrain.transform.DOMove(flowEndPosition, flowDur)
                 .OnUpdate(() =>
                 {
@@ -200,6 +205,12 @@ namespace MyScripts.Runtime
                         );
                 })
                 .WithCancellation(ct);
+
+            if (aimDur > limitDurationOfCloseToEndSound)
+            {
+                float letPlayTime = aimDur - soundPlayer.CloseToEndSoundLength;
+                letPlayTime.SecAwaitThenDo(() => soundPlayer.LetPlay(SCharacterTriggerSound.Timing.CloseToEnd), ct: ct).Forget();
+            }
 
             await playerCameraBrain.transform.DOMove(toPosition, aimDur)
                 .SetEase(Ease.InCubic)

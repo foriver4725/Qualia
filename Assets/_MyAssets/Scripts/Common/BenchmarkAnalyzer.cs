@@ -12,9 +12,9 @@ namespace MyScripts.Common
 
 #if DEVELOPMENT_BUILD
         // 初回シーン読み込み時、ロードが間に合わずガベコレが計上されてしまうので、最初は少し待つ
-        private static readonly int OnFirstSceneIgnoreFrames = 64;
-        private int onFirstSceneFrames = 0;
-        private bool doEnableOnFirstScene = false;
+        private static readonly int OnFirstSceneIgnoreFrames = 16;
+        private static int onFirstSceneFrames = 0;
+        private static bool doEnableOnFirstScene = false;
 #endif
 
         // 一定時間ごとに計測する

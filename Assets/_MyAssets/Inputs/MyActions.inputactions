@@ -334,6 +334,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "FastenMoveSpeed",
+                    "type": "Button",
+                    "id": "5b5f0f4f-8471-45f4-9b6f-351e866672f8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -345,6 +354,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "FastenTimeLimit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6eff74f7-add2-46ac-bb1d-31ec50011586",
+                    "path": "<Keyboard>/f2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FastenMoveSpeed",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
