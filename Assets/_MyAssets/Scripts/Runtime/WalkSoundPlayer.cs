@@ -6,14 +6,13 @@ namespace MyScripts.Runtime
     {
         [SerializeField] private SWalkSound walkSoundRef;
         [SerializeField] private Transform walkSoundRoot;
-        [SerializeField, Range(1, 16), Tooltip("同時に鳴る足音の最大数")] private byte maxSoundAmount = 8;
-        [SerializeField, Range(0.0f, 0.5f), Tooltip("足音がフェードアウトするまでの時間")] private float fadeOutDuration = 0.2f;
 
         private AudioSource[] audioSources = null;
         private Tween[] fadeOutTweens = null;
         private bool[] arePlaying = null;
 
         private SWalkSound.Surface currentSurface = SWalkSound.Surface.None;
+        private bool isCurrentSprinting = false;
 
         private void Awake()
         {
@@ -23,13 +22,14 @@ namespace MyScripts.Runtime
         /// <summary>
         /// プレイヤーの地面の、更新通知を送る
         /// </summary>
-        internal void LetPlay(SWalkSound.Surface surface)
+        internal void LetPlay(SWalkSound.Surface surface, bool isSprinting)
         {
-            if (surface == currentSurface) return;
+            if (surface == currentSurface && isSprinting == isCurrentSprinting) return;
             currentSurface = surface;
+            isCurrentSprinting = isSprinting;
 
             bool couldPlay = false;
-            for (int _i = 0; _i < maxSoundAmount; _i++)
+            for (int _i = 0; _i < walkSoundRef.MaxSoundAmount; _i++)
             {
                 int i = _i;
 
@@ -37,7 +37,7 @@ namespace MyScripts.Runtime
                 {
                     fadeOutTweens[i]?.Kill(complete: false);
                     fadeOutTweens[i] = audioSources[i]
-                        .DOFade(0.0f, fadeOutDuration)
+                        .DOFade(0.0f, walkSoundRef.FadeOutDuration)
                         .SetEase(Ease.OutQuad)
                         .OnComplete(() =>
                         {
@@ -57,7 +57,9 @@ namespace MyScripts.Runtime
                         continue;
                     }
 
-                    PlaySound(audioSources[i], clip);
+                    PlaySound(audioSources[i], clip,
+                        walkSoundRef.Volume,
+                        isCurrentSprinting ? walkSoundRef.SprintPitch : walkSoundRef.WalkPitch);
                     arePlaying[i] = true;
 
                     couldPlay = true;
@@ -76,27 +78,28 @@ namespace MyScripts.Runtime
             source.volume = 0.0f;
         }
 
-        private static void PlaySound(AudioSource source, AudioClip clip)
+        private static void PlaySound(AudioSource source, AudioClip clip, float volume, float pitch)
         {
             source.clip = clip;
-            source.volume = 1.0f;
+            source.volume = volume;
+            source.pitch = pitch;
             source.Play();
         }
 
         private void Initialize()
         {
-            audioSources = new AudioSource[maxSoundAmount];
-            fadeOutTweens = new Tween[maxSoundAmount];
-            arePlaying = new bool[maxSoundAmount];
+            audioSources = new AudioSource[walkSoundRef.MaxSoundAmount];
+            fadeOutTweens = new Tween[walkSoundRef.MaxSoundAmount];
+            arePlaying = new bool[walkSoundRef.MaxSoundAmount];
 
-            for (int i = 0; i < maxSoundAmount; i++)
+            for (int i = 0; i < walkSoundRef.MaxSoundAmount; i++)
             {
                 AudioSource source = walkSoundRoot.gameObject.AddComponent<AudioSource>();
                 source.outputAudioMixerGroup = walkSoundRef.Group;
                 source.playOnAwake = false;
                 source.loop = true;
-                source.pitch = 1.2f;
                 source.volume = 0.0f;
+                source.pitch = walkSoundRef.WalkPitch;
 
                 audioSources[i] = source;
                 fadeOutTweens[i] = null;
