@@ -26,8 +26,8 @@ namespace MyScripts.Runtime
 
         private static void UpdateRPAsset(RenderPipelineAsset asset)
         {
-            if (GraphicsSettings.defaultRenderPipeline != asset)
-                GraphicsSettings.defaultRenderPipeline = asset;
+            if (QualitySettings.renderPipeline != asset)
+                QualitySettings.renderPipeline = asset;
         }
     }
 }
