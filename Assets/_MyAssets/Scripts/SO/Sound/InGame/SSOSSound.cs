@@ -10,6 +10,8 @@ namespace MyScripts.SO
         {
             CouldRemove,
             CouldNotRemove,
+
+            Count,
         }
 
         internal sealed override AudioClip GetClip(Situation situation) => situation switch
