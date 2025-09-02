@@ -25,12 +25,14 @@ internal static class SoundExtension
         this AudioSource source,
         AudioClip clip,
         float volume = 1.0f,
-        float pitch = 1.0f
+        float pitch = 1.0f,
+        float time = 0.0f
     )
     {
         source.clip = clip;
         source.volume = volume;
         source.pitch = pitch;
+        source.time = time;
         source.Play();
     }
 
