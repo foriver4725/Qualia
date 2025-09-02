@@ -26,6 +26,8 @@ namespace MyScripts.SO
             Sand,
             Rock,
             Water,
+
+            Count,
         }
 
         internal sealed override AudioClip GetClip(Surface surface) => surface switch
