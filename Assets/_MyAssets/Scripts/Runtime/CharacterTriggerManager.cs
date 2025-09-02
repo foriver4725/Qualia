@@ -217,8 +217,6 @@ namespace MyScripts.Runtime
                 .OnComplete(() => playerCameraBrain.transform.rotation = toRotation)
                 .WithCancellation(ct);
 
-            soundPlayer.LetPlay(SCharacterTriggerSound.Timing.End);
-
             // プレイヤーカプセルのアウトラインを外す
             playerCapsule.layer = characterCapsuleInitLayer;
 
