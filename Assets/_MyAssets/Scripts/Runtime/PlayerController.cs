@@ -379,7 +379,7 @@ namespace MyScripts.Runtime
 			walkSoundUpdateFrameCounter = 0;
 
 			var surface = GetSurfaceUnderfoot();
-			walkSoundPlayer.LetPlay(surface, isSprinting);
+			walkSoundPlayer.LetPlay(surface, new() { IsSprinting = isSprinting });
 		}
 
 		private SWalkSound.Surface GetSurfaceUnderfoot()

@@ -1,7 +1,7 @@
 namespace MyScripts.SO
 {
     [CreateAssetMenu(fileName = "_WalkSound", menuName = "SO/Sound/InGame/Walk")]
-    internal sealed class SWalkSound : ASSound
+    internal sealed class SWalkSound : ASSoundWithType<SWalkSound.Surface>
     {
         [SerializeField] private AudioClip grass;
         [SerializeField] private AudioClip sand;
@@ -28,7 +28,7 @@ namespace MyScripts.SO
             Water,
         }
 
-        internal AudioClip GetClip(Surface surface) => surface switch
+        internal sealed override AudioClip GetClip(Surface surface) => surface switch
         {
             Surface.None => null,
             Surface.Grass => grass,

@@ -1,7 +1,7 @@
 namespace MyScripts.SO
 {
     [CreateAssetMenu(fileName = "_CharacterTriggerSound", menuName = "SO/Sound/InGame/Character Trigger")]
-    internal sealed class SCharacterTriggerSound : ASSound
+    internal sealed class SCharacterTriggerSound : ASSoundWithType<SCharacterTriggerSound.Timing>
     {
         [SerializeField] private AudioClip begin;
         [SerializeField] private AudioClip closeToEnd;
@@ -14,7 +14,7 @@ namespace MyScripts.SO
             End,
         }
 
-        internal AudioClip GetClip(Timing timing) => timing switch
+        internal sealed override AudioClip GetClip(Timing timing) => timing switch
         {
             Timing.Begin => begin,
             Timing.CloseToEnd => closeToEnd,

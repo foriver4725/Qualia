@@ -8,4 +8,10 @@ namespace MyScripts.SO
         internal AudioMixerGroup Group => group;
         internal float Volume => volume;
     }
+
+    internal abstract class ASSoundWithType<TClipType> : ASSound
+        where TClipType : Enum
+    {
+        internal abstract AudioClip GetClip(TClipType type);
+    }
 }
