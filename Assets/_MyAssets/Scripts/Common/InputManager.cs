@@ -17,6 +17,9 @@
         // Debug
         internal static InputInfo DebugFastenTimeLimit { get; private set; }
         internal static InputInfo DebugFastenMoveSpeed { get; private set; }
+        internal static InputInfo DebugSetGraphicQualityLow { get; private set; }
+        internal static InputInfo DebugSetGraphicQualityMedium { get; private set; }
+        internal static InputInfo DebugSetGraphicQualityHigh { get; private set; }
 #endif
 
         private static void Bind()
@@ -33,6 +36,9 @@
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             DebugFastenTimeLimit = Create(source.Debug.FastenTimeLimit, InputType.Click);
             DebugFastenMoveSpeed = Create(source.Debug.FastenMoveSpeed, InputType.Value0);
+            DebugSetGraphicQualityLow = Create(source.Debug.SetGraphicQualityLow, InputType.Click);
+            DebugSetGraphicQualityMedium = Create(source.Debug.SetGraphicQualityMedium, InputType.Click);
+            DebugSetGraphicQualityHigh = Create(source.Debug.SetGraphicQualityHigh, InputType.Click);
 #endif
         }
     }
