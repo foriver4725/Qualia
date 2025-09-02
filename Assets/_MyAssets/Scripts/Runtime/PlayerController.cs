@@ -22,6 +22,7 @@ namespace MyScripts.Runtime
 		[Header("Player Control")]
 		[SerializeField] private CharacterController controller;
 		[SerializeField] private SPlayerControl param;
+		[SerializeField] private PlayerControlSoundPlayer soundPlayer;
 		[SerializeField] private Transform cinemachineCameraTarget;
 		[SerializeField] private Transform teleportBackPoint;
 		[Space(10)]
@@ -172,6 +173,8 @@ namespace MyScripts.Runtime
 			);
 
 			ApplyOuterVelocity(velocity);
+
+			soundPlayer.LetPlay(SPlayerControlSound.Action.InertiaJump);
 		}
 
 		private void CameraRotation()
