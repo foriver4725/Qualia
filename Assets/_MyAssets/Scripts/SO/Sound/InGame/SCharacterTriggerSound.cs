@@ -14,11 +14,11 @@ namespace MyScripts.SO
             Count,
         }
 
-        internal sealed override AudioClip GetClip(Timing timing) => timing switch
+        internal sealed override AudioClip GetClip(Timing type) => type switch
         {
             Timing.Begin => begin,
             Timing.CloseToEnd => closeToEnd,
-            _ => throw new ArgumentOutOfRangeException(nameof(timing), timing, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
 
         private float closeToEndSoundLength = -1.0f;

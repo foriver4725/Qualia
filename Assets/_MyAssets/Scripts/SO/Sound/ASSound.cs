@@ -9,6 +9,7 @@ namespace MyScripts.SO
         internal float Volume => volume;
     }
 
+    // 最もよく使う
     internal abstract class ASSoundWithType<TClipType> : ASSound
         where TClipType : Enum
     {

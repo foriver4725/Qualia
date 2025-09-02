@@ -19,11 +19,49 @@ namespace MyScripts.Runtime
 
     internal interface ISoundPlayerOptions { }
 
+    // 最もよく使う
     internal abstract class ASoundPlayerWithType<TParam, TClipType> : ASoundPlayer<TParam>
         where TParam : ASSoundWithType<TClipType>
         where TClipType : Enum
     {
-        internal abstract void LetPlay(TClipType type);
+        private protected AudioSource[] AudioSources = null;
+
+        private protected abstract byte TypeToByte(TClipType type);
+        private protected abstract byte GetTypeAmount();
+
+        internal virtual void LetPlay(TClipType type)
+        {
+            AudioClip clip = Param.GetClip(type);
+            if (clip == null)
+            {
+                "No valid clip exists to play.".LogWarning();
+                return;
+            }
+
+            AudioSources[TypeToByte(type)].LetPlay
+            (
+                clip,
+                volume: Param.Volume
+            );
+        }
+
+        private protected override void Init()
+        {
+            byte soundAmount = GetTypeAmount();
+
+            AudioSources = new AudioSource[soundAmount];
+
+            for (int i = 0; i < soundAmount; i++)
+            {
+                AudioSource source = Root.gameObject.AddComponent<AudioSource>();
+                source.LetInit
+                (
+                    Param.Group
+                );
+
+                AudioSources[i] = source;
+            }
+        }
     }
 
     internal abstract class ASoundPlayerWithOptions<TParam, TOptions> : ASoundPlayer<TParam>

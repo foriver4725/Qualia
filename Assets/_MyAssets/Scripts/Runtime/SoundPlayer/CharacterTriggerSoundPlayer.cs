@@ -3,10 +3,12 @@ namespace MyScripts.Runtime
     internal sealed class CharacterTriggerSoundPlayer : ASoundPlayerWithType<SCharacterTriggerSound, SCharacterTriggerSound.Timing>
     {
         [SerializeField, Range(0.0f, 5.0f), Tooltip("CloseToEnd の効果音を、開始何秒から鳴らすか")] private float timeOffsetOfCloseToEndSound = 1.0f;
-
-        private AudioSource[] audioSources = null;
-
         internal float CloseToEndSoundLength => Param.CloseToEndSoundLength - timeOffsetOfCloseToEndSound;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private protected sealed override byte TypeToByte(SCharacterTriggerSound.Timing type) => (byte)type;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private protected sealed override byte GetTypeAmount() => (byte)SCharacterTriggerSound.Timing.Count;
 
         internal sealed override void LetPlay(SCharacterTriggerSound.Timing type)
         {
@@ -17,30 +19,12 @@ namespace MyScripts.Runtime
                 return;
             }
 
-            audioSources[(byte)type].LetPlay
+            AudioSources[TypeToByte(type)].LetPlay
             (
                 clip,
                 volume: Param.Volume,
                 time: type == SCharacterTriggerSound.Timing.CloseToEnd ? timeOffsetOfCloseToEndSound : 0.0f
             );
-        }
-
-        private protected sealed override void Init()
-        {
-            byte soundAmount = (byte)SCharacterTriggerSound.Timing.Count;
-
-            audioSources = new AudioSource[soundAmount];
-
-            for (int i = 0; i < soundAmount; i++)
-            {
-                AudioSource source = Root.gameObject.AddComponent<AudioSource>();
-                source.LetInit
-                (
-                    Param.Group
-                );
-
-                audioSources[i] = source;
-            }
         }
     }
 }
