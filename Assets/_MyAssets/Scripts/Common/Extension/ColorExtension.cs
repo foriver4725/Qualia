@@ -3,7 +3,7 @@ namespace MyScripts.Common.Extension
     /// <summary>
     /// ColorUtility.ToHtmlString() 系統のメソッドに対して、内部処理を ZString に置き換えた拡張メソッド
     /// </summary>
-    internal static class Extension
+    internal static class ColorExtension
     {
         //
         // Summary:

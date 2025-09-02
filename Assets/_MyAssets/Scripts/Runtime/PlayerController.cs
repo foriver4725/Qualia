@@ -1,6 +1,4 @@
 using UnityEngine.InputSystem;
-using MyScripts.SO.Parameter;
-using MyScripts.SO.Reference;
 
 namespace MyScripts.Runtime
 {

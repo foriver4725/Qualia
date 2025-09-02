@@ -1,6 +1,6 @@
-namespace MyScripts.SO.Reference
+namespace MyScripts.SO
 {
-    [CreateAssetMenu(fileName = "_WalkSound", menuName = "SO/Reference/WalkSound")]
+    [CreateAssetMenu(fileName = "_WalkSound", menuName = "SO/Sound/InGame/WalkSound")]
     internal sealed class SWalkSound : ScriptableObject
     {
         [SerializeField] private AudioMixerGroup group;
