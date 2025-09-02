@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: _PlayerControlSound
   m_EditorClassIdentifier: 
   group: {fileID: -4774688437313742651, guid: 14acf68a80de7bc46b972bdbda1e8aa5, type: 2}
-  volume: 0.2
+  volume: 0.1
   inertiaJump: {fileID: 8300000, guid: abd597eed5196e94d9fd1a7a40523e7a, type: 3}
