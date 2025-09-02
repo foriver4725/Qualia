@@ -1,6 +1,6 @@
 namespace MyScripts.SO
 {
-    [CreateAssetMenu(fileName = "_SOSSound", menuName = "SO/Sound/InGame/SOS Sound")]
+    [CreateAssetMenu(fileName = "_SOSSound", menuName = "SO/Sound/InGame/SOS")]
     internal sealed class SSOSSound : ASSoundWithType<SSOSSound.Situation>
     {
         [SerializeField] private AudioClip couldRemove;
