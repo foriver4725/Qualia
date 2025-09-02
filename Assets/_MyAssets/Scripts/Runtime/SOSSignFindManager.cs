@@ -1,5 +1,3 @@
-using MyScripts.SO.Parameter;
-
 namespace MyScripts.Runtime
 {
     internal sealed class SOSSignFindManager : MonoBehaviour

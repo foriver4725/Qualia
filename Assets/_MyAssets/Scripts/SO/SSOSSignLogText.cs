@@ -1,6 +1,6 @@
-namespace MyScripts.SO.Parameter
+namespace MyScripts.SO
 {
-    [CreateAssetMenu(fileName = "_SOSSignLogText", menuName = "SO/Parameter/SOSSignLogText")]
+    [CreateAssetMenu(fileName = "_SOSSignLogText", menuName = "SO/SOSSignLogText")]
     internal sealed class SSOSSignLogText : ScriptableObject
     {
         [Header("動物時 : 近づいた (ランダムに表示)")]

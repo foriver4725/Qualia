@@ -8,6 +8,7 @@ global using System.Runtime.CompilerServices;
 
 global using UnityEngine;
 global using UnityEngine.UI;
+global using UnityEngine.Audio;
 global using TMPro;
 
 global using Cysharp.Threading.Tasks;
@@ -15,6 +16,7 @@ global using DG.Tweening;
 global using R3;
 global using R3.Triggers;
 global using Cysharp.Text;
+global using foriver4725.Border;
 
 global using Random = UnityEngine.Random;
 global using Debug = UnityEngine.Debug;
@@ -23,3 +25,5 @@ global using Ct = System.Threading.CancellationToken;
 
 global using MyScripts.Common;
 global using MyScripts.Common.Extension;
+global using MyScripts.Runtime;
+global using MyScripts.SO;
