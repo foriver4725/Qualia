@@ -10,6 +10,8 @@ namespace MyScripts.SO
         {
             Begin,
             CloseToEnd,
+
+            Count,
         }
 
         internal sealed override AudioClip GetClip(Timing timing) => timing switch

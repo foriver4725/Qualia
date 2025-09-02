@@ -27,9 +27,11 @@ namespace MyScripts.Runtime
 
         private protected sealed override void Init()
         {
-            audioSources = new AudioSource[3];
+            byte soundAmount = (byte)SCharacterTriggerSound.Timing.Count;
 
-            for (int i = 0; i < 3; i++)
+            audioSources = new AudioSource[soundAmount];
+
+            for (int i = 0; i < soundAmount; i++)
             {
                 AudioSource source = Root.gameObject.AddComponent<AudioSource>();
                 source.LetInit
