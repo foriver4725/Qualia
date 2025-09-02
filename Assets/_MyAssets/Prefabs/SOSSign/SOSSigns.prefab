@@ -1,0 +1,727 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &743229167324254171
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8517815800534622102}
+  m_Layer: 0
+  m_Name: RottenEggSmells
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8517815800534622102
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743229167324254171}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 9000412147359384717}
+  - {fileID: 8854058310431047072}
+  - {fileID: 6592325374636092511}
+  - {fileID: 7408243337579755845}
+  - {fileID: 6441583684977586317}
+  m_Father: {fileID: 6379601798009268375}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2488624775145643385
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6379601798009268375}
+  m_Layer: 0
+  m_Name: SOSSigns
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6379601798009268375
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2488624775145643385}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8517815800534622102}
+  - {fileID: 2577750543975439264}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5426662505633701618
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2577750543975439264}
+  m_Layer: 0
+  m_Name: ContaminatedWaters
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2577750543975439264
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5426662505633701618}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7138773244520444736}
+  - {fileID: 2049440347016081023}
+  - {fileID: 690915897152545206}
+  - {fileID: 5036559494175320983}
+  - {fileID: 3617299749194063803}
+  m_Father: {fileID: 6379601798009268375}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1973406719495009070
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2577750543975439264}
+    m_Modifications:
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -39.500072
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -37.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 282.48956
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6370551544081807900, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_Name
+      value: SOSSign_ContaminatedWater_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6370551544081807900, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+--- !u!4 &3617299749194063803 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+  m_PrefabInstance: {fileID: 1973406719495009070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2361971262642621731
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2577750543975439264}
+    m_Modifications:
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -284.73456
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -38.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 495.244
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6370551544081807900, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_Name
+      value: SOSSign_ContaminatedWater_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6370551544081807900, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+--- !u!4 &690915897152545206 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+  m_PrefabInstance: {fileID: 2361971262642621731}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &3828300628584760042
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2577750543975439264}
+    m_Modifications:
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -550.49304
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -38.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 518.0855
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6370551544081807900, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_Name
+      value: SOSSign_ContaminatedWater_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6370551544081807900, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+--- !u!4 &2049440347016081023 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+  m_PrefabInstance: {fileID: 3828300628584760042}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5351345569018683349
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2577750543975439264}
+    m_Modifications:
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -507.40714
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -37.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 665.06195
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6370551544081807900, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_Name
+      value: SOSSign_ContaminatedWater_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6370551544081807900, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+--- !u!4 &7138773244520444736 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+  m_PrefabInstance: {fileID: 5351345569018683349}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5483362690757660128
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8517815800534622102}
+    m_Modifications:
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -397.1625
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -30.87
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 730.2326
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7225108107166493668, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_Name
+      value: SOSSign_RottenEggSmell_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7225108107166493668, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+--- !u!4 &6441583684977586317 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+  m_PrefabInstance: {fileID: 5483362690757660128}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5620895216007221554
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8517815800534622102}
+    m_Modifications:
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -233.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -22.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 171.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7225108107166493668, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_Name
+      value: SOSSign_RottenEggSmell_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7225108107166493668, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+--- !u!4 &6592325374636092511 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+  m_PrefabInstance: {fileID: 5620895216007221554}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7609438785406794208
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8517815800534622102}
+    m_Modifications:
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -132.211
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -20.682
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 124.359
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7225108107166493668, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_Name
+      value: SOSSign_RottenEggSmell
+      objectReference: {fileID: 0}
+    - target: {fileID: 7225108107166493668, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+--- !u!4 &9000412147359384717 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+  m_PrefabInstance: {fileID: 7609438785406794208}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7833092551224379138
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2577750543975439264}
+    m_Modifications:
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -101.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -38.035
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 578.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6370551544081807900, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_Name
+      value: SOSSign_ContaminatedWater
+      objectReference: {fileID: 0}
+    - target: {fileID: 6370551544081807900, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+--- !u!4 &5036559494175320983 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2977380732404247701, guid: acd6bcecb887a5c4fb4455dcdfd7b5ab, type: 3}
+  m_PrefabInstance: {fileID: 7833092551224379138}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8044031967066423501
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8517815800534622102}
+    m_Modifications:
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -184.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -23.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 206.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7225108107166493668, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_Name
+      value: SOSSign_RottenEggSmell_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7225108107166493668, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+--- !u!4 &8854058310431047072 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+  m_PrefabInstance: {fileID: 8044031967066423501}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8336890218031318056
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8517815800534622102}
+    m_Modifications:
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 16.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -25.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 496.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7225108107166493668, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_Name
+      value: SOSSign_RottenEggSmell_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7225108107166493668, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+--- !u!4 &7408243337579755845 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1548617508032347501, guid: 3583cf0fa77253b45abcc250fe669ad9, type: 3}
+  m_PrefabInstance: {fileID: 8336890218031318056}
+  m_PrefabAsset: {fileID: 0}
