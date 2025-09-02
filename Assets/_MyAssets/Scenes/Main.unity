@@ -3689,6 +3689,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCapsuleCollider: {fileID: 1986410593}
   sosSignLogText: {fileID: 11400000, guid: 76b3c8989805dcf4b8d800945733af6a, type: 2}
+  soundPlayer: {fileID: 195949041}
 --- !u!1 &683009301
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: _SOSSound
   m_EditorClassIdentifier: 
   group: {fileID: 2690682953298151009, guid: 14acf68a80de7bc46b972bdbda1e8aa5, type: 2}
-  volume: 1
+  volume: 0.5
   couldRemove: {fileID: 8300000, guid: c2ee38c29e8e2b44bb242bf0c4153630, type: 3}
   couldNotRemove: {fileID: 8300000, guid: 9f96e25e81bbf3b418a0522683b95bc9, type: 3}
