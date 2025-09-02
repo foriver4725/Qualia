@@ -343,6 +343,33 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SetGraphicQualityLow",
+                    "type": "Button",
+                    "id": "16fb0ec6-51bf-4290-9b9c-4d8a1256cf6e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SetGraphicQualityMedium",
+                    "type": "Button",
+                    "id": "757493c2-4c29-481f-b570-c95243bc7b58",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SetGraphicQualityHigh",
+                    "type": "Button",
+                    "id": "26dad9e6-e873-4559-8eda-2bfcc010e8ab",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -365,6 +392,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "FastenMoveSpeed",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d5cbfca3-9f4c-4349-a56e-c2b6a4cbe240",
+                    "path": "<Keyboard>/f8",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SetGraphicQualityLow",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "91c7cdba-93e1-4136-a446-88d1abb9d7ae",
+                    "path": "<Keyboard>/f9",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SetGraphicQualityMedium",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4837ff91-e73f-4117-bad1-3b2abf00c404",
+                    "path": "<Keyboard>/f10",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SetGraphicQualityHigh",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
