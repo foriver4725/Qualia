@@ -1,9 +1,9 @@
 namespace MyScripts.Runtime
 {
-    internal sealed class WalkSoundPlayer : MonoBehaviour
+    internal sealed class WalkSoundPlayer : ASoundPlayer
     {
-        [SerializeField] private SWalkSound walkSoundRef;
-        [SerializeField] private Transform walkSoundRoot;
+        private SWalkSound myParam = null;
+        private SWalkSound MyParam => (myParam != null) ? myParam : myParam = (Param as SWalkSound);
 
         private AudioSource[] audioSources = null;
         private Tween[] fadeOutTweens = null;
@@ -11,11 +11,6 @@ namespace MyScripts.Runtime
 
         private SWalkSound.Surface currentSurface = SWalkSound.Surface.None;
         private bool isCurrentSprinting = false;
-
-        private void Awake()
-        {
-            Initialize();
-        }
 
         /// <summary>
         /// プレイヤーの地面の、更新通知を送る
@@ -27,7 +22,7 @@ namespace MyScripts.Runtime
             isCurrentSprinting = isSprinting;
 
             bool couldPlay = false;
-            for (int _i = 0; _i < walkSoundRef.MaxSoundAmount; _i++)
+            for (int _i = 0; _i < MyParam.MaxSoundAmount; _i++)
             {
                 int i = _i;
 
@@ -35,7 +30,7 @@ namespace MyScripts.Runtime
                 {
                     fadeOutTweens[i]?.Kill(complete: false);
                     fadeOutTweens[i] = audioSources[i]
-                        .DOFade(0.0f, walkSoundRef.FadeOutDuration)
+                        .DOFade(0.0f, MyParam.FadeOutDuration)
                         .SetEase(Ease.OutQuad)
                         .OnComplete(() =>
                         {
@@ -47,7 +42,7 @@ namespace MyScripts.Runtime
                 }
                 else if (!couldPlay)
                 {
-                    AudioClip clip = walkSoundRef.GetClip(currentSurface);
+                    AudioClip clip = MyParam.GetClip(currentSurface);
                     if (clip == null)
                     {
                         // 何も鳴らさない
@@ -58,8 +53,8 @@ namespace MyScripts.Runtime
                     audioSources[i].LetPlay
                     (
                         clip,
-                        volume: walkSoundRef.Volume,
-                        pitch: isCurrentSprinting ? walkSoundRef.SprintPitch : walkSoundRef.WalkPitch
+                        volume: Param.Volume,
+                        pitch: isCurrentSprinting ? MyParam.SprintPitch : MyParam.WalkPitch
                     );
                     arePlaying[i] = true;
 
@@ -72,20 +67,20 @@ namespace MyScripts.Runtime
                 "All audio sources are playing. Cannot play new walk sound.".LogWarning();
         }
 
-        private void Initialize()
+        private protected sealed override void Init()
         {
-            audioSources = new AudioSource[walkSoundRef.MaxSoundAmount];
-            fadeOutTweens = new Tween[walkSoundRef.MaxSoundAmount];
-            arePlaying = new bool[walkSoundRef.MaxSoundAmount];
+            audioSources = new AudioSource[MyParam.MaxSoundAmount];
+            fadeOutTweens = new Tween[MyParam.MaxSoundAmount];
+            arePlaying = new bool[MyParam.MaxSoundAmount];
 
-            for (int i = 0; i < walkSoundRef.MaxSoundAmount; i++)
+            for (int i = 0; i < MyParam.MaxSoundAmount; i++)
             {
-                AudioSource source = walkSoundRoot.gameObject.AddComponent<AudioSource>();
+                AudioSource source = Root.gameObject.AddComponent<AudioSource>();
                 source.LetInit
                 (
-                    walkSoundRef.Group,
+                    Param.Group,
                     doLoop: true,
-                    pitch: walkSoundRef.WalkPitch
+                    pitch: MyParam.WalkPitch
                 );
 
                 audioSources[i] = source;
