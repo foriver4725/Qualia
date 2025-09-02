@@ -1,6 +1,6 @@
 namespace MyScripts.SO
 {
-    [CreateAssetMenu(fileName = "_PlayerControl", menuName = "SO/PlayerControl")]
+    [CreateAssetMenu(fileName = "_PlayerControl", menuName = "SO/Player Control")]
     internal sealed class SPlayerControl : ScriptableObject
     {
         // プレイヤーの移動入力を鈍感にするタイミング
