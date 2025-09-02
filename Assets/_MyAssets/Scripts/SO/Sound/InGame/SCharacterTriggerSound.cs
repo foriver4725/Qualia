@@ -21,5 +21,8 @@ namespace MyScripts.SO
             Timing.End => end,
             _ => throw new ArgumentOutOfRangeException(nameof(timing), timing, null)
         };
+
+        private float closeToEndSoundLength = -1.0f;
+        internal float CloseToEndSoundLength => closeToEndSoundLength >= 0.0f ? closeToEndSoundLength : closeToEnd.length;
     }
 }

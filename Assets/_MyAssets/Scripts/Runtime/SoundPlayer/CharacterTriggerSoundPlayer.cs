@@ -2,7 +2,11 @@ namespace MyScripts.Runtime
 {
     internal sealed class CharacterTriggerSoundPlayer : ASoundPlayerWithType<SCharacterTriggerSound, SCharacterTriggerSound.Timing>
     {
+        [SerializeField, Range(0.0f, 5.0f), Tooltip("CloseToEnd の効果音を、開始何秒から鳴らすか")] private float timeOffsetOfCloseToEndSound = 1.0f;
+
         private AudioSource[] audioSources = null;
+
+        internal float CloseToEndSoundLength => Param.CloseToEndSoundLength - timeOffsetOfCloseToEndSound;
 
         internal sealed override void LetPlay(SCharacterTriggerSound.Timing type)
         {
@@ -16,7 +20,8 @@ namespace MyScripts.Runtime
             audioSources[(byte)type].LetPlay
             (
                 clip,
-                volume: Param.Volume
+                volume: Param.Volume,
+                time: type == SCharacterTriggerSound.Timing.CloseToEnd ? timeOffsetOfCloseToEndSound : 0.0f
             );
         }
 

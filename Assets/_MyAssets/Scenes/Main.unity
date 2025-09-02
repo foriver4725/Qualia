@@ -5832,6 +5832,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   param: {fileID: 11400000, guid: aef0ac36790736842956605db85af26c, type: 2}
   root: {fileID: 984612692}
+  timeOffsetOfCloseToEndSound: 1
 --- !u!1 &1000728363
 GameObject:
   m_ObjectHideFlags: 0
@@ -12037,10 +12038,12 @@ MonoBehaviour:
   playerCapsule: {fileID: 1933024321}
   sosSignFindManager: {fileID: 658782585}
   timeScoreManager: {fileID: 2065478739}
+  soundPlayer: {fileID: 984612693}
   onTeleportCameraBlendFlowDuration: 0.5
   onTeleportCameraBlendAimDurationRate: 500
   onTeleportCameraBlendAimDurationMin: 0.5
   onTeleportCameraBlendAimDurationMax: 2
+  limitDurationOfCloseToEndSound: 1
 --- !u!1001 &1982010349
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: _CharacterTriggerSound
   m_EditorClassIdentifier: 
   group: {fileID: 5036800172400545478, guid: 14acf68a80de7bc46b972bdbda1e8aa5, type: 2}
-  volume: 1
+  volume: 0.1
   begin: {fileID: 8300000, guid: f714e0bd7634ea14d9981b21c9a78259, type: 3}
   closeToEnd: {fileID: 8300000, guid: d643b9884dc14a545886a48cec761d35, type: 3}
   end: {fileID: 8300000, guid: 82b8b91b5a1425e448cc25478dfa6474, type: 3}
