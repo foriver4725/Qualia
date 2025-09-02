@@ -65,7 +65,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "F1 : \u6B8B\u308A\u6642\u9593\u309230\u79D2\u6E1B\u3089\u3059\nF2 : \u79FB\u52D5\u901F\u5EA6\u3092\u5927\u304D\u304F\u3059\u308B"
+  m_text: "F1 : \u6B8B\u308A\u6642\u9593\u309230\u79D2\u6E1B\u3089\u3059\nF2 : \u79FB\u52D5\u901F\u5EA6\u3092\u5927\u304D\u304F\u3059\u308B\nF8
+    : \u30B0\u30E9\u30D5\u30A3\u30C3\u30AF\u54C1\u8CEA\u3092\u4F4E\u306B\u3059\u308B\nF9
+    : \u30B0\u30E9\u30D5\u30A3\u30C3\u30AF\u54C1\u8CEA\u3092\u4E2D\u306B\u3059\u308B\nF10
+    : \u30B0\u30E9\u30D5\u30A3\u30C3\u30AF\u30B9\u54C1\u8CEA\u3092\u9AD8\u306B\u3059\u308B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6e9e6f1cea410b94abf4ced5ca188b9c, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: fc6fa7b3e1b3dfc4bbccbe9098624771, type: 2}
@@ -274,7 +277,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: -42}
-  m_SizeDelta: {x: 360, y: 180}
+  m_SizeDelta: {x: 480, y: 240}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &4423285860387112383
 CanvasRenderer:
