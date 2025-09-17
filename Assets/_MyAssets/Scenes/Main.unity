@@ -10923,9 +10923,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54cef83ca7641c14f955ca08302479e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameRule: {fileID: 11400000, guid: 13c815dbb8445b5488338d16a7eef294, type: 2}
   timeText: {fileID: 1159964572}
   leftText: {fileID: 306161353}
-  timeLimit: 300
 --- !u!1 &2119124802
 GameObject:
   m_ObjectHideFlags: 0
