@@ -7,8 +7,7 @@ namespace MyScripts.Runtime
         private enum CharacterType : byte
         {
             Human,
-            Dog, // 孵卵臭を認知
-            Shell, // 汚染水を認知
+            Animal,
         }
 
         [SerializeField] private Transform playerTransform; // プレイヤーのTransform
@@ -16,8 +15,7 @@ namespace MyScripts.Runtime
         [SerializeField] private Transform dogCapsule;
         [SerializeField] private Transform shellCapsule;
         [SerializeField] private CinemachineBrain playerCameraBrain;
-        [SerializeField] private ParticleSystem[] sosSign_rottenEggSmell;
-        [SerializeField] private ParticleSystem[] sosSign_contaminatedWater;
+        [SerializeField] private ParticleSystem[] sosSign;
         [SerializeField] private TextMeshProUGUI triggerText; // トリガーを教えるUI
         [SerializeField] private TextMeshProUGUI triggerCtLabel;
         [SerializeField] private PlayerController pc;
@@ -34,7 +32,6 @@ namespace MyScripts.Runtime
         // Awake で初期化
         private CharacterType currentType; // 現在のキャラクターの種類
         private Dictionary<CharacterType, Transform> characterCapsules; // 各キャラクターの最新座標を保持 (ワールド座標)
-        private Dictionary<CharacterType, ParticleSystem[]> sosSigns; // 各キャラクターが認知できるSOSサイン
         private Vector3 characterCapsuleLocalPosition; // キャラクターカプセルは、ルートからオフセットされている(足元を中心にするため)
         private int characterCapsuleInitLayer;
         private int CharacterOutlineLayer; // 定数
@@ -44,8 +41,7 @@ namespace MyScripts.Runtime
         private static readonly Dictionary<CharacterType, string> characterNames = new()
         {
             { CharacterType.Human, "人間" },
-            { CharacterType.Dog, "犬" },
-            { CharacterType.Shell, "貝" }
+            { CharacterType.Animal, "犬" },
         };
 
         private void Awake()
@@ -55,15 +51,7 @@ namespace MyScripts.Runtime
             characterCapsules = new()
             {
                 { CharacterType.Human, humanCapsule },
-                { CharacterType.Dog, dogCapsule },
-                { CharacterType.Shell, shellCapsule }
-            };
-
-            sosSigns = new()
-            {
-                { CharacterType.Human, Array.Empty<ParticleSystem>() },
-                { CharacterType.Dog, sosSign_rottenEggSmell },
-                { CharacterType.Shell, sosSign_contaminatedWater }
+                { CharacterType.Animal, dogCapsule },
             };
 
             characterCapsuleLocalPosition = playerCapsule.transform.localPosition;
@@ -82,13 +70,10 @@ namespace MyScripts.Runtime
 
             {
                 List<Collider> sosSignColliders = new(64);
-                foreach (var kv in sosSigns)
+                foreach (var sign in sosSign)
                 {
-                    foreach (var v in kv.Value)
-                    {
-                        if (!v.transform.parent.TryGetComponent(out Collider c)) continue;
-                        sosSignColliders.Add(c);
-                    }
+                    if (!sign.transform.parent.TryGetComponent(out Collider c)) continue;
+                    sosSignColliders.Add(c);
                 }
 
                 sosSignFindManager.Setup(
@@ -103,9 +88,8 @@ namespace MyScripts.Runtime
 
         private static CharacterType GetNext(CharacterType type) => type switch
         {
-            CharacterType.Human => CharacterType.Dog,
-            CharacterType.Dog => CharacterType.Shell,
-            CharacterType.Shell => CharacterType.Human,
+            CharacterType.Human => CharacterType.Animal,
+            CharacterType.Animal => CharacterType.Human,
             _ => type
         };
 
@@ -236,16 +220,12 @@ namespace MyScripts.Runtime
 
         private void UpdateSOSSignsVisibility(CharacterType type)
         {
-            foreach (var kv in sosSigns)
-            {
-                bool isVisible = kv.Key == type;
+            bool isVisible = (type != CharacterType.Human);
 
-                // 配列はnullでない想定
-                foreach (var sosSign in kv.Value)
-                {
-                    if (sosSign != null)
-                        sosSign.gameObject.SetActive(isVisible);
-                }
+            foreach (var sign in sosSign)
+            {
+                if (sign != null)
+                    sign.gameObject.SetActive(isVisible);
             }
         }
 
