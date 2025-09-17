@@ -9,7 +9,7 @@
 
         private async UniTaskVoid Impl(Ct ct)
         {
-            resultText.SetTextFormat("{0}/{1}", ScoreHolder.FoundAmount, ScoreHolder.ShouldFoundAmount);
+            resultText.SetTextFormat("{0} 個\n<size=120>取り除いた！</size>", ScoreHolder.FoundAmount);
             await oneMoreButton.OnClickAsync(ct);
             LoadManager.Instance.BeginLoad(Scene.Main);
         }

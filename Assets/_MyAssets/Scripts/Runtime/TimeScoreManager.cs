@@ -2,25 +2,36 @@
 {
     internal sealed class TimeScoreManager : MonoBehaviour
     {
+        [SerializeField] private SGameRule gameRule; // クリア判定で使用
         [SerializeField] private TextMeshProUGUI timeText;
         [SerializeField] private TextMeshProUGUI leftText;
-        [SerializeField, Range(0.0f, 3600.0f)] private float timeLimit;
 
         // Awake で初期化
-        private int leftAmount;
-        private float remainingTime;
+        private float maxElapsed; // 未使用
+        private byte maxFind;
+        private float shouldElapse;
+        private byte shouldFind;
+
+        // クリア判定で使用
+        private float elapsedAmount = 0.0f;
+        private byte foundAmount = 0;
 
         private void Awake()
         {
             // スコアをリセット
             ScoreHolder.FoundAmount = 0;
 
-            // 変数の値を初期化
-            leftAmount = ScoreHolder.ShouldFoundAmount;
-            remainingTime = timeLimit;
+            // クリア条件の取得
+            {
+                var clearCondition = gameRule.GetClearCondition();
+                maxElapsed = clearCondition.MaxElapse;
+                maxFind = clearCondition.MaxFind;
+                shouldElapse = clearCondition.ShouldElapse;
+                shouldFind = clearCondition.ShouldFind;
+            }
 
             // UIの更新
-            UpdateUI(leftAmount, remainingTime);
+            UpdateUI(elapsedAmount, foundAmount);
         }
 
         private void Start()
@@ -33,42 +44,59 @@
         {
             while (!ct.IsCancellationRequested)
             {
-                remainingTime -= Time.deltaTime;
+                elapsedAmount += Time.deltaTime;
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
                 if (InputManager.DebugFastenTimeLimit.Bool)
                 {
                     // デバッグ用 : 時間を早める
-                    remainingTime -= 30.0f;
+                    elapsedAmount += 30.0f;
                 }
 #endif
 
-                if (remainingTime <= 0.0f)
+                if (elapsedAmount >= shouldElapse)
                 {
-                    remainingTime = 0.0f;
-
-                    UpdateUI(leftAmount, remainingTime);
+                    elapsedAmount = shouldElapse;
                     break;
                 }
 
-                UpdateUI(leftAmount, remainingTime); // 毎フレーム更新されるので、ここ以外で実行する必要はなさそう
+                UpdateUI(elapsedAmount, foundAmount); // 毎フレーム更新されるので、ここ以外で実行する必要はなさそう
                 await UniTask.NextFrame(cancellationToken: ct);
             }
 
-            // タイムアップ時の処理
-            ScoreHolder.FoundAmount = (byte)(ScoreHolder.ShouldFoundAmount - leftAmount); // スコアを受け渡す
+            // タイムアップ
+            OnClear();
+        }
+
+        private void UpdateUI(float elapsedAmount, byte foundAmount)
+        {
+            // 残りの数値を計算
+            float remainingTime = Mathf.Max(0.0f, shouldElapse - elapsedAmount);
+            byte remainingFind = (byte)Mathf.Max(0, shouldFind - foundAmount);
+
+            int min = Mathf.FloorToInt(remainingTime / 60);
+            int sec = Mathf.FloorToInt(remainingTime % 60);
+            timeText.SetTextFormat("{0:D2}:{1:D2}", min, sec);
+
+            leftText.SetTextFormat("残り{0}個 (全{1}個)", remainingFind, maxFind);
+        }
+
+        internal void DecrementLeftAmount()
+        {
+            if (++foundAmount >= shouldFind)
+                OnClear();
+        }
+
+        private void OnClear()
+        {
+            // UIを更新しておく
+            UpdateUI(elapsedAmount, foundAmount);
+
+            // スコアを受け渡す
+            ScoreHolder.FoundAmount = foundAmount;
+
+            // シーン遷移
             LoadManager.Instance.BeginLoad(Scene.Result);
         }
-
-        private void UpdateUI(int leftAmount, float remainingTime)
-        {
-            int remainMin = Mathf.FloorToInt(remainingTime / 60);
-            int remainSec = Mathf.FloorToInt(remainingTime % 60);
-            timeText.SetTextFormat("{0:D2}:{1:D2}", remainMin, remainSec);
-
-            leftText.SetTextFormat("残り{0}個", leftAmount);
-        }
-
-        internal void DecrementLeftAmount() => leftAmount--;
     }
 }
