@@ -21,13 +21,12 @@ namespace MyScripts.SO
 
         internal enum Surface : byte
         {
-            None,
-            Grass,
-            Sand,
-            Rock,
-            Water,
-
-            Count,
+            None = 0,
+            Grass = 1,
+            Sand = 2,
+            Rock = 3,
+            Water = 4,
+            Default = Grass,
         }
 
         internal sealed override AudioClip GetClip(Surface type) => type switch
