@@ -12,24 +12,21 @@ namespace MyScripts.Runtime
 
         [SerializeField] private Transform playerTransform; // プレイヤーのTransform
         [SerializeField] private Transform humanCapsule;
-        [SerializeField] private Transform dogCapsule;
-        [SerializeField] private Transform shellCapsule;
+        [SerializeField] private Transform animalCapsule;
         [SerializeField] private CinemachineBrain playerCameraBrain;
-        [SerializeField] private ParticleSystem[] sosSign;
+        [SerializeField] private Transform sosSignsRoot; // SOSサインの親オブジェクト (配下にはSOSサインしか置かない前提)
         [SerializeField] private TextMeshProUGUI triggerText; // トリガーを教えるUI
         [SerializeField] private TextMeshProUGUI triggerCtLabel;
         [SerializeField] private PlayerController pc;
         [SerializeField] private GameObject playerCapsule;
+        [SerializeField] private SPlayerControl paramRoot; // カメラブレンドのパラメータを取得するため
         [SerializeField] private SOSSignFindManager sosSignFindManager;
         [SerializeField] private TimeScoreManager timeScoreManager;
         [SerializeField] private CharacterTriggerSoundPlayer soundPlayer;
-        [SerializeField, Range(0.0f, 5.0f)] private float onTeleportCameraBlendFlowDuration = 0.5f;
-        [SerializeField, Range(0.0f, 1000.0f), Tooltip("Xmを1秒で進む速さ")] private float onTeleportCameraBlendAimDurationRate = 500.0f;
-        [SerializeField, Range(0.0f, 5.0f)] private float onTeleportCameraBlendAimDurationMin = 0.5f;
-        [SerializeField, Range(0.0f, 5.0f)] private float onTeleportCameraBlendAimDurationMax = 2.0f;
-        [SerializeField, Range(0.0f, 5.0f), Tooltip("移動時間がこれより長いならば、移動の効果音も鳴らす")] private float limitDurationOfCloseToEndSound = 1.0f;
 
         // Awake で初期化
+        private SPlayerControl.CameraBlendSettingsOnCharacterTrigger param;
+        private ParticleSystem[] sosSigns;
         private CharacterType currentType; // 現在のキャラクターの種類
         private Dictionary<CharacterType, Transform> characterCapsules; // 各キャラクターの最新座標を保持 (ワールド座標)
         private Vector3 characterCapsuleLocalPosition; // キャラクターカプセルは、ルートからオフセットされている(足元を中心にするため)
@@ -41,43 +38,43 @@ namespace MyScripts.Runtime
         private static readonly Dictionary<CharacterType, string> characterNames = new()
         {
             { CharacterType.Human, "人間" },
-            { CharacterType.Animal, "犬" },
+            { CharacterType.Animal, "動物" },
         };
 
         private void Awake()
         {
-            currentType = CharacterType.Human;
-
-            characterCapsules = new()
-            {
-                { CharacterType.Human, humanCapsule },
-                { CharacterType.Animal, dogCapsule },
-            };
-
-            characterCapsuleLocalPosition = playerCapsule.transform.localPosition;
-            characterCapsuleInitLayer = playerCapsule.layer;
-            CharacterOutlineLayer = LayerMask.NameToLayer("CharacterOutline");
-
-            // プレイヤーを人間のカプセルの所に移動させる
-            playerTransform.SetPositionAndRotation(humanCapsule.position, humanCapsule.rotation);
-            // 人間のカプセルは非表示
-            humanCapsule.gameObject.SetActive(false);
-            // SOSサインの可視性を初期化
-            UpdateSOSSignsVisibility(currentType);
-            // トリガーUIを更新
-            triggerCtLabel.enabled = false;
-            UpdateTriggerText(currentType, GetNext(currentType));
+            param = paramRoot.CameraBlendOnCharacterTrigger;
+            sosSigns = sosSignsRoot.GetComponentsInChildren<ParticleSystem>(includeInactive: true);
 
             {
-                List<Collider> sosSignColliders = new(64);
-                foreach (var sign in sosSign)
+                currentType = CharacterType.Human;
+
+                characterCapsules = new()
                 {
-                    if (!sign.transform.parent.TryGetComponent(out Collider c)) continue;
-                    sosSignColliders.Add(c);
-                }
+                    { CharacterType.Human, humanCapsule },
+                    { CharacterType.Animal, animalCapsule },
+                };
+
+                characterCapsuleLocalPosition = playerCapsule.transform.localPosition;
+                characterCapsuleInitLayer = playerCapsule.layer;
+                CharacterOutlineLayer = LayerMask.NameToLayer("CharacterOutline");
+
+                // プレイヤーを人間のカプセルの所に移動させる
+                playerTransform.SetPositionAndRotation(humanCapsule.position, humanCapsule.rotation);
+                // 人間のカプセルは非表示
+                humanCapsule.gameObject.SetActive(false);
+                // SOSサインの可視性を初期化
+                UpdateSOSSignsVisibility(currentType);
+                // トリガーUIを更新
+                triggerCtLabel.enabled = false;
+                UpdateTriggerText(currentType, GetNext(currentType));
+            }
+
+            {
+                Collider[] sosSignColliders = sosSignsRoot.GetComponentsInChildren<Collider>(includeInactive: true);
 
                 sosSignFindManager.Setup(
-                    sosSignColliders.AsReadOnly(),
+                    Array.AsReadOnly(sosSignColliders),
                     () => currentType == CharacterType.Human,
                     timeScoreManager.DecrementLeftAmount
                 );
@@ -167,36 +164,35 @@ namespace MyScripts.Runtime
 
         private async UniTaskVoid DOCameraBlendAsync(Vector3 toPosition, Quaternion toRotation, Ct ct)
         {
-            float flowDur = this.onTeleportCameraBlendFlowDuration;
-
-            Vector3 direction = toPosition - playerCameraBrain.transform.position;
-            float aimDur = direction.magnitude.Remap(0.0f, this.onTeleportCameraBlendAimDurationRate, 0.0f, 1.0f);
-            aimDur = Mathf.Clamp(aimDur, this.onTeleportCameraBlendAimDurationMin, this.onTeleportCameraBlendAimDurationMax);
-
-            Vector3 flowEndPosition = playerCameraBrain.transform.position + Vector3.up * 20.0f;
+            Vector3 moveDirection = toPosition - playerCameraBrain.transform.position;
+            float moveDuration = moveDirection.magnitude / param.MoveSpeed;
+            moveDuration = Mathf.Clamp(moveDuration, param.MoveDurationMin, param.MoveDurationMax);
 
             soundPlayer.LetPlay(SCharacterTriggerSound.Timing.Begin);
 
-            await playerCameraBrain.transform.DOMove(flowEndPosition, flowDur)
+            await playerCameraBrain.transform.DOMove(
+                playerCameraBrain.transform.position + Vector3.up * param.FloatHeight,
+                param.FloatDuration
+            )
                 .OnUpdate(() =>
                 {
-                    Vector3 directionCurr = toPosition - playerCameraBrain.transform.position;
-                    if (directionCurr != Vector3.zero)
+                    Vector3 directionCurrent = toPosition - playerCameraBrain.transform.position;
+                    if (directionCurrent != Vector3.zero)
                         playerCameraBrain.transform.rotation = Quaternion.Lerp(
                             playerCameraBrain.transform.rotation,
-                            Quaternion.LookRotation(directionCurr),
-                            Time.deltaTime * 6.0f
+                            Quaternion.LookRotation(directionCurrent),
+                            Time.deltaTime * param.FloatLookSpeed
                         );
                 })
                 .WithCancellation(ct);
 
-            if (aimDur > limitDurationOfCloseToEndSound)
+            if (moveDuration > param.MoveDurationMinToPlayCloseToEndSound)
             {
-                float letPlayTime = aimDur - soundPlayer.CloseToEndSoundLength;
+                float letPlayTime = moveDuration - soundPlayer.CloseToEndSoundLength;
                 letPlayTime.SecAwaitThenDo(() => soundPlayer.LetPlay(SCharacterTriggerSound.Timing.CloseToEnd), ct: ct).Forget();
             }
 
-            await playerCameraBrain.transform.DOMove(toPosition, aimDur)
+            await playerCameraBrain.transform.DOMove(toPosition, moveDuration)
                 .SetEase(Ease.InCubic)
                 .OnComplete(() => playerCameraBrain.transform.rotation = toRotation)
                 .WithCancellation(ct);
@@ -222,7 +218,7 @@ namespace MyScripts.Runtime
         {
             bool isVisible = (type != CharacterType.Human);
 
-            foreach (var sign in sosSign)
+            foreach (var sign in sosSigns)
             {
                 if (sign != null)
                     sign.gameObject.SetActive(isVisible);

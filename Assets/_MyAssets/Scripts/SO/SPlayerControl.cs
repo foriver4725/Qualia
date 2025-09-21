@@ -75,5 +75,28 @@ namespace MyScripts.SO
         internal LayerMask GroundLayers => groundLayers;
         internal float GroundCheckOffset => groundCheckOffset;
         internal float GroundCheckRadius => groundCheckRadius;
+
+        [Space(10)]
+
+        [Header("Camera Blend on Character Trigger")]
+        [SerializeField] private CameraBlendSettingsOnCharacterTrigger cameraBlendOnCharacterTrigger;
+        internal CameraBlendSettingsOnCharacterTrigger CameraBlendOnCharacterTrigger => cameraBlendOnCharacterTrigger;
+        [Serializable]
+        internal sealed class CameraBlendSettingsOnCharacterTrigger
+        {
+            [SerializeField, Range(0.0f, 5.0f), Tooltip("浮き上がりの所要時間 [s]")] private float floatDuration = 0.5f;
+            [SerializeField, Range(0.0f, 50.0f), Tooltip("浮き上がりの高さ [m]")] private float floatHeight = 20.0f;
+            [SerializeField, Range(0.0f, 20.0f), Tooltip("浮き上がり中、ターゲットを注視する回転速度 (係数)")] private float floatLookSpeed = 6.0f;
+            [SerializeField, Range(0.0f, 1000.0f), Tooltip("移動速度 [m/s]")] private float moveSpeed = 500.0f;
+            [SerializeField, MinMaxRange(0.0f, 5.0f), Tooltip("移動時間の許容範囲 [s]")] private Vector2 moveDurationRange = new(0.5f, 2.0f);
+            [SerializeField, Range(0.0f, 5.0f), Tooltip("移動時間が 〇[s] より長いならば、移動終了時の効果音が鳴る")] private float moveDurationMinToPlayCloseToEndSound = 1.0f;
+            internal float FloatDuration => floatDuration;
+            internal float FloatHeight => floatHeight;
+            internal float FloatLookSpeed => floatLookSpeed;
+            internal float MoveSpeed => moveSpeed;
+            internal float MoveDurationMin => moveDurationRange.x;
+            internal float MoveDurationMax => moveDurationRange.y;
+            internal float MoveDurationMinToPlayCloseToEndSound => moveDurationMinToPlayCloseToEndSound;
+        }
     }
 }
