@@ -205,7 +205,7 @@ namespace MyScripts.Runtime
 				rotationVelocity = input.x * param.RotationSpeed * deltaTimeMultiplier;
 
 				// clamp our pitch rotation
-				cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, param.CameraClamps.x, param.CameraClamps.y);
+				cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, param.CameraPitchMin, param.CameraPitchMax);
 
 				// Update Cinemachine camera target pitch
 				cinemachineCameraTarget.localRotation = Quaternion.Euler(cinemachineTargetPitch, 0.0f, 0.0f);

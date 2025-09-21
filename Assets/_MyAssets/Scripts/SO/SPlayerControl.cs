@@ -34,9 +34,10 @@ namespace MyScripts.SO
 
         [Header("Look")]
         [SerializeField] private float rotationSpeed = 1.0f;
-        [SerializeField, Tooltip("カメラを上下に動かせる範囲. x が下限, y が上限.")] private Vector2 cameraClamps = new(-90.0f, 90.0f);
+        [SerializeField, MinMaxRange(-90.0f, 90.0f), Tooltip("カメラを上下に動かす角度の許容範囲 [度]")] private Vector2 cameraPitchRange = new(-90.0f, 90.0f);
         internal float RotationSpeed => rotationSpeed;
-        internal Vector2 CameraClamps => cameraClamps;
+        internal float CameraPitchMin => cameraPitchRange.x;
+        internal float CameraPitchMax => cameraPitchRange.y;
 
         [Space(10)]
 
