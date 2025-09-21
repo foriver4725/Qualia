@@ -22,8 +22,8 @@ namespace MyScripts.SO
             [SerializeField, Range(0.0f, 1.0e4f), Header("〇秒あるうち、")] private float maxElapse = 600.0f;
             [SerializeField, Range(0.0f, 1.0e4f), Header("〇秒経過でクリア (一緒の数値のはず)")] private float shouldElapse = 600.0f;
             [Space(30)]
-            [SerializeField, Range(0, 100), Header("〇個あるうち、")] private byte maxFind = 10;
-            [SerializeField, Range(0, 100), Header("〇個除去でクリア")] private byte shouldFind = 5;
+            [SerializeField, Range(0, 50), Header("〇個あるうち、")] private byte maxFind = 10;
+            [SerializeField, Range(0, 50), Header("〇個除去でクリア")] private byte shouldFind = 5;
 
             public float ShouldElapse => shouldElapse;
             public float MaxElapse => maxElapse;

@@ -108,6 +108,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SmokeParticle
       objectReference: {fileID: 0}
+    - target: {fileID: 5705026180554716949, guid: 77835fc44dc5064449095458847aee95, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 8ee194c6e10349941b12a0b3e903d433, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -34,9 +34,10 @@ namespace MyScripts.SO
 
         [Header("Look")]
         [SerializeField] private float rotationSpeed = 1.0f;
-        [SerializeField, Tooltip("カメラを上下に動かせる範囲. x が下限, y が上限.")] private Vector2 cameraClamps = new(-90.0f, 90.0f);
+        [SerializeField, MinMaxRange(-90.0f, 90.0f), Tooltip("カメラを上下に動かす角度の許容範囲 [度]")] private Vector2 cameraPitchRange = new(-90.0f, 90.0f);
         internal float RotationSpeed => rotationSpeed;
-        internal Vector2 CameraClamps => cameraClamps;
+        internal float CameraPitchMin => cameraPitchRange.x;
+        internal float CameraPitchMax => cameraPitchRange.y;
 
         [Space(10)]
 
@@ -75,5 +76,28 @@ namespace MyScripts.SO
         internal LayerMask GroundLayers => groundLayers;
         internal float GroundCheckOffset => groundCheckOffset;
         internal float GroundCheckRadius => groundCheckRadius;
+
+        [Space(10)]
+
+        [Header("Camera Blend on Character Trigger")]
+        [SerializeField] private CameraBlendSettingsOnCharacterTrigger cameraBlendOnCharacterTrigger;
+        internal CameraBlendSettingsOnCharacterTrigger CameraBlendOnCharacterTrigger => cameraBlendOnCharacterTrigger;
+        [Serializable]
+        internal sealed class CameraBlendSettingsOnCharacterTrigger
+        {
+            [SerializeField, Range(0.0f, 5.0f), Tooltip("浮き上がりの所要時間 [s]")] private float floatDuration = 0.5f;
+            [SerializeField, Range(0.0f, 50.0f), Tooltip("浮き上がりの高さ [m]")] private float floatHeight = 20.0f;
+            [SerializeField, Range(0.0f, 20.0f), Tooltip("浮き上がり中、ターゲットを注視する回転速度 (係数)")] private float floatLookSpeed = 6.0f;
+            [SerializeField, Range(0.0f, 1000.0f), Tooltip("移動速度 [m/s]")] private float moveSpeed = 500.0f;
+            [SerializeField, MinMaxRange(0.0f, 5.0f), Tooltip("移動時間の許容範囲 [s]")] private Vector2 moveDurationRange = new(0.5f, 2.0f);
+            [SerializeField, Range(0.0f, 5.0f), Tooltip("移動時間が 〇[s] より長いならば、移動終了時の効果音が鳴る")] private float moveDurationMinToPlayCloseToEndSound = 1.0f;
+            internal float FloatDuration => floatDuration;
+            internal float FloatHeight => floatHeight;
+            internal float FloatLookSpeed => floatLookSpeed;
+            internal float MoveSpeed => moveSpeed;
+            internal float MoveDurationMin => moveDurationRange.x;
+            internal float MoveDurationMax => moveDurationRange.y;
+            internal float MoveDurationMinToPlayCloseToEndSound => moveDurationMinToPlayCloseToEndSound;
+        }
     }
 }
