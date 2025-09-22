@@ -8,15 +8,18 @@ namespace MyScripts.Runtime
         [SerializeField] private Transform playerBody;
 
         // Awake で初期化
-        private MaterialPropertyBlock[] materialPropertyBlocks;
+        private MaterialPropertyBlock mpb;
+        private float alphaChangingDistSqrMin;
+        private float alphaChangingDistSqrMax;
 
         private static readonly int WholeTransparencyID = Shader.PropertyToID("_WholeTransparency");
 
         private void Awake()
         {
-            materialPropertyBlocks = new MaterialPropertyBlock[barrierBorders.Length];
-            for (int i = 0; i < barrierBorders.Length; i++)
-                materialPropertyBlocks[i] = new();
+            mpb = new();
+
+            alphaChangingDistSqrMin = alphaChangingRange.x * alphaChangingRange.x;
+            alphaChangingDistSqrMax = alphaChangingRange.y * alphaChangingRange.y;
         }
 
         private void Start()
@@ -41,9 +44,9 @@ namespace MyScripts.Runtime
                         // プロパティ値を算出
                         (bool enabled, float alpha) = distSqr switch
                         {
-                            _ when distSqr <= (alphaChangingRange.x * alphaChangingRange.x) => (true, 1.0f), // 完全不透明
-                            _ when distSqr >= (alphaChangingRange.y * alphaChangingRange.y) => (false, 0.0f), // 完全透明
-                            _ => (true, distSqr.Remap(alphaChangingRange.x, alphaChangingRange.y, 1.0f, 0.0f)) // 中間の透明度
+                            _ when distSqr <= alphaChangingDistSqrMin => (true, 1.0f), // 完全不透明
+                            _ when distSqr >= alphaChangingDistSqrMax => (false, 0.0f), // 完全透明
+                            _ => (true, distSqr.Remap(alphaChangingDistSqrMin, alphaChangingDistSqrMax, 1.0f, 0.0f)) // 中間の透明度
                         };
 
                         // コンポーネントの有効/無効を切り替え
@@ -54,10 +57,9 @@ namespace MyScripts.Runtime
                             continue;
 
                         // プロパティブロックに値を設定
-                        var block = materialPropertyBlocks[i];
-                        border.GetPropertyBlock(block);
-                        block.SetFloat(WholeTransparencyID, alpha);
-                        border.SetPropertyBlock(block);
+                        border.GetPropertyBlock(mpb);
+                        mpb.SetFloat(WholeTransparencyID, alpha);
+                        border.SetPropertyBlock(mpb);
                     }
                 }
 
