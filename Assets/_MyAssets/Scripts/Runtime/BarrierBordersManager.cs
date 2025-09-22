@@ -2,24 +2,25 @@ namespace MyScripts.Runtime
 {
     internal sealed class BarrierBordersManager : MonoBehaviour
     {
+        [SerializeField] private SGameParameter paramRoot; // BarrierBorderSettings を取得するため
         [SerializeField] private MeshRenderer[] barrierBorders;
-        [SerializeField, MinMaxRange(0.0f, 1000.0f), Tooltip("透明度が変化する距離区間(プレイヤーとの距離) [m]\n段々と見えるようになり、完全に表示する")]
-        private Vector2 alphaChangingRange = new(5.0f, 50.0f);
         [SerializeField] private Transform playerBody;
 
         // Awake で初期化
+        private SGameParameter.BarrierBorderSettings param;
+        private float alphaChangingDistanceMinSqr;
+        private float alphaChangingDistanceMaxSqr;
         private MaterialPropertyBlock mpb;
-        private float alphaChangingDistSqrMin;
-        private float alphaChangingDistSqrMax;
 
         private static readonly int WholeTransparencyID = Shader.PropertyToID("_WholeTransparency");
 
         private void Awake()
         {
-            mpb = new();
+            param = paramRoot.BarrierBorder;
+            alphaChangingDistanceMinSqr = param.AlphaChangingDistanceMin * param.AlphaChangingDistanceMin;
+            alphaChangingDistanceMaxSqr = param.AlphaChangingDistanceMax * param.AlphaChangingDistanceMax;
 
-            alphaChangingDistSqrMin = alphaChangingRange.x * alphaChangingRange.x;
-            alphaChangingDistSqrMax = alphaChangingRange.y * alphaChangingRange.y;
+            mpb = new();
         }
 
         private void Start()
@@ -44,9 +45,9 @@ namespace MyScripts.Runtime
                         // プロパティ値を算出
                         (bool enabled, float alpha) = distSqr switch
                         {
-                            _ when distSqr <= alphaChangingDistSqrMin => (true, 1.0f), // 完全不透明
-                            _ when distSqr >= alphaChangingDistSqrMax => (false, 0.0f), // 完全透明
-                            _ => (true, distSqr.Remap(alphaChangingDistSqrMin, alphaChangingDistSqrMax, 1.0f, 0.0f)) // 中間の透明度
+                            _ when distSqr <= alphaChangingDistanceMinSqr => (true, 1.0f), // 完全不透明
+                            _ when distSqr >= alphaChangingDistanceMaxSqr => (false, 0.0f), // 完全透明
+                            _ => (true, distSqr.Remap(alphaChangingDistanceMinSqr, alphaChangingDistanceMaxSqr, 1.0f, 0.0f)) // 中間の透明度
                         };
 
                         // コンポーネントの有効/無効を切り替え

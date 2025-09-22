@@ -6270,12 +6270,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1fab6030638ff9438e0cbca03e28573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  paramRoot: {fileID: 11400000, guid: 44d62567f21928340a7ed0dfa64e4391, type: 2}
   barrierBorders:
   - {fileID: 5510231621563181153}
   - {fileID: 1583822687}
   - {fileID: 1398220164}
   - {fileID: 1521814250}
-  alphaChangingRange: {x: 50, y: 200}
   playerBody: {fileID: 1540843880}
 --- !u!1001 &1172358068
 PrefabInstance:
