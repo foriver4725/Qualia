@@ -243,6 +243,12 @@ namespace MyScripts.Runtime
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			float targetSpeed = isSprintingInput ? param.MoveSpeed * param.SprintSpeedMultiplier : param.MoveSpeed;
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+			// for debug, make the player move faster while has the input
+			if (DebugFastenMoveSpeedInput)
+				targetSpeed *= 5.0f;
+#endif
+
 			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
 			// if there is no input, set the target speed to 0
@@ -306,14 +312,7 @@ namespace MyScripts.Runtime
 
 			// calculate the real velocity
 			realHorizontalVelocity = inputDirection * speed + new Vector3(nativeHorizontalVelocity.x, 0.0f, nativeHorizontalVelocity.y);
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-			// fasten the move speed by input for debug
-			//! 結構移動がバグるので注意
-			Vector3 realVelocity = (DebugFastenMoveSpeedInput ? (realHorizontalVelocity * 2.0f) : realHorizontalVelocity)
-				+ new Vector3(0.0f, verticalVelocity, 0.0f);
-#else
 			Vector3 realVelocity = realHorizontalVelocity + new Vector3(0.0f, verticalVelocity, 0.0f);
-#endif
 
 			// move the player
 			controller.Move(realVelocity * Time.deltaTime);
