@@ -1149,7 +1149,6 @@ MonoBehaviour:
   characterNames:
   - {fileID: 73524630}
   - {fileID: 2031231635}
-  - {fileID: 0}
 --- !u!1001 &177946474
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6276,7 +6275,7 @@ MonoBehaviour:
   - {fileID: 1583822687}
   - {fileID: 1398220164}
   - {fileID: 1521814250}
-  playerDistLimits: {x: 50, y: 200}
+  alphaChangingRange: {x: 50, y: 200}
   playerBody: {fileID: 1540843880}
 --- !u!1001 &1172358068
 PrefabInstance:

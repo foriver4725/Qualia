@@ -3,26 +3,20 @@ namespace MyScripts.Runtime
     internal sealed class BarrierBordersManager : MonoBehaviour
     {
         [SerializeField] private MeshRenderer[] barrierBorders;
-        [SerializeField, Tooltip("プレイヤーとの距離に応じて可視状態を変える\nx が完全不透明にする距離, y が完全透明にする距離")]
-        private Vector2 playerDistLimits = new(5.0f, 50.0f);
+        [SerializeField, MinMaxRange(0.0f, 1000.0f), Tooltip("透明度が変化する距離区間(プレイヤーとの距離) [m]\n段々と見えるようになり、完全に表示する")]
+        private Vector2 alphaChangingRange = new(50.0f, 200.0f);
         [SerializeField] private Transform playerBody;
 
         // Awake で初期化
-        private MaterialPropertyBlock[] propertyBlocks;
-        private float playerDistLimitMinSqr;
-        private float playerDistLimitMaxSqr;
+        private MaterialPropertyBlock[] materialPropertyBlocks;
 
-        private static readonly int EnabledID = Shader.PropertyToID("_Enabled");
-        private static readonly int TransparencyID = Shader.PropertyToID("_TransparencyCoefficient");
+        private static readonly int WholeTransparencyID = Shader.PropertyToID("_WholeTransparency");
 
         private void Awake()
         {
-            propertyBlocks = new MaterialPropertyBlock[barrierBorders.Length];
+            materialPropertyBlocks = new MaterialPropertyBlock[barrierBorders.Length];
             for (int i = 0; i < barrierBorders.Length; i++)
-                propertyBlocks[i] = new();
-
-            playerDistLimitMinSqr = playerDistLimits.x * playerDistLimits.x;
-            playerDistLimitMaxSqr = playerDistLimits.y * playerDistLimits.y;
+                materialPropertyBlocks[i] = new();
         }
 
         private void Start()
@@ -45,18 +39,24 @@ namespace MyScripts.Runtime
                         float distSqr = CalcDistSqr(border.transform, playerBody.position);
 
                         // プロパティ値を算出
-                        (bool enabled, float transparency) = distSqr switch
+                        (bool enabled, float alpha) = distSqr switch
                         {
-                            _ when distSqr <= playerDistLimitMinSqr => (true, 1.0f), // 完全不透明
-                            _ when distSqr >= playerDistLimitMaxSqr => (false, 0.0f), // 完全透明
-                            _ => (true, distSqr.Remap(playerDistLimitMinSqr, playerDistLimitMaxSqr, 1.0f, 0.0f)) // 中間の透明度
+                            _ when distSqr <= (alphaChangingRange.x * alphaChangingRange.x) => (true, 1.0f), // 完全不透明
+                            _ when distSqr >= (alphaChangingRange.y * alphaChangingRange.y) => (false, 0.0f), // 完全透明
+                            _ => (true, distSqr.Remap(alphaChangingRange.x, alphaChangingRange.y, 1.0f, 0.0f)) // 中間の透明度
                         };
 
+                        // コンポーネントの有効/無効を切り替え
+                        // 無効にするなら、以降の処理はスキップ
+                        if (enabled ^ border.enabled)
+                            border.enabled = enabled;
+                        if (!enabled)
+                            continue;
+
                         // プロパティブロックに値を設定
-                        var block = propertyBlocks[i];
+                        var block = materialPropertyBlocks[i];
                         border.GetPropertyBlock(block);
-                        block.SetFloat(EnabledID, enabled ? 1.0f : 0.0f);
-                        block.SetFloat(TransparencyID, transparency);
+                        block.SetFloat(WholeTransparencyID, alpha);
                         border.SetPropertyBlock(block);
                     }
                 }
