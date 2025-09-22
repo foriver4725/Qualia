@@ -871,97 +871,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1766490383188478063, guid: a93f80d252523a14d9206681c7713ce8, type: 3}
   m_PrefabInstance: {fileID: 129573969}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &131753526
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 131753527}
-  - component: {fileID: 131753528}
-  m_Layer: 0
-  m_Name: CharacterBodyMasking
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
---- !u!4 &131753527
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 131753526}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 612055765}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &131753528
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 131753526}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26d6499a6bd256e47b859377446493a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IsGlobal: 1
-  fadeRadius: 0
-  priority: 0
-  customPasses:
-  - rid: 1246291443293618253
-  injectionPoint: 1
-  m_TargetCamera: {fileID: 0}
-  useTargetCamera: 0
-  references:
-    version: 2
-    RefIds:
-    - rid: 1246291443293618253
-      type: {class: DrawRenderersCustomPass, ns: UnityEngine.Rendering.HighDefinition, asm: Unity.RenderPipelines.HighDefinition.Runtime}
-      data:
-        m_Name: CharacterBodyMasking
-        enabled: 1
-        targetColorBuffer: 0
-        targetDepthBuffer: 0
-        clearFlags: 0
-        passFoldout: 0
-        m_Version: 0
-        filterFoldout: 1
-        rendererFoldout: 1
-        renderQueueType: 2
-        layerMask:
-          serializedVersion: 2
-          m_Bits: 1
-        sortingCriteria: 51
-        overrideMode: 1
-        overrideMaterial: {fileID: 2100000, guid: 26226a385c78f7044bec43ac93aab23b, type: 2}
-        overrideMaterialPassIndex: 0
-        overrideMaterialPassName: <Unnamed Pass 0>
-        overrideShader: {fileID: 4800000, guid: b04e5e86515d1e840847bf71201b7678, type: 3}
-        overrideShaderPassIndex: 0
-        overrideShaderPassName: FullPass
-        overrideDepthState: 0
-        depthCompareFunction: 4
-        depthWrite: 1
-        overrideStencil: 0
-        stencilReferenceValue: 64
-        stencilWriteMask: 192
-        stencilReadMask: 192
-        stencilCompareFunction: 8
-        stencilPassOperation: 0
-        stencilFailOperation: 0
-        stencilDepthFailOperation: 0
-        shaderPass: 0
 --- !u!1001 &141197961
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2129,10 +2038,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_IsGlobal: 1
   fadeRadius: 0
-  priority: 1
+  priority: 0
   customPasses:
   - rid: 1246291443293618253
-  injectionPoint: 1
+  injectionPoint: 6
   m_TargetCamera: {fileID: 0}
   useTargetCamera: 0
   references:
@@ -2141,7 +2050,7 @@ MonoBehaviour:
     - rid: 1246291443293618253
       type: {class: DrawRenderersCustomPass, ns: UnityEngine.Rendering.HighDefinition, asm: Unity.RenderPipelines.HighDefinition.Runtime}
       data:
-        m_Name: CharacterOutline
+        m_Name: Full
         enabled: 1
         targetColorBuffer: 0
         targetDepthBuffer: 0
@@ -2356,7 +2265,7 @@ GameObject:
   - component: {fileID: 364862669}
   - component: {fileID: 364862670}
   m_Layer: 0
-  m_Name: CharacterBody
+  m_Name: CharacterHiddenBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2393,21 +2302,22 @@ MonoBehaviour:
   fadeRadius: 0
   priority: 0
   customPasses:
-  - rid: 1246291443293618253
+  - rid: 1246291445418295371
+  - rid: 1246291445418295372
   injectionPoint: 2
   m_TargetCamera: {fileID: 0}
   useTargetCamera: 0
   references:
     version: 2
     RefIds:
-    - rid: 1246291443293618253
+    - rid: 1246291445418295371
       type: {class: DrawRenderersCustomPass, ns: UnityEngine.Rendering.HighDefinition, asm: Unity.RenderPipelines.HighDefinition.Runtime}
       data:
-        m_Name: CharacterBody
+        m_Name: SearchHidden
         enabled: 1
         targetColorBuffer: 0
-        targetDepthBuffer: 0
-        clearFlags: 0
+        targetDepthBuffer: 1
+        clearFlags: 2
         passFoldout: 0
         m_Version: 0
         filterFoldout: 1
@@ -2418,14 +2328,14 @@ MonoBehaviour:
           m_Bits: 4096
         sortingCriteria: 51
         overrideMode: 1
-        overrideMaterial: {fileID: 2100000, guid: 9e14e8bed711ad84481d57d51b6844e1, type: 2}
+        overrideMaterial: {fileID: 0}
         overrideMaterialPassIndex: 0
-        overrideMaterialPassName: <Unnamed Pass 0>
+        overrideMaterialPassName: Forward
         overrideShader: {fileID: 0}
         overrideShaderPassIndex: 0
         overrideShaderPassName: Forward
-        overrideDepthState: 0
-        depthCompareFunction: 4
+        overrideDepthState: 1
+        depthCompareFunction: 2
         depthWrite: 1
         overrideStencil: 0
         stencilReferenceValue: 64
@@ -2436,6 +2346,20 @@ MonoBehaviour:
         stencilFailOperation: 0
         stencilDepthFailOperation: 0
         shaderPass: 0
+    - rid: 1246291445418295372
+      type: {class: FullScreenCustomPass, ns: UnityEngine.Rendering.HighDefinition, asm: Unity.RenderPipelines.HighDefinition.Runtime}
+      data:
+        m_Name: Draw
+        enabled: 1
+        targetColorBuffer: 0
+        targetDepthBuffer: 0
+        clearFlags: 0
+        passFoldout: 0
+        m_Version: 0
+        fullscreenPassMaterial: {fileID: 2100000, guid: ee009c97cc9a07e46bc663034ab8d402, type: 2}
+        materialPassIndex: 0
+        materialPassName: Custom Pass 0
+        fetchColorBuffer: 0
 --- !u!1001 &371107547
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3333,7 +3257,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 271256199}
-  - {fileID: 131753527}
   - {fileID: 364862669}
   m_Father: {fileID: 2131254763}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6515,7 +6438,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 257142241316034343, guid: f514be6126461c64eab6f02358f894f3, type: 3}
       propertyPath: m_DrawInstanced
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 257142241354730678, guid: f514be6126461c64eab6f02358f894f3, type: 3}
       propertyPath: m_Layer
@@ -6651,7 +6574,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 257142243187119943, guid: f514be6126461c64eab6f02358f894f3, type: 3}
       propertyPath: m_DrawInstanced
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -16,7 +16,7 @@ Shader "_MyShader/CharacterOutline/CharacterOutlinePass"
             #pragma fragment frag
 
             #include "UnityCG.cginc"
-            #include "Assets/_MyAssets/Shaders/CharacterOutline/Common/Parameter.hlsl"
+            #include "Assets/_MyAssets/Shaders/CharacterOutline/Common/ColorGetter.hlsl"
 
             struct appdata
             {
@@ -56,7 +56,10 @@ Shader "_MyShader/CharacterOutline/CharacterOutlinePass"
                 return o;
             }
 
-            #include "Assets/_MyAssets/Shaders/CharacterOutline/Common/FragmentShader.hlsl"
+            half4 frag(v2f _) : SV_Target
+            {
+                return GetNowColor();
+            }
 
             ENDCG
         }
