@@ -4,7 +4,7 @@ namespace MyScripts.Runtime
     {
         [SerializeField] private MeshRenderer[] barrierBorders;
         [SerializeField, MinMaxRange(0.0f, 1000.0f), Tooltip("透明度が変化する距離区間(プレイヤーとの距離) [m]\n段々と見えるようになり、完全に表示する")]
-        private Vector2 alphaChangingRange = new(50.0f, 200.0f);
+        private Vector2 alphaChangingRange = new(5.0f, 50.0f);
         [SerializeField] private Transform playerBody;
 
         // Awake で初期化
