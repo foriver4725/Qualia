@@ -1,20 +1,11 @@
-Shader "MyShader/CharacterOutline"
+Shader "_MyShader/CharacterOutline/CharacterOutlinePass"
 {
-    Properties
-    {
-        _BeginColor ("Begin Color", Color) = (0, 0, 0, 1)
-        _Width ("Width", Range(0, 0.1)) = 0.01
-        _ColorChangeSpeed ("Color Change Speed", Range(-5, 5)) = 0.2
-    }
-
     SubShader
     {
         Tags{ "RenderType"="Opaque" "Queue"="Geometry" }
 
         Pass
         {
-            Name "FullPass"
-
             Cull Front
             ZTest LEqual
             ZWrite On
@@ -25,11 +16,7 @@ Shader "MyShader/CharacterOutline"
             #pragma fragment frag
 
             #include "UnityCG.cginc"
-            #include "./RGB2HSV.hlsl"
-
-            half3 _BeginColor;
-            half _Width;
-            half _ColorChangeSpeed;
+            #include "Assets/_MyAssets/Shaders/CharacterOutline/Common/ColorGetter.hlsl"
 
             struct appdata
             {
@@ -71,10 +58,7 @@ Shader "MyShader/CharacterOutline"
 
             half4 frag(v2f _) : SV_Target
             {
-                half3 hsv = RGB2HSV(_BeginColor);
-                hsv.x = frac(hsv.x + _ColorChangeSpeed * _Time.y); // 経過時間でHueを進める(負値なら逆回転)
-                half3 rgb = HSV2RGB(hsv);
-                return half4(rgb, 1.0);
+                return GetNowColor();
             }
 
             ENDCG

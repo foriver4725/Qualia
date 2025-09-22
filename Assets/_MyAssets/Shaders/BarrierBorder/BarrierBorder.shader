@@ -1,4 +1,4 @@
-Shader "MyShader/BarrierBorder"
+Shader "_MyShader/BarrierBorder"
 {
     Properties
     {
