@@ -1,6 +1,6 @@
 ﻿namespace MyScripts.Runtime
 {
-    internal sealed class ResultSceneManager : MonoBehaviour
+    internal sealed class ResultSceneManager : MonoBehaviour, IOutGameSceneManagerSingleTransition
     {
         [SerializeField] private TextMeshProUGUI resultText;
         [SerializeField] private Button oneMoreButton;
@@ -11,7 +11,9 @@
         {
             resultText.SetTextFormat("{0} 個\n<size=120>取り除いた！</size>", ScoreHolder.FoundAmount);
             await oneMoreButton.OnClickAsync(ct);
-            LoadManager.Instance.BeginLoad(Scene.Main);
+            TransitToNextScene();
         }
+
+        public void TransitToNextScene() => LoadManager.Instance.BeginLoad(Scene.Main);
     }
 }
