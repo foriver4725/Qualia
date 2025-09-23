@@ -1,6 +1,6 @@
 ﻿namespace MyScripts.Runtime
 {
-    internal sealed class TitleSceneManager : MonoBehaviour
+    internal sealed class TitleSceneManager : MonoBehaviour, IOutGameSceneManagerSingleTransition
     {
         [SerializeField] private Button startButton;
 
@@ -9,7 +9,9 @@
         private async UniTaskVoid Impl(Ct ct)
         {
             await startButton.OnClickAsync(ct);
-            LoadManager.Instance.BeginLoad(Scene.Main);
+            TransitToNextScene();
         }
+
+        public void TransitToNextScene() => LoadManager.Instance.BeginLoad(Scene.Select);
     }
 }
