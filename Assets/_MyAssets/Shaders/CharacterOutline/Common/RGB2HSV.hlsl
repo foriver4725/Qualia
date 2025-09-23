@@ -1,3 +1,5 @@
+#pragma once
+
 half3 RGB2HSV(half3 rgb)
 {
     half r = rgb.r, g = rgb.g, b = rgb.b;

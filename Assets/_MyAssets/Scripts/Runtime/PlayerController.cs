@@ -13,10 +13,14 @@ namespace MyScripts.Runtime
 			[SerializeField] private Border[] rock;
 			[SerializeField] private Border[] water;
 
-			internal IReadOnlyList<Border> Grass => grass;
-			internal IReadOnlyList<Border> Sand => sand;
-			internal IReadOnlyList<Border> Rock => rock;
-			internal IReadOnlyList<Border> Water => water;
+			internal IReadOnlyList<Border> Get(SWalkSound.Surface surface) => surface switch
+			{
+				SWalkSound.Surface.Grass => grass,
+				SWalkSound.Surface.Sand => sand,
+				SWalkSound.Surface.Rock => rock,
+				SWalkSound.Surface.Water => water,
+				_ => throw new ArgumentOutOfRangeException(nameof(surface), surface, null)
+			};
 		}
 
 		[Header("Player Control")]
@@ -83,6 +87,14 @@ namespace MyScripts.Runtime
 
 		// walk sound
 		private byte walkSoundUpdateFrameCounter = 0;
+		// 最初の方 (= 上の地層にある地面) を優先して鳴らす
+		private static readonly ReadOnlyCollection<SWalkSound.Surface> WalkSoundPriority = Array.AsReadOnly(new SWalkSound.Surface[]
+		{
+			SWalkSound.Surface.Rock,
+			SWalkSound.Surface.Water,
+			SWalkSound.Surface.Sand,
+			SWalkSound.Surface.Grass,
+		});
 
 		private void Awake()
 		{
@@ -193,7 +205,7 @@ namespace MyScripts.Runtime
 				rotationVelocity = input.x * param.RotationSpeed * deltaTimeMultiplier;
 
 				// clamp our pitch rotation
-				cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, param.CameraClamps.x, param.CameraClamps.y);
+				cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, param.CameraPitchMin, param.CameraPitchMax);
 
 				// Update Cinemachine camera target pitch
 				cinemachineCameraTarget.localRotation = Quaternion.Euler(cinemachineTargetPitch, 0.0f, 0.0f);
@@ -230,6 +242,12 @@ namespace MyScripts.Runtime
 
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			float targetSpeed = isSprintingInput ? param.MoveSpeed * param.SprintSpeedMultiplier : param.MoveSpeed;
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+			// for debug, make the player move faster while has the input
+			if (DebugFastenMoveSpeedInput)
+				targetSpeed *= 5.0f;
+#endif
 
 			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
@@ -294,14 +312,7 @@ namespace MyScripts.Runtime
 
 			// calculate the real velocity
 			realHorizontalVelocity = inputDirection * speed + new Vector3(nativeHorizontalVelocity.x, 0.0f, nativeHorizontalVelocity.y);
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-			// fasten the move speed by input for debug
-			//! 結構移動がバグるので注意
-			Vector3 realVelocity = (DebugFastenMoveSpeedInput ? (realHorizontalVelocity * 2.0f) : realHorizontalVelocity)
-				+ new Vector3(0.0f, verticalVelocity, 0.0f);
-#else
 			Vector3 realVelocity = realHorizontalVelocity + new Vector3(0.0f, verticalVelocity, 0.0f);
-#endif
 
 			// move the player
 			controller.Move(realVelocity * Time.deltaTime);
@@ -394,17 +405,14 @@ namespace MyScripts.Runtime
 
 			Vector3 playerPosition = controller.transform.position;
 
-			if (IsPlayerInsideOfAnyBorder(walkSoundBorders.Grass, playerPosition, BorderLayer.WalkSound.Grass))
-				return SWalkSound.Surface.Grass;
-			if (IsPlayerInsideOfAnyBorder(walkSoundBorders.Sand, playerPosition, BorderLayer.WalkSound.Sand))
-				return SWalkSound.Surface.Sand;
-			if (IsPlayerInsideOfAnyBorder(walkSoundBorders.Rock, playerPosition, BorderLayer.WalkSound.Rock))
-				return SWalkSound.Surface.Rock;
-			if (IsPlayerInsideOfAnyBorder(walkSoundBorders.Water, playerPosition, BorderLayer.WalkSound.Water))
-				return SWalkSound.Surface.Water;
+			// 優先度の高い順に調べていく
+			foreach (var surface in WalkSoundPriority)
+			{
+				if (IsPlayerInsideOfAnyBorder(walkSoundBorders.Get(surface), playerPosition, BorderLayer.WalkSound.Get(surface)))
+					return surface;
+			}
 
-			"Walk sound can be played but no borders contain the player. Default to Grass.".LogWarning();
-			return SWalkSound.Surface.Grass; // デフォルトは草地
+			return SWalkSound.Surface.Default;
 		}
 
 		private static bool IsPlayerInsideOfAnyBorder(IReadOnlyList<Border> borders, Vector3 playerPosition, byte targetLayer)

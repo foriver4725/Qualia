@@ -431,6 +431,33 @@ namespace MyScripts.Common
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SetGraphicQualityLow"",
+                    ""type"": ""Button"",
+                    ""id"": ""16fb0ec6-51bf-4290-9b9c-4d8a1256cf6e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SetGraphicQualityMedium"",
+                    ""type"": ""Button"",
+                    ""id"": ""757493c2-4c29-481f-b570-c95243bc7b58"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SetGraphicQualityHigh"",
+                    ""type"": ""Button"",
+                    ""id"": ""26dad9e6-e873-4559-8eda-2bfcc010e8ab"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -455,6 +482,39 @@ namespace MyScripts.Common
                     ""action"": ""FastenMoveSpeed"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d5cbfca3-9f4c-4349-a56e-c2b6a4cbe240"",
+                    ""path"": ""<Keyboard>/f8"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SetGraphicQualityLow"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""91c7cdba-93e1-4136-a446-88d1abb9d7ae"",
+                    ""path"": ""<Keyboard>/f9"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SetGraphicQualityMedium"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4837ff91-e73f-4117-bad1-3b2abf00c404"",
+                    ""path"": ""<Keyboard>/f10"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SetGraphicQualityHigh"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -476,6 +536,9 @@ namespace MyScripts.Common
             m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
             m_Debug_FastenTimeLimit = m_Debug.FindAction("FastenTimeLimit", throwIfNotFound: true);
             m_Debug_FastenMoveSpeed = m_Debug.FindAction("FastenMoveSpeed", throwIfNotFound: true);
+            m_Debug_SetGraphicQualityLow = m_Debug.FindAction("SetGraphicQualityLow", throwIfNotFound: true);
+            m_Debug_SetGraphicQualityMedium = m_Debug.FindAction("SetGraphicQualityMedium", throwIfNotFound: true);
+            m_Debug_SetGraphicQualityHigh = m_Debug.FindAction("SetGraphicQualityHigh", throwIfNotFound: true);
         }
 
         ~@MyActions()
@@ -807,6 +870,9 @@ namespace MyScripts.Common
         private List<IDebugActions> m_DebugActionsCallbackInterfaces = new List<IDebugActions>();
         private readonly InputAction m_Debug_FastenTimeLimit;
         private readonly InputAction m_Debug_FastenMoveSpeed;
+        private readonly InputAction m_Debug_SetGraphicQualityLow;
+        private readonly InputAction m_Debug_SetGraphicQualityMedium;
+        private readonly InputAction m_Debug_SetGraphicQualityHigh;
         /// <summary>
         /// Provides access to input actions defined in input action map "Debug".
         /// </summary>
@@ -826,6 +892,18 @@ namespace MyScripts.Common
             /// Provides access to the underlying input action "Debug/FastenMoveSpeed".
             /// </summary>
             public InputAction @FastenMoveSpeed => m_Wrapper.m_Debug_FastenMoveSpeed;
+            /// <summary>
+            /// Provides access to the underlying input action "Debug/SetGraphicQualityLow".
+            /// </summary>
+            public InputAction @SetGraphicQualityLow => m_Wrapper.m_Debug_SetGraphicQualityLow;
+            /// <summary>
+            /// Provides access to the underlying input action "Debug/SetGraphicQualityMedium".
+            /// </summary>
+            public InputAction @SetGraphicQualityMedium => m_Wrapper.m_Debug_SetGraphicQualityMedium;
+            /// <summary>
+            /// Provides access to the underlying input action "Debug/SetGraphicQualityHigh".
+            /// </summary>
+            public InputAction @SetGraphicQualityHigh => m_Wrapper.m_Debug_SetGraphicQualityHigh;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -858,6 +936,15 @@ namespace MyScripts.Common
                 @FastenMoveSpeed.started += instance.OnFastenMoveSpeed;
                 @FastenMoveSpeed.performed += instance.OnFastenMoveSpeed;
                 @FastenMoveSpeed.canceled += instance.OnFastenMoveSpeed;
+                @SetGraphicQualityLow.started += instance.OnSetGraphicQualityLow;
+                @SetGraphicQualityLow.performed += instance.OnSetGraphicQualityLow;
+                @SetGraphicQualityLow.canceled += instance.OnSetGraphicQualityLow;
+                @SetGraphicQualityMedium.started += instance.OnSetGraphicQualityMedium;
+                @SetGraphicQualityMedium.performed += instance.OnSetGraphicQualityMedium;
+                @SetGraphicQualityMedium.canceled += instance.OnSetGraphicQualityMedium;
+                @SetGraphicQualityHigh.started += instance.OnSetGraphicQualityHigh;
+                @SetGraphicQualityHigh.performed += instance.OnSetGraphicQualityHigh;
+                @SetGraphicQualityHigh.canceled += instance.OnSetGraphicQualityHigh;
             }
 
             /// <summary>
@@ -875,6 +962,15 @@ namespace MyScripts.Common
                 @FastenMoveSpeed.started -= instance.OnFastenMoveSpeed;
                 @FastenMoveSpeed.performed -= instance.OnFastenMoveSpeed;
                 @FastenMoveSpeed.canceled -= instance.OnFastenMoveSpeed;
+                @SetGraphicQualityLow.started -= instance.OnSetGraphicQualityLow;
+                @SetGraphicQualityLow.performed -= instance.OnSetGraphicQualityLow;
+                @SetGraphicQualityLow.canceled -= instance.OnSetGraphicQualityLow;
+                @SetGraphicQualityMedium.started -= instance.OnSetGraphicQualityMedium;
+                @SetGraphicQualityMedium.performed -= instance.OnSetGraphicQualityMedium;
+                @SetGraphicQualityMedium.canceled -= instance.OnSetGraphicQualityMedium;
+                @SetGraphicQualityHigh.started -= instance.OnSetGraphicQualityHigh;
+                @SetGraphicQualityHigh.performed -= instance.OnSetGraphicQualityHigh;
+                @SetGraphicQualityHigh.canceled -= instance.OnSetGraphicQualityHigh;
             }
 
             /// <summary>
@@ -994,6 +1090,27 @@ namespace MyScripts.Common
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnFastenMoveSpeed(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "SetGraphicQualityLow" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnSetGraphicQualityLow(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "SetGraphicQualityMedium" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnSetGraphicQualityMedium(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "SetGraphicQualityHigh" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnSetGraphicQualityHigh(InputAction.CallbackContext context);
         }
     }
 }
