@@ -1,0 +1,18 @@
+{
+    "name": "MyScripts.EditorExtension.Private",
+    "rootNamespace": "",
+    "references": [
+        "GUID:a530cbaf09ed2ae4393fb53d10b9942b"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

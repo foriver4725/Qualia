@@ -1,18 +1,4 @@
-namespace UnityEngine
-{
-    [AttributeUsage(AttributeTargets.Field)]
-    internal sealed class MinMaxRangeAttribute : PropertyAttribute
-    {
-        internal readonly float min;
-        internal readonly float max;
-
-        internal MinMaxRangeAttribute(float min, float max)
-        {
-            this.min = min;
-            this.max = max;
-        }
-    }
-}
+using UnityEngine;
 
 namespace UnityEditor
 {
