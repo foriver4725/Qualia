@@ -1,19 +1,26 @@
 ﻿namespace MyScripts.Runtime
 {
-    internal sealed class ResultSceneManager : MonoBehaviour, IOutGameSceneManagerSingleTransition
+    internal sealed class ResultSceneManager : MonoBehaviour, IOutGameSceneManagerMultiTransition
     {
         [SerializeField] private TextMeshProUGUI resultText;
-        [SerializeField] private Button oneMoreButton;
+        [SerializeField] private Button retryButton;
+        [SerializeField] private Button backButton;
 
         private void Awake() => Impl(destroyCancellationToken).Forget();
 
         private async UniTaskVoid Impl(Ct ct)
         {
             resultText.SetTextFormat("{0} 個\n<size=120>取り除いた！</size>", ScoreHolder.FoundAmount);
-            await oneMoreButton.OnClickAsync(ct);
-            TransitToNextScene();
+
+            int completedTaskIndex = await UniTask.WhenAny(
+                retryButton.OnClickAsync(ct),
+                backButton.OnClickAsync(ct)
+            );
+
+            Scene nextScene = (completedTaskIndex == 0) ? Scene.Main : Scene.Title;
+            TransitToScene(nextScene);
         }
 
-        public void TransitToNextScene() => LoadManager.Instance.BeginLoad(Scene.Main);
+        public void TransitToScene(Scene scene) => LoadManager.Instance.BeginLoad(scene);
     }
 }
