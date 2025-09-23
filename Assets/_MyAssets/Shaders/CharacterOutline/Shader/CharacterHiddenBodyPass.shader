@@ -30,7 +30,7 @@ Shader "_MyShader/CharacterOutline/CharacterHiddenBodyPass"
         else
         {
             // 色を描画
-            return GetNowColor();
+            return GetNowColor(_Time.y);
         }
     }
 

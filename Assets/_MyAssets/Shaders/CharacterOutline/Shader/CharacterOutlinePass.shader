@@ -58,7 +58,7 @@ Shader "_MyShader/CharacterOutline/CharacterOutlinePass"
 
             half4 frag(v2f _) : SV_Target
             {
-                return GetNowColor();
+                return GetNowColor(_Time.y);
             }
 
             ENDCG
