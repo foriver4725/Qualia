@@ -19,7 +19,6 @@ namespace MyScripts.Runtime
         [SerializeField] private TextMeshProUGUI triggerCtLabel;
         [SerializeField] private PlayerController pc;
         [SerializeField] private GameObject playerCapsule;
-        [SerializeField] private SPlayerControl paramRoot; // カメラブレンドのパラメータを取得するため
         [SerializeField] private SOSSignFindManager sosSignFindManager;
         [SerializeField] private TimeScoreManager timeScoreManager;
         [SerializeField] private CharacterTriggerSoundPlayer soundPlayer;
@@ -43,7 +42,7 @@ namespace MyScripts.Runtime
 
         private void Awake()
         {
-            param = paramRoot.CameraBlendOnCharacterTrigger;
+            param = InGameSOHolder.Instance.PlayerControl.CameraBlendOnCharacterTrigger;
             sosSigns = sosSignsRoot.GetComponentsInChildren<ParticleSystem>(includeInactive: true);
 
             {

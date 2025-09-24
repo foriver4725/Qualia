@@ -15,7 +15,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &8810661517560753632
 Transform:
@@ -47,3 +47,4 @@ MonoBehaviour:
   low: {fileID: 11400000, guid: 168a2336534e4e043b2a210b6f8d379a, type: 2}
   medium: {fileID: 11400000, guid: 3e2e6bfc59709614ab90c0cd7d755e48, type: 2}
   high: {fileID: 11400000, guid: 36dd385e759c96147b6463dcd1149c11, type: 2}
+  text: {fileID: 0}

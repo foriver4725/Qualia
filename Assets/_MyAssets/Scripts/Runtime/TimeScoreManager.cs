@@ -2,7 +2,6 @@
 {
     internal sealed class TimeScoreManager : MonoBehaviour
     {
-        [SerializeField] private SGameRule gameRule; // クリア判定で使用
         [SerializeField] private TextMeshProUGUI timeText;
         [SerializeField] private TextMeshProUGUI leftText;
 
@@ -23,7 +22,7 @@
 
             // クリア条件の取得
             {
-                var clearCondition = gameRule.GetClearCondition();
+                var clearCondition = InGameSOHolder.Instance.GameRule.GetClearCondition();
                 maxElapsed = clearCondition.MaxElapse;
                 maxFind = clearCondition.MaxFind;
                 shouldElapse = clearCondition.ShouldElapse;

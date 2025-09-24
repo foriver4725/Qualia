@@ -25,7 +25,6 @@ namespace MyScripts.Runtime
 
 		[Header("Player Control")]
 		[SerializeField] private CharacterController controller;
-		[SerializeField] private SPlayerControl param;
 		[SerializeField] private PlayerControlSoundPlayer soundPlayer;
 		[SerializeField] private Transform cinemachineCameraTarget;
 		[SerializeField] private Transform teleportBackPoint;
@@ -54,6 +53,7 @@ namespace MyScripts.Runtime
 
 		// timeout deltatime
 		// Awake で初期化
+		private SPlayerControl param;
 		private float jumpTimeoutDelta;
 		private float fallTimeoutDelta;
 
@@ -98,6 +98,8 @@ namespace MyScripts.Runtime
 
 		private void Awake()
 		{
+			param = InGameSOHolder.Instance.PlayerControl;
+
 			// reset our timeouts on start
 			jumpTimeoutDelta = param.JumpTimeout;
 			fallTimeoutDelta = param.FallTimeout;
