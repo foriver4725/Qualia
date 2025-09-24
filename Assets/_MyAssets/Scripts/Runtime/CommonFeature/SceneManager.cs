@@ -1,4 +1,4 @@
-﻿namespace MyScripts.Common;
+﻿namespace MyScripts.Runtime;
 
 internal enum Scene : byte
 {

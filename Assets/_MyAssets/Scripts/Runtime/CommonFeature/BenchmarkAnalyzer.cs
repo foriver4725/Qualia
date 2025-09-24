@@ -1,7 +1,7 @@
 ﻿using Unity.Profiling;
 using UnityEngine.Profiling;
 
-namespace MyScripts.Common
+namespace MyScripts.Runtime
 {
     internal sealed class BenchmarkAnalyzer : MonoBehaviour
     {
