@@ -48,7 +48,7 @@ namespace MyScripts.Runtime
                         {
                             LogManager.Instance.ShowManually("左クリックで取り除く");
 
-                            if (await WaitForClickOrExit(col, ct) == true)
+                            if (await WaitForClickOrExitAsync(col, ct) == true)
                             {
                                 // 取り除く
                                 col.gameObject.SetActive(false);
@@ -77,7 +77,7 @@ namespace MyScripts.Runtime
 
                             while (true)
                             {
-                                if (await WaitForClickOrExit(col, ct) == true)
+                                if (await WaitForClickOrExitAsync(col, ct) == true)
                                 {
                                     soundPlayer.LetPlay(SSOSSound.Situation.CouldNotRemove);
                                     continue;
@@ -97,7 +97,7 @@ namespace MyScripts.Runtime
 
         // Click したなら true を、 Exit したなら false を返す
         // 同フレームなら Exit を優先する
-        private async UniTask<bool> WaitForClickOrExit(Collider collider, Ct ct) => await UniTask.WhenAny(
+        private async UniTask<bool> WaitForClickOrExitAsync(Collider collider, Ct ct) => await UniTask.WhenAny(
             // 同フレームなら Exit を優先するために、このタイミングで待つ
             UniTask.WaitUntil(() => InputManager.InGameSubmit.Bool, timing: PlayerLoopTiming.LastUpdate, cancellationToken: ct),
             collider.OnTriggerExitAsObservable()
@@ -115,14 +115,14 @@ namespace MyScripts.Runtime
             {
                 var condition = conditions[i];
 
-                await WaitForDisasterByFoundCount(condition.BeginCount, ct);
+                await WaitForDisasterCountAsync(condition.BeginCount, ct);
 
                 SetDisasterEnabled(condition.Disaster, true);
                 // TODO: 発生したことをユーザーに伝える
                 ZString.Format("災害 【{0}】 発生", condition.Disaster).Log();
 
                 _ = await UniTask.WhenAny(
-                    WaitForDisasterByFoundCount(condition.EndCount, ct),
+                    WaitForDisasterCountAsync(condition.EndCount, ct),
                     condition.EndDuration.SecAwait(ct: ct)
                 );
 
@@ -134,7 +134,7 @@ namespace MyScripts.Runtime
 
         // 災害用の発見数カウントが targetCount に達するまで待つ
         // カウントが減ることはないので、単純に >= で判定する
-        private async UniTask WaitForDisasterByFoundCount(byte targetCount, Ct ct)
+        private async UniTask WaitForDisasterCountAsync(byte targetCount, Ct ct)
             => await UniTask.WaitUntil(() => foundCountForDisaster >= targetCount, cancellationToken: ct);
 
         private void SetDisasterEnabled(Disaster disaster, bool enabled)
