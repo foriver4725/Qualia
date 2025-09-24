@@ -3482,10 +3482,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bfa6876635c53844a77a64852caea35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameRule: {fileID: 0}
   playerCapsuleCollider: {fileID: 1986410593}
-  sosSignLogText: {fileID: 11400000, guid: 76b3c8989805dcf4b8d800945733af6a, type: 2}
   soundPlayer: {fileID: 195949041}
+  windstormManager: {fileID: 2064640338}
+  blizzardManager: {fileID: 756620862}
 --- !u!1 &685558487
 GameObject:
   m_ObjectHideFlags: 0
@@ -6156,7 +6156,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1fab6030638ff9438e0cbca03e28573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  paramRoot: {fileID: 11400000, guid: 44d62567f21928340a7ed0dfa64e4391, type: 2}
   barrierBorders:
   - {fileID: 5510231621563181153}
   - {fileID: 1583822687}
@@ -10115,7 +10114,6 @@ MonoBehaviour:
   triggerCtLabel: {fileID: 210410217}
   pc: {fileID: 2390642557826304884}
   playerCapsule: {fileID: 1933024321}
-  paramRoot: {fileID: 11400000, guid: 991b2e6848387e445989de5252d1d256, type: 2}
   sosSignFindManager: {fileID: 658782585}
   timeScoreManager: {fileID: 2065478739}
   soundPlayer: {fileID: 984612693}
@@ -10650,7 +10648,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54cef83ca7641c14f955ca08302479e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameRule: {fileID: 11400000, guid: 13c815dbb8445b5488338d16a7eef294, type: 2}
   timeText: {fileID: 1159964572}
   leftText: {fileID: 306161353}
 --- !u!1 &2072821624

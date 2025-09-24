@@ -20,33 +20,26 @@ namespace MyScripts.SO
         }
 
         [Serializable]
-        internal sealed class DisasterOccurrenceConditions
+        internal sealed class DisasterOccurrenceCondition
         {
-            [Serializable]
-            internal sealed class SingleCondition
-            {
-                [SerializeField, Header("発生する災害")] private Disaster disaster = Disaster.None;
-                internal Disaster Disaster => disaster;
+            [SerializeField, Header("発生する災害")] private Disaster disaster = default;
+            internal Disaster Disaster => disaster;
 
-                [Space(10)]
+            [Space(10)]
 
-                [SerializeField, Range(0, 50), Header("〇個目を除去したら発生し、")] private byte beginCount = 2;
-                [SerializeField, Range(0, 50), Header("△個目を除去するまたは、")] private byte endCount = 3;
-                [SerializeField, Range(0.0f, 1.0e4f), Header("□秒経過したら終了する")] private float endDuration = 90.0f;
-                internal byte BeginCount => beginCount;
-                internal byte EndCount => endCount;
-                internal float EndDuration => endDuration;
-            }
-
-            [SerializeField, Header("発生順に設定すること")] private SingleCondition[] conditions = Array.Empty<SingleCondition>();
-            internal IReadOnlyList<SingleCondition> Conditions => conditions;
+            [SerializeField, Range(0, 50), Header("〇個目を除去したら発生し、")] private byte beginCount = 2;
+            [SerializeField, Range(0, 50), Header("△個目を除去するまたは、")] private byte endCount = 3;
+            [SerializeField, Range(0.0f, 1.0e4f), Header("□秒経過したら終了する")] private float endDuration = 90.0f;
+            internal byte BeginCount => beginCount;
+            internal byte EndCount => endCount;
+            internal float EndDuration => endDuration;
         }
 
         //　今後、複数ステージに増える予定
         [SerializeField] private ClearCondition clearCondition;
-        [SerializeField] private DisasterOccurrenceConditions disasterOccurrenceConditions;
+        [SerializeField, Header("発生順に設定すること")] private DisasterOccurrenceCondition[] disasterOccurrenceConditions;
 
         internal ClearCondition GetClearCondition() => clearCondition;
-        internal DisasterOccurrenceConditions GetDisasterOccurrenceConditions() => disasterOccurrenceConditions;
+        internal IReadOnlyList<DisasterOccurrenceCondition> GetDisasterOccurrenceConditions() => disasterOccurrenceConditions;
     }
 }
