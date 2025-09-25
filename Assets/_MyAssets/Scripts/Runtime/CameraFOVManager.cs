@@ -9,7 +9,7 @@ namespace MyScripts.Runtime
             OnSprint = 1,
         }
 
-        [SerializeField] private Camera playerCamera;
+        [SerializeField] private Cinemachine.CinemachineVirtualCamera playerCamera;
 
         // Awake で初期化
         private SGameParameter.CameraFOVSettings param;
@@ -49,7 +49,9 @@ namespace MyScripts.Runtime
                     deltas += delta;
             }
 
-            playerCamera.fieldOfView = param.Default + deltas;
+            var lens = playerCamera.m_Lens;
+            lens.FieldOfView = param.Default + deltas;
+            playerCamera.m_Lens = lens;
         }
     }
 }
