@@ -11124,6 +11124,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 719630014}
     - target: {fileID: 8645547747250865677, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
+      propertyPath: cameraFOVManager
+      value: 
+      objectReference: {fileID: 44373516}
+    - target: {fileID: 8645547747250865677, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
       propertyPath: teleportBackPoint
       value: 
       objectReference: {fileID: 1395476145}

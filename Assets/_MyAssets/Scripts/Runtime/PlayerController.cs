@@ -25,6 +25,7 @@ namespace MyScripts.Runtime
 
 		[Header("Player Control")]
 		[SerializeField] private CharacterController controller;
+		[SerializeField] private CameraFOVManager cameraFOVManager;
 		[SerializeField] private PlayerControlSoundPlayer soundPlayer;
 		[SerializeField] private Transform cinemachineCameraTarget;
 		[SerializeField] private Transform teleportBackPoint;
@@ -113,6 +114,8 @@ namespace MyScripts.Runtime
 			AttenuateNativeHorizontalVelocity();
 			InputAndFinallyMove();
 			TeleportBackWhenInvalidPosition();
+
+			UpdateFOVsSprintMode();
 			UpdateWalkSound();
 		}
 
@@ -386,6 +389,15 @@ namespace MyScripts.Runtime
 			{ y: < -50 or > 500 } or
 			{ z: < -1600 or > 1600 })
 				controller.transform.position = teleportBackPoint.position;
+		}
+
+		private void UpdateFOVsSprintMode()
+		{
+			// 重複して呼んでもOKなので、毎フレーム呼んでしまう
+			if (isSprinting)
+				cameraFOVManager.AddMode(CameraFOVManager.Mode.OnSprint);
+			else
+				cameraFOVManager.RemoveMode(CameraFOVManager.Mode.OnSprint);
 		}
 
 		private void UpdateWalkSound()
