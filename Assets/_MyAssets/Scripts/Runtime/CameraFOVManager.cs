@@ -5,7 +5,7 @@ namespace MyScripts.Runtime
         [Flags]
         internal enum Mode : byte
         {
-            Default = 0,
+            None = 0,
             OnSprint = 1,
         }
 
@@ -25,7 +25,7 @@ namespace MyScripts.Runtime
                 { Mode.OnSprint, param.OnSprintDelta },
             };
 
-            UpdateFOV(this.mode = Mode.Default);
+            UpdateFOV(this.mode = Mode.None);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace MyScripts.Runtime
             float deltas = 0.0f;
             foreach ((Mode mode, float delta) in fovDeltas)
             {
-                if (currentMode.HasFlag(mode))
+                if ((currentMode & mode) != 0)
                     deltas += delta;
             }
 
