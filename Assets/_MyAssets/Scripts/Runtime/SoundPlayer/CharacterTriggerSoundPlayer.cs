@@ -2,8 +2,10 @@ namespace MyScripts.Runtime
 {
     internal sealed class CharacterTriggerSoundPlayer : ASoundPlayerWithType<SCharacterTriggerSound, SCharacterTriggerSound.Timing>
     {
-        [SerializeField, Range(0.0f, 5.0f), Tooltip("CloseToEnd の効果音を、開始何秒から鳴らすか")] private float timeOffsetOfCloseToEndSound = 1.0f;
-        internal float CloseToEndSoundLength => Param.CloseToEndSoundLength - timeOffsetOfCloseToEndSound;
+        /// <summary>
+        /// CloseToEnd の効果音を実際に鳴らす秒数
+        /// </summary>
+        internal float CloseToEndPlayLength => Param.CloseToEndLength - Param.CloseToEndTimeOffset;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private protected sealed override byte TypeToByte(SCharacterTriggerSound.Timing type) => (byte)type;
@@ -23,7 +25,7 @@ namespace MyScripts.Runtime
             (
                 clip,
                 volume: Param.Volume,
-                time: type == SCharacterTriggerSound.Timing.CloseToEnd ? timeOffsetOfCloseToEndSound : 0.0f
+                time: type == SCharacterTriggerSound.Timing.CloseToEnd ? Param.CloseToEndTimeOffset : 0.0f
             );
         }
     }
