@@ -15,6 +15,7 @@ namespace MyScripts.Runtime
         private SGameParameter.CameraFOVSettings param;
         private Dictionary<Mode, float> fovDeltas;
         private Mode mode;
+        private float targetDeltas; // デフォルト値 + この値 に向かって、毎フレーム Lerp する
 
         private void Awake()
         {
@@ -25,22 +26,27 @@ namespace MyScripts.Runtime
                 { Mode.OnSprint, param.OnSprintDelta },
             };
 
-            UpdateFOV(this.mode = Mode.None);
+            UpdateTargetDeltas(this.mode = Mode.None);
+        }
+
+        private void Update()
+        {
+            UpdateCamera();
         }
 
         /// <summary>
         /// モードを追加する<br/>
         /// 既に存在する場合は、何も起こらない<br/>
         /// </summary>
-        internal void AddMode(Mode mode) => UpdateFOV(this.mode |= mode);
+        internal void AddMode(Mode mode) => UpdateTargetDeltas(this.mode |= mode);
 
         /// <summary>
         /// モードを削除する<br/>
         /// 存在しない場合は、何も起こらない<br/>
         /// </summary>
-        internal void RemoveMode(Mode mode) => UpdateFOV(this.mode &= ~mode);
+        internal void RemoveMode(Mode mode) => UpdateTargetDeltas(this.mode &= ~mode);
 
-        private void UpdateFOV(Mode currentMode)
+        private void UpdateTargetDeltas(Mode currentMode)
         {
             float deltas = 0.0f;
             foreach ((Mode mode, float delta) in fovDeltas)
@@ -49,8 +55,13 @@ namespace MyScripts.Runtime
                     deltas += delta;
             }
 
+            targetDeltas = deltas;
+        }
+
+        private void UpdateCamera()
+        {
             var lens = playerCamera.m_Lens;
-            lens.FieldOfView = param.Default + deltas;
+            lens.FieldOfView = Mathf.Lerp(lens.FieldOfView, param.Default + targetDeltas, Time.deltaTime * param.ChangeSpeed);
             playerCamera.m_Lens = lens;
         }
     }
