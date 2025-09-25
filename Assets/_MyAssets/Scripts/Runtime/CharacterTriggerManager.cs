@@ -187,7 +187,7 @@ namespace MyScripts.Runtime
 
             if (moveDuration > param.MoveDurationMinToPlayCloseToEndSound)
             {
-                float letPlayTime = moveDuration - soundPlayer.CloseToEndSoundLength;
+                float letPlayTime = moveDuration - soundPlayer.CloseToEndPlayLength;
                 letPlayTime.SecAwaitThenDo(() => soundPlayer.LetPlay(SCharacterTriggerSound.Timing.CloseToEnd), ct: ct).Forget();
             }
 
