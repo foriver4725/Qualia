@@ -2,7 +2,6 @@ namespace MyScripts.Runtime
 {
     internal sealed class BarrierBordersManager : MonoBehaviour
     {
-        [SerializeField] private SGameParameter paramRoot; // BarrierBorderSettings を取得するため
         [SerializeField] private MeshRenderer[] barrierBorders;
         [SerializeField] private Transform playerBody;
 
@@ -16,7 +15,7 @@ namespace MyScripts.Runtime
 
         private void Awake()
         {
-            param = paramRoot.BarrierBorder;
+            param = InGameSOHolder.Instance.GameParameter.BarrierBorder;
             alphaChangingDistanceMinSqr = param.AlphaChangingDistanceMin * param.AlphaChangingDistanceMin;
             alphaChangingDistanceMaxSqr = param.AlphaChangingDistanceMax * param.AlphaChangingDistanceMax;
 

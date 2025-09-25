@@ -3,13 +3,37 @@ namespace MyScripts.Runtime
     internal sealed class SOSSignFindManager : MonoBehaviour
     {
         [SerializeField] private Collider playerCapsuleCollider;
-        [SerializeField] private SSOSSignLogText sosSignLogText;
         [SerializeField] private SOSSoundPlayer soundPlayer;
+        [Space(10)]
+        [SerializeField] private WindstormManager windstormManager;
+        [SerializeField] private BlizzardManager blizzardManager;
+
+        // 災害の発生/終了は、この個別にカウントされる変数に基づいて行う
+        private byte foundCountForDisaster = 0;
+
+        // Awake で初期化
+        private SSOSSignLogText sosSignLogText;
+        private Dictionary<Disaster, ADisasterManager> disasterManagers;
+
+        private void Awake()
+        {
+            sosSignLogText = InGameSOHolder.Instance.SOSSignLogText;
+
+            disasterManagers = new()
+            {
+                { Disaster.Windstorm, windstormManager },
+                { Disaster.Blizzard, blizzardManager },
+            };
+
+            ObserveDisasterOccurrenceAsync(destroyCancellationToken).Forget();
+        }
 
         internal void Setup(
             ReadOnlyCollection<Collider> sosSignColliders,
             Func<bool> isCharacterHuman,
-            Action onFind // スコア更新など、見つけたとき共通の処理
+            // スコア更新など、見つけたとき共通の処理
+            //! 災害の発生/終了は、このクラス内で行うので大丈夫
+            Action onFind
         )
         {
             foreach (Collider sosSignCollider in sosSignColliders)
@@ -24,11 +48,12 @@ namespace MyScripts.Runtime
                         {
                             LogManager.Instance.ShowManually("左クリックで取り除く");
 
-                            if (await WaitForClickOrExit(col, ct) == true)
+                            if (await WaitForClickOrExitAsync(col, ct) == true)
                             {
                                 // 取り除く
                                 col.gameObject.SetActive(false);
                                 onFind?.Invoke();
+                                foundCountForDisaster++;
 
                                 LogManager.Instance.ShowManually(string.Empty);
                                 LogManager.Instance.ShowAutomatically(
@@ -52,7 +77,7 @@ namespace MyScripts.Runtime
 
                             while (true)
                             {
-                                if (await WaitForClickOrExit(col, ct) == true)
+                                if (await WaitForClickOrExitAsync(col, ct) == true)
                                 {
                                     soundPlayer.LetPlay(SSOSSound.Situation.CouldNotRemove);
                                     continue;
@@ -72,7 +97,7 @@ namespace MyScripts.Runtime
 
         // Click したなら true を、 Exit したなら false を返す
         // 同フレームなら Exit を優先する
-        private async UniTask<bool> WaitForClickOrExit(Collider collider, Ct ct) => await UniTask.WhenAny(
+        private async UniTask<bool> WaitForClickOrExitAsync(Collider collider, Ct ct) => await UniTask.WhenAny(
             // 同フレームなら Exit を優先するために、このタイミングで待つ
             UniTask.WaitUntil(() => InputManager.InGameSubmit.Bool, timing: PlayerLoopTiming.LastUpdate, cancellationToken: ct),
             collider.OnTriggerExitAsObservable()
@@ -80,5 +105,44 @@ namespace MyScripts.Runtime
                 .FirstAsync(cancellationToken: ct)
                 .AsUniTask()
         ) == 0;
+
+        private async UniTaskVoid ObserveDisasterOccurrenceAsync(Ct ct)
+        {
+            var conditions = InGameSOHolder.Instance.GameRule.GetDisasterOccurrenceConditions();
+
+            // インターフェースなので、foreach だとボックス化する
+            for (int i = 0; i < conditions.Count; i++)
+            {
+                var condition = conditions[i];
+
+                await WaitForDisasterCountAsync(condition.BeginCount, ct);
+
+                SetDisasterEnabled(condition.Disaster, true);
+
+                _ = await UniTask.WhenAny(
+                    WaitForDisasterCountAsync(condition.EndCount, ct),
+                    condition.EndDuration.SecAwait(ct: ct)
+                );
+
+                SetDisasterEnabled(condition.Disaster, false);
+            }
+        }
+
+        // 災害用の発見数カウントが targetCount に達するまで待つ
+        // カウントが減ることはないので、単純に >= で判定する
+        private async UniTask WaitForDisasterCountAsync(byte targetCount, Ct ct)
+            => await UniTask.WaitUntil(() => foundCountForDisaster >= targetCount, cancellationToken: ct);
+
+        private void SetDisasterEnabled(Disaster disaster, bool enabled)
+        {
+            if (disasterManagers.TryGetValue(disaster, out var manager))
+            {
+                manager.Enabled = enabled;
+            }
+            else
+            {
+                "指定された災害のマネージャーが見つかりません".LogError();
+            }
+        }
     }
 }

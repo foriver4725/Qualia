@@ -17,3 +17,13 @@ MonoBehaviour:
     shouldElapse: 600
     maxFind: 10
     shouldFind: 5
+  disasterOccurrenceConditions:
+    conditions:
+    - disaster: 1
+      beginCount: 2
+      endCount: 4
+      endDuration: 120
+    - disaster: 2
+      beginCount: 6
+      endCount: 8
+      endDuration: 180
