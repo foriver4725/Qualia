@@ -12,5 +12,18 @@ namespace MyScripts.SO
             internal float AlphaChangingDistanceMin => alphaChangingRange.x;
             internal float AlphaChangingDistanceMax => alphaChangingRange.y;
         }
+
+        [SerializeField] private CameraFOVSettings cameraFOV;
+        internal CameraFOVSettings CameraFOV => cameraFOV;
+        [Serializable]
+        internal sealed class CameraFOVSettings
+        {
+            [SerializeField, Range(0.0f, 180.0f), Tooltip("デフォルト値 [度]")] private float @default = 60.0f;
+            [SerializeField, Range(-10.0f, 10.0f), Tooltip("変化速度 (係数)")] private float changeSpeed = 5.0f;
+            [SerializeField, Range(-60.0f, 60.0f), Tooltip("ダッシュ時の変化量 [度]")] private float onSprintDelta = 15.0f;
+            internal float Default => @default;
+            internal float ChangeSpeed => changeSpeed;
+            internal float OnSprintDelta => onSprintDelta;
+        }
     }
 }

@@ -14,3 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   barrierBorder:
     alphaChangingRange: {x: 5, y: 50}
+  cameraFOV:
+    default: 60
+    changeSpeed: 6
+    onSprintDelta: 30
