@@ -25,5 +25,8 @@ namespace MyScripts.SO
             internal float ChangeSpeed => changeSpeed;
             internal float OnSprintDelta => onSprintDelta;
         }
+
+        [SerializeField, Range(0, 16), Tooltip("足音の更新処理を行う間隔 [フレーム]")] private byte walkSoundUpdateIntervalFrames = 4;
+        internal byte WalkSoundUpdateIntervalFrames => walkSoundUpdateIntervalFrames;
     }
 }

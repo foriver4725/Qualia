@@ -33,7 +33,6 @@ namespace MyScripts.Runtime
 		[Header("Walk Sound")]
 		[SerializeField] private WalkSoundPlayer walkSoundPlayer;
 		[SerializeField] private WalkSoundBorders walkSoundBorders;
-		[SerializeField, Range(0, 64), Tooltip("足音の更新処理を行う間隔 (フレーム)")] private byte walkSoundUpdateInterval = 16;
 
 		// cinemachine
 		private float cinemachineTargetPitch;
@@ -87,6 +86,7 @@ namespace MyScripts.Runtime
 		}
 
 		// walk sound
+		private byte walkSoundUpdateIntervalFrames; // Awake で初期化
 		private byte walkSoundUpdateFrameCounter = 0;
 		// 最初の方 (= 上の地層にある地面) を優先して鳴らす
 		private static readonly ReadOnlyCollection<SWalkSound.Surface> WalkSoundPriority = Array.AsReadOnly(new SWalkSound.Surface[]
@@ -104,6 +104,8 @@ namespace MyScripts.Runtime
 			// reset our timeouts on start
 			jumpTimeoutDelta = param.JumpTimeout;
 			fallTimeoutDelta = param.FallTimeout;
+
+			walkSoundUpdateIntervalFrames = InGameSOHolder.Instance.GameParameter.WalkSoundUpdateIntervalFrames;
 		}
 
 		private void Update()
@@ -403,7 +405,7 @@ namespace MyScripts.Runtime
 		private void UpdateWalkSound()
 		{
 			walkSoundUpdateFrameCounter++;
-			if (walkSoundUpdateFrameCounter < walkSoundUpdateInterval) return;
+			if (walkSoundUpdateFrameCounter < walkSoundUpdateIntervalFrames) return;
 			walkSoundUpdateFrameCounter = 0;
 
 			var surface = GetSurfaceUnderfoot();
