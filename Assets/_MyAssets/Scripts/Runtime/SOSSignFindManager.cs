@@ -118,8 +118,6 @@ namespace MyScripts.Runtime
                 await WaitForDisasterCountAsync(condition.BeginCount, ct);
 
                 SetDisasterEnabled(condition.Disaster, true);
-                // TODO: 発生したことをユーザーに伝える
-                ZString.Format("災害 【{0}】 発生", condition.Disaster).Log();
 
                 _ = await UniTask.WhenAny(
                     WaitForDisasterCountAsync(condition.EndCount, ct),
@@ -127,8 +125,6 @@ namespace MyScripts.Runtime
                 );
 
                 SetDisasterEnabled(condition.Disaster, false);
-                //TODO: 終了したことをユーザーに伝える
-                ZString.Format("災害 【{0}】 終了", condition.Disaster).Log();
             }
         }
 
