@@ -84,6 +84,7 @@ namespace MyScripts.Runtime
 				}
 			}
 		}
+		internal bool CanApplyVelocityDelta { get; set; } = true;
 
 		// walk sound
 		private byte walkSoundUpdateIntervalFrames; // Awake で初期化
@@ -331,7 +332,8 @@ namespace MyScripts.Runtime
 			Vector3 realVelocity = realHorizontalVelocity + new Vector3(0.0f, verticalVelocity, 0.0f);
 
 			// 外力による速度増加分を加算
-			realVelocity += VelocityDelta;
+			if (CanApplyVelocityDelta)
+				realVelocity += VelocityDelta;
 
 			// move the player
 			controller.Move(realVelocity * Time.deltaTime);
