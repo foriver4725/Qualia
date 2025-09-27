@@ -5007,7 +5007,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   param: {fileID: 11400000, guid: aef0ac36790736842956605db85af26c, type: 2}
   root: {fileID: 984612692}
-  timeOffsetOfCloseToEndSound: 1
 --- !u!1 &1000728363
 GameObject:
   m_ObjectHideFlags: 0
@@ -10793,6 +10792,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 1788010876}
+  windZone: {fileID: 1709546192}
 --- !u!1 &2065478737
 GameObject:
   m_ObjectHideFlags: 0
