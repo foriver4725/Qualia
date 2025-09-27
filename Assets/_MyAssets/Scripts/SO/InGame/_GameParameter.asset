@@ -18,3 +18,11 @@ MonoBehaviour:
     default: 60
     changeSpeed: 6
     onSprintDelta: 30
+  walkSoundUpdateIntervalFrames: 4
+  windstormDisaster:
+    windZoneParameters:
+      main: 10
+      turbulence: 3
+      pulseMagnitude: 2.5
+      pulseFrequency: 1.2
+    playerPushedSpeed: 5

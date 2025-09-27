@@ -10793,6 +10793,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 1788010876}
   windZone: {fileID: 1709546192}
+  playerController: {fileID: 2390642557826304884}
 --- !u!1 &2065478737
 GameObject:
   m_ObjectHideFlags: 0

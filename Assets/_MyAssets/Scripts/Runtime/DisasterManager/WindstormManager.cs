@@ -41,14 +41,13 @@ namespace MyScripts.Runtime
                 PulseFrequency = param.PulseFrequency;
             }
         }
-        private static void GetWindZoneParameters(WindZone windZone, out WindZoneParameters param)
-            => param = new()
-            {
-                Main = windZone.windMain,
-                Turbulence = windZone.windTurbulence,
-                PulseMagnitude = windZone.windPulseMagnitude,
-                PulseFrequency = windZone.windPulseFrequency,
-            };
+        private static void GetWindZoneParameters(WindZone windZone, out WindZoneParameters param) => param = new()
+        {
+            Main = windZone.windMain,
+            Turbulence = windZone.windTurbulence,
+            PulseMagnitude = windZone.windPulseMagnitude,
+            PulseFrequency = windZone.windPulseFrequency,
+        };
         private static void SetWindZoneParameters(WindZone windZone, WindZoneParameters param)
         {
             windZone.windMain = param.Main;
@@ -58,11 +57,14 @@ namespace MyScripts.Runtime
         }
 
         [SerializeField] private WindZone windZone;
+        [SerializeField] private PlayerController playerController; // プレイヤーを押すときに使う
 
         // Awake で初期化
         private SGameParameter.WindstormDisasterSettings param;
-        private WindZoneParameters windZoneParametersInit; // 初期値を保存しておく
-        private WindZoneParameters windZoneParametersCurrent;
+        private WindZoneParameters windZoneParametersInit; // 初期値を保存
+        private Quaternion windDirectionInit; // 初期値を保存
+
+        private Vector3 addedPlayerSpeedDelta = Vector3.zero; // プレイヤーに加算した速度ベクトル
 
         private protected sealed override void OnInitialize()
         {
@@ -71,17 +73,28 @@ namespace MyScripts.Runtime
             param = InGameSOHolder.Instance.GameParameter.WindstormDisaster;
 
             GetWindZoneParameters(windZone, out windZoneParametersInit);
-            windZoneParametersCurrent = windZoneParametersInit;
+            windDirectionInit = windZone.transform.rotation;
         }
 
         private protected sealed override void OnBecameEnabled()
         {
-            SetWindZoneParameters(windZone, windZoneParametersCurrent = new(param.WindZoneParameters));
+            SetWindZoneParameters(windZone, new(param.WindZoneParameters));
+
+            Quaternion windDirection = Quaternion.Euler(0.0f, Random.Range(-180.0f, 180.0f), 0.0f);
+            addedPlayerSpeedDelta = windDirection * new Vector3(0.0f, 0.0f, param.PlayerPushedSpeed);
+
+            windZone.transform.rotation = windDirection;
+            playerController.VelocityDelta += addedPlayerSpeedDelta;
         }
 
         private protected sealed override void OnBecameDisabled()
         {
-            SetWindZoneParameters(windZone, windZoneParametersCurrent = windZoneParametersInit);
+            SetWindZoneParameters(windZone, windZoneParametersInit);
+
+            windZone.transform.rotation = windDirectionInit;
+            playerController.VelocityDelta -= addedPlayerSpeedDelta;
+
+            addedPlayerSpeedDelta = Vector3.zero;
         }
     }
 }

@@ -34,8 +34,6 @@ namespace MyScripts.SO
         [Serializable]
         internal sealed class WindstormDisasterSettings
         {
-            [SerializeField] private WindZoneParametersSettings windZoneParameters;
-            internal WindZoneParametersSettings WindZoneParameters => windZoneParameters;
             [Serializable]
             internal sealed class WindZoneParametersSettings : WindstormManager.IWindZoneParameters
             {
@@ -49,6 +47,11 @@ namespace MyScripts.SO
                 public float PulseMagnitude => pulseMagnitude;
                 public float PulseFrequency => pulseFrequency;
             }
+
+            [SerializeField] private WindZoneParametersSettings windZoneParameters;
+            [SerializeField, Range(0.0f, 100.0f), Tooltip("プレイヤーが押される速度 [m/s]")] private float playerPushedSpeed = 10.0f;
+            internal WindZoneParametersSettings WindZoneParameters => windZoneParameters;
+            internal float PlayerPushedSpeed => playerPushedSpeed;
         }
     }
 }
