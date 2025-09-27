@@ -84,6 +84,7 @@ namespace MyScripts.Runtime
 				}
 			}
 		}
+		internal bool CanApplyVelocityDelta { get; set; } = true;
 
 		// walk sound
 		private byte walkSoundUpdateIntervalFrames; // Awake で初期化
@@ -127,11 +128,20 @@ namespace MyScripts.Runtime
 		}
 
 		// 入力・重力によるものではない、外力による速度増加
+		// 速度ベクトルに一回のみ加算するため、加算した分の影響は、段々減衰する
+		// プレイヤーに衝撃を与えるときなどに使う
 		private void ApplyOuterVelocity(Vector3 velocity)
 		{
 			nativeHorizontalVelocity += new Vector2(velocity.x, velocity.z);
 			verticalVelocity += velocity.y;
 		}
+
+		/// <summary>
+		/// 毎フレーム、速度ベクトルに加算される外力ベクトル
+		/// 減衰しない、毎フレーム一定値の値
+		/// プレイヤーを押すときなどに使う
+		/// </summary>
+		internal Vector3 VelocityDelta { get; set; } = Vector3.zero;
 
 		private void GroundedCheck()
 		{
@@ -320,6 +330,10 @@ namespace MyScripts.Runtime
 			// calculate the real velocity
 			realHorizontalVelocity = inputDirection * speed + new Vector3(nativeHorizontalVelocity.x, 0.0f, nativeHorizontalVelocity.y);
 			Vector3 realVelocity = realHorizontalVelocity + new Vector3(0.0f, verticalVelocity, 0.0f);
+
+			// 外力による速度増加分を加算
+			if (CanApplyVelocityDelta)
+				realVelocity += VelocityDelta;
 
 			// move the player
 			controller.Move(realVelocity * Time.deltaTime);
