@@ -85,6 +85,8 @@ namespace MyScripts.Runtime
 
             windZone.transform.rotation = windDirection;
             playerController.VelocityDelta += addedPlayerSpeedDelta;
+
+            SoundPlayer.LetPlay(SDisasterSound.Disaster.Windstorm);
         }
 
         private protected sealed override void OnBecameDisabled()
@@ -95,6 +97,8 @@ namespace MyScripts.Runtime
             playerController.VelocityDelta -= addedPlayerSpeedDelta;
 
             addedPlayerSpeedDelta = Vector3.zero;
+
+            SoundPlayer.LetStop(SDisasterSound.Disaster.Windstorm);
         }
     }
 }

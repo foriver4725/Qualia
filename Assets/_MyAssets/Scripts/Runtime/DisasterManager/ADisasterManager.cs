@@ -3,6 +3,7 @@ namespace MyScripts.Runtime
     internal abstract class ADisasterManager : MonoBehaviour, IDisasterManager
     {
         [SerializeField] private TextMeshProUGUI text;
+        [SerializeField] private DisasterSoundPlayer soundPlayer;
 
         // 派生クラスではなく、外部から見る想定
         public abstract Disaster MyType { get; }
@@ -44,15 +45,15 @@ namespace MyScripts.Runtime
 
         // ==================================================
         // 派生クラスでオーバーライドできるもの
-
-        // Awake で一度だけ呼ばれる
-        private protected virtual void OnInitialize()
+        private protected virtual void OnInitialize() // Awake で一度だけ呼ばれる
         {
             SetTextEnabled(false);
         }
         private protected abstract void OnBecameEnabled();
         private protected abstract void OnBecameDisabled();
 
+        // 派生クラスに公開する変数
+        private protected DisasterSoundPlayer SoundPlayer => soundPlayer;
         // ==================================================
     }
 }

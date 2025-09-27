@@ -5,6 +5,9 @@ namespace MyScripts.SO
     {
         [SerializeField] private AudioClip windstorm;
         [SerializeField] private AudioClip blizzard;
+        [SerializeField, Range(0.0f, 0.5f), Tooltip("フェードアウトするまでの時間")] private float fadeOutDuration = 0.2f;
+
+        internal float FadeOutDuration => fadeOutDuration;
 
         internal enum Disaster : byte
         {
