@@ -1,5 +1,10 @@
 Shader "_MyShader/CharacterOutline/CharacterOutlinePass"
 {
+    Properties
+    {
+        [HideInInspector] _GlobalTime("Global Time", Float) = 0
+    }
+
     SubShader
     {
         Tags{ "RenderType"="Opaque" "Queue"="Geometry" }
@@ -58,7 +63,7 @@ Shader "_MyShader/CharacterOutline/CharacterOutlinePass"
 
             half4 frag(v2f _) : SV_Target
             {
-                return GetNowColor(_Time.y);
+                return GetNowColor();
             }
 
             ENDCG

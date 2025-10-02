@@ -30,11 +30,16 @@ Shader "_MyShader/CharacterOutline/CharacterHiddenBodyPass"
         else
         {
             // 色を描画
-            return GetNowColor(_Time.y);
+            return GetNowColor();
         }
     }
 
     ENDHLSL
+
+    Properties
+    {
+        [HideInInspector] _GlobalTime("Global Time", Float) = 0
+    }
 
     SubShader
     {
