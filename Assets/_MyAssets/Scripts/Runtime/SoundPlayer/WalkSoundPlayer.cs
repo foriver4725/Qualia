@@ -66,7 +66,7 @@ namespace MyScripts.Runtime
             }
 
             if (!couldPlay)
-                "All audio sources are playing. Cannot play new walk sound.".LogWarning();
+                "All audio sources are playing. Cannot play new walk sound.".Print(LogSettings.Warning);
         }
 
         private protected sealed override void Init()

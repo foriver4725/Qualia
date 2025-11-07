@@ -13,13 +13,13 @@ namespace MyScripts.Common
 
                     if (instances == null || instances.Length <= 0)
                     {
-                        $"{typeof(T).Name} not found".LogError();
+                        $"{typeof(T).Name} not found".Print(LogSettings.Error);
 
                         instance = null;
                     }
                     else if (instances.Length > 1)
                     {
-                        $"Multiple instances of {typeof(T).Name} found. Using the first instance and destroying others.".LogWarning();
+                        $"Multiple instances of {typeof(T).Name} found. Using the first instance and destroying others.".Print(LogSettings.Warning);
 
                         instance = instances[0];
                         for (int i = 1; i < instances.Length; i++)
