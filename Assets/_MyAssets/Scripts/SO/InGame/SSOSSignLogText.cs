@@ -27,7 +27,7 @@ namespace MyScripts.SO
             int length = texts.Length;
             if (length <= 0)
             {
-                $"{nameof(texts)} must not be empty. logType: {logType}".LogWarning();
+                $"{nameof(texts)} must not be empty. logType: {logType}".Print(LogSettings.Warning);
                 return string.Empty;
             }
 

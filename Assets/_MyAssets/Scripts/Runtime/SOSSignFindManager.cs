@@ -141,7 +141,7 @@ namespace MyScripts.Runtime
             }
             else
             {
-                "指定された災害のマネージャーが見つかりません".LogError();
+                "指定された災害のマネージャーが見つかりません".Print(LogSettings.Error);
             }
         }
     }

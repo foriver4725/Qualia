@@ -23,6 +23,13 @@
       "dependencies": {},
       "hash": "f213ff497e4ff462a77319cf677cf20cc0860ca9"
     },
+    "com.foriver4725.better-logging": {
+      "version": "https://github.com/foriver4725/BetterLogging.git?path=Assets/foriver4725/BetterLogging",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "fcfd384485c192c39ab248a3ceb6ced807d35a07"
+    },
     "com.github-glitchenzo.nugetforunity": {
       "version": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
       "depth": 0,

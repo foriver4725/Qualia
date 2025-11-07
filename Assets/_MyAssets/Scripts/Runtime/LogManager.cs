@@ -132,7 +132,7 @@ namespace MyScripts.Runtime
             if (isShowingForcibly) return;
             if (string.IsNullOrEmpty(text))
             {
-                $"automatic text must not be null or empty. text: {text}".LogWarning();
+                $"automatic text must not be null or empty. text: {text}".Print(LogSettings.Warning);
                 return;
             }
 
@@ -151,7 +151,7 @@ namespace MyScripts.Runtime
             // ここが違う
             if (text.Length <= 0)
             {
-                $"automatic text must not be empty. text: {text}".LogWarning();
+                $"automatic text must not be empty. text: {text}".Print(LogSettings.Warning);
                 return;
             }
 
