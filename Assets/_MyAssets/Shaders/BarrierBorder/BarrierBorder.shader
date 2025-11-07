@@ -31,6 +31,8 @@ Shader "_MyShader/BarrierBorder"
 
             #include "UnityCG.cginc"
 
+            CBUFFER_START(UnityPerMaterial)
+
             half4 _Color;
             half _Div;
             half _SlopeX;
@@ -39,6 +41,8 @@ Shader "_MyShader/BarrierBorder"
 
             // スクリプトからのみアクセスするプロパティ
             half _WholeTransparency;
+
+            CBUFFER_END
 
             struct appdata
             {
