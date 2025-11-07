@@ -149,8 +149,8 @@ namespace foriver4725.Benchmarker
             }];
             string memoryUsingColorText = ColorHtmlTexts[allocatedMemory switch
             {
-                < 800  => ColorGreen,
-                < 1200 => ColorYellow,
+                < 1200  => ColorGreen,
+                < 2400 => ColorYellow,
                 _      => ColorRed
             }];
             string gcAllocatedInFrameColorText = ColorHtmlTexts[gcAllocatedInFrame switch
@@ -167,14 +167,14 @@ namespace foriver4725.Benchmarker
             }];
             string setPassCallsColorText = ColorHtmlTexts[setPassCalls switch
             {
-                < 80  => ColorGreen,
-                < 120 => ColorYellow,
+                < 200  => ColorGreen,
+                < 400 => ColorYellow,
                 _     => ColorRed
             }];
             string drawCallsColorText = ColorHtmlTexts[drawCalls switch
             {
-                < 120 => ColorGreen,
-                < 180 => ColorYellow,
+                < 600 => ColorGreen,
+                < 1200 => ColorYellow,
                 _     => ColorRed
             }];
 
