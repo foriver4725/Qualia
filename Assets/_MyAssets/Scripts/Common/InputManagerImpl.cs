@@ -1,4 +1,4 @@
-using UnityEngine.InputSystem;
+﻿using UnityEngine.InputSystem;
 
 namespace MyScripts.Common
 {
@@ -69,7 +69,7 @@ namespace MyScripts.Common
         {
             if (ia == null)
             {
-                "InputAction is null. Cannot link/unlink.".LogError();
+                "InputAction is null. Cannot link/unlink.".Print(LogSettings.Error);
                 return;
             }
 

@@ -1,4 +1,4 @@
-using UnityEngine.InputSystem;
+﻿using UnityEngine.InputSystem;
 
 namespace MyScripts.Runtime
 {
@@ -25,7 +25,7 @@ namespace MyScripts.Runtime
 
 		[Header("Player Control")]
 		[SerializeField] private CharacterController controller;
-		[SerializeField] private SPlayerControl param;
+		[SerializeField] private CameraFOVManager cameraFOVManager;
 		[SerializeField] private PlayerControlSoundPlayer soundPlayer;
 		[SerializeField] private Transform cinemachineCameraTarget;
 		[SerializeField] private Transform teleportBackPoint;
@@ -33,7 +33,6 @@ namespace MyScripts.Runtime
 		[Header("Walk Sound")]
 		[SerializeField] private WalkSoundPlayer walkSoundPlayer;
 		[SerializeField] private WalkSoundBorders walkSoundBorders;
-		[SerializeField, Range(0, 64), Tooltip("足音の更新処理を行う間隔 (フレーム)")] private byte walkSoundUpdateInterval = 16;
 
 		// cinemachine
 		private float cinemachineTargetPitch;
@@ -54,6 +53,7 @@ namespace MyScripts.Runtime
 
 		// timeout deltatime
 		// Awake で初期化
+		private SPlayerControl param;
 		private float jumpTimeoutDelta;
 		private float fallTimeoutDelta;
 
@@ -84,8 +84,10 @@ namespace MyScripts.Runtime
 				}
 			}
 		}
+		internal bool CanApplyVelocityDelta { get; set; } = true;
 
 		// walk sound
+		private byte walkSoundUpdateIntervalFrames; // Awake で初期化
 		private byte walkSoundUpdateFrameCounter = 0;
 		// 最初の方 (= 上の地層にある地面) を優先して鳴らす
 		private static readonly ReadOnlyCollection<SWalkSound.Surface> WalkSoundPriority = Array.AsReadOnly(new SWalkSound.Surface[]
@@ -98,9 +100,13 @@ namespace MyScripts.Runtime
 
 		private void Awake()
 		{
+			param = InGameSOHolder.Instance.PlayerControl;
+
 			// reset our timeouts on start
 			jumpTimeoutDelta = param.JumpTimeout;
 			fallTimeoutDelta = param.FallTimeout;
+
+			walkSoundUpdateIntervalFrames = InGameSOHolder.Instance.GameParameter.WalkSoundUpdateIntervalFrames;
 		}
 
 		private void Update()
@@ -111,6 +117,8 @@ namespace MyScripts.Runtime
 			AttenuateNativeHorizontalVelocity();
 			InputAndFinallyMove();
 			TeleportBackWhenInvalidPosition();
+
+			UpdateFOVsSprintMode();
 			UpdateWalkSound();
 		}
 
@@ -120,11 +128,20 @@ namespace MyScripts.Runtime
 		}
 
 		// 入力・重力によるものではない、外力による速度増加
+		// 速度ベクトルに一回のみ加算するため、加算した分の影響は、段々減衰する
+		// プレイヤーに衝撃を与えるときなどに使う
 		private void ApplyOuterVelocity(Vector3 velocity)
 		{
 			nativeHorizontalVelocity += new Vector2(velocity.x, velocity.z);
 			verticalVelocity += velocity.y;
 		}
+
+		/// <summary>
+		/// 毎フレーム、速度ベクトルに加算される外力ベクトル
+		/// 減衰しない、毎フレーム一定値の値
+		/// プレイヤーを押すときなどに使う
+		/// </summary>
+		internal Vector3 VelocityDelta { get; set; } = Vector3.zero;
 
 		private void GroundedCheck()
 		{
@@ -314,6 +331,10 @@ namespace MyScripts.Runtime
 			realHorizontalVelocity = inputDirection * speed + new Vector3(nativeHorizontalVelocity.x, 0.0f, nativeHorizontalVelocity.y);
 			Vector3 realVelocity = realHorizontalVelocity + new Vector3(0.0f, verticalVelocity, 0.0f);
 
+			// 外力による速度増加分を加算
+			if (CanApplyVelocityDelta)
+				realVelocity += VelocityDelta;
+
 			// move the player
 			controller.Move(realVelocity * Time.deltaTime);
 		}
@@ -386,10 +407,19 @@ namespace MyScripts.Runtime
 				controller.transform.position = teleportBackPoint.position;
 		}
 
+		private void UpdateFOVsSprintMode()
+		{
+			// 重複して呼んでもOKなので、毎フレーム呼んでしまう
+			if (isSprinting)
+				cameraFOVManager.AddMode(CameraFOVManager.Mode.OnSprint);
+			else
+				cameraFOVManager.RemoveMode(CameraFOVManager.Mode.OnSprint);
+		}
+
 		private void UpdateWalkSound()
 		{
 			walkSoundUpdateFrameCounter++;
-			if (walkSoundUpdateFrameCounter < walkSoundUpdateInterval) return;
+			if (walkSoundUpdateFrameCounter < walkSoundUpdateIntervalFrames) return;
 			walkSoundUpdateFrameCounter = 0;
 
 			var surface = GetSurfaceUnderfoot();
@@ -432,18 +462,6 @@ namespace MyScripts.Runtime
 			if (lfAngle < -360f) lfAngle += 360f;
 			if (lfAngle > 360f) lfAngle -= 360f;
 			return Mathf.Clamp(lfAngle, lfMin, lfMax);
-		}
-
-		private void OnDrawGizmosSelected()
-		{
-			Color transparentGreen = new(0.0f, 1.0f, 0.0f, 0.35f);
-			Color transparentRed = new(1.0f, 0.0f, 0.0f, 0.35f);
-
-			if (isGrounded) Gizmos.color = transparentGreen;
-			else Gizmos.color = transparentRed;
-
-			// when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
-			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y + param.GroundCheckOffset, transform.position.z), param.GroundCheckRadius);
 		}
 	}
 }

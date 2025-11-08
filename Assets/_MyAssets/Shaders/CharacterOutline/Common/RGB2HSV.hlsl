@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 half3 RGB2HSV(half3 rgb)
 {

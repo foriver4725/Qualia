@@ -1,4 +1,4 @@
-namespace MyScripts.Runtime
+﻿namespace MyScripts.Runtime
 {
     internal abstract class ASoundPlayer<TParam> : MonoBehaviour
         where TParam : ASSound
@@ -34,7 +34,7 @@ namespace MyScripts.Runtime
             AudioClip clip = Param.GetClip(type);
             if (clip == null)
             {
-                "No valid clip exists to play.".LogWarning();
+                "No valid clip exists to play.".Print(LogSettings.Warning);
                 return;
             }
 

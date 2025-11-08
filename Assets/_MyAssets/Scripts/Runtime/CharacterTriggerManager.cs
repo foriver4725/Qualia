@@ -1,4 +1,4 @@
-using Cinemachine;
+﻿using Cinemachine;
 
 namespace MyScripts.Runtime
 {
@@ -19,7 +19,6 @@ namespace MyScripts.Runtime
         [SerializeField] private TextMeshProUGUI triggerCtLabel;
         [SerializeField] private PlayerController pc;
         [SerializeField] private GameObject playerCapsule;
-        [SerializeField] private SPlayerControl paramRoot; // カメラブレンドのパラメータを取得するため
         [SerializeField] private SOSSignFindManager sosSignFindManager;
         [SerializeField] private TimeScoreManager timeScoreManager;
         [SerializeField] private CharacterTriggerSoundPlayer soundPlayer;
@@ -43,7 +42,7 @@ namespace MyScripts.Runtime
 
         private void Awake()
         {
-            param = paramRoot.CameraBlendOnCharacterTrigger;
+            param = InGameSOHolder.Instance.PlayerControl.CameraBlendOnCharacterTrigger;
             sosSigns = sosSignsRoot.GetComponentsInChildren<ParticleSystem>(includeInactive: true);
 
             {
@@ -103,10 +102,10 @@ namespace MyScripts.Runtime
                 if (triggerCtLabel != null)
                     triggerCtLabel.enabled = true;
 
-                // プレイヤーコントロールの入力を無効化(切り替え処理の最後に、trueに戻す)
-                pc.IsPcInputEnabled = false;
-                // プレイヤーに働く重力を無効化(切り替え処理の最後に、trueに戻す)
-                pc.IsOwnGravityEnabled = false;
+                // プレイヤーの挙動を制限 (切り替え処理の最後に元に戻す)
+                pc.IsPcInputEnabled = false; // プレイヤーコントロールの入力を無効化
+                pc.IsOwnGravityEnabled = false; // プレイヤーに働く重力を無効化
+                pc.CanApplyVelocityDelta = false; // プレイヤーに働く継続的な外力を無効化
 
                 // プレイヤー側の移動があるため、LateUpdateのタイミングまで待つ
                 await UniTask.Yield(PlayerLoopTiming.PostLateUpdate);
@@ -188,7 +187,7 @@ namespace MyScripts.Runtime
 
             if (moveDuration > param.MoveDurationMinToPlayCloseToEndSound)
             {
-                float letPlayTime = moveDuration - soundPlayer.CloseToEndSoundLength;
+                float letPlayTime = moveDuration - soundPlayer.CloseToEndPlayLength;
                 letPlayTime.SecAwaitThenDo(() => soundPlayer.LetPlay(SCharacterTriggerSound.Timing.CloseToEnd), ct: ct).Forget();
             }
 
@@ -203,9 +202,10 @@ namespace MyScripts.Runtime
             // カメラの追尾を再開
             playerCameraBrain.enabled = true;
 
-            // プレイヤーに働く重力を有効化
+            // プレイヤーの挙動の制限を解除
+            // 逆順に元に戻す
+            pc.CanApplyVelocityDelta = true;
             pc.IsOwnGravityEnabled = true;
-            // プレイヤーコントロールの入力を有効化
             pc.IsPcInputEnabled = true;
 
             // 切り替えのクールタイムを終了とする

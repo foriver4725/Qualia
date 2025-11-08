@@ -1,4 +1,4 @@
-namespace MyScripts.SO
+﻿namespace MyScripts.SO
 {
     [CreateAssetMenu(fileName = "_WalkSound", menuName = "SO/Sound/InGame/Walk")]
     internal sealed class SWalkSound : ASSoundWithType<SWalkSound.Surface>

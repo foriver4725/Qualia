@@ -16,12 +16,14 @@ global using DG.Tweening;
 global using R3;
 global using R3.Triggers;
 global using Cysharp.Text;
+global using foriver4725.BetterLogging;
 global using foriver4725.Border;
 
 global using Random = UnityEngine.Random;
-global using Debug = UnityEngine.Debug;
 global using Cts = System.Threading.CancellationTokenSource;
 global using Ct = System.Threading.CancellationToken;
+global using LogSettings = foriver4725.BetterLogging.LogSettings;
+global using Debug = foriver4725.BetterLogging.Dummy;
 
 global using MyScripts.Common;
 global using MyScripts.Common.Extension;
