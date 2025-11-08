@@ -1,4 +1,4 @@
-namespace MyScripts.SO
+﻿namespace MyScripts.SO
 {
     [CreateAssetMenu(fileName = "_PlayerControl", menuName = "SO/Player Control")]
     internal sealed class SPlayerControl : ScriptableObject

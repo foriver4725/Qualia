@@ -1,4 +1,4 @@
-namespace MyScripts.SO
+﻿namespace MyScripts.SO
 {
     [CreateAssetMenu(fileName = "_GameRule", menuName = "SO/Game Rule")]
     internal sealed class SGameRule : ScriptableObject

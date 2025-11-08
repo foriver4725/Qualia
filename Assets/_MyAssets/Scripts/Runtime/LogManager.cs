@@ -1,4 +1,4 @@
-namespace MyScripts.Runtime
+﻿namespace MyScripts.Runtime
 {
     internal sealed class LogManager : ASingletonMonoBehaviour<LogManager>
     {

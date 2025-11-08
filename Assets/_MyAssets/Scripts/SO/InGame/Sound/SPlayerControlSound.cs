@@ -1,4 +1,4 @@
-namespace MyScripts.SO
+﻿namespace MyScripts.SO
 {
     [CreateAssetMenu(fileName = "_PlayerControlSound", menuName = "SO/Sound/InGame/Player Control")]
     internal sealed class SPlayerControlSound : ASSoundWithType<SPlayerControlSound.Action>

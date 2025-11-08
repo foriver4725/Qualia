@@ -1,4 +1,4 @@
-namespace MyScripts.Common.Extension
+﻿namespace MyScripts.Common.Extension
 {
     /// <summary>
     /// ColorUtility.ToHtmlString() 系統のメソッドに対して、内部処理を ZString に置き換えた拡張メソッド

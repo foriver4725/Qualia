@@ -1,4 +1,4 @@
-namespace MyScripts.Runtime;
+﻿namespace MyScripts.Runtime;
 
 internal interface IDisasterManager
 {

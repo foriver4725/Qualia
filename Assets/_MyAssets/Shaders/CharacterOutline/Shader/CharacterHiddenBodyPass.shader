@@ -1,4 +1,4 @@
-Shader "_MyShader/CharacterOutline/CharacterHiddenBodyPass"
+﻿Shader "_MyShader/CharacterOutline/CharacterHiddenBodyPass"
 {
     HLSLINCLUDE
 
