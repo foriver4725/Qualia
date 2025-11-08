@@ -671,7 +671,8 @@ MonoBehaviour:
   backgroundHoveredColor: {r: 0.019607844, g: 0.4862745, b: 0.99607843, a: 1}
   backgroundClickedColor: {r: 0, g: 0, b: 1, a: 1}
   targetScene: 2
-  buttonSoundPlayer: {fileID: 488346311}
+  soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
+  soundPlayer: {fileID: 488346311}
 --- !u!1 &1267220187
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,7 +773,8 @@ MonoBehaviour:
   backgroundHoveredColor: {r: 0.019607844, g: 0.4862745, b: 0.99607843, a: 1}
   backgroundClickedColor: {r: 0, g: 0, b: 1, a: 1}
   targetScene: 0
-  buttonSoundPlayer: {fileID: 488346311}
+  soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
+  soundPlayer: {fileID: 488346311}
 --- !u!1001 &1321326176
 PrefabInstance:
   m_ObjectHideFlags: 0
