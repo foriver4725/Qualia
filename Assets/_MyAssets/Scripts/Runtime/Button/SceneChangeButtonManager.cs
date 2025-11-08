@@ -2,9 +2,10 @@ using MyScripts.Common.Button;
 
 namespace MyScripts.Runtime
 {
-    internal sealed class SceneChangeButtonManager :  ATextButtonManager
+    internal sealed class SceneChangeButtonManager : ATextButtonManager
     {
         [SerializeField] private Scene targetScene;
+        [SerializeField] private ButtonSoundPlayer buttonSoundPlayer;
 
         private bool isClickEnabled = true;
 
@@ -32,12 +33,10 @@ namespace MyScripts.Runtime
         }
 
         private protected sealed override void PlayHoverSe()
-        {
-        }
+            => buttonSoundPlayer.LetPlay(SButtonSound.Action.Hover);
 
         private protected sealed override void PlayClickSe()
-        {
-        }
+            => buttonSoundPlayer.LetPlay(SButtonSound.Action.Click);
 
         private void SetLinkedButtonsClicked()
         {
