@@ -5,7 +5,8 @@ namespace MyScripts.Runtime
     internal sealed class SceneChangeButtonManager : ATextButtonManager
     {
         [SerializeField] private Scene targetScene;
-        [SerializeField] private ButtonSoundPlayer buttonSoundPlayer;
+        [SerializeField] private SSoundSetting soundSetting;
+        [SerializeField] private ButtonSoundPlayer soundPlayer;
 
         private bool isClickEnabled = true;
 
@@ -33,10 +34,15 @@ namespace MyScripts.Runtime
         }
 
         private protected sealed override void PlayHoverSe()
-            => buttonSoundPlayer.LetPlay(SButtonSound.Action.Hover);
+        {
+            if (soundSetting.DoesPlayButtonHoverSe)
+                soundPlayer.LetPlay(SButtonSound.Action.Hover);
+        }
 
         private protected sealed override void PlayClickSe()
-            => buttonSoundPlayer.LetPlay(SButtonSound.Action.Click);
+        {
+            soundPlayer.LetPlay(SButtonSound.Action.Click);
+        }
 
         private void SetLinkedButtonsClicked()
         {
