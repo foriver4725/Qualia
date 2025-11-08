@@ -1,4 +1,4 @@
-Shader "_MyShader/CharacterOutline/CharacterOutlinePass"
+﻿Shader "_MyShader/CharacterOutline/CharacterOutlinePass"
 {
     Properties
     {

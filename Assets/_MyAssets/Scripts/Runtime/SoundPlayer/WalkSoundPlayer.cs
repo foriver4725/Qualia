@@ -1,4 +1,4 @@
-namespace MyScripts.Runtime
+﻿namespace MyScripts.Runtime
 {
     internal sealed class WalkSoundPlayer : ASoundPlayerWithTypeAndOptions<SWalkSound, SWalkSound.Surface, WalkSoundPlayer.Options>
     {

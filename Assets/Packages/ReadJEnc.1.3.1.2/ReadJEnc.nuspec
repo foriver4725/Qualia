@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>ReadJEnc</id>
+    <version>1.3.1.2</version>
+    <title>ReadJEnc - Character code automatic determination library(文字エンコード自動判別ライブラリ)</title>
+    <authors>hnx8(H.Takahashi)</authors>
+    <owners>hnx8(H.Takahashi)</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/hnx8/ReadJEnc/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/hnx8/ReadJEnc</projectUrl>
+    <iconUrl>https://www.nuget.org/Content/gallery/img/default-package-icon.svg</iconUrl>
+    <description>ReadJEnc C#(.NET) File Character Code Type Automatic Determination Library.
+日本語あるいは他言語のテキストファイル（またはbyte配列）の内容を解析し、文字エンコーディングを判定してテキスト内容を取り出すライブラリです。</description>
+    <releaseNotes>https://github.com/hnx8/ReadJEnc#readme
+English Version -&gt; https://github.com/hnx8/ReadJEnc/blob/master/README.en.md#readme</releaseNotes>
+    <copyright>Copyright (C) 2014-2018 hnx8(H.Takahashi)</copyright>
+    <tags>textfile charcode ja-encoding autodetect-encoding jisautodetect jcode nkf</tags>
+    <dependencies>
+      <group targetFramework=".NETCoreApp1.0">
+        <dependency id="Microsoft.NETCore.App" version="1.0.5" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETCoreApp1.1">
+        <dependency id="Microsoft.NETCore.App" version="1.1.2" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETFramework2.0" />
+      <group targetFramework=".NETFramework3.5" />
+      <group targetFramework=".NETFramework4.0" />
+      <group targetFramework=".NETFramework4.5" />
+      <group targetFramework=".NETFramework4.6" />
+      <group targetFramework=".NETFramework4.7" />
+      <group targetFramework=".NETStandard1.3">
+        <dependency id="NETStandard.Library" version="1.6.1" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETCoreApp2.0" />
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+  </metadata>
+</package>

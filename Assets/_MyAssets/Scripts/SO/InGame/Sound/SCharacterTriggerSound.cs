@@ -1,4 +1,4 @@
-namespace MyScripts.SO
+﻿namespace MyScripts.SO
 {
     [CreateAssetMenu(fileName = "_CharacterTriggerSound", menuName = "SO/Sound/InGame/Character Trigger")]
     internal sealed class SCharacterTriggerSound : ASSoundWithType<SCharacterTriggerSound.Timing>

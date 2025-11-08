@@ -1,4 +1,4 @@
-namespace MyScripts.SO
+﻿namespace MyScripts.SO
 {
     internal abstract class ASSound : ScriptableObject
     {

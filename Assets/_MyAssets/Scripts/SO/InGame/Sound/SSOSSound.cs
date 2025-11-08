@@ -1,4 +1,4 @@
-namespace MyScripts.SO
+﻿namespace MyScripts.SO
 {
     [CreateAssetMenu(fileName = "_SOSSound", menuName = "SO/Sound/InGame/SOS")]
     internal sealed class SSOSSound : ASSoundWithType<SSOSSound.Situation>

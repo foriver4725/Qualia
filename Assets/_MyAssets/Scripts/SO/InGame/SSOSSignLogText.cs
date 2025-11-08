@@ -1,4 +1,4 @@
-namespace MyScripts.SO
+﻿namespace MyScripts.SO
 {
     [CreateAssetMenu(fileName = "_SOSSignLogText", menuName = "SO/SOS Sign Log Text")]
     internal sealed class SSOSSignLogText : ScriptableObject

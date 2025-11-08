@@ -1,4 +1,4 @@
-namespace MyScripts.Common
+﻿namespace MyScripts.Common
 {
     internal abstract class ASingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
     {

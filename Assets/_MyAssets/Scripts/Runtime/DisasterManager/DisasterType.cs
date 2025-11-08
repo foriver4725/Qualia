@@ -1,4 +1,4 @@
-namespace MyScripts.Runtime;
+﻿namespace MyScripts.Runtime;
 
 internal enum Disaster : byte
 {
