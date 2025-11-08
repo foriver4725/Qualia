@@ -1,6 +1,6 @@
 ﻿namespace MyScripts.SO
 {
-    [CreateAssetMenu(fileName = "_GameRule", menuName = "SO/Game Rule")]
+    [CreateAssetMenu(fileName = "_GameRule", menuName = "SO/InGame/Game Rule")]
     internal sealed class SGameRule : ScriptableObject
     {
         [Serializable]

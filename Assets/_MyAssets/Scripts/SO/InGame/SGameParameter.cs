@@ -1,6 +1,6 @@
 ﻿namespace MyScripts.SO
 {
-    [CreateAssetMenu(fileName = "_GameParameter", menuName = "SO/Game Parameter")]
+    [CreateAssetMenu(fileName = "_GameParameter", menuName = "SO/InGame/Game Parameter")]
     internal sealed class SGameParameter : ScriptableObject
     {
         [SerializeField] private BarrierBorderSettings barrierBorder;

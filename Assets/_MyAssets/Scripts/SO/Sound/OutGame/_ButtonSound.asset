@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ab56825ed554a16a5590382670aa85d, type: 3}
+  m_Name: _ButtonSound
+  m_EditorClassIdentifier: 
+  group: {fileID: 2510903128889470205, guid: 14acf68a80de7bc46b972bdbda1e8aa5, type: 2}
+  volume: 1
+  hover: {fileID: 8300000, guid: f4070e1521c44794fa7981dfa2c30f75, type: 3}
+  click: {fileID: 8300000, guid: 8de2584c4918ea540976a1a327d28ba5, type: 3}
