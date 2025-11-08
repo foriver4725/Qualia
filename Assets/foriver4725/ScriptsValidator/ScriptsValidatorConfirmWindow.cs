@@ -33,7 +33,10 @@ namespace foriver4725.ScriptsValidator
                 var @out = @in switch
                 {
                     ESrcRoot.Assets => "Assets/",
-                    _               => throw new InvalidEnumArgumentException(null, (int)@in, typeof(ESrcRoot)),
+                    ESrcRoot.Assets_MyAssets => "Assets/_MyAssets/",
+                    ESrcRoot.Assets_MyAssets_Scripts => "Assets/_MyAssets/Scripts/",
+                    ESrcRoot.Assets_MyAssets_Shaders => "Assets/_MyAssets/Shaders/",
+                    _ => throw new InvalidEnumArgumentException(null, (int)@in, typeof(ESrcRoot)),
                 };
                 outValidateOptions._Root = @out;
             }
@@ -47,6 +50,7 @@ namespace foriver4725.ScriptsValidator
                     if (@in.HasFlag(ESrcExtensions.Hlsl)) @out.Add("*.hlsl");
                     if (@in.HasFlag(ESrcExtensions.Txt)) @out.Add("*.txt");
                     if (@in.HasFlag(ESrcExtensions.Md)) @out.Add("*.md");
+                    if (@in.HasFlag(ESrcExtensions.Rsp)) @out.Add("*.rsp");
                 }
                 outValidateOptions._Patterns = @out;
             }
