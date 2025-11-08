@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ab56825ed554a16a5590382670aa85d, type: 3}
-  m_Name: _Button
+  m_Name: _ButtonSound
   m_EditorClassIdentifier: 
   group: {fileID: 2510903128889470205, guid: 14acf68a80de7bc46b972bdbda1e8aa5, type: 2}
   volume: 1

@@ -1,7 +1,7 @@
 ﻿namespace MyScripts.SO
 {
-    [CreateAssetMenu(fileName = "_Button", menuName = "SO/Sound/OutGame/Button")]
-    internal sealed class SButton : ASSoundWithType<SButton.Action>
+    [CreateAssetMenu(fileName = "_ButtonSound", menuName = "SO/Sound/OutGame/Button")]
+    internal sealed class SButtonSound : ASSoundWithType<SButtonSound.Action>
     {
         [SerializeField] private AudioClip hover;
         [SerializeField] private AudioClip click;
