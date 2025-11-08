@@ -736,6 +736,7 @@ MonoBehaviour:
   backgroundHoveredColor: {r: 0.019607844, g: 0.4862745, b: 0.99607843, a: 1}
   backgroundClickedColor: {r: 0, g: 0, b: 1, a: 1}
   targetScene: 0
+  buttonSoundPlayer: {fileID: 707016868}
 --- !u!1 &1154348785
 GameObject:
   m_ObjectHideFlags: 0
@@ -823,6 +824,7 @@ MonoBehaviour:
   backgroundHoveredColor: {r: 0.019607844, g: 0.4862745, b: 0.99607843, a: 1}
   backgroundClickedColor: {r: 0, g: 0, b: 1, a: 1}
   targetScene: 2
+  buttonSoundPlayer: {fileID: 707016868}
 --- !u!1 &1188733993
 GameObject:
   m_ObjectHideFlags: 0
