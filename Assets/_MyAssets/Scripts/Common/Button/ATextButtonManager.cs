@@ -42,6 +42,8 @@ namespace MyScripts.Common.Button
 
         private void Awake()
         {
+            OnJustBeforeAwake();
+
             if (backgroundImage != null)
             {
                 imageInitialScale = backgroundImage.rectTransform.localScale;
@@ -75,10 +77,14 @@ namespace MyScripts.Common.Button
                 eventTrigger.AddListener(EventTriggerType.PointerDown, OnDown);
                 eventTrigger.AddListener(EventTriggerType.PointerUp, OnUp);
             }
+
+            OnJustAfterAwake();
         }
 
         private void OnDisable()
         {
+            OnJustBeforeDisable();
+
             appearanceState   = AppearanceState.Default;
             isPointerInside   = false;
             trackingPointerId = -1;
@@ -96,6 +102,8 @@ namespace MyScripts.Common.Button
             }
 
             OnExitImpl();
+
+            OnJustAfterDisable();
         }
 
         // 概ねPCのみ
@@ -215,6 +223,22 @@ namespace MyScripts.Common.Button
         private protected virtual bool CanExit => true;
         private protected virtual bool CanDown => true;
         private protected virtual bool CanUp => true;
+
+        private protected virtual void OnJustBeforeAwake()
+        {
+        }
+
+        private protected virtual void OnJustAfterAwake()
+        {
+        }
+
+        private protected virtual void OnJustBeforeDisable()
+        {
+        }
+
+        private protected virtual void OnJustAfterDisable()
+        {
+        }
 
         private protected virtual void OnEnterImpl()
         {
