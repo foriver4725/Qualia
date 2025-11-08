@@ -526,7 +526,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1663767710}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8073ccdd8c1ceaa409a00c9f9b65935c, type: 3}
+  m_Script: {fileID: 11500000, guid: 7260ad1cf3dd03f45a7338cb565d899e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   eventTrigger: {fileID: 931534697}
@@ -534,12 +534,12 @@ MonoBehaviour:
   text: {fileID: 931534695}
   displayText: "\u30B9\u30BF\u30FC\u30C8"
   textNormalColor: {r: 1, g: 1, b: 1, a: 1}
-  textHoveredColor: {r: 1, g: 0.7754717, b: 0.7754717, a: 1}
+  textHoveredColor: {r: 1, g: 0.7764706, b: 0.7764706, a: 1}
   textClickedColor: {r: 1, g: 0, b: 0, a: 1}
   backgroundNormalColor: {r: 0.019607844, g: 0.65882355, b: 0.99607843, a: 1}
-  backgroundHoveredColor: {r: 0.019607835, g: 0.485612, b: 0.99607843, a: 1}
+  backgroundHoveredColor: {r: 0.019607844, g: 0.4862745, b: 0.99607843, a: 1}
   backgroundClickedColor: {r: 0, g: 0, b: 1, a: 1}
-  linkedButtons: []
+  targetScene: 1
 --- !u!1001 &1726104294
 PrefabInstance:
   m_ObjectHideFlags: 0
