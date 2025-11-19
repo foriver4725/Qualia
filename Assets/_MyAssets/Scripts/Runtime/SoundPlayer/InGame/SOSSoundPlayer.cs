@@ -2,9 +2,5 @@
 {
     internal sealed class SOSSoundPlayer : ASoundPlayerWithType<SSOSSound, SSOSSound.Situation>
     {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private protected sealed override byte TypeToByte(SSOSSound.Situation type) => (byte)type;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private protected sealed override byte GetTypeAmount() => (byte)SSOSSound.Situation.Count;
     }
 }

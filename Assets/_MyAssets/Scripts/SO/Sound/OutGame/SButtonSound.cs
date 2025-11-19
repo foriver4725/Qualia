@@ -10,15 +10,13 @@
         {
             Hover,
             Click,
-
-            Count,
         }
 
         internal sealed override AudioClip GetClip(Action type) => type switch
         {
             Action.Hover => hover,
             Action.Click => click,
-            _            => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
     }
 }

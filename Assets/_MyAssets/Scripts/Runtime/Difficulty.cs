@@ -5,6 +5,4 @@ internal enum Difficulty : byte
     Easy,
     Normal,
     Hard,
-
-    Count,
 }
