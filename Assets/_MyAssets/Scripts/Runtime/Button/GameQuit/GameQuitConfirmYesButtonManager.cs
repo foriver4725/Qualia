@@ -1,8 +1,6 @@
-using MyScripts.Common.Button;
-
 namespace MyScripts.Runtime
 {
-    internal sealed class GameQuitConfirmYesButtonManager : ATextButtonManager
+    internal sealed class GameQuitConfirmYesButtonManager : AButtonManager
     {
         private protected sealed override void OnClickSucceeded()
         {

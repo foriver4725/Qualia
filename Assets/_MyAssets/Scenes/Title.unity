@@ -184,7 +184,9 @@ MonoBehaviour:
   backgroundNormalColor: {r: 1, g: 0.6156863, b: 0, a: 1}
   backgroundHoveredColor: {r: 1, g: 0.41568628, b: 0, a: 1}
   backgroundClickedColor: {r: 1, g: 0, b: 0, a: 1}
-  confirmUI: {fileID: 1477480249}
+  soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
+  soundPlayer: {fileID: 1707663799}
+  confirmUi: {fileID: 1477480249}
 --- !u!1 &290987250
 GameObject:
   m_ObjectHideFlags: 0
@@ -1312,9 +1314,9 @@ MonoBehaviour:
   backgroundNormalColor: {r: 0.019607844, g: 0.65882355, b: 0.99607843, a: 1}
   backgroundHoveredColor: {r: 0.019607844, g: 0.4862745, b: 0.99607843, a: 1}
   backgroundClickedColor: {r: 0, g: 0, b: 1, a: 1}
-  targetScene: 1
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
+  targetScene: 1
 --- !u!1 &1707663797
 GameObject:
   m_ObjectHideFlags: 0
@@ -1477,7 +1479,9 @@ MonoBehaviour:
   backgroundNormalColor: {r: 1, g: 0.6156863, b: 0, a: 1}
   backgroundHoveredColor: {r: 1, g: 0.41568628, b: 0, a: 1}
   backgroundClickedColor: {r: 1, g: 0, b: 0, a: 1}
-  confirmUI: {fileID: 1477480249}
+  soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
+  soundPlayer: {fileID: 1707663799}
+  confirmUi: {fileID: 1477480249}
 --- !u!1 &1868473675
 GameObject:
   m_ObjectHideFlags: 0
@@ -1565,6 +1569,8 @@ MonoBehaviour:
   backgroundNormalColor: {r: 0.019607844, g: 0.65882355, b: 0.99607843, a: 1}
   backgroundHoveredColor: {r: 0.019607844, g: 0.4862745, b: 0.99607843, a: 1}
   backgroundClickedColor: {r: 0, g: 0, b: 1, a: 1}
+  soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
+  soundPlayer: {fileID: 1707663799}
 --- !u!1 &1933717958
 GameObject:
   m_ObjectHideFlags: 0

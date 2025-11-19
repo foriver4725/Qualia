@@ -1,12 +1,8 @@
-using MyScripts.Common.Button;
-
 namespace MyScripts.Runtime
 {
-    internal class SceneChangeButtonManager : ATextButtonManager
+    internal class SceneChangeButtonManager : AButtonManager
     {
         [SerializeField] private Scene targetScene;
-        [SerializeField] private SSoundSetting soundSetting;
-        [SerializeField] private ButtonSoundPlayer soundPlayer;
 
         private bool isClickEnabled = true;
 
@@ -16,9 +12,8 @@ namespace MyScripts.Runtime
 
         private protected sealed override void OnJustAfterAwake()
         {
-            if (linkedButtons == null)
-                linkedButtons = FindObjectsByType<SceneChangeButtonManager>(
-                    FindObjectsInactive.Include, FindObjectsSortMode.None);
+            linkedButtons ??= FindObjectsByType<SceneChangeButtonManager>(
+                FindObjectsInactive.Include, FindObjectsSortMode.None);
         }
 
         private void OnDestroy()
@@ -38,17 +33,6 @@ namespace MyScripts.Runtime
         private protected virtual void InvokeLoad()
         {
             LoadManager.Instance.BeginLoad(targetScene);
-        }
-
-        private protected sealed override void PlayHoverSe()
-        {
-            if (soundSetting.DoesPlayButtonHoverSe)
-                soundPlayer.LetPlay(SButtonSound.Action.Hover);
-        }
-
-        private protected sealed override void PlayClickSe()
-        {
-            soundPlayer.LetPlay(SButtonSound.Action.Click);
         }
 
         private void SetLinkedButtonsClicked()

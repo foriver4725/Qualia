@@ -1,19 +1,17 @@
-using MyScripts.Common.Button;
-
 namespace MyScripts.Runtime
 {
-    internal sealed class GameQuitButtonManager : ATextButtonManager
+    internal sealed class GameQuitButtonManager : AButtonManager
     {
-        [SerializeField] private Canvas confirmUI;
+        [SerializeField] private Canvas confirmUi;
 
         private protected sealed override void OnJustBeforeAwake()
         {
-            confirmUI.gameObject.SetActive(false);
+            confirmUi.gameObject.SetActive(false);
         }
 
         private protected sealed override void OnClickSucceeded()
         {
-            confirmUI.gameObject.SetActive(true);
+            confirmUi.gameObject.SetActive(true);
         }
     }
 }
