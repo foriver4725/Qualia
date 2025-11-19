@@ -6,14 +6,14 @@ namespace MyScripts.Runtime
 	internal sealed class PlayerController : MonoBehaviour
 	{
 		[Serializable]
-		private sealed class WalkSoundBorders
+		private sealed class WalkSoundBorderRoots
 		{
-			[SerializeField] private Border[] grass;
-			[SerializeField] private Border[] sand;
-			[SerializeField] private Border[] rock;
-			[SerializeField] private Border[] water;
+			[SerializeField] private GameObject grass;
+			[SerializeField] private GameObject sand;
+			[SerializeField] private GameObject rock;
+			[SerializeField] private GameObject water;
 
-			internal IReadOnlyList<Border> Get(SWalkSound.Surface surface) => surface switch
+			internal GameObject Get(SWalkSound.Surface surface) => surface switch
 			{
 				SWalkSound.Surface.Grass => grass,
 				SWalkSound.Surface.Sand => sand,
@@ -32,7 +32,7 @@ namespace MyScripts.Runtime
 		[Space(10)]
 		[Header("Walk Sound")]
 		[SerializeField] private WalkSoundPlayer walkSoundPlayer;
-		[SerializeField] private WalkSoundBorders walkSoundBorders;
+		[SerializeField] private WalkSoundBorderRoots walkSoundBorderRoots;
 
 		// cinemachine
 		private float cinemachineTargetPitch;
@@ -97,6 +97,7 @@ namespace MyScripts.Runtime
 			SWalkSound.Surface.Sand,
 			SWalkSound.Surface.Grass,
 		});
+		private static readonly Dictionary<SWalkSound.Surface, ReadOnlyCollection<Border>> walkSoundBorders = new(); // Awake で初期化
 
 		private void Awake()
 		{
@@ -107,6 +108,13 @@ namespace MyScripts.Runtime
 			fallTimeoutDelta = param.FallTimeout;
 
 			walkSoundUpdateIntervalFrames = InGameSOHolder.Instance.GameParameter.WalkSoundUpdateIntervalFrames;
+
+			// walkSoundBorders
+			foreach (var surface in WalkSoundPriority)
+			{
+				var borders = walkSoundBorderRoots.Get(surface).GetComponentsInChildren<Border>(includeInactive: true);
+				walkSoundBorders.Add(surface, Array.AsReadOnly(borders));
+			}
 		}
 
 		private void Update()
@@ -438,7 +446,7 @@ namespace MyScripts.Runtime
 			// 優先度の高い順に調べていく
 			foreach (var surface in WalkSoundPriority)
 			{
-				if (IsPlayerInsideOfAnyBorder(walkSoundBorders.Get(surface), playerPosition, BorderLayer.WalkSound.Get(surface)))
+				if (IsPlayerInsideOfAnyBorder(walkSoundBorders[surface], playerPosition, BorderLayer.WalkSound.Get(surface)))
 					return surface;
 			}
 
