@@ -2910,17 +2910,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1766490383188478063, guid: a93f80d252523a14d9206681c7713ce8, type: 3}
   m_PrefabInstance: {fileID: 502216978}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &532280595 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8596056871083208975, guid: fc5a3d73f02683342b4b0d4b58f7271e, type: 3}
-  m_PrefabInstance: {fileID: 1269516213399815429}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fae423daf1d5c344b9a2c4c9e6d98401, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &559635407
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11262,7 +11251,7 @@ PrefabInstance:
     - target: {fileID: 8645547747250865677, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
       propertyPath: 'walkSoundBorders.grass.Array.data[0]'
       value: 
-      objectReference: {fileID: 532280595}
+      objectReference: {fileID: 0}
     - target: {fileID: 8645547747250865677, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
       propertyPath: 'walkSoundBorders.water.Array.data[0]'
       value: 
