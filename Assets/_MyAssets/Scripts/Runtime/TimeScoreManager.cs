@@ -19,8 +19,8 @@
             ScoreHolder.FoundAmount = 0;
 
             // パラメータの上限値を取得
-            timeLimit = InGameSOHolder.Instance.GameRule.TimeLimit;
-            sosSignsMaxAmount = InGameSOHolder.Instance.GameRule.SOSSignMaxAmounts.Get(GlobalValues.Difficulty);
+            timeLimit = GlobalSOHolder.Instance.GameRule.TimeLimit;
+            sosSignsMaxAmount = GlobalSOHolder.Instance.GameRule.SOSSignMaxAmounts.Get(GlobalValues.Difficulty);
 
             // UIの更新
             UpdateUI(elapsedAmount, foundAmount);
