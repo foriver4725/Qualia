@@ -4,22 +4,6 @@
     internal sealed class SGameRule : ScriptableObject
     {
         [Serializable]
-        internal sealed class ClearCondition
-        {
-            [SerializeField, Range(0.0f, 1.0e4f), Header("〇秒あるうち、")] private float maxElapse = 600.0f;
-            [SerializeField, Range(0.0f, 1.0e4f), Header("〇秒経過でクリア (一緒の数値のはず)")] private float shouldElapse = 600.0f;
-            internal float MaxElapse => maxElapse;
-            internal float ShouldElapse => shouldElapse;
-
-            [Space(30)]
-
-            [SerializeField, Range(0, 50), Header("〇個あるうち、")] private byte maxFind = 10;
-            [SerializeField, Range(0, 50), Header("〇個除去でクリア")] private byte shouldFind = 5;
-            internal byte MaxFind => maxFind;
-            internal byte ShouldFind => shouldFind;
-        }
-
-        [Serializable]
         internal sealed class DisasterOccurrenceCondition
         {
             [SerializeField, Header("発生する災害")] private Disaster disaster = default;
@@ -36,10 +20,10 @@
         }
 
         //　今後、複数ステージに増える予定
-        [SerializeField] private ClearCondition clearCondition;
+        [SerializeField, Range(0.0f, 1.0e4f), Header("制限時間 [秒]")] private float timeLimit = 600.0f;
         [SerializeField, Header("発生順に設定すること")] private DisasterOccurrenceCondition[] disasterOccurrenceConditions;
 
-        internal ClearCondition GetClearCondition() => clearCondition;
+        internal float TimeLimit => timeLimit;
         internal IReadOnlyList<DisasterOccurrenceCondition> GetDisasterOccurrenceConditions() => disasterOccurrenceConditions;
     }
 }
