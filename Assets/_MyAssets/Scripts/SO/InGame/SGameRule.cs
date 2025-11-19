@@ -4,19 +4,19 @@
     internal sealed class SGameRule : ScriptableObject
     {
         [Serializable]
-        internal sealed class ClearCondition
+        internal sealed class SOSSignMaxAmountsLiterally
         {
-            [SerializeField, Range(0.0f, 1.0e4f), Header("〇秒あるうち、")] private float maxElapse = 600.0f;
-            [SerializeField, Range(0.0f, 1.0e4f), Header("〇秒経過でクリア (一緒の数値のはず)")] private float shouldElapse = 600.0f;
-            internal float MaxElapse => maxElapse;
-            internal float ShouldElapse => shouldElapse;
+            [SerializeField, Range(1, 50), Header($"見つけるべきSOSサインの数 ({nameof(Difficulty.Easy)})")] private byte easy;
+            [SerializeField, Range(1, 50), Header($"見つけるべきSOSサインの数 ({nameof(Difficulty.Normal)})")] private byte normal;
+            [SerializeField, Range(1, 50), Header($"見つけるべきSOSサインの数 ({nameof(Difficulty.Hard)})")] private byte hard;
 
-            [Space(30)]
-
-            [SerializeField, Range(0, 50), Header("〇個あるうち、")] private byte maxFind = 10;
-            [SerializeField, Range(0, 50), Header("〇個除去でクリア")] private byte shouldFind = 5;
-            internal byte MaxFind => maxFind;
-            internal byte ShouldFind => shouldFind;
+            internal byte Get(Difficulty difficulty) => difficulty switch
+            {
+                Difficulty.Easy => easy,
+                Difficulty.Normal => normal,
+                Difficulty.Hard => hard,
+                _ => throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null)
+            };
         }
 
         [Serializable]
@@ -35,11 +35,12 @@
             internal float EndDuration => endDuration;
         }
 
-        //　今後、複数ステージに増える予定
-        [SerializeField] private ClearCondition clearCondition;
+        [SerializeField, Range(0.0f, 1.0e4f), Header("制限時間 [秒]")] private float timeLimit = 600.0f;
+        [SerializeField, Header("見つけるべきSOSサインの数")] private SOSSignMaxAmountsLiterally sosSignMaxAmounts;
         [SerializeField, Header("発生順に設定すること")] private DisasterOccurrenceCondition[] disasterOccurrenceConditions;
 
-        internal ClearCondition GetClearCondition() => clearCondition;
-        internal IReadOnlyList<DisasterOccurrenceCondition> GetDisasterOccurrenceConditions() => disasterOccurrenceConditions;
+        internal float TimeLimit => timeLimit;
+        internal SOSSignMaxAmountsLiterally SOSSignMaxAmounts => sosSignMaxAmounts;
+        internal IReadOnlyList<DisasterOccurrenceCondition> DisasterOccurrenceConditions => disasterOccurrenceConditions;
     }
 }

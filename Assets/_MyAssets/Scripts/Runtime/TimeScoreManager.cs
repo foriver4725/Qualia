@@ -6,10 +6,8 @@
         [SerializeField] private TextMeshProUGUI leftText;
 
         // Awake で初期化
-        private float maxElapsed; // 未使用
-        private byte maxFind;
-        private float shouldElapse;
-        private byte shouldFind;
+        private float timeLimit;
+        private float sosSignsMaxAmount;
 
         // クリア判定で使用
         private float elapsedAmount = 0.0f;
@@ -20,14 +18,9 @@
             // スコアをリセット
             ScoreHolder.FoundAmount = 0;
 
-            // クリア条件の取得
-            {
-                var clearCondition = InGameSOHolder.Instance.GameRule.GetClearCondition();
-                maxElapsed = clearCondition.MaxElapse;
-                maxFind = clearCondition.MaxFind;
-                shouldElapse = clearCondition.ShouldElapse;
-                shouldFind = clearCondition.ShouldFind;
-            }
+            // パラメータの上限値を取得
+            timeLimit = GlobalSOHolder.Instance.GameRule.TimeLimit;
+            sosSignsMaxAmount = GlobalSOHolder.Instance.GameRule.SOSSignMaxAmounts.Get(GlobalValues.Difficulty);
 
             // UIの更新
             UpdateUI(elapsedAmount, foundAmount);
@@ -53,9 +46,9 @@
                 }
 #endif
 
-                if (elapsedAmount >= shouldElapse)
+                if (elapsedAmount >= timeLimit)
                 {
-                    elapsedAmount = shouldElapse;
+                    elapsedAmount = timeLimit;
                     break;
                 }
 
@@ -70,19 +63,19 @@
         private void UpdateUI(float elapsedAmount, byte foundAmount)
         {
             // 残りの数値を計算
-            float remainingTime = Mathf.Max(0.0f, shouldElapse - elapsedAmount);
-            byte remainingFind = (byte)Mathf.Max(0, shouldFind - foundAmount);
+            float remainingTime = Mathf.Max(0.0f, timeLimit - elapsedAmount);
+            byte remainingFind = (byte)Mathf.Max(0, sosSignsMaxAmount - foundAmount);
 
             int min = Mathf.FloorToInt(remainingTime / 60);
             int sec = Mathf.FloorToInt(remainingTime % 60);
             timeText.SetTextFormat("{0:D2}:{1:D2}", min, sec);
 
-            leftText.SetTextFormat("残り{0}個 (全{1}個)", remainingFind, maxFind);
+            leftText.SetTextFormat("残り{0}個", remainingFind);
         }
 
         internal void DecrementLeftAmount()
         {
-            if (++foundAmount >= shouldFind)
+            if (++foundAmount >= sosSignsMaxAmount)
                 OnClear();
         }
 

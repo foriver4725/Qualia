@@ -2,7 +2,7 @@ using MyScripts.Common.Button;
 
 namespace MyScripts.Runtime
 {
-    internal sealed class SceneChangeButtonManager : ATextButtonManager
+    internal class SceneChangeButtonManager : ATextButtonManager
     {
         [SerializeField] private Scene targetScene;
         [SerializeField] private SSoundSetting soundSetting;
@@ -29,7 +29,14 @@ namespace MyScripts.Runtime
 
         private protected sealed override void OnClickSucceeded()
         {
+            if (!isClickEnabled) return;
+
             SetLinkedButtonsClicked();
+            InvokeLoad();
+        }
+
+        private protected virtual void InvokeLoad()
+        {
             LoadManager.Instance.BeginLoad(targetScene);
         }
 
@@ -46,12 +53,8 @@ namespace MyScripts.Runtime
 
         private void SetLinkedButtonsClicked()
         {
-            if (!isClickEnabled) return;
-            if (linkedButtons == null) return;
-
             foreach (var linkedButton in linkedButtons)
             {
-                if (linkedButton == null) continue;
                 linkedButton.isClickEnabled = false;
             }
         }
