@@ -6,14 +6,7 @@ namespace MyScripts.Runtime
 
         private protected sealed override void InvokeLoad()
         {
-            SOSSignFindManager.PlaceAmount = difficulty switch
-            {
-                Difficulty.Easy => 3,
-                Difficulty.Normal => 5,
-                Difficulty.Hard => 10,
-                _ => throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null)
-            };
-
+            GlobalValues.Difficulty = difficulty;
             base.InvokeLoad();
         }
     }

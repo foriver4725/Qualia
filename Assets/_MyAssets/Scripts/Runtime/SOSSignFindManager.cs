@@ -2,9 +2,14 @@
 {
     internal sealed class SOSSignFindManager : MonoBehaviour
     {
+        private readonly struct SOSSignCandidateCompareInput : SOSSignCandidateConditions.ICompareInput
+        {
+            public Difficulty CurrentDifficulty { get; init; }
+        }
+
         [SerializeField] private Transform root; // SOSサインの親オブジェクト (生成した後ここに格納する)
         [SerializeField] private Transform candidateRoot; // 配置候補箇所の親オブジェクト
-        [SerializeField] private GameObject sosSignPrefab;
+        [SerializeField] private SOSSign prefab;
         [Space(10)]
         [SerializeField] private Collider playerCapsuleCollider;
         [SerializeField] private TimeScoreManager timeScoreManager;
@@ -24,10 +29,6 @@
         // 外部から設定してもらう
         // TODO: 汚い実装！
         internal Func<bool> IsCharacterHuman { get; set; } = null;
-
-        // 外部から自由に設定できる
-        // SOSサインを配置する時、配置候補箇所の中からランダムにこの個数だけ選んで配置する
-        internal static int PlaceAmount { get; set; } = -1;
 
         private async UniTaskVoid Awake()
         {
@@ -51,26 +52,37 @@
         // インスタンスを格納する用の配列を GC.Alloc して、それを返す
         private void RandomlyInstantiateAndPlace(out ParticleSystem[] outParticleSystems, out Collider[] outColliders)
         {
-            // 配置候補箇所をランダムにシャッフルする
-            Transform[] candidates = new Transform[candidateRoot.childCount];
+            // 条件を満たす配置候補箇所を絞り込み、ランダムにシャッフルする
+            SOSSignCandidateConditions[] candidates = new SOSSignCandidateConditions[candidateRoot.childCount];
+            var compareInput = new SOSSignCandidateCompareInput
+            {
+                CurrentDifficulty = GlobalValues.Difficulty
+            };
+            int candidateRealIndex = 0;
             for (int i = 0; i < candidateRoot.childCount; i++)
             {
-                candidates[i] = candidateRoot.GetChild(i);
+                var candidate = candidateRoot.GetChild(i).GetComponent<SOSSignCandidateConditions>();
+                if (!candidate.CanPlace(compareInput))
+                    continue;
+
+                candidates[candidateRealIndex] = candidate;
+                candidateRealIndex++;
             }
-            candidates.AsSpan().ShuffleSelf();
+            Span<SOSSignCandidateConditions> candidatesSpan = candidates.AsSpan(0, candidateRealIndex);
+            candidatesSpan.ShuffleSelf();
 
-            int placeAmountReal = Mathf.Min(candidateRoot.childCount, PlaceAmount);
-
-            ReadOnlySpan<Transform> candidatesSpan = candidates.AsSpan(0, placeAmountReal);
+            // 難易度による制限も踏まえて、結局配置できる数
+            int placeAmountReal = Mathf.Min(candidateRealIndex, GlobalValues.GetSOSSignPlaceAmount());
+            candidatesSpan = candidatesSpan[..placeAmountReal];
             outParticleSystems = new ParticleSystem[placeAmountReal];
             outColliders = new Collider[placeAmountReal];
 
             for (int i = 0; i < placeAmountReal; i++)
             {
-                GameObject sosSignInstance = Instantiate(sosSignPrefab, candidatesSpan[i].position, candidatesSpan[i].rotation, root);
+                SOSSign instance = Instantiate(prefab, candidatesSpan[i].transform.position, candidatesSpan[i].transform.rotation, root);
 
-                outParticleSystems[i] = sosSignInstance.GetComponentInChildren<ParticleSystem>(includeInactive: true);
-                outColliders[i] = sosSignInstance.GetComponentInChildren<Collider>(includeInactive: true);
+                outParticleSystems[i] = instance.ParticleSystem;
+                outColliders[i] = instance.Collider;
             }
         }
 

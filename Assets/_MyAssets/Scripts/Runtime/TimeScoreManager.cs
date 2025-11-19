@@ -20,7 +20,7 @@
 
             // パラメータの上限値を取得
             timeLimit = InGameSOHolder.Instance.GameRule.TimeLimit;
-            sosSignsMaxAmount = SOSSignFindManager.PlaceAmount;
+            sosSignsMaxAmount = GlobalValues.GetSOSSignPlaceAmount();
 
             // UIの更新
             UpdateUI(elapsedAmount, foundAmount);

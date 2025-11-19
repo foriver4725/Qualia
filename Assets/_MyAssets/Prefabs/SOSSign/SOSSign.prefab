@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7939171000004802562}
   - component: {fileID: 869697362111999244}
+  - component: {fileID: 4513428926528137400}
   m_Layer: 0
   m_Name: SOSSign
   m_TagString: Untagged
@@ -56,6 +57,20 @@ CapsuleCollider:
   m_Height: 6
   m_Direction: 1
   m_Center: {x: 0, y: 2, z: 0}
+--- !u!114 &4513428926528137400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2239677793117777547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e164df6ea2cbe294ca3b1bf73f44c01d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleSystem: {fileID: 8201615485269318313}
+  collider: {fileID: 869697362111999244}
 --- !u!1001 &4405627836765998394
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -120,5 +135,10 @@ PrefabInstance:
 --- !u!4 &2705280944887108061 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1776944395218820327, guid: 77835fc44dc5064449095458847aee95, type: 3}
+  m_PrefabInstance: {fileID: 4405627836765998394}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &8201615485269318313 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5544514949768845203, guid: 77835fc44dc5064449095458847aee95, type: 3}
   m_PrefabInstance: {fileID: 4405627836765998394}
   m_PrefabAsset: {fileID: 0}
