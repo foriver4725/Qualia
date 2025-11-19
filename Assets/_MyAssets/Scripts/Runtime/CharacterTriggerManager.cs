@@ -93,7 +93,7 @@ namespace MyScripts.Runtime
         {
             while (!ct.IsCancellationRequested)
             {
-                // 人間 → 犬 → 貝 → 人間
+                // 人間 → 動物 → 人間
                 await UniTask.WaitUntil(() => !onTriggerCt && InputManager.InGameTriggerCharacter.Bool,
                     timing: PlayerLoopTiming.Update, cancellationToken: ct);
 
