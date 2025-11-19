@@ -14,18 +14,15 @@ namespace MyScripts.Runtime
         [SerializeField] private Transform humanCapsule;
         [SerializeField] private Transform animalCapsule;
         [SerializeField] private CinemachineBrain playerCameraBrain;
-        [SerializeField] private Transform sosSignsRoot; // SOSサインの親オブジェクト (配下にはSOSサインしか置かない前提)
         [SerializeField] private TextMeshProUGUI triggerText; // トリガーを教えるUI
         [SerializeField] private TextMeshProUGUI triggerCtLabel;
         [SerializeField] private PlayerController pc;
         [SerializeField] private GameObject playerCapsule;
         [SerializeField] private SOSSignFindManager sosSignFindManager;
-        [SerializeField] private TimeScoreManager timeScoreManager;
         [SerializeField] private CharacterTriggerSoundPlayer soundPlayer;
 
         // Awake で初期化
         private SPlayerControl.CameraBlendSettingsOnCharacterTrigger param;
-        private ParticleSystem[] sosSigns;
         private CharacterType currentType; // 現在のキャラクターの種類
         private Dictionary<CharacterType, Transform> characterCapsules; // 各キャラクターの最新座標を保持 (ワールド座標)
         private Vector3 characterCapsuleLocalPosition; // キャラクターカプセルは、ルートからオフセットされている(足元を中心にするため)
@@ -43,7 +40,9 @@ namespace MyScripts.Runtime
         private void Awake()
         {
             param = InGameSOHolder.Instance.PlayerControl.CameraBlendOnCharacterTrigger;
-            sosSigns = sosSignsRoot.GetComponentsInChildren<ParticleSystem>(includeInactive: true);
+
+            // 以降の処理で発火されるため、なるべく最速で登録する
+            sosSignFindManager.IsCharacterHuman = () => currentType == CharacterType.Human;
 
             {
                 currentType = CharacterType.Human;
@@ -63,20 +62,10 @@ namespace MyScripts.Runtime
                 // 人間のカプセルは非表示
                 humanCapsule.gameObject.SetActive(false);
                 // SOSサインの可視性を初期化
-                UpdateSOSSignsVisibility(currentType);
+                sosSignFindManager.UpdateSOSSignsVisibility();
                 // トリガーUIを更新
                 triggerCtLabel.enabled = false;
                 UpdateTriggerText(currentType, GetNext(currentType));
-            }
-
-            {
-                Collider[] sosSignColliders = sosSignsRoot.GetComponentsInChildren<Collider>(includeInactive: true);
-
-                sosSignFindManager.Setup(
-                    Array.AsReadOnly(sosSignColliders),
-                    () => currentType == CharacterType.Human,
-                    timeScoreManager.DecrementLeftAmount
-                );
             }
 
             WaitInputAndTriggerAsync(destroyCancellationToken).Forget();
@@ -155,7 +144,7 @@ namespace MyScripts.Runtime
             ).Forget();
 
             // SOSサインの可視性を更新
-            UpdateSOSSignsVisibility(to);
+            sosSignFindManager.UpdateSOSSignsVisibility();
 
             // トリガーUIを更新
             UpdateTriggerText(to, GetNext(to));
@@ -212,17 +201,6 @@ namespace MyScripts.Runtime
             if (triggerCtLabel != null)
                 triggerCtLabel.enabled = false;
             onTriggerCt = false;
-        }
-
-        private void UpdateSOSSignsVisibility(CharacterType type)
-        {
-            bool isVisible = (type != CharacterType.Human);
-
-            foreach (var sign in sosSigns)
-            {
-                if (sign != null)
-                    sign.gameObject.SetActive(isVisible);
-            }
         }
 
         private void UpdateTriggerText(CharacterType now, CharacterType next)
