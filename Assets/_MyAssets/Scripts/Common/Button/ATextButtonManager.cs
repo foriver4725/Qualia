@@ -55,18 +55,18 @@ namespace MyScripts.Common.Button
             {
                 textInitialScale = text.rectTransform.localScale;
 
-                text.text  = displayText;
+                text.text = displayText;
                 text.color = textNormalColor;
 
                 // ここでのみフォントサイズを変更している. そのため、派生クラスで以降いじってもOK
                 text.fontSize = (displayText?.Length ?? 0) switch
                 {
                     <= 4 => 120.0f,
-                    5    => 90.0f,
-                    6    => 78.0f,
-                    7    => 66.0f,
-                    8    => 60.0f,
-                    _    => 12.0f
+                    5 => 90.0f,
+                    6 => 78.0f,
+                    7 => 66.0f,
+                    8 => 60.0f,
+                    _ => 12.0f
                 };
             }
 
@@ -85,19 +85,19 @@ namespace MyScripts.Common.Button
         {
             OnJustBeforeDisable();
 
-            appearanceState   = AppearanceState.Default;
-            isPointerInside   = false;
+            appearanceState = AppearanceState.Default;
+            isPointerInside = false;
             trackingPointerId = -1;
 
             if (backgroundImage != null)
             {
-                backgroundImage.color                    = backgroundNormalColor;
+                backgroundImage.color = backgroundNormalColor;
                 backgroundImage.rectTransform.localScale = imageInitialScale;
             }
 
             if (text != null)
             {
-                text.color                    = textNormalColor;
+                text.color = textNormalColor;
                 text.rectTransform.localScale = textInitialScale;
             }
 
@@ -124,7 +124,7 @@ namespace MyScripts.Common.Button
             appearanceState = AppearanceState.BeingHovered;
 
             PlayHoverSe();
-            UpdateAppearences();
+            UpdateAppearances();
 
             OnEnterImpl();
         }
@@ -146,7 +146,7 @@ namespace MyScripts.Common.Button
             if (appearanceState != AppearanceState.BeingHovered) return;
             appearanceState = AppearanceState.Default;
 
-            UpdateAppearences();
+            UpdateAppearances();
 
             OnExitImpl();
         }
@@ -165,7 +165,7 @@ namespace MyScripts.Common.Button
             appearanceState = AppearanceState.BeingClicked;
 
             PlayClickSe();
-            UpdateAppearences();
+            UpdateAppearances();
 
             OnDownImpl();
         }
@@ -183,7 +183,7 @@ namespace MyScripts.Common.Button
             if (appearanceState != AppearanceState.BeingClicked) return;
             appearanceState = isPointerInside ? AppearanceState.BeingHovered : AppearanceState.Default;
 
-            UpdateAppearences();
+            UpdateAppearances();
 
             OnUpImpl();
 
@@ -192,14 +192,14 @@ namespace MyScripts.Common.Button
                 OnClickSucceeded();
         }
 
-        private void UpdateAppearences()
+        private void UpdateAppearances()
         {
             (Color textColor, Color backgroundColor, float scaleCoef) = appearanceState switch
             {
-                AppearanceState.Default      => (textNormalColor, backgroundNormalColor, 1.0f),
+                AppearanceState.Default => (textNormalColor, backgroundNormalColor, 1.0f),
                 AppearanceState.BeingHovered => (textHoveredColor, backgroundHoveredColor, 1.05f),
                 AppearanceState.BeingClicked => (textClickedColor, backgroundClickedColor, 1.1f),
-                _                            => (textNormalColor, backgroundNormalColor, 1.0f)
+                _ => (textNormalColor, backgroundNormalColor, 1.0f)
             };
 
             if (backgroundImage != null)
