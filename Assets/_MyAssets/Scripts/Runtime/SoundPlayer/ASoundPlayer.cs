@@ -24,9 +24,8 @@
         where TParam : ASSoundWithType<TClipTypeByte>
         where TClipTypeByte : struct, Enum
     {
+        private Array typeValues = null;
         private protected AudioSource[] AudioSources = null;
-
-        private protected abstract byte GetTypeAmount();
 
         internal virtual void LetPlay(TClipTypeByte type)
         {
@@ -44,13 +43,20 @@
             );
         }
 
+        private protected byte TypeCount
+        {
+            get
+            {
+                typeValues ??= Enum.GetValues(typeof(TClipTypeByte));
+                return (byte)typeValues.Length;
+            }
+        }
+
         private protected override void Init()
         {
-            byte soundAmount = GetTypeAmount();
+            AudioSources = new AudioSource[TypeCount];
 
-            AudioSources = new AudioSource[soundAmount];
-
-            for (int i = 0; i < soundAmount; i++)
+            for (int i = 0; i < TypeCount; i++)
             {
                 AudioSource source = Root.gameObject.AddComponent<AudioSource>();
                 source.LetInit

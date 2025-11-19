@@ -14,8 +14,6 @@
         {
             Begin,
             CloseToEnd,
-
-            Count,
         }
 
         internal sealed override AudioClip GetClip(Timing type) => type switch

@@ -13,8 +13,6 @@
         {
             Windstorm,
             Blizzard,
-
-            Count,
         }
 
         internal sealed override AudioClip GetClip(Disaster type) => type switch

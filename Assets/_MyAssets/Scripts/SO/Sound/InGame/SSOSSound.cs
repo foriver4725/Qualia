@@ -10,8 +10,6 @@
         {
             CouldRemove,
             CouldNotRemove,
-
-            Count,
         }
 
         internal sealed override AudioClip GetClip(Situation type) => type switch
