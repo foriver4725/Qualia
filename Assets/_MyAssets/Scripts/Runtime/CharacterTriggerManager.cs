@@ -41,7 +41,7 @@ namespace MyScripts.Runtime
         {
             param = InGameSOHolder.Instance.PlayerControl.CameraBlendOnCharacterTrigger;
 
-            // 以降の処理で発火されるため、なるべく最速で登録する
+            // なるべく最速で登録する
             sosSignFindManager.IsCharacterHuman = () => currentType == CharacterType.Human;
 
             {
@@ -62,7 +62,7 @@ namespace MyScripts.Runtime
                 // 人間のカプセルは非表示
                 humanCapsule.gameObject.SetActive(false);
                 // SOSサインの可視性を初期化
-                sosSignFindManager.UpdateSOSSignsVisibility();
+                sosSignFindManager.UpdateVisibility(currentType == CharacterType.Human);
                 // トリガーUIを更新
                 triggerCtLabel.enabled = false;
                 UpdateTriggerText(currentType, GetNext(currentType));
@@ -144,7 +144,7 @@ namespace MyScripts.Runtime
             ).Forget();
 
             // SOSサインの可視性を更新
-            sosSignFindManager.UpdateSOSSignsVisibility();
+            sosSignFindManager.UpdateVisibility(to == CharacterType.Human);
 
             // トリガーUIを更新
             UpdateTriggerText(to, GetNext(to));
