@@ -4,6 +4,22 @@
     internal sealed class SGameRule : ScriptableObject
     {
         [Serializable]
+        internal sealed class SOSSignMaxAmountsLiterally
+        {
+            [SerializeField, Range(1, 50), Header($"見つけるべきSOSサインの数 ({nameof(Difficulty.Easy)})")] private byte easy;
+            [SerializeField, Range(1, 50), Header($"見つけるべきSOSサインの数 ({nameof(Difficulty.Normal)})")] private byte normal;
+            [SerializeField, Range(1, 50), Header($"見つけるべきSOSサインの数 ({nameof(Difficulty.Hard)})")] private byte hard;
+
+            internal byte Get(Difficulty difficulty) => difficulty switch
+            {
+                Difficulty.Easy => easy,
+                Difficulty.Normal => normal,
+                Difficulty.Hard => hard,
+                _ => throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null)
+            };
+        }
+
+        [Serializable]
         internal sealed class DisasterOccurrenceCondition
         {
             [SerializeField, Header("発生する災害")] private Disaster disaster = default;
@@ -19,11 +35,12 @@
             internal float EndDuration => endDuration;
         }
 
-        //　今後、複数ステージに増える予定
         [SerializeField, Range(0.0f, 1.0e4f), Header("制限時間 [秒]")] private float timeLimit = 600.0f;
+        [SerializeField, Header("見つけるべきSOSサインの数")] private SOSSignMaxAmountsLiterally sosSignMaxAmounts;
         [SerializeField, Header("発生順に設定すること")] private DisasterOccurrenceCondition[] disasterOccurrenceConditions;
 
         internal float TimeLimit => timeLimit;
-        internal IReadOnlyList<DisasterOccurrenceCondition> GetDisasterOccurrenceConditions() => disasterOccurrenceConditions;
+        internal SOSSignMaxAmountsLiterally SOSSignMaxAmounts => sosSignMaxAmounts;
+        internal IReadOnlyList<DisasterOccurrenceCondition> DisasterOccurrenceConditions => disasterOccurrenceConditions;
     }
 }

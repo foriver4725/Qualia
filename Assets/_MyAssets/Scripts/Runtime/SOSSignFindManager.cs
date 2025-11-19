@@ -72,7 +72,7 @@
             candidatesSpan.ShuffleSelf();
 
             // 難易度による制限も踏まえて、結局配置できる数
-            int placeAmountReal = Mathf.Min(candidateRealIndex, GlobalValues.GetSOSSignPlaceAmount());
+            int placeAmountReal = Mathf.Min(candidateRealIndex, InGameSOHolder.Instance.GameRule.SOSSignMaxAmounts.Get(GlobalValues.Difficulty));
             candidatesSpan = candidatesSpan[..placeAmountReal];
             outParticleSystems = new ParticleSystem[placeAmountReal];
             outColliders = new Collider[placeAmountReal];
@@ -176,7 +176,7 @@
 
         private async UniTaskVoid ObserveDisasterOccurrenceAsync(Ct ct)
         {
-            var conditions = InGameSOHolder.Instance.GameRule.GetDisasterOccurrenceConditions();
+            var conditions = InGameSOHolder.Instance.GameRule.DisasterOccurrenceConditions;
 
             // インターフェースなので、foreach だとボックス化する
             for (int i = 0; i < conditions.Count; i++)
