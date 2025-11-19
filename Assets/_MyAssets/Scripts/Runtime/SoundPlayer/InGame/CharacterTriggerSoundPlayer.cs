@@ -8,8 +8,6 @@
         internal float CloseToEndPlayLength => Param.CloseToEndLength - Param.CloseToEndTimeOffset;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private protected sealed override byte TypeToByte(SCharacterTriggerSound.Timing type) => (byte)type;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private protected sealed override byte GetTypeAmount() => (byte)SCharacterTriggerSound.Timing.Count;
 
         internal sealed override void LetPlay(SCharacterTriggerSound.Timing type)
@@ -21,7 +19,7 @@
                 return;
             }
 
-            AudioSources[TypeToByte(type)].LetPlay
+            AudioSources[type.ToInteger<SCharacterTriggerSound.Timing, byte>()].LetPlay
             (
                 clip,
                 volume: Param.Volume,

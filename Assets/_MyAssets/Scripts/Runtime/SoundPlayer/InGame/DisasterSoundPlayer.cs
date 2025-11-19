@@ -3,8 +3,6 @@
     internal sealed class DisasterSoundPlayer : ASoundPlayerWithType<SDisasterSound, SDisasterSound.Disaster>
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private protected sealed override byte TypeToByte(SDisasterSound.Disaster type) => (byte)type;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private protected sealed override byte GetTypeAmount() => (byte)SDisasterSound.Disaster.Count;
 
         // フェードアウトのため、2つを交互に使う
@@ -56,7 +54,7 @@
 
         private (byte Using, byte NotUsing, byte Smaller, byte Larger) GetIndices(SDisasterSound.Disaster type)
         {
-            byte smallIndex = TypeToByte(type);
+            byte smallIndex = type.ToInteger<SDisasterSound.Disaster, byte>();
             byte largeIndex = (byte)(smallIndex + GetTypeAmount());
 
             if (areUsingFirst[smallIndex]) return (smallIndex, largeIndex, smallIndex, largeIndex);
