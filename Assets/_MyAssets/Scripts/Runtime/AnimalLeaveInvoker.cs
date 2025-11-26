@@ -54,7 +54,12 @@ namespace MyScripts.Runtime
             possessingCharacter.NameText.enabled = true;
             possessingCharacter.Collider.enabled = true;
             possessingCharacter.Renderer.enabled = true;
-            possessingCharacter.Teleport(pc.transform.position, pc.transform.forward);
+            {
+                // 見えるように、少し前の位置にテレポートさせる
+                // 数値は決め打ち
+                Vector3 teleportPosition = pc.transform.position + pc.transform.forward * 2.0f;
+                possessingCharacter.Teleport(teleportPosition, pc.transform.forward);
+            }
             possessingCharacter = null;
 
             UpdateDisplayText(displayText, possessingCharacter);

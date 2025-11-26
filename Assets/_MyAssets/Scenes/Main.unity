@@ -2801,6 +2801,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1986410594}
     - target: {fileID: 2510057862384921603, guid: 4df05c6b1fd9a4e4ba3298f9a9583471, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 2510057862384921603, guid: 4df05c6b1fd9a4e4ba3298f9a9583471, type: 3}
       propertyPath: playerCollider
       value: 
       objectReference: {fileID: 1986410593}
@@ -3398,6 +3402,7 @@ MonoBehaviour:
   prefab: {fileID: 4513428926528137400, guid: 5f748ef53f8e6954392ab172c23db175, type: 3}
   playerCapsuleCollider: {fileID: 1986410593}
   sosSignLeftRatioText: {fileID: 702915000}
+  animalLeaveInvoker: {fileID: 817192304}
   soundPlayer: {fileID: 195949041}
 --- !u!1 &685558487
 GameObject:
@@ -6704,6 +6709,10 @@ PrefabInstance:
       propertyPath: pc
       value: 
       objectReference: {fileID: 1986410594}
+    - target: {fileID: 2510057862384921603, guid: 4df05c6b1fd9a4e4ba3298f9a9583471, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
     - target: {fileID: 2510057862384921603, guid: 4df05c6b1fd9a4e4ba3298f9a9583471, type: 3}
       propertyPath: playerCollider
       value: 

@@ -6,8 +6,9 @@ namespace MyScripts.Runtime
     }
 
     /// <summary>
-    /// 憑依する動物のクラス
-    /// 憑依・離脱のトリガーもここで扱う
+    /// 憑依する動物のクラス<br/>
+    /// 憑依・離脱のトリガーもここで扱う<br/>
+    /// サウンドは、一旦SOSのものをそのまま流用する<br/>
     /// </summary>
     internal sealed class Character : MonoBehaviour
     {
@@ -20,6 +21,7 @@ namespace MyScripts.Runtime
         [Space(10)]
         [SerializeField] private PlayerController pc;
         [SerializeField] private AnimalLeaveInvoker animalLeaveInvoker;
+        [SerializeField] private SOSSoundPlayer soundPlayer;
         [SerializeField] private bool TMP_doesLikePlayer = true; // テスト用
 
         // 外部公開プロパティ
@@ -58,9 +60,19 @@ namespace MyScripts.Runtime
                     LogManager.Instance.ShowManually("左クリックで憑依");
 
                     if (await WaitForClickOrExitAsync(col, ct) == true)
+                    {
+                        // 憑依する
                         animalLeaveInvoker.PossessCharacter(pc, this);
 
-                    LogManager.Instance.ShowManually(string.Empty);
+                        LogManager.Instance.ShowManually(string.Empty);
+                        LogManager.Instance.ShowAutomatically("憑依した");
+
+                        soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
+                    }
+                    else
+                    {
+                        LogManager.Instance.ShowManually(string.Empty);
+                    }
                 }
                 else
                 {
@@ -70,6 +82,7 @@ namespace MyScripts.Runtime
                     {
                         if (await WaitForClickOrExitAsync(col, ct) == true)
                         {
+                            soundPlayer.LetPlay(SSOSSound.Situation.CouldNotRemove);
                             continue;
                         }
                         else

@@ -7,8 +7,9 @@
         [SerializeField] private SOSSign prefab;
         [Space(10)]
         [SerializeField] private Collider playerCapsuleCollider;
-        [Space(10)]
         [SerializeField] private TextMeshProUGUI sosSignLeftRatioText;
+        [Space(10)]
+        [SerializeField] private AnimalLeaveInvoker animalLeaveInvoker;
         [SerializeField] private SOSSoundPlayer soundPlayer;
 
         // Awake で初期化
@@ -60,9 +61,8 @@
                     .Where(c => ReferenceEquals(c, playerCapsuleCollider))
                     .SubscribeAwait(col, async (c, col, ct) =>
                 {
-                    if (true)
+                    if (animalLeaveInvoker.IsPossessing)
                     {
-                        "一旦、必ず取り除けるようにする".Print(LogSettings.Warning);
                         LogManager.Instance.ShowManually("左クリックで取り除く");
 
                         if (await WaitForClickOrExitAsync(col, ct) == true)
@@ -86,12 +86,11 @@
                             LogManager.Instance.ShowManually(string.Empty);
                         }
                     }
-#pragma warning disable CS0162 // 到達不能コードの検出
                     else
                     {
                         {
                             using var sb = ZString.CreateStringBuilder();
-                            sb.AppendFormat("{0}\n(人間でないと取り除けない)", sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnAnimalApproach));
+                            sb.AppendFormat("{0}\n(動物でないと取り除けない)", sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnAnimalApproach));
                             LogManager.Instance.ShowManually(sb);
                         }
 
@@ -110,7 +109,6 @@
 
                         LogManager.Instance.ShowManually(string.Empty);
                     }
-#pragma warning restore CS0162 // 到達不能コードの検出
                 })
                     .AddTo(col);
             }
