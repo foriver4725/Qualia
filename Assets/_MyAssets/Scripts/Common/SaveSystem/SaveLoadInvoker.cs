@@ -7,9 +7,17 @@ internal static class SaveLoadInvoker
         Data data = new();
 
         // 初期値を代入
-        data.HasFoundSOSSigns = new bool[Constants.SOSSignCount];
-        data.HasFoundSOSSigns.AsSpan().Fill(false);
-        data.PlayerPosition = Vector3.zero;
+        data.Slots = new SingleData[Constants.SlotCount];
+        for (int i = 0; i < Constants.SlotCount; i++)
+        {
+            SingleData slot = new();
+            {
+                slot.HasFoundSOSSigns = new bool[Constants.SOSSignCount];
+                slot.HasFoundSOSSigns.AsSpan().Fill(false);
+                slot.PlayerPosition = Vector3.zero;
+            }
+            data.Slots[i] = slot;
+        }
 
         return data;
     }
