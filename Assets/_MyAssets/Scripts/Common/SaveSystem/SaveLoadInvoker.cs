@@ -12,6 +12,7 @@ internal static class SaveLoadInvoker
         {
             SingleData slot = new();
             {
+                slot.IsValid = false;
                 slot.HasFoundSOSSigns = new bool[Constants.SOSSignCount];
                 slot.HasFoundSOSSigns.AsSpan().Fill(false);
                 slot.PlayerPosition = Vector3.zero;

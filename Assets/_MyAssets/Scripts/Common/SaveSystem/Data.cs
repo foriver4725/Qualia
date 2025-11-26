@@ -10,6 +10,7 @@ internal sealed class Data
 [Serializable]
 internal sealed class SingleData
 {
+    public bool IsValid;
     public bool[] HasFoundSOSSigns;
     public Vector3 PlayerPosition;
 }
