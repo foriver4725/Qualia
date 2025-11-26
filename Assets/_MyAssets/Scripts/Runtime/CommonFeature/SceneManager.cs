@@ -3,9 +3,7 @@
 internal enum Scene : byte
 {
     Title,
-    Select,
     Main,
-    Result,
 }
 
 internal static class SceneManager
@@ -13,9 +11,7 @@ internal static class SceneManager
     private static readonly Dictionary<Scene, string> sceneNames = new()
     {
         { Scene.Title, "Title" },
-        { Scene.Select, "Select" },
         { Scene.Main, "Main" },
-        { Scene.Result, "Result" }
     };
 
     /// <summary>

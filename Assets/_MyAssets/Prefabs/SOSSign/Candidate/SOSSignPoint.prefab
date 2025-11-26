@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4969720584671004576}
   - component: {fileID: 6540668671523094288}
   m_Layer: 0
-  m_Name: SOSSignCandidate
+  m_Name: SOSSignPoint
   m_TagString: Untagged
   m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

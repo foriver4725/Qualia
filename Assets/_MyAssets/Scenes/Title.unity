@@ -1271,7 +1271,7 @@ GameObject:
   - component: {fileID: 1663767711}
   - component: {fileID: 1663767712}
   m_Layer: 0
-  m_Name: ToSelect
+  m_Name: ToMain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

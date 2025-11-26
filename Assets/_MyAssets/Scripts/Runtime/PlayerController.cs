@@ -99,6 +99,28 @@ namespace MyScripts.Runtime
 		});
 		private static readonly Dictionary<SWalkSound.Surface, ReadOnlyCollection<Border>> walkSoundBorders = new(); // Awake で初期化
 
+		#region Public Methods and Properties
+
+		internal Collider Collider => controller;
+
+		internal void Teleport(Vector3 position, Vector3 forward)
+		{
+			// 一応、切り替わり中の挙動制限も適用しておく
+			IsPcInputEnabled = false;
+			IsOwnGravityEnabled = false;
+			CanApplyVelocityDelta = false;
+
+			{
+				transform.SetPositionAndRotation(position, Quaternion.LookRotation(forward, Vector3.up));
+			}
+
+			CanApplyVelocityDelta = true;
+			IsOwnGravityEnabled = true;
+			IsPcInputEnabled = true;
+		}
+
+		#endregion
+
 		private void Awake()
 		{
 			param = InGameSOHolder.Instance.PlayerControl;
