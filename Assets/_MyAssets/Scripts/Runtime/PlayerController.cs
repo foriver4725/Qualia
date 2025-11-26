@@ -1,9 +1,10 @@
 ﻿using UnityEngine.InputSystem;
+using MyScripts.Common.SaveSystem;
 
 namespace MyScripts.Runtime
 {
 	[RequireComponent(typeof(CharacterController))]
-	internal sealed class PlayerController : MonoBehaviour
+	internal sealed class PlayerController : MonoBehaviour, IDataHoldingObject
 	{
 		[Serializable]
 		private sealed class WalkSoundBorderRoots
@@ -121,6 +122,31 @@ namespace MyScripts.Runtime
 
 		#endregion
 
+		#region Interface Implementation
+
+		public void GetDataAndUpdateMyProperties()
+		{
+			Vector3 playerPosition = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].PlayerPosition;
+			Vector3 playerForward = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].PlayerForward;
+			Teleport(playerPosition, playerForward);
+		}
+
+		public void SetMyPropertiesToData()
+		{
+			// ジャンプ中ならダメ
+			if (isJumping) return;
+
+			// 慣性ジャンプ中ならダメ
+			if (isDoingInertiaJump) return;
+
+			Vector3 playerPosition = transform.position;
+			Vector3 playerForward = transform.forward;
+			SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].PlayerPosition = playerPosition;
+			SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].PlayerForward = playerForward;
+		}
+
+		#endregion
+
 		private void Awake()
 		{
 			param = InGameSOHolder.Instance.PlayerControl;
@@ -137,6 +163,8 @@ namespace MyScripts.Runtime
 				var borders = walkSoundBorderRoots.Get(surface).GetComponentsInChildren<Border>(includeInactive: true);
 				walkSoundBorders.Add(surface, Array.AsReadOnly(borders));
 			}
+
+			GetDataAndUpdateMyProperties();
 		}
 
 		private void Update()
@@ -150,6 +178,8 @@ namespace MyScripts.Runtime
 
 			UpdateFOVsSprintMode();
 			UpdateWalkSound();
+
+			SetMyPropertiesToData();
 		}
 
 		private void LateUpdate()

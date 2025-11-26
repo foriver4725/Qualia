@@ -55,8 +55,22 @@ namespace MyScripts.Runtime.OutGame.Title.SelectSaveSlotUI
         {
             bgRaycastedAfterSubmitted.SetActive(true);
 
-            // いい感じの処理
-            $"SelectSaveSlotUI: Submit slotIndex={slotIndex}, optionIndex={optionIndex}".Print();
+            // セーブデータの状態を更新する
+            {
+                // インゲームなどで使うために、選択したセーブスロットを記録しておく
+                // ここでのみ書き込みする想定
+                Variables.CurrentSlotIndex = slotIndex;
+
+                // 最初からなので、セーブデータリセット
+                if (optionIndex == 0)
+                {
+                    SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex] = SaveLoadInvoker.CreateDefaultSingleData();
+                }
+
+                // セーブデータがリセットされようとされまいと、
+                // 最終的にこのセーブスロットは「セーブデータが入っている」状態となる
+                SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].IsValid = true;
+            }
 
             LoadManager.Instance.BeginLoad(Scene.Main);
         }

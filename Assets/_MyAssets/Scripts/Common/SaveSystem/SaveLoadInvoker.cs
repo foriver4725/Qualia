@@ -2,22 +2,35 @@ namespace MyScripts.Common.SaveSystem;
 
 internal static class SaveLoadInvoker
 {
-    private static Data CreateData()
+    internal static SingleData CreateDefaultSingleData()
+    {
+        SingleData slot = new();
+
+        // 初期値を代入
+        {
+            slot.IsValid = false;
+            slot.HasFoundSOSSigns = new bool[Constants.SOSSignCount];
+            slot.HasFoundSOSSigns.AsSpan().Fill(false);
+
+            // 汚いけど、ここで初期位置を決め打ちしてしまう
+            slot.PlayerPosition = new Vector3(-96, -21, 110);
+            slot.PlayerForward = new Vector3(-Mathf.Sin(30 * Mathf.Deg2Rad), 0, Mathf.Cos(30 * Mathf.Deg2Rad)).normalized;
+        }
+
+        return slot;
+    }
+
+    internal static Data CreateDefaultData()
     {
         Data data = new();
 
         // 初期値を代入
-        data.Slots = new SingleData[Constants.SlotCount];
-        for (int i = 0; i < Constants.SlotCount; i++)
         {
-            SingleData slot = new();
+            data.Slots = new SingleData[Constants.SlotCount];
+            for (int i = 0; i < Constants.SlotCount; i++)
             {
-                slot.IsValid = false;
-                slot.HasFoundSOSSigns = new bool[Constants.SOSSignCount];
-                slot.HasFoundSOSSigns.AsSpan().Fill(false);
-                slot.PlayerPosition = Vector3.zero;
+                data.Slots[i] = CreateDefaultSingleData();
             }
-            data.Slots[i] = slot;
         }
 
         return data;
@@ -46,7 +59,7 @@ internal static class SaveLoadInvoker
 
         if (string.IsNullOrEmpty(json))
         {
-            data = CreateData();
+            data = CreateDefaultData();
 
             $"[{nameof(SaveLoadInvoker)}] No data found. Created new data.".Print();
 

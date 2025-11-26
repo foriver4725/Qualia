@@ -13,6 +13,7 @@ internal sealed class SingleData
     public bool IsValid;
     public bool[] HasFoundSOSSigns;
     public Vector3 PlayerPosition;
+    public Vector3 PlayerForward;
 }
 
 internal static class Constants
@@ -21,4 +22,10 @@ internal static class Constants
 
     internal const int SlotCount = 3;
     internal const int SOSSignCount = 100;
+}
+
+// 外部から読み書きする
+internal static class Variables
+{
+    internal static int CurrentSlotIndex { get; set; } = 0;
 }
