@@ -10,6 +10,7 @@ global using UnityEngine;
 global using UnityEngine.UI;
 global using UnityEngine.Audio;
 global using TMPro;
+global using UnityEngine.Assertions;
 
 global using Cysharp.Threading.Tasks;
 global using DG.Tweening;

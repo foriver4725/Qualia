@@ -1,6 +1,8 @@
-﻿namespace MyScripts.Runtime
+﻿using MyScripts.Common.SaveSystem;
+
+namespace MyScripts.Runtime
 {
-    internal sealed class SOSSignFindManager : MonoBehaviour
+    internal sealed class SOSSignFindManager : MonoBehaviour, IDataHoldingObject
     {
         [SerializeField] private Transform root; // SOSサインの親オブジェクト (生成した後ここに格納する)
         [SerializeField] private Transform pointRoot; // 配置箇所の親オブジェクト
@@ -16,34 +18,89 @@
         private SSOSSignLogText sosSignLogText;
         private int totalSOSSignCount;
         private int leftSOSSignCount = -1;
+        private Collider[] sosSigns; // コライダーはルートに付いている
 
-        private async UniTaskVoid Awake()
+        #region Interface Implementation
+
+        public void GetDataAndUpdateMyProperties()
+        {
+            Span<bool> foundSOSSigns = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasFoundSOSSigns.AsSpan();
+
+            int activeCount = 0;
+            for (int i = 0; i < totalSOSSignCount; i++)
+            {
+                if (!foundSOSSigns[i])
+                {
+                    sosSigns[i].gameObject.SetActive(true);
+                    activeCount++;
+                }
+                else
+                {
+                    sosSigns[i].gameObject.SetActive(false);
+                }
+            }
+
+            leftSOSSignCount = activeCount;
+        }
+
+        public void SetMyPropertiesToData()
+        {
+            Span<bool> foundSOSSigns = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasFoundSOSSigns.AsSpan();
+
+            int activeCount = 0;
+            for (int i = 0; i < totalSOSSignCount; i++)
+            {
+                if (sosSigns[i].gameObject.activeSelf)
+                {
+                    foundSOSSigns[i] |= false; // 既に見つけたことがある場合は上書きしない
+                    activeCount++;
+                }
+                else
+                {
+                    foundSOSSigns[i] |= true; // 既に見つけたことがある場合は上書きしない
+                }
+            }
+
+            Assert.IsTrue(activeCount == leftSOSSignCount);
+        }
+
+        #endregion
+
+        private void Awake()
         {
             sosSignLogText = InGameSOHolder.Instance.SOSSignLogText;
-            totalSOSSignCount = InGameSOHolder.Instance.GameRule.SOSSignCount;
+            // totalSOSSignCount = InGameSOHolder.Instance.GameRule.SOSSignCount;
+            totalSOSSignCount = Mathf.Min(InGameSOHolder.Instance.GameRule.SOSSignCount, pointRoot.childCount); // 暫定処理
+#if UNITY_EDITOR
+            // Assert.IsTrue(pointRoot.childCount == totalSOSSignCount);
+            """
+            配置箇所の数が規定値と一致しているか、ここでAssertするべきです。
+            しかし、現在は機能が実装途中のため、このAssertは一旦無効化しています。
+            """
+            .Print(LogSettings.Warning);
+#else
+#error "ここの処理が未完成です。このままリリースするべきではありません。"
+#endif
 
-            leftSOSSignCount = totalSOSSignCount;
+            sosSigns = new Collider[totalSOSSignCount];
+            RandomlyInstantiateAndPlace(totalSOSSignCount, sosSigns);
+
+            GetDataAndUpdateMyProperties();
+
             UpdateSOSSignLeftRatioText(sosSignLeftRatioText, leftSOSSignCount, totalSOSSignCount);
-
-            RandomlyInstantiateAndPlace(out Collider[] outColliders);
-            // 外部からのデリゲート登録を確実に待つ
-            await UniTask.NextFrame(destroyCancellationToken);
-            Setup(outColliders);
+            Setup(sosSigns);
         }
 
         // プレハブから生成して、ランダムに配置する
-        // インスタンスを格納する用の配列を GC.Alloc して、それを返す
-        private void RandomlyInstantiateAndPlace(out Collider[] outColliders)
+        private void RandomlyInstantiateAndPlace(int count, Span<Collider> outColliders)
         {
             // 配置箇所に一括でSOSサインを配置
-            SOSSignPoint[] candidatePoints = new SOSSignPoint[pointRoot.childCount];
-            for (int i = 0; i < pointRoot.childCount; i++)
+            SOSSignPoint[] candidatePoints = new SOSSignPoint[count];
+            for (int i = 0; i < count; i++)
             {
                 candidatePoints[i] = pointRoot.GetChild(i).GetComponent<SOSSignPoint>();
             }
-            int count = candidatePoints.Length; // 配置できた総数
 
-            outColliders = new Collider[count];
             for (int i = 0; i < count; i++)
             {
                 SOSSign instance = Instantiate(prefab, candidatePoints[i].transform.position, candidatePoints[i].transform.rotation, root);
@@ -68,10 +125,14 @@
                         if (await WaitForClickOrExitAsync(col, ct) == true)
                         {
                             // 取り除く
+                            // "取り除く" = "ルートのゲームオブジェクトが非アクティブ"
                             col.gameObject.SetActive(false);
                             {
                                 leftSOSSignCount--;
                                 UpdateSOSSignLeftRatioText(sosSignLeftRatioText, leftSOSSignCount, totalSOSSignCount);
+
+                                // このタイミングで、セーブデータに反映しておく
+                                SetMyPropertiesToData();
                             }
 
                             LogManager.Instance.ShowManually(string.Empty);

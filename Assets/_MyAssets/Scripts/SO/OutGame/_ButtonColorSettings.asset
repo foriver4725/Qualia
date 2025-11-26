@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5f7bc676199fea44bd51b14a4fb24cc, type: 3}
+  m_Name: _ButtonColorSettings
+  m_EditorClassIdentifier: 
+  normal:
+    textNormal: {r: 1, g: 1, b: 1, a: 0}
+    textHovered: {r: 1, g: 0.7764706, b: 0.7764706, a: 0}
+    textClicked: {r: 1, g: 0, b: 0, a: 0}
+    backgroundNormal: {r: 0.019607844, g: 0.65882355, b: 0.99607843, a: 0}
+    backgroundHovered: {r: 0.019607844, g: 0.4862745, b: 0.99607843, a: 0}
+    backgroundClicked: {r: 0, g: 0, b: 1, a: 0}
+  notice:
+    textNormal: {r: 1, g: 1, b: 1, a: 0}
+    textHovered: {r: 0.7764706, g: 0.8666667, b: 1, a: 0}
+    textClicked: {r: 0, g: 0, b: 1, a: 0}
+    backgroundNormal: {r: 1, g: 0.6156863, b: 0, a: 0}
+    backgroundHovered: {r: 1, g: 0.41568628, b: 0, a: 0}
+    backgroundClicked: {r: 1, g: 0, b: 0, a: 0}
