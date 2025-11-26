@@ -22,6 +22,8 @@ internal static class SaveLoadInvoker
     {
         string json = JsonUtility.ToJson(data);
         PlayerPrefs.SetString(Constants.DataKey, json);
+
+        $"[{nameof(SaveLoadInvoker)}] Data saved...\n{json}".Print();
     }
 
     /// <summary>
@@ -40,5 +42,7 @@ internal static class SaveLoadInvoker
         }
 
         data = JsonUtility.FromJson<Data>(json);
+
+        $"[{nameof(SaveLoadInvoker)}] Data loaded...\n{json}".Print();
     }
 }
