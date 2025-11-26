@@ -42,6 +42,7 @@
                 candidatePoints[i] = pointRoot.GetChild(i).GetComponent<SOSSignPoint>();
             }
             int count = candidatePoints.Length; // 配置できた総数
+            Assert.IsTrue(count == Common.SaveSystem.Constants.SOSSignCount);
 
             outColliders = new Collider[count];
             for (int i = 0; i < count; i++)
