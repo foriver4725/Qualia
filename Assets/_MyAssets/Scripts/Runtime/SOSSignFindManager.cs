@@ -2,96 +2,53 @@
 {
     internal sealed class SOSSignFindManager : MonoBehaviour
     {
-        private readonly struct SOSSignCandidateCompareInput : SOSSignCandidateConditions.ICompareInput
-        {
-            public Difficulty CurrentDifficulty { get; init; }
-        }
-
         [SerializeField] private Transform root; // SOSサインの親オブジェクト (生成した後ここに格納する)
-        [SerializeField] private Transform candidateRoot; // 配置候補箇所の親オブジェクト
+        [SerializeField] private Transform pointRoot; // 配置箇所の親オブジェクト
         [SerializeField] private SOSSign prefab;
         [Space(10)]
         [SerializeField] private Collider playerCapsuleCollider;
-        [SerializeField] private TimeScoreManager timeScoreManager;
         [SerializeField] private SOSSoundPlayer soundPlayer;
-        [Space(10)]
-        [SerializeField] private WindstormManager windstormManager;
-        [SerializeField] private BlizzardManager blizzardManager;
-
-        // 災害の発生/終了は、この個別にカウントされる変数に基づいて行う
-        private byte foundCountForDisaster = 0;
 
         // Awake で初期化
         private ParticleSystem[] sosSigns;
         private SSOSSignLogText sosSignLogText;
-        private Dictionary<Disaster, ADisasterManager> disasterManagers;
-        // 当たり判定の購読のみで使う
-        // 外部から設定してもらう
-        // TODO: 汚い実装！
-        internal Func<bool> IsCharacterHuman { get; set; } = null;
 
         private async UniTaskVoid Awake()
         {
             sosSignLogText = InGameSOHolder.Instance.SOSSignLogText;
 
-            disasterManagers = new()
-            {
-                { Disaster.Windstorm, windstormManager },
-                { Disaster.Blizzard, blizzardManager },
-            };
-
             RandomlyInstantiateAndPlace(out sosSigns, out Collider[] outColliders);
             // 外部からのデリゲート登録を確実に待つ
             await UniTask.NextFrame(destroyCancellationToken);
-            Setup(outColliders, timeScoreManager.DecrementLeftAmount);
-
-            ObserveDisasterOccurrenceAsync(destroyCancellationToken).Forget();
+            Setup(outColliders);
         }
 
         // プレハブから生成して、ランダムに配置する
         // インスタンスを格納する用の配列を GC.Alloc して、それを返す
         private void RandomlyInstantiateAndPlace(out ParticleSystem[] outParticleSystems, out Collider[] outColliders)
         {
-            // 条件を満たす配置候補箇所を絞り込み、ランダムにシャッフルする
-            SOSSignCandidateConditions[] candidates = new SOSSignCandidateConditions[candidateRoot.childCount];
-            var compareInput = new SOSSignCandidateCompareInput
+            // 配置箇所に一括でSOSサインを配置
+            SOSSignPoint[] candidatePoints = new SOSSignPoint[pointRoot.childCount];
+            for (int i = 0; i < pointRoot.childCount; i++)
             {
-                CurrentDifficulty = GlobalValues.Difficulty
-            };
-            int candidateRealIndex = 0;
-            for (int i = 0; i < candidateRoot.childCount; i++)
-            {
-                var candidate = candidateRoot.GetChild(i).GetComponent<SOSSignCandidateConditions>();
-                if (!candidate.CanPlace(compareInput))
-                    continue;
-
-                candidates[candidateRealIndex] = candidate;
-                candidateRealIndex++;
+                candidatePoints[i] = pointRoot.GetChild(i).GetComponent<SOSSignPoint>();
             }
-            Span<SOSSignCandidateConditions> candidatesSpan = candidates.AsSpan(0, candidateRealIndex);
-            candidatesSpan.ShuffleSelf();
+            int count = candidatePoints.Length; // 配置できた総数
 
             // 難易度による制限も踏まえて、結局配置できる数
-            int placeAmountReal = Mathf.Min(candidateRealIndex, GlobalSOHolder.Instance.GameRule.SOSSignMaxAmounts.Get(GlobalValues.Difficulty));
-            candidatesSpan = candidatesSpan[..placeAmountReal];
-            outParticleSystems = new ParticleSystem[placeAmountReal];
-            outColliders = new Collider[placeAmountReal];
+            outParticleSystems = new ParticleSystem[count];
+            outColliders = new Collider[count];
 
-            for (int i = 0; i < placeAmountReal; i++)
+            for (int i = 0; i < count; i++)
             {
-                SOSSign instance = Instantiate(prefab, candidatesSpan[i].transform.position, candidatesSpan[i].transform.rotation, root);
+                SOSSign instance = Instantiate(prefab, candidatePoints[i].transform.position, candidatePoints[i].transform.rotation, root);
 
                 outParticleSystems[i] = instance.ParticleSystem;
                 outColliders[i] = instance.Collider;
             }
         }
 
-        private void Setup(
-            ReadOnlySpan<Collider> sosSignColliders,
-            // スコア更新など、見つけたとき共通の処理
-            //! 災害の発生/終了は、このクラス内で行うので大丈夫
-            Action onFind
-        )
+        private void Setup(ReadOnlySpan<Collider> sosSignColliders)
         {
             foreach (Collider sosSignCollider in sosSignColliders)
             {
@@ -99,18 +56,17 @@
 
                 col.OnTriggerEnterAsObservable()
                     .Where(c => ReferenceEquals(c, playerCapsuleCollider))
-                    .SubscribeAwait((col, IsCharacterHuman, onFind), async (c, param, ct) =>
+                    .SubscribeAwait(col, async (c, col, ct) =>
                 {
-                    if (param.IsCharacterHuman())
+                    if (true)
                     {
+                        "一旦、必ず取り除けるようにする".Print(LogSettings.Warning);
                         LogManager.Instance.ShowManually("左クリックで取り除く");
 
-                        if (await WaitForClickOrExitAsync(param.col, ct) == true)
+                        if (await WaitForClickOrExitAsync(col, ct) == true)
                         {
                             // 取り除く
-                            param.col.gameObject.SetActive(false);
-                            param.onFind?.Invoke();
-                            foundCountForDisaster++;
+                            col.gameObject.SetActive(false);
 
                             LogManager.Instance.ShowManually(string.Empty);
                             LogManager.Instance.ShowAutomatically(
@@ -134,7 +90,7 @@
 
                         while (true)
                         {
-                            if (await WaitForClickOrExitAsync(param.col, ct) == true)
+                            if (await WaitForClickOrExitAsync(col, ct) == true)
                             {
                                 soundPlayer.LetPlay(SSOSSound.Situation.CouldNotRemove);
                                 continue;
@@ -173,44 +129,5 @@
                 .FirstAsync(cancellationToken: ct)
                 .AsUniTask()
         ) == 0;
-
-        private async UniTaskVoid ObserveDisasterOccurrenceAsync(Ct ct)
-        {
-            var conditions = GlobalSOHolder.Instance.GameRule.DisasterOccurrenceConditions;
-
-            // インターフェースなので、foreach だとボックス化する
-            for (int i = 0; i < conditions.Count; i++)
-            {
-                var condition = conditions[i];
-
-                await WaitForDisasterCountAsync(condition.BeginCount, ct);
-
-                SetDisasterEnabled(condition.Disaster, true);
-
-                _ = await UniTask.WhenAny(
-                    WaitForDisasterCountAsync(condition.EndCount, ct),
-                    condition.EndDuration.SecAwait(ct: ct)
-                );
-
-                SetDisasterEnabled(condition.Disaster, false);
-            }
-        }
-
-        // 災害用の発見数カウントが targetCount に達するまで待つ
-        // カウントが減ることはないので、単純に >= で判定する
-        private async UniTask WaitForDisasterCountAsync(byte targetCount, Ct ct)
-            => await UniTask.WaitUntil(() => foundCountForDisaster >= targetCount, cancellationToken: ct);
-
-        private void SetDisasterEnabled(Disaster disaster, bool enabled)
-        {
-            if (disasterManagers.TryGetValue(disaster, out var manager))
-            {
-                manager.Enabled = enabled;
-            }
-            else
-            {
-                "指定された災害のマネージャーが見つかりません".Print(LogSettings.Error);
-            }
-        }
     }
 }

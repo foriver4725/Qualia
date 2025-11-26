@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "MyActions",
     "maps": [
         {
@@ -327,15 +328,6 @@
             "id": "6d8cc8c2-a7e8-4ecd-a3d9-d638f1281b85",
             "actions": [
                 {
-                    "name": "FastenTimeLimit",
-                    "type": "Button",
-                    "id": "e38f95d0-2de3-475e-81e8-6ed72eac6b2c",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "FastenMoveSpeed",
                     "type": "Button",
                     "id": "5b5f0f4f-8471-45f4-9b6f-351e866672f8",
@@ -373,17 +365,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "399e9ac2-0068-480c-afe7-0dc85b9950f7",
-                    "path": "<Keyboard>/f1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "FastenTimeLimit",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "6eff74f7-add2-46ac-bb1d-31ec50011586",

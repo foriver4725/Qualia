@@ -15,7 +15,6 @@
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
         // Debug
-        internal static InputInfo DebugFastenTimeLimit { get; private set; }
         internal static InputInfo DebugFastenMoveSpeed { get; private set; }
         internal static InputInfo DebugSetGraphicQualityLow { get; private set; }
         internal static InputInfo DebugSetGraphicQualityMedium { get; private set; }
@@ -34,7 +33,6 @@
             InGameTriggerCharacter = Create(source.InGame.TriggerCharacter, InputType.Click);
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
-            DebugFastenTimeLimit = Create(source.Debug.FastenTimeLimit, InputType.Click);
             DebugFastenMoveSpeed = Create(source.Debug.FastenMoveSpeed, InputType.Value0);
             DebugSetGraphicQualityLow = Create(source.Debug.SetGraphicQualityLow, InputType.Click);
             DebugSetGraphicQualityMedium = Create(source.Debug.SetGraphicQualityMedium, InputType.Click);
