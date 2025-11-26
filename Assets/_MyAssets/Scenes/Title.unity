@@ -178,12 +178,8 @@ MonoBehaviour:
   backgroundImage: {fileID: 1388633135}
   text: {fileID: 17451112}
   displayText: "\u3044\u3044\u3048"
-  textNormalColor: {r: 1, g: 1, b: 1, a: 1}
-  textHoveredColor: {r: 0.7764706, g: 0.8666667, b: 1, a: 1}
-  textClickedColor: {r: 0, g: 0, b: 1, a: 1}
-  backgroundNormalColor: {r: 1, g: 0.6156863, b: 0, a: 1}
-  backgroundHoveredColor: {r: 1, g: 0.41568628, b: 0, a: 1}
-  backgroundClickedColor: {r: 1, g: 0, b: 0, a: 1}
+  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  colorSettingsBehaviour: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
   confirmUi: {fileID: 1477480249}
@@ -440,12 +436,8 @@ MonoBehaviour:
   backgroundImage: {fileID: 684799207}
   text: {fileID: 684799205}
   displayText: "\u30B9\u30ED\u30C3\u30C8C"
-  textNormalColor: {r: 1, g: 1, b: 1, a: 1}
-  textHoveredColor: {r: 1, g: 0.7764706, b: 0.7764706, a: 1}
-  textClickedColor: {r: 1, g: 0, b: 0, a: 1}
-  backgroundNormalColor: {r: 0.019607844, g: 0.65882355, b: 0.99607843, a: 1}
-  backgroundHoveredColor: {r: 0.019607844, g: 0.4862745, b: 0.99607843, a: 1}
-  backgroundClickedColor: {r: 0, g: 0, b: 1, a: 1}
+  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  colorSettingsBehaviour: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
   index: 2
@@ -1309,12 +1301,8 @@ MonoBehaviour:
   backgroundImage: {fileID: 1715790751}
   text: {fileID: 1715790749}
   displayText: "\u30B9\u30ED\u30C3\u30C8B"
-  textNormalColor: {r: 1, g: 1, b: 1, a: 1}
-  textHoveredColor: {r: 1, g: 0.7764706, b: 0.7764706, a: 1}
-  textClickedColor: {r: 1, g: 0, b: 0, a: 1}
-  backgroundNormalColor: {r: 0.019607844, g: 0.65882355, b: 0.99607843, a: 1}
-  backgroundHoveredColor: {r: 0.019607844, g: 0.4862745, b: 0.99607843, a: 1}
-  backgroundClickedColor: {r: 0, g: 0, b: 1, a: 1}
+  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  colorSettingsBehaviour: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
   index: 1
@@ -1636,12 +1624,8 @@ MonoBehaviour:
   backgroundImage: {fileID: 463565146}
   text: {fileID: 463565145}
   displayText: "\u623B\u308B"
-  textNormalColor: {r: 1, g: 1, b: 1, a: 1}
-  textHoveredColor: {r: 1, g: 0.7764706, b: 0.7764706, a: 1}
-  textClickedColor: {r: 1, g: 0, b: 0, a: 1}
-  backgroundNormalColor: {r: 0.019607844, g: 0.65882355, b: 0.99607843, a: 1}
-  backgroundHoveredColor: {r: 0.019607844, g: 0.4862745, b: 0.99607843, a: 1}
-  backgroundClickedColor: {r: 0, g: 0, b: 1, a: 1}
+  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  colorSettingsBehaviour: 1
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
   ui: {fileID: 1267954206}
@@ -2079,12 +2063,8 @@ MonoBehaviour:
   backgroundImage: {fileID: 1353351255}
   text: {fileID: 1353351254}
   displayText: "\u6700\u521D\u304B\u3089"
-  textNormalColor: {r: 1, g: 1, b: 1, a: 1}
-  textHoveredColor: {r: 1, g: 0.7764706, b: 0.7764706, a: 1}
-  textClickedColor: {r: 1, g: 0, b: 0, a: 1}
-  backgroundNormalColor: {r: 0.019607844, g: 0.65882355, b: 0.99607843, a: 1}
-  backgroundHoveredColor: {r: 0.019607844, g: 0.4862745, b: 0.99607843, a: 1}
-  backgroundClickedColor: {r: 0, g: 0, b: 1, a: 1}
+  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  colorSettingsBehaviour: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
   index: 0
@@ -2723,12 +2703,8 @@ MonoBehaviour:
   backgroundImage: {fileID: 1033298972}
   text: {fileID: 1033298971}
   displayText: "\u7D9A\u304D\u304B\u3089"
-  textNormalColor: {r: 1, g: 1, b: 1, a: 1}
-  textHoveredColor: {r: 1, g: 0.7764706, b: 0.7764706, a: 1}
-  textClickedColor: {r: 1, g: 0, b: 0, a: 1}
-  backgroundNormalColor: {r: 0.019607844, g: 0.65882355, b: 0.99607843, a: 1}
-  backgroundHoveredColor: {r: 0.019607844, g: 0.4862745, b: 0.99607843, a: 1}
-  backgroundClickedColor: {r: 0, g: 0, b: 1, a: 1}
+  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  colorSettingsBehaviour: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
   index: 1
@@ -2781,12 +2757,8 @@ MonoBehaviour:
   backgroundImage: {fileID: 931534696}
   text: {fileID: 931534695}
   displayText: "\u30B9\u30BF\u30FC\u30C8"
-  textNormalColor: {r: 1, g: 1, b: 1, a: 1}
-  textHoveredColor: {r: 1, g: 0.7764706, b: 0.7764706, a: 1}
-  textClickedColor: {r: 1, g: 0, b: 0, a: 1}
-  backgroundNormalColor: {r: 0.019607844, g: 0.65882355, b: 0.99607843, a: 1}
-  backgroundHoveredColor: {r: 0.019607844, g: 0.4862745, b: 0.99607843, a: 1}
-  backgroundClickedColor: {r: 0, g: 0, b: 1, a: 1}
+  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  colorSettingsBehaviour: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
   ui: {fileID: 1267954206}
@@ -3384,12 +3356,8 @@ MonoBehaviour:
   backgroundImage: {fileID: 496388525}
   text: {fileID: 496388524}
   displayText: "\u7D42\u4E86"
-  textNormalColor: {r: 1, g: 1, b: 1, a: 1}
-  textHoveredColor: {r: 0.7764706, g: 0.8666667, b: 1, a: 1}
-  textClickedColor: {r: 0, g: 0, b: 1, a: 1}
-  backgroundNormalColor: {r: 1, g: 0.6156863, b: 0, a: 1}
-  backgroundHoveredColor: {r: 1, g: 0.41568628, b: 0, a: 1}
-  backgroundClickedColor: {r: 1, g: 0, b: 0, a: 1}
+  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  colorSettingsBehaviour: 1
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
   confirmUi: {fileID: 1477480249}
@@ -3441,12 +3409,8 @@ MonoBehaviour:
   backgroundImage: {fileID: 411421645}
   text: {fileID: 411421644}
   displayText: "\u30B9\u30ED\u30C3\u30C8A"
-  textNormalColor: {r: 1, g: 1, b: 1, a: 1}
-  textHoveredColor: {r: 1, g: 0.7764706, b: 0.7764706, a: 1}
-  textClickedColor: {r: 1, g: 0, b: 0, a: 1}
-  backgroundNormalColor: {r: 0.019607844, g: 0.65882355, b: 0.99607843, a: 1}
-  backgroundHoveredColor: {r: 0.019607844, g: 0.4862745, b: 0.99607843, a: 1}
-  backgroundClickedColor: {r: 0, g: 0, b: 1, a: 1}
+  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  colorSettingsBehaviour: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
   index: 0
@@ -3533,12 +3497,8 @@ MonoBehaviour:
   backgroundImage: {fileID: 1223747665}
   text: {fileID: 468372015}
   displayText: "\u306F\u3044"
-  textNormalColor: {r: 1, g: 1, b: 1, a: 1}
-  textHoveredColor: {r: 1, g: 0.7764706, b: 0.7764706, a: 1}
-  textClickedColor: {r: 1, g: 0, b: 0, a: 1}
-  backgroundNormalColor: {r: 0.019607844, g: 0.65882355, b: 0.99607843, a: 1}
-  backgroundHoveredColor: {r: 0.019607844, g: 0.4862745, b: 0.99607843, a: 1}
-  backgroundClickedColor: {r: 0, g: 0, b: 1, a: 1}
+  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  colorSettingsBehaviour: 1
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
 --- !u!1 &1899594066
@@ -3589,12 +3549,8 @@ MonoBehaviour:
   backgroundImage: {fileID: 1738589298}
   text: {fileID: 1738589297}
   displayText: "\u6C7A\u5B9A"
-  textNormalColor: {r: 1, g: 1, b: 1, a: 1}
-  textHoveredColor: {r: 1, g: 0.7764706, b: 0.7764706, a: 1}
-  textClickedColor: {r: 1, g: 0, b: 0, a: 1}
-  backgroundNormalColor: {r: 0.019607844, g: 0.65882355, b: 0.99607843, a: 1}
-  backgroundHoveredColor: {r: 0.019607844, g: 0.4862745, b: 0.99607843, a: 1}
-  backgroundClickedColor: {r: 0, g: 0, b: 1, a: 1}
+  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  colorSettingsBehaviour: 1
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
   manager: {fileID: 222100968}

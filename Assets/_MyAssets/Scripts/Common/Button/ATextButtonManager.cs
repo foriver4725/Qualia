@@ -14,13 +14,10 @@ namespace MyScripts.Common.Button
         [SerializeField] private TextMeshProUGUI text;
 
         [SerializeField] private string displayText;
-        [SerializeField] private Color textNormalColor;
-        [SerializeField] private Color textHoveredColor;
-        [SerializeField] private Color textClickedColor;
-        [SerializeField] private Color backgroundNormalColor;
-        [SerializeField] private Color backgroundHoveredColor;
-        [SerializeField] private Color backgroundClickedColor;
+        [SerializeField] private SButtonColorSettings sButtonColorSettings;
+        [SerializeField] private SButtonColorSettings.Behaviour colorSettingsBehaviour;
 
+        private ColorSettings colorSettings;
         private Vector3 imageInitialScale;
         private Vector3 textInitialScale;
 
@@ -44,11 +41,13 @@ namespace MyScripts.Common.Button
         {
             OnJustBeforeAwake();
 
+            colorSettings = sButtonColorSettings.Get(colorSettingsBehaviour);
+
             if (backgroundImage != null)
             {
                 imageInitialScale = backgroundImage.rectTransform.localScale;
 
-                backgroundImage.color = backgroundNormalColor;
+                backgroundImage.color = colorSettings.BackgroundNormal;
             }
 
             if (text != null)
@@ -56,7 +55,7 @@ namespace MyScripts.Common.Button
                 textInitialScale = text.rectTransform.localScale;
 
                 text.text = displayText;
-                text.color = textNormalColor;
+                text.color = colorSettings.TextNormal;
 
                 // ここでのみフォントサイズを変更している. そのため、派生クラスで以降いじってもOK
                 text.fontSize = (displayText?.Length ?? 0) switch
@@ -91,13 +90,13 @@ namespace MyScripts.Common.Button
 
             if (backgroundImage != null)
             {
-                backgroundImage.color = backgroundNormalColor;
+                backgroundImage.color = colorSettings.BackgroundNormal;
                 backgroundImage.rectTransform.localScale = imageInitialScale;
             }
 
             if (text != null)
             {
-                text.color = textNormalColor;
+                text.color = colorSettings.TextNormal;
                 text.rectTransform.localScale = textInitialScale;
             }
 
@@ -196,10 +195,10 @@ namespace MyScripts.Common.Button
         {
             (Color textColor, Color backgroundColor, float scaleCoef) = appearanceState switch
             {
-                AppearanceState.Default => (textNormalColor, backgroundNormalColor, 1.0f),
-                AppearanceState.BeingHovered => (textHoveredColor, backgroundHoveredColor, 1.05f),
-                AppearanceState.BeingClicked => (textClickedColor, backgroundClickedColor, 1.1f),
-                _ => (textNormalColor, backgroundNormalColor, 1.0f)
+                AppearanceState.Default => (colorSettings.TextNormal, colorSettings.BackgroundNormal, 1.0f),
+                AppearanceState.BeingHovered => (colorSettings.TextHovered, colorSettings.BackgroundHovered, 1.05f),
+                AppearanceState.BeingClicked => (colorSettings.TextClicked, colorSettings.BackgroundClicked, 1.1f),
+                _ => (colorSettings.TextNormal, colorSettings.BackgroundNormal, 1.0f)
             };
 
             if (backgroundImage != null)
@@ -273,8 +272,29 @@ namespace MyScripts.Common.Button
         private protected Image BackgroundImage => backgroundImage;
         private protected TextMeshProUGUI Text => text;
         private protected string DisplayText => displayText;
-        private protected Color TextNormalColor => textNormalColor;
-        private protected Color TextHoveredColor => textHoveredColor;
+
+        private protected void UpdateColorSettings(SButtonColorSettings.Behaviour behaviour)
+        {
+            colorSettingsBehaviour = behaviour;
+            colorSettings = sButtonColorSettings.Get(colorSettingsBehaviour);
+
+            // 見た目の更新
+            (Color textColor, Color backgroundColor) = appearanceState switch
+            {
+                AppearanceState.Default => (colorSettings.TextNormal, colorSettings.BackgroundNormal),
+                AppearanceState.BeingHovered => (colorSettings.TextHovered, colorSettings.BackgroundHovered),
+                AppearanceState.BeingClicked => (colorSettings.TextClicked, colorSettings.BackgroundClicked),
+                _ => (colorSettings.TextNormal, colorSettings.BackgroundNormal)
+            };
+            if (backgroundImage != null)
+            {
+                backgroundImage.color = backgroundColor;
+            }
+            if (text != null)
+            {
+                text.color = textColor;
+            }
+        }
 
         #endregion
     }
