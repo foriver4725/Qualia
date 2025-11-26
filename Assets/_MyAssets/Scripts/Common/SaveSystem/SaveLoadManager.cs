@@ -11,7 +11,15 @@ internal static class SaveLoadManager
         SaveLoadInvoker.Load(out data);
 
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.quitting += OnGameEnd;
+        UnityEditor.EditorApplication.playModeStateChanged += OnGamePlayModeStateChanged;
+
+        static void OnGamePlayModeStateChanged(UnityEditor.PlayModeStateChange state)
+        {
+            if (state == UnityEditor.PlayModeStateChange.ExitingPlayMode)
+            {
+                OnGameEnd();
+            }
+        }
 #else
         Application.quitting += OnGameEnd;
 #endif

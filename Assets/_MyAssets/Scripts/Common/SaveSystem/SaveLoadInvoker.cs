@@ -38,6 +38,9 @@ internal static class SaveLoadInvoker
         if (string.IsNullOrEmpty(json))
         {
             data = CreateData();
+
+            $"[{nameof(SaveLoadInvoker)}] No data found. Created new data.".Print();
+
             return;
         }
 

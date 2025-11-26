@@ -1,10 +1,10 @@
 namespace MyScripts.Common.SaveSystem;
 
 [Serializable]
-internal struct Data
+internal sealed class Data
 {
-    internal bool[] HasFoundSOSSigns;
-    internal Vector3 PlayerPosition;
+    public bool[] HasFoundSOSSigns;
+    public Vector3 PlayerPosition;
 }
 
 internal static class Constants
