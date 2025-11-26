@@ -1,16 +1,16 @@
 namespace MyScripts.Runtime
 {
+    internal enum CharacterType : byte
+    {
+        Horse,
+    }
+
     /// <summary>
     /// 憑依する動物のクラス
     /// 憑依・離脱のトリガーもここで扱う
     /// </summary>
     internal sealed class Character : MonoBehaviour
     {
-        private enum CharacterType : byte
-        {
-            Horse,
-        }
-
         [SerializeField] private CharacterType characterType = CharacterType.Horse;
         [SerializeField] private TextMeshPro nameText;
         [Space(10)]
@@ -29,6 +29,7 @@ namespace MyScripts.Runtime
         internal Renderer Renderer => renderer;
         internal Collider Collider => collider;
 
+        internal CharacterType CharacterType => characterType;
         internal Behaviour NameText => nameText;
 
         internal void Teleport(Vector3 position, Vector3 forward)

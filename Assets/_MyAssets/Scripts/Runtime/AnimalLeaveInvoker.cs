@@ -2,10 +2,17 @@ namespace MyScripts.Runtime
 {
     internal sealed class AnimalLeaveInvoker : MonoBehaviour
     {
+        [SerializeField] private TextMeshProUGUI displayText;
+
         private Character possessingCharacter = null;
 
         // 現在憑依中かどうか
         internal bool IsPossessing => possessingCharacter != null;
+
+        private void Awake()
+        {
+            UpdateDisplayText(displayText, possessingCharacter);
+        }
 
         // キャラクターに憑依する
         // キャラクターを見えなくする (名前も消す、当たり判定も無効化)
@@ -29,6 +36,8 @@ namespace MyScripts.Runtime
             character.Collider.enabled = false;
             character.Renderer.enabled = false;
             pc.Teleport(character.transform.position, character.transform.forward);
+
+            UpdateDisplayText(displayText, possessingCharacter);
         }
 
         // 憑依中のキャラクターから離脱する
@@ -47,6 +56,23 @@ namespace MyScripts.Runtime
             possessingCharacter.Renderer.enabled = true;
             possessingCharacter.Teleport(pc.transform.position, pc.transform.forward);
             possessingCharacter = null;
+
+            UpdateDisplayText(displayText, possessingCharacter);
+        }
+
+        private static void UpdateDisplayText(TextMeshProUGUI text, Character possessingCharacter)
+        {
+            string currentCharacterString = possessingCharacter switch
+            {
+                null => "人間",
+                _ => possessingCharacter.CharacterType switch
+                {
+                    CharacterType.Horse => "馬",
+                    _ => "???",
+                },
+            };
+
+            text.SetTextFormat("現在 : {0}", currentCharacterString);
         }
     }
 }
