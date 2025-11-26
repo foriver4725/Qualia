@@ -1,12 +1,15 @@
+using MyScripts.Common.SaveSystem;
+
 namespace MyScripts.Runtime.OutGame.Title.SelectSaveSlotUI
 {
     internal sealed class Manager : MonoBehaviour
     {
         [SerializeField] private Image slotPointer;
         [SerializeField] private Image optionPointer;
+        [SerializeField] private GameObject optionContinueButton;
         [SerializeField] private GameObject bgRaycastedAfterSubmitted;
 
-        internal const int SlotIndexCount = 3;
+        internal const int SlotIndexCount = Constants.SlotCount;
         internal const int OptionIndexCount = 2;
         private int slotIndex = 0;
         private int optionIndex = 0;
@@ -15,8 +18,9 @@ namespace MyScripts.Runtime.OutGame.Title.SelectSaveSlotUI
         {
             bgRaycastedAfterSubmitted.SetActive(false);
 
-            SetSlotIndex(0);
-            SetOptionIndex(0);
+            SetSlotIndex(slotIndex);
+            SetOptionIndex(optionIndex);
+            UpdateOptionContinueButtonsActiveness(slotIndex);
         }
 
         public void SetSlotIndex(int index)
@@ -31,7 +35,7 @@ namespace MyScripts.Runtime.OutGame.Title.SelectSaveSlotUI
                 _ => throw new ArgumentOutOfRangeException(nameof(index), index, null)
             });
 
-            // いい感じの処理
+            UpdateOptionContinueButtonsActiveness(index);
         }
 
         public void SetOptionIndex(int index)
@@ -44,8 +48,6 @@ namespace MyScripts.Runtime.OutGame.Title.SelectSaveSlotUI
                 1 => -200.0f,
                 _ => throw new ArgumentOutOfRangeException(nameof(index), index, null)
             });
-
-            // いい感じの処理
         }
 
         // 選択を決定し、シーン遷移する
@@ -54,8 +56,15 @@ namespace MyScripts.Runtime.OutGame.Title.SelectSaveSlotUI
             bgRaycastedAfterSubmitted.SetActive(true);
 
             // いい感じの処理
+            $"SelectSaveSlotUI: Submit slotIndex={slotIndex}, optionIndex={optionIndex}".Print();
 
             LoadManager.Instance.BeginLoad(Scene.Main);
+        }
+
+        private void UpdateOptionContinueButtonsActiveness(int slotIndex)
+        {
+            bool isActive = SaveLoadManager.Data.Slots[slotIndex].IsValid;
+            optionContinueButton.SetActive(isActive);
         }
     }
 }

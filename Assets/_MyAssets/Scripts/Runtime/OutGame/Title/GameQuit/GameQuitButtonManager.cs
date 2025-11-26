@@ -1,4 +1,4 @@
-namespace MyScripts.Runtime
+namespace MyScripts.Runtime.Title.GameQuit
 {
     internal sealed class GameQuitButtonManager : AButtonManager
     {
