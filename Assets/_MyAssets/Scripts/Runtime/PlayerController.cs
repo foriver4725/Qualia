@@ -140,7 +140,7 @@ namespace MyScripts.Runtime
 			if (isDoingInertiaJump) return;
 
 			Vector3 playerPosition = transform.position;
-			Vector3 playerForward = transform.forward;
+			Vector3 playerForward = new Vector3(transform.forward.x, 0, transform.forward.z).normalized; // Y成分は無視する
 			SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].PlayerPosition = playerPosition;
 			SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].PlayerForward = playerForward;
 		}
