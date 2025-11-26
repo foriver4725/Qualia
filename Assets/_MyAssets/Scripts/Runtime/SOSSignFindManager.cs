@@ -7,15 +7,23 @@
         [SerializeField] private SOSSign prefab;
         [Space(10)]
         [SerializeField] private Collider playerCapsuleCollider;
+        [Space(10)]
+        [SerializeField] private TextMeshProUGUI sosSignLeftRatioText;
         [SerializeField] private SOSSoundPlayer soundPlayer;
 
         // Awake で初期化
         private ParticleSystem[] sosSigns;
         private SSOSSignLogText sosSignLogText;
+        private int totalSOSSignCount;
+        private int leftSOSSignCount = -1;
 
         private async UniTaskVoid Awake()
         {
             sosSignLogText = InGameSOHolder.Instance.SOSSignLogText;
+            totalSOSSignCount = InGameSOHolder.Instance.GameRule.SOSSignCount;
+
+            leftSOSSignCount = totalSOSSignCount;
+            UpdateSOSSignLeftRatioText(sosSignLeftRatioText, leftSOSSignCount, totalSOSSignCount);
 
             RandomlyInstantiateAndPlace(out sosSigns, out Collider[] outColliders);
             // 外部からのデリゲート登録を確実に待つ
@@ -67,6 +75,10 @@
                         {
                             // 取り除く
                             col.gameObject.SetActive(false);
+                            {
+                                leftSOSSignCount--;
+                                UpdateSOSSignLeftRatioText(sosSignLeftRatioText, leftSOSSignCount, totalSOSSignCount);
+                            }
 
                             LogManager.Instance.ShowManually(string.Empty);
                             LogManager.Instance.ShowAutomatically(
@@ -80,6 +92,7 @@
                             LogManager.Instance.ShowManually(string.Empty);
                         }
                     }
+#pragma warning disable CS0162 // 到達不能コードの検出
                     else
                     {
                         {
@@ -103,6 +116,7 @@
 
                         LogManager.Instance.ShowManually(string.Empty);
                     }
+#pragma warning restore CS0162 // 到達不能コードの検出
                 })
                     .AddTo(col);
             }
@@ -129,5 +143,10 @@
                 .FirstAsync(cancellationToken: ct)
                 .AsUniTask()
         ) == 0;
+
+        private static void UpdateSOSSignLeftRatioText(TextMeshProUGUI text, int leftCount, int totalCount)
+        {
+            text.SetTextFormat("穢れ度 : {0:F2}%", 100.0f * leftCount / totalCount);
+        }
     }
 }
