@@ -20,15 +20,8 @@ namespace MyScripts.Runtime
                 CharacterType.Horse => "馬",
                 _ => throw new ArgumentOutOfRangeException(nameof(characterType), characterType, null)
             };
-        }
 
-
-
-
-        private void Setup(ReadOnlySpan<Collider> sosSignColliders)
-        {
             myCollider.enabled = true;
-
             myCollider.OnTriggerEnterAsObservable()
                 .Where(c => ReferenceEquals(c, playerCollider))
                 .SubscribeAwait(myCollider, async (c, col, ct) =>
