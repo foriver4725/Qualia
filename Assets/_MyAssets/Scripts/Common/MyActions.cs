@@ -333,7 +333,7 @@ namespace MyScripts.Common
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""TriggerCharacter"",
+                    ""name"": ""LeaveAnimal"",
                     ""type"": ""Button"",
                     ""id"": ""5d868e31-595e-4802-99e0-66b9613faa4a"",
                     ""expectedControlType"": """",
@@ -394,7 +394,7 @@ namespace MyScripts.Common
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TriggerCharacter"",
+                    ""action"": ""LeaveAnimal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -405,7 +405,7 @@ namespace MyScripts.Common
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TriggerCharacter"",
+                    ""action"": ""LeaveAnimal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -512,7 +512,7 @@ namespace MyScripts.Common
             m_InGame = asset.FindActionMap("InGame", throwIfNotFound: true);
             m_InGame_Submit = m_InGame.FindAction("Submit", throwIfNotFound: true);
             m_InGame_Cancel = m_InGame.FindAction("Cancel", throwIfNotFound: true);
-            m_InGame_TriggerCharacter = m_InGame.FindAction("TriggerCharacter", throwIfNotFound: true);
+            m_InGame_LeaveAnimal = m_InGame.FindAction("LeaveAnimal", throwIfNotFound: true);
             // Debug
             m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
             m_Debug_FastenMoveSpeed = m_Debug.FindAction("FastenMoveSpeed", throwIfNotFound: true);
@@ -732,7 +732,7 @@ namespace MyScripts.Common
         private List<IInGameActions> m_InGameActionsCallbackInterfaces = new List<IInGameActions>();
         private readonly InputAction m_InGame_Submit;
         private readonly InputAction m_InGame_Cancel;
-        private readonly InputAction m_InGame_TriggerCharacter;
+        private readonly InputAction m_InGame_LeaveAnimal;
         /// <summary>
         /// Provides access to input actions defined in input action map "InGame".
         /// </summary>
@@ -753,9 +753,9 @@ namespace MyScripts.Common
             /// </summary>
             public InputAction @Cancel => m_Wrapper.m_InGame_Cancel;
             /// <summary>
-            /// Provides access to the underlying input action "InGame/TriggerCharacter".
+            /// Provides access to the underlying input action "InGame/LeaveAnimal".
             /// </summary>
-            public InputAction @TriggerCharacter => m_Wrapper.m_InGame_TriggerCharacter;
+            public InputAction @LeaveAnimal => m_Wrapper.m_InGame_LeaveAnimal;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -788,9 +788,9 @@ namespace MyScripts.Common
                 @Cancel.started += instance.OnCancel;
                 @Cancel.performed += instance.OnCancel;
                 @Cancel.canceled += instance.OnCancel;
-                @TriggerCharacter.started += instance.OnTriggerCharacter;
-                @TriggerCharacter.performed += instance.OnTriggerCharacter;
-                @TriggerCharacter.canceled += instance.OnTriggerCharacter;
+                @LeaveAnimal.started += instance.OnLeaveAnimal;
+                @LeaveAnimal.performed += instance.OnLeaveAnimal;
+                @LeaveAnimal.canceled += instance.OnLeaveAnimal;
             }
 
             /// <summary>
@@ -808,9 +808,9 @@ namespace MyScripts.Common
                 @Cancel.started -= instance.OnCancel;
                 @Cancel.performed -= instance.OnCancel;
                 @Cancel.canceled -= instance.OnCancel;
-                @TriggerCharacter.started -= instance.OnTriggerCharacter;
-                @TriggerCharacter.performed -= instance.OnTriggerCharacter;
-                @TriggerCharacter.canceled -= instance.OnTriggerCharacter;
+                @LeaveAnimal.started -= instance.OnLeaveAnimal;
+                @LeaveAnimal.performed -= instance.OnLeaveAnimal;
+                @LeaveAnimal.canceled -= instance.OnLeaveAnimal;
             }
 
             /// <summary>
@@ -1031,12 +1031,12 @@ namespace MyScripts.Common
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnCancel(InputAction.CallbackContext context);
             /// <summary>
-            /// Method invoked when associated input action "TriggerCharacter" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// Method invoked when associated input action "LeaveAnimal" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
             /// </summary>
             /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-            void OnTriggerCharacter(InputAction.CallbackContext context);
+            void OnLeaveAnimal(InputAction.CallbackContext context);
         }
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Debug" which allows adding and removing callbacks.

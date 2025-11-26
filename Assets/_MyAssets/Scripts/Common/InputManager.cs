@@ -11,7 +11,7 @@
         // InGame
         internal static InputInfo InGameSubmit { get; private set; }
         internal static InputInfo InGameCancel { get; private set; }
-        internal static InputInfo InGameTriggerCharacter { get; private set; }
+        internal static InputInfo InGameLeaveAnimal { get; private set; }
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
         // Debug
@@ -30,7 +30,7 @@
 
             InGameSubmit = Create(source.InGame.Submit, InputType.Click);
             InGameCancel = Create(source.InGame.Cancel, InputType.Click);
-            InGameTriggerCharacter = Create(source.InGame.TriggerCharacter, InputType.Click);
+            InGameLeaveAnimal = Create(source.InGame.LeaveAnimal, InputType.Click);
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             DebugFastenMoveSpeed = Create(source.Debug.FastenMoveSpeed, InputType.Value0);

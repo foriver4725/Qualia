@@ -12,7 +12,6 @@
         [SerializeField] private SOSSoundPlayer soundPlayer;
 
         // Awake で初期化
-        private ParticleSystem[] sosSigns;
         private SSOSSignLogText sosSignLogText;
         private int totalSOSSignCount;
         private int leftSOSSignCount = -1;
@@ -25,7 +24,7 @@
             leftSOSSignCount = totalSOSSignCount;
             UpdateSOSSignLeftRatioText(sosSignLeftRatioText, leftSOSSignCount, totalSOSSignCount);
 
-            RandomlyInstantiateAndPlace(out sosSigns, out Collider[] outColliders);
+            RandomlyInstantiateAndPlace(out Collider[] outColliders);
             // 外部からのデリゲート登録を確実に待つ
             await UniTask.NextFrame(destroyCancellationToken);
             Setup(outColliders);
@@ -33,7 +32,7 @@
 
         // プレハブから生成して、ランダムに配置する
         // インスタンスを格納する用の配列を GC.Alloc して、それを返す
-        private void RandomlyInstantiateAndPlace(out ParticleSystem[] outParticleSystems, out Collider[] outColliders)
+        private void RandomlyInstantiateAndPlace(out Collider[] outColliders)
         {
             // 配置箇所に一括でSOSサインを配置
             SOSSignPoint[] candidatePoints = new SOSSignPoint[pointRoot.childCount];
@@ -43,15 +42,10 @@
             }
             int count = candidatePoints.Length; // 配置できた総数
 
-            // 難易度による制限も踏まえて、結局配置できる数
-            outParticleSystems = new ParticleSystem[count];
             outColliders = new Collider[count];
-
             for (int i = 0; i < count; i++)
             {
                 SOSSign instance = Instantiate(prefab, candidatePoints[i].transform.position, candidatePoints[i].transform.rotation, root);
-
-                outParticleSystems[i] = instance.ParticleSystem;
                 outColliders[i] = instance.Collider;
             }
         }
@@ -119,17 +113,6 @@
 #pragma warning restore CS0162 // 到達不能コードの検出
                 })
                     .AddTo(col);
-            }
-        }
-
-        internal void UpdateVisibility(bool isCharacterHuman)
-        {
-            bool isVisible = !isCharacterHuman;
-
-            foreach (var sign in sosSigns)
-            {
-                if (sign != null)
-                    sign.gameObject.SetActive(isVisible);
             }
         }
 

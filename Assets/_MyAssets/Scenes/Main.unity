@@ -1082,6 +1082,9 @@ PrefabInstance:
       addedObject: {fileID: 700378787}
     - targetCorrespondingSourceObject: {fileID: 2720853608967336444, guid: 8b6c269a2ec98dc45937ad69eab4df54, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 817192303}
+    - targetCorrespondingSourceObject: {fileID: 2720853608967336444, guid: 8b6c269a2ec98dc45937ad69eab4df54, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 658782584}
     - targetCorrespondingSourceObject: {fileID: 2720853608967336444, guid: 8b6c269a2ec98dc45937ad69eab4df54, type: 3}
       insertIndex: -1
@@ -2788,6 +2791,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
     - target: {fileID: 2510057862384921603, guid: 4df05c6b1fd9a4e4ba3298f9a9583471, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 2510057862384921603, guid: 4df05c6b1fd9a4e4ba3298f9a9583471, type: 3}
       propertyPath: playerCollider
       value: 
       objectReference: {fileID: 1986410593}
@@ -2795,6 +2802,10 @@ PrefabInstance:
       propertyPath: TMP_doesLikePlayer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2510057862384921603, guid: 4df05c6b1fd9a4e4ba3298f9a9583471, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 4892144023437876395, guid: 4df05c6b1fd9a4e4ba3298f9a9583471, type: 3}
       propertyPath: m_Name
       value: Horse
@@ -4185,6 +4196,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4274526753779858, guid: 6a8a77a07da1ab74bb3d34fe70501b7d, type: 3}
   m_PrefabInstance: {fileID: 794995402}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &817192302
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 817192303}
+  - component: {fileID: 817192304}
+  m_Layer: 0
+  m_Name: AnimalLeaveInvoker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &817192303
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817192302}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 143727389}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &817192304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817192302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80cc3df7ebc7119459e1013a6257f8c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &824152981
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6503,9 +6558,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
     - target: {fileID: 2510057862384921603, guid: 4df05c6b1fd9a4e4ba3298f9a9583471, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 2510057862384921603, guid: 4df05c6b1fd9a4e4ba3298f9a9583471, type: 3}
       propertyPath: playerCollider
       value: 
       objectReference: {fileID: 1986410593}
+    - target: {fileID: 2510057862384921603, guid: 4df05c6b1fd9a4e4ba3298f9a9583471, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 4892144023437876395, guid: 4df05c6b1fd9a4e4ba3298f9a9583471, type: 3}
       propertyPath: m_Name
       value: Horse
@@ -9971,6 +10034,17 @@ CharacterController:
   m_CorrespondingSourceObject: {fileID: 3580093262167643481, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
   m_PrefabInstance: {fileID: 2390642557826304883}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1986410594 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8645547747250865677, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
+  m_PrefabInstance: {fileID: 2390642557826304883}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f73c5d63ba00ab34aa9b4199649d22f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1996633416
 PrefabInstance:
   m_ObjectHideFlags: 0

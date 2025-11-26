@@ -126,8 +126,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterType: 0
   nameText: {fileID: 5379904213145214004}
-  myCollider: {fileID: 9023906419289226992}
-  playerCollider: {fileID: 0}
+  transform: {fileID: 6817149522708907314}
+  renderer: {fileID: 8350775063247340215}
+  collider: {fileID: 9023906419289226992}
+  pc: {fileID: 0}
   TMP_doesLikePlayer: 1
 --- !u!1 &8287060463552972302
 GameObject:
