@@ -6,8 +6,10 @@ namespace MyScripts.Runtime.OutGame.Title.SelectSaveSlotUI
     {
         [SerializeField] private Image slotPointer;
         [SerializeField] private Image optionPointer;
+        [SerializeField] private TextMeshProUGUI slotDescText;
         [SerializeField] private GameObject optionContinueButton;
-        [SerializeField] private GameObject bgRaycastedAfterSubmitted;
+        [SerializeField] private Canvas optionConfirmCanvas;
+        [SerializeField] private SubmitConfirmYesButtonManager submitConfirmYesButtonManager;
 
         internal const int SlotIndexCount = Constants.SlotCount;
         internal const int OptionIndexCount = 2;
@@ -16,8 +18,6 @@ namespace MyScripts.Runtime.OutGame.Title.SelectSaveSlotUI
 
         private void Awake()
         {
-            bgRaycastedAfterSubmitted.SetActive(false);
-
             SetSlotIndex(slotIndex);
             SetOptionIndex(optionIndex);
             UpdateOptionContinueButtonsActiveness(slotIndex);
@@ -35,6 +35,9 @@ namespace MyScripts.Runtime.OutGame.Title.SelectSaveSlotUI
                 _ => throw new ArgumentOutOfRangeException(nameof(index), index, null)
             });
 
+            SetOptionIndex(0); // スロット変更時にオプションをリセットする
+
+            UpdateSlotDescText(index);
             UpdateOptionContinueButtonsActiveness(index);
         }
 
@@ -51,34 +54,46 @@ namespace MyScripts.Runtime.OutGame.Title.SelectSaveSlotUI
         }
 
         // 選択を決定し、シーン遷移する
+        // 確認UIがあるので、実際はそこに処理を委譲する
         public void Submit()
         {
-            bgRaycastedAfterSubmitted.SetActive(true);
-
-            // セーブデータの状態を更新する
-            {
-                // インゲームなどで使うために、選択したセーブスロットを記録しておく
-                // ここでのみ書き込みする想定
-                Variables.CurrentSlotIndex = slotIndex;
-
-                // 最初からなので、セーブデータリセット
-                if (optionIndex == 0)
-                {
-                    SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex] = SaveLoadInvoker.CreateDefaultSingleData();
-                }
-
-                // セーブデータがリセットされようとされまいと、
-                // 最終的にこのセーブスロットは「セーブデータが入っている」状態となる
-                SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].IsValid = true;
-            }
-
-            LoadManager.Instance.BeginLoad(Scene.Main);
+            // 必要な変数を注入してから、最終的にUIを表示する
+            // これにより、ボタンの任意の処理が走る時点で、確実に必要な変数が揃っていることを保証する
+            submitConfirmYesButtonManager.InjectIndices(slotIndex, optionIndex);
+            optionConfirmCanvas.gameObject.SetActive(true);
         }
 
         private void UpdateOptionContinueButtonsActiveness(int slotIndex)
         {
             bool isActive = SaveLoadManager.Data.Slots[slotIndex].IsValid;
             optionContinueButton.SetActive(isActive);
+        }
+
+        private void UpdateSlotDescText(int slotIndex)
+        {
+            var slot = SaveLoadManager.Data.Slots[slotIndex];
+            if (slot.IsValid)
+            {
+                // 穢れ度を計算する
+#if UNITY_EDITOR
+                "現在はSOSサインを規定数設置していないため、セーブスロットの表示はゲーム内の数値と異なります。".Print(LogSettings.Warning);
+#else
+#error "ここの実装が完了していません。リリースビルドを通すべきではありません。"
+#endif
+                int leftCount = 0;
+                foreach (bool hasFound in slot.HasFoundSOSSigns.AsSpan())
+                {
+                    if (!hasFound)
+                        leftCount++;
+                }
+                float leftRatio = 100.0f * leftCount / Constants.SOSSignCount;
+
+                slotDescText.SetTextFormat("穢れ度 : {0:F2}%", leftRatio);
+            }
+            else
+            {
+                slotDescText.text = "データ無し";
+            }
         }
     }
 }
