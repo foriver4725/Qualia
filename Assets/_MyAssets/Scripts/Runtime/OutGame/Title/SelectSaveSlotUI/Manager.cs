@@ -6,6 +6,7 @@ namespace MyScripts.Runtime.OutGame.Title.SelectSaveSlotUI
     {
         [SerializeField] private Image slotPointer;
         [SerializeField] private Image optionPointer;
+        [SerializeField] private TextMeshProUGUI slotDescText;
         [SerializeField] private GameObject optionContinueButton;
         [SerializeField] private Canvas optionConfirmCanvas;
         [SerializeField] private SubmitConfirmYesButtonManager submitConfirmYesButtonManager;
@@ -36,6 +37,7 @@ namespace MyScripts.Runtime.OutGame.Title.SelectSaveSlotUI
 
             SetOptionIndex(0); // スロット変更時にオプションをリセットする
 
+            UpdateSlotDescText(index);
             UpdateOptionContinueButtonsActiveness(index);
         }
 
@@ -65,6 +67,33 @@ namespace MyScripts.Runtime.OutGame.Title.SelectSaveSlotUI
         {
             bool isActive = SaveLoadManager.Data.Slots[slotIndex].IsValid;
             optionContinueButton.SetActive(isActive);
+        }
+
+        private void UpdateSlotDescText(int slotIndex)
+        {
+            var slot = SaveLoadManager.Data.Slots[slotIndex];
+            if (slot.IsValid)
+            {
+                // 穢れ度を計算する
+#if UNITY_EDITOR
+                "現在はSOSサインを規定数設置していないため、セーブスロットの表示はゲーム内の数値と異なります。".Print(LogSettings.Warning);
+#else
+#error "ここの実装が完了していません。リリースビルドを通すべきではありません。"
+#endif
+                int leftCount = 0;
+                foreach (bool hasFound in slot.HasFoundSOSSigns.AsSpan())
+                {
+                    if (!hasFound)
+                        leftCount++;
+                }
+                float leftRatio = 100.0f * leftCount / Constants.SOSSignCount;
+
+                slotDescText.SetTextFormat("穢れ度 : {0:F2}%", leftRatio);
+            }
+            else
+            {
+                slotDescText.text = "データ無し";
+            }
         }
     }
 }

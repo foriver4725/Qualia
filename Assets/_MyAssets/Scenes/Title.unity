@@ -692,6 +692,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotPointer: {fileID: 2059569293}
   optionPointer: {fileID: 310797379}
+  slotDescText: {fileID: 1826516882}
   optionContinueButton: {fileID: 1033298974}
   optionConfirmCanvas: {fileID: 99709683}
   submitConfirmYesButtonManager: {fileID: 1045429810}
@@ -4175,7 +4176,7 @@ GameObject:
   - component: {fileID: 1826516883}
   - component: {fileID: 1826516882}
   m_Layer: 5
-  m_Name: OptionLabel
+  m_Name: DescText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4220,7 +4221,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u64CD\u4F5C\u3092\u9078\u3076"
+  m_text: "\u30C7\u30FC\u30BF\u7121\u3057"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6e9e6f1cea410b94abf4ced5ca188b9c, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: fc6fa7b3e1b3dfc4bbccbe9098624771, type: 2}
@@ -4229,8 +4230,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4279299265
+  m_fontColor: {r: 0.7562591, g: 0.9245283, b: 0.061053626, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
