@@ -4,13 +4,12 @@ namespace MyScripts.Runtime.UI.Main.Pause
     {
         [SerializeField] private PauseInvoker pauseInvoker;
 
+        private protected sealed override UIActivationManager.UI LocatedUI => UIActivationManager.UI.Pause;
+
         private protected sealed override void OnSubmittedWithSelection()
         {
-            if (UIActivationManager.Instance.Front == UIActivationManager.UI.Pause)
-            {
-                base.PlayClickSe();
-                this.OnClickSucceeded();
-            }
+            base.PlayClickSe();
+            this.OnClickSucceeded();
         }
 
         private protected sealed override void OnClickSucceeded()
