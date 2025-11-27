@@ -8,7 +8,6 @@ namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
         [SerializeField] private Image optionPointer;
         [SerializeField] private TextMeshProUGUI slotDescText;
         [SerializeField] private GameObject optionContinueButton;
-        [SerializeField] private Canvas optionConfirmCanvas;
         [SerializeField] private SubmitConfirmYesButtonManager submitConfirmYesButtonManager;
 
         internal const int SlotIndexCount = Constants.SlotCount;
@@ -60,7 +59,7 @@ namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
             // 必要な変数を注入してから、最終的にUIを表示する
             // これにより、ボタンの任意の処理が走る時点で、確実に必要な変数が揃っていることを保証する
             submitConfirmYesButtonManager.InjectIndices(slotIndex, optionIndex);
-            optionConfirmCanvas.gameObject.SetActive(true);
+            UIActivationManager.Instance.SetActive(UIActivationManager.UI.OptionConfirm, true);
         }
 
         private void UpdateOptionContinueButtonsActiveness(int slotIndex)

@@ -4,11 +4,14 @@ namespace MyScripts.Runtime.UI.Title.GameQuit
     {
         private void Update()
         {
-            if (GameQuitter.HasInvoked == false && InputManager.OutGame.Submit)
+            if (UIActivationManager.Instance.Front == UIActivationManager.UI.GameQuitConfirm && InputManager.OutGame.Submit)
             {
-                InputManager.OutGame.MakeSubmitInputDisabledUntilNextFrame();
-                base.PlayClickSe();
-                this.OnClickSucceeded();
+                if (GameQuitter.HasInvoked == false)
+                {
+                    InputManager.OutGame.MakeSubmitInputDisabledUntilNextFrame();
+                    base.PlayClickSe();
+                    this.OnClickSucceeded();
+                }
             }
         }
 

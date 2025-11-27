@@ -8,7 +8,6 @@ namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
     internal sealed class SubmitConfirmYesButtonManager : AButtonManager
     {
         [SerializeField] private TextMeshProUGUI labelText;
-        [SerializeField] private Canvas blockRaycastUI;
 
         private int slotIndex = 0;
         private int optionIndex = 0;
@@ -31,6 +30,13 @@ namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
 
         private protected sealed override void OnClickSucceeded()
         {
+            if (LoadManager.Instance.HasBegun) return;
+
+            // ロードには時間がかかるので、その間にクリックされて選択状態が変わらないように、
+            // この時点の値を保存しておく
+            int slotIndex = this.slotIndex;
+            int optionIndex = this.optionIndex;
+
             // セーブデータの状態を更新する
             {
                 // インゲームなどで使うために、選択したセーブスロットを記録しておく
@@ -47,8 +53,6 @@ namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
                 // 最終的にこのセーブスロットは「セーブデータが入っている」状態となる
                 SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].IsValid |= true;
             }
-
-            blockRaycastUI.gameObject.SetActive(true);
 
             LoadManager.Instance.BeginLoad(Scene.Main);
         }

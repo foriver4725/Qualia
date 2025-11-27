@@ -1,3 +1,5 @@
+using MyScripts.Runtime.UI.Main;
+
 namespace MyScripts.Runtime
 {
     /// <summary>
@@ -6,8 +8,6 @@ namespace MyScripts.Runtime
     /// </summary>
     internal sealed class PauseInvoker : MonoBehaviour
     {
-        [SerializeField] private Canvas pauseUi;
-
         private bool isPaused = false;
 
         private void Update()
@@ -31,7 +31,7 @@ namespace MyScripts.Runtime
             InputManager.PlayerControl.Enabled = false;
             InputManager.InGame.Enabled = false;
 
-            pauseUi.gameObject.SetActive(true);
+            UIActivationManager.Instance.SetActive(UIActivationManager.UI.Pause, true);
             CursorAdjuster.SetCursorEnabled(true);
 
             return true;
@@ -45,7 +45,7 @@ namespace MyScripts.Runtime
             InputManager.PlayerControl.Enabled = true;
             InputManager.InGame.Enabled = true;
 
-            pauseUi.gameObject.SetActive(false);
+            UIActivationManager.Instance.SetActive(UIActivationManager.UI.Pause, false);
             CursorAdjuster.SetCursorEnabled(false);
 
             return true;

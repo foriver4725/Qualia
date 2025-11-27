@@ -6,9 +6,11 @@ namespace MyScripts.Runtime.UI.Main.Pause
 
         private protected sealed override void OnSubmittedWithSelection()
         {
-            // 結局 Try...() で可能かどうか判定してくれるので、チェックは必要ないと思う
-            base.PlayClickSe();
-            this.OnClickSucceeded();
+            if (UIActivationManager.Instance.Front == UIActivationManager.UI.Pause)
+            {
+                base.PlayClickSe();
+                this.OnClickSucceeded();
+            }
         }
 
         private protected sealed override void OnClickSucceeded()

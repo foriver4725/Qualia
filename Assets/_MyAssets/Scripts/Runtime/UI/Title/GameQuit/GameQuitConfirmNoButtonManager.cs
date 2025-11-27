@@ -2,11 +2,9 @@ namespace MyScripts.Runtime.UI.Title.GameQuit
 {
     internal sealed class GameQuitConfirmNoButtonManager : AButtonManager
     {
-        [SerializeField] private Canvas confirmUi;
-
         private void Update()
         {
-            if (confirmUi.gameObject.activeSelf == true && InputManager.OutGame.Cancel)
+            if (UIActivationManager.Instance.Front == UIActivationManager.UI.GameQuitConfirm && InputManager.OutGame.Cancel)
             {
                 InputManager.OutGame.MakeCancelInputDisabledUntilNextFrame();
                 base.PlayClickSe();
@@ -16,7 +14,7 @@ namespace MyScripts.Runtime.UI.Title.GameQuit
 
         private protected sealed override void OnClickSucceeded()
         {
-            confirmUi.gameObject.SetActive(false);
+            UIActivationManager.Instance.SetActive(UIActivationManager.UI.GameQuitConfirm, false);
         }
     }
 }
