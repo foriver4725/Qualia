@@ -13,9 +13,12 @@ namespace MyScripts.Runtime
 
         private void Update()
         {
-            if (InputManager.InGamePause.Bool)
+            if (InputManager.InGameTriggerPause.Bool)
             {
-                _ = TryPause();
+                if (isPaused)
+                    _ = TryUnpause();
+                else
+                    _ = TryPause();
             }
         }
 

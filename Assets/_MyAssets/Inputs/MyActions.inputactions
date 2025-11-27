@@ -254,7 +254,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Pause",
+                    "name": "TriggerPause",
                     "type": "Button",
                     "id": "d1f5f8eb-b1fd-465d-b317-d7a7e0f74d38",
                     "expectedControlType": "",
@@ -337,7 +337,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pause",
+                    "action": "TriggerPause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -348,7 +348,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pause",
+                    "action": "TriggerPause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -359,7 +359,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pause",
+                    "action": "TriggerPause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

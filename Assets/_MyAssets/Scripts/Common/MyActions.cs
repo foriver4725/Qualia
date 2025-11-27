@@ -342,7 +342,7 @@ namespace MyScripts.Common
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Pause"",
+                    ""name"": ""TriggerPause"",
                     ""type"": ""Button"",
                     ""id"": ""d1f5f8eb-b1fd-465d-b317-d7a7e0f74d38"",
                     ""expectedControlType"": """",
@@ -425,7 +425,7 @@ namespace MyScripts.Common
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Pause"",
+                    ""action"": ""TriggerPause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -436,7 +436,7 @@ namespace MyScripts.Common
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Pause"",
+                    ""action"": ""TriggerPause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -447,7 +447,7 @@ namespace MyScripts.Common
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Pause"",
+                    ""action"": ""TriggerPause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -555,7 +555,7 @@ namespace MyScripts.Common
             m_InGame_Submit = m_InGame.FindAction("Submit", throwIfNotFound: true);
             m_InGame_Cancel = m_InGame.FindAction("Cancel", throwIfNotFound: true);
             m_InGame_LeaveAnimal = m_InGame.FindAction("LeaveAnimal", throwIfNotFound: true);
-            m_InGame_Pause = m_InGame.FindAction("Pause", throwIfNotFound: true);
+            m_InGame_TriggerPause = m_InGame.FindAction("TriggerPause", throwIfNotFound: true);
             // Debug
             m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
             m_Debug_FastenMoveSpeed = m_Debug.FindAction("FastenMoveSpeed", throwIfNotFound: true);
@@ -776,7 +776,7 @@ namespace MyScripts.Common
         private readonly InputAction m_InGame_Submit;
         private readonly InputAction m_InGame_Cancel;
         private readonly InputAction m_InGame_LeaveAnimal;
-        private readonly InputAction m_InGame_Pause;
+        private readonly InputAction m_InGame_TriggerPause;
         /// <summary>
         /// Provides access to input actions defined in input action map "InGame".
         /// </summary>
@@ -801,9 +801,9 @@ namespace MyScripts.Common
             /// </summary>
             public InputAction @LeaveAnimal => m_Wrapper.m_InGame_LeaveAnimal;
             /// <summary>
-            /// Provides access to the underlying input action "InGame/Pause".
+            /// Provides access to the underlying input action "InGame/TriggerPause".
             /// </summary>
-            public InputAction @Pause => m_Wrapper.m_InGame_Pause;
+            public InputAction @TriggerPause => m_Wrapper.m_InGame_TriggerPause;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -839,9 +839,9 @@ namespace MyScripts.Common
                 @LeaveAnimal.started += instance.OnLeaveAnimal;
                 @LeaveAnimal.performed += instance.OnLeaveAnimal;
                 @LeaveAnimal.canceled += instance.OnLeaveAnimal;
-                @Pause.started += instance.OnPause;
-                @Pause.performed += instance.OnPause;
-                @Pause.canceled += instance.OnPause;
+                @TriggerPause.started += instance.OnTriggerPause;
+                @TriggerPause.performed += instance.OnTriggerPause;
+                @TriggerPause.canceled += instance.OnTriggerPause;
             }
 
             /// <summary>
@@ -862,9 +862,9 @@ namespace MyScripts.Common
                 @LeaveAnimal.started -= instance.OnLeaveAnimal;
                 @LeaveAnimal.performed -= instance.OnLeaveAnimal;
                 @LeaveAnimal.canceled -= instance.OnLeaveAnimal;
-                @Pause.started -= instance.OnPause;
-                @Pause.performed -= instance.OnPause;
-                @Pause.canceled -= instance.OnPause;
+                @TriggerPause.started -= instance.OnTriggerPause;
+                @TriggerPause.performed -= instance.OnTriggerPause;
+                @TriggerPause.canceled -= instance.OnTriggerPause;
             }
 
             /// <summary>
@@ -1092,12 +1092,12 @@ namespace MyScripts.Common
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnLeaveAnimal(InputAction.CallbackContext context);
             /// <summary>
-            /// Method invoked when associated input action "Pause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// Method invoked when associated input action "TriggerPause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
             /// </summary>
             /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-            void OnPause(InputAction.CallbackContext context);
+            void OnTriggerPause(InputAction.CallbackContext context);
         }
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Debug" which allows adding and removing callbacks.
