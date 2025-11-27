@@ -139,9 +139,6 @@ namespace MyScripts.Runtime
 
 		private void Awake()
 		{
-			// Resets the flag
-			InputManager.PlayerControl.Enabled = true;
-
 			param = InGameSOHolder.Instance.PlayerControl;
 
 			// reset our timeouts on start

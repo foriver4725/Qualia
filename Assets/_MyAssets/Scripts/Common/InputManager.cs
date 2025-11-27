@@ -1,5 +1,8 @@
 ﻿namespace MyScripts.Common
 {
+    /// <summary>
+    /// Enabled フラグをリセットする兼ね合いで、Awake()では入力を参照しない方が好ましい
+    /// </summary>
     internal static partial class InputManager
     {
         internal static class PlayerControl
