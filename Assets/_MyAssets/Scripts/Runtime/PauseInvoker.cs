@@ -14,6 +14,8 @@ namespace MyScripts.Runtime
         {
             if (InputManager.InGame.Escape)
             {
+                InputManager.InGame.MakeEscapeInputDisabledUntilNextFrame();
+
                 if (isPaused)
                     _ = TryUnpause();
                 else

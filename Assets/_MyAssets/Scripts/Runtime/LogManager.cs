@@ -198,7 +198,10 @@
                     duration.SecAwait(ct: ct)
                 );
                 if (i == 0)
+                {
+                    InputManager.InGame.MakeCancelInputDisabledUntilNextFrame();
                     hasStoppedByOffInput = true;
+                }
             }
             else
                 await duration.SecAwait(ct: ct);

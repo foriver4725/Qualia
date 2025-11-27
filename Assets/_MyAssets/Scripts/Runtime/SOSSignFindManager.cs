@@ -179,14 +179,26 @@ namespace MyScripts.Runtime
         // Click したなら true を、 Exit したなら false を返す
         // 同フレームなら Exit を優先する
         private static async UniTask<bool> WaitForClickOrExitAsync(Collider selfCollider, Collider playerCollider, Ct ct)
-            => await UniTask.WhenAny(
+        {
+            int i = await UniTask.WhenAny(
                 // 同フレームなら Exit を優先するために、このタイミングで待つ
                 UniTask.WaitUntil(() => InputManager.InGame.Submit, timing: PlayerLoopTiming.LastUpdate, cancellationToken: ct),
                 selfCollider.OnTriggerExitAsObservable()
                     .Where(otherCollider => ReferenceEquals(otherCollider, playerCollider))
                     .FirstAsync(cancellationToken: ct)
                     .AsUniTask()
-            ) == 0;
+            );
+
+            if (i == 0)
+            {
+                InputManager.InGame.MakeSubmitInputDisabledUntilNextFrame();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         private static void UpdateSOSSignLeftRatioText(TextMeshProUGUI text, int leftCount, int totalCount)
         {
