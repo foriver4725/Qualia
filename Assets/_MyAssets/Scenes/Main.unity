@@ -1775,7 +1775,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e65d20aff31c544d95270e14ad647b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pc: {fileID: 1986410594}
   pauseUi: {fileID: 361975124}
 --- !u!1001 &232782354
 PrefabInstance:
@@ -6070,7 +6069,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u5DE6\u30AF\u30EA\u30C3\u30AF\u3067\u6191\u4F9D\nF\u30AD\u30FC\u3067\u96E2\u8131"
+  m_text: "\u5DE6\u30AF\u30EA\u30C3\u30AF/A \u3067\u6191\u4F9D\n\u53F3\u30AF\u30EA\u30C3\u30AF/B
+    \u3067\u96E2\u8131"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6e9e6f1cea410b94abf4ced5ca188b9c, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: fc6fa7b3e1b3dfc4bbccbe9098624771, type: 2}
