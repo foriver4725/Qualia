@@ -7,7 +7,8 @@ namespace MyScripts.Runtime.OutGame.Title.SelectSaveSlotUI
         [SerializeField] private Image slotPointer;
         [SerializeField] private Image optionPointer;
         [SerializeField] private GameObject optionContinueButton;
-        [SerializeField] private GameObject bgRaycastedAfterSubmitted;
+        [SerializeField] private Canvas optionConfirmCanvas;
+        [SerializeField] private SubmitConfirmYesButtonManager submitConfirmYesButtonManager;
 
         internal const int SlotIndexCount = Constants.SlotCount;
         internal const int OptionIndexCount = 2;
@@ -16,8 +17,6 @@ namespace MyScripts.Runtime.OutGame.Title.SelectSaveSlotUI
 
         private void Awake()
         {
-            bgRaycastedAfterSubmitted.SetActive(false);
-
             SetSlotIndex(slotIndex);
             SetOptionIndex(optionIndex);
             UpdateOptionContinueButtonsActiveness(slotIndex);
@@ -35,6 +34,8 @@ namespace MyScripts.Runtime.OutGame.Title.SelectSaveSlotUI
                 _ => throw new ArgumentOutOfRangeException(nameof(index), index, null)
             });
 
+            SetOptionIndex(0); // スロット変更時にオプションをリセットする
+
             UpdateOptionContinueButtonsActiveness(index);
         }
 
@@ -51,28 +52,13 @@ namespace MyScripts.Runtime.OutGame.Title.SelectSaveSlotUI
         }
 
         // 選択を決定し、シーン遷移する
+        // 確認UIがあるので、実際はそこに処理を委譲する
         public void Submit()
         {
-            bgRaycastedAfterSubmitted.SetActive(true);
-
-            // セーブデータの状態を更新する
-            {
-                // インゲームなどで使うために、選択したセーブスロットを記録しておく
-                // ここでのみ書き込みする想定
-                Variables.CurrentSlotIndex = slotIndex;
-
-                // 最初からなので、セーブデータリセット
-                if (optionIndex == 0)
-                {
-                    SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex] = SaveLoadInvoker.CreateDefaultSingleData();
-                }
-
-                // セーブデータがリセットされようとされまいと、
-                // 最終的にこのセーブスロットは「セーブデータが入っている」状態となる
-                SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].IsValid = true;
-            }
-
-            LoadManager.Instance.BeginLoad(Scene.Main);
+            // 必要な変数を注入してから、最終的にUIを表示する
+            // これにより、ボタンの任意の処理が走る時点で、確実に必要な変数が揃っていることを保証する
+            submitConfirmYesButtonManager.InjectIndices(slotIndex, optionIndex);
+            optionConfirmCanvas.gameObject.SetActive(true);
         }
 
         private void UpdateOptionContinueButtonsActiveness(int slotIndex)
