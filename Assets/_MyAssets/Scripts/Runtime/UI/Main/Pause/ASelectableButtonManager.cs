@@ -21,7 +21,7 @@ namespace MyScripts.Runtime.UI.Main.Pause
 
         private void Update()
         {
-            if (UIActivationManager.Instance.Front == LocatedUI)
+            if (UIActivationManager.Instance.Front == LocatedUI && IsSelected)
             {
                 if (InputManager.OutGame.MoveUp)
                 {
@@ -33,8 +33,7 @@ namespace MyScripts.Runtime.UI.Main.Pause
                     InputManager.OutGame.MakeMoveDownInputDisabledUntilNextFrame();
                     SelectNext();
                 }
-
-                if (IsSelected == true && InputManager.OutGame.Submit)
+                else if (InputManager.OutGame.Submit)
                 {
                     InputManager.OutGame.MakeSubmitInputDisabledUntilNextFrame();
                     this.OnSubmittedWithSelection();
