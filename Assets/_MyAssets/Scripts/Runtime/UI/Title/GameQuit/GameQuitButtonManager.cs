@@ -4,9 +4,13 @@ namespace MyScripts.Runtime.UI.Title.GameQuit
     {
         [SerializeField] private Canvas confirmUi;
 
-        private protected sealed override void OnJustBeforeAwake()
+        private void Update()
         {
-            confirmUi.gameObject.SetActive(false);
+            if (confirmUi.gameObject.activeSelf == false && InputManager.OutGame.Cancel)
+            {
+                base.PlayClickSe();
+                this.OnClickSucceeded();
+            }
         }
 
         private protected sealed override void OnClickSucceeded()

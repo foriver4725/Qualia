@@ -295,7 +295,7 @@ MonoBehaviour:
   eventTrigger: {fileID: 1388633134}
   backgroundImage: {fileID: 1388633135}
   text: {fileID: 17451112}
-  displayText: "\u3044\u3044\u3048"
+  displayText: "\u3044\u3044\u3048 (B)"
   sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
   colorSettingsBehaviour: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
@@ -3693,7 +3693,7 @@ MonoBehaviour:
   eventTrigger: {fileID: 931534697}
   backgroundImage: {fileID: 931534696}
   text: {fileID: 931534695}
-  displayText: "\u30B9\u30BF\u30FC\u30C8"
+  displayText: "\u30B9\u30BF\u30FC\u30C8 (A)"
   sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
   colorSettingsBehaviour: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
@@ -4347,7 +4347,7 @@ MonoBehaviour:
   eventTrigger: {fileID: 496388526}
   backgroundImage: {fileID: 496388525}
   text: {fileID: 496388524}
-  displayText: "\u7D42\u4E86"
+  displayText: "\u7D42\u4E86 (B)"
   sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
   colorSettingsBehaviour: 1
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
@@ -4488,7 +4488,7 @@ MonoBehaviour:
   eventTrigger: {fileID: 1223747664}
   backgroundImage: {fileID: 1223747665}
   text: {fileID: 468372015}
-  displayText: "\u306F\u3044"
+  displayText: "\u306F\u3044 (A)"
   sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
   colorSettingsBehaviour: 1
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
