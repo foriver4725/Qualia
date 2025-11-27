@@ -179,7 +179,7 @@ namespace MyScripts.Runtime
         // 同フレームなら Exit を優先する
         private async UniTask<bool> WaitForClickOrExitAsync(Collider collider, Ct ct) => await UniTask.WhenAny(
             // 同フレームなら Exit を優先するために、このタイミングで待つ
-            UniTask.WaitUntil(() => InputManager.InGameSubmit.Bool, timing: PlayerLoopTiming.LastUpdate, cancellationToken: ct),
+            UniTask.WaitUntil(() => InputManager.InGame.Submit, timing: PlayerLoopTiming.LastUpdate, cancellationToken: ct),
             collider.OnTriggerExitAsObservable()
                 .Where(c => ReferenceEquals(c, playerCapsuleCollider))
                 .FirstAsync(cancellationToken: ct)

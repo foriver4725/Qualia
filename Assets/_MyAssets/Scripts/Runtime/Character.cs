@@ -100,7 +100,7 @@ namespace MyScripts.Runtime
             this.UpdateAsObservable()
                 .Select((animalLeaveInvoker, pc), static (_, param) => (Invoker: param.animalLeaveInvoker, Pc: param.pc))
                 .Where(static param => param.Invoker.IsPossessing)
-                .Where(static _ => InputManager.InGameLeaveAnimal.Bool)
+                .Where(static _ => InputManager.InGame.Cancel)
                 .Subscribe(static param =>
                 {
                     param.Invoker.LeaveCharacter(param.Pc);
@@ -112,7 +112,7 @@ namespace MyScripts.Runtime
         // 同フレームなら Exit を優先する
         private async UniTask<bool> WaitForClickOrExitAsync(Collider collider, Ct ct) => await UniTask.WhenAny(
             // 同フレームなら Exit を優先するために、このタイミングで待つ
-            UniTask.WaitUntil(() => InputManager.InGameSubmit.Bool, timing: PlayerLoopTiming.LastUpdate, cancellationToken: ct),
+            UniTask.WaitUntil(() => InputManager.InGame.Submit, timing: PlayerLoopTiming.LastUpdate, cancellationToken: ct),
             collider.OnTriggerExitAsObservable()
                 .Where(c => ReferenceEquals(c, pc.Collider))
                 .FirstAsync(cancellationToken: ct)
