@@ -340,6 +340,15 @@ namespace MyScripts.Common
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""d1f5f8eb-b1fd-465d-b317-d7a7e0f74d38"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -406,6 +415,39 @@ namespace MyScripts.Common
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""LeaveAnimal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""30414afe-9d94-4f17-a2c4-9b7776488bb1"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""58de455b-caa4-42fe-bd2a-0a502c8daf05"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ee16c407-74d7-4fcb-99bf-1d85a7507f3a"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -513,6 +555,7 @@ namespace MyScripts.Common
             m_InGame_Submit = m_InGame.FindAction("Submit", throwIfNotFound: true);
             m_InGame_Cancel = m_InGame.FindAction("Cancel", throwIfNotFound: true);
             m_InGame_LeaveAnimal = m_InGame.FindAction("LeaveAnimal", throwIfNotFound: true);
+            m_InGame_Pause = m_InGame.FindAction("Pause", throwIfNotFound: true);
             // Debug
             m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
             m_Debug_FastenMoveSpeed = m_Debug.FindAction("FastenMoveSpeed", throwIfNotFound: true);
@@ -733,6 +776,7 @@ namespace MyScripts.Common
         private readonly InputAction m_InGame_Submit;
         private readonly InputAction m_InGame_Cancel;
         private readonly InputAction m_InGame_LeaveAnimal;
+        private readonly InputAction m_InGame_Pause;
         /// <summary>
         /// Provides access to input actions defined in input action map "InGame".
         /// </summary>
@@ -756,6 +800,10 @@ namespace MyScripts.Common
             /// Provides access to the underlying input action "InGame/LeaveAnimal".
             /// </summary>
             public InputAction @LeaveAnimal => m_Wrapper.m_InGame_LeaveAnimal;
+            /// <summary>
+            /// Provides access to the underlying input action "InGame/Pause".
+            /// </summary>
+            public InputAction @Pause => m_Wrapper.m_InGame_Pause;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -791,6 +839,9 @@ namespace MyScripts.Common
                 @LeaveAnimal.started += instance.OnLeaveAnimal;
                 @LeaveAnimal.performed += instance.OnLeaveAnimal;
                 @LeaveAnimal.canceled += instance.OnLeaveAnimal;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
 
             /// <summary>
@@ -811,6 +862,9 @@ namespace MyScripts.Common
                 @LeaveAnimal.started -= instance.OnLeaveAnimal;
                 @LeaveAnimal.performed -= instance.OnLeaveAnimal;
                 @LeaveAnimal.canceled -= instance.OnLeaveAnimal;
+                @Pause.started -= instance.OnPause;
+                @Pause.performed -= instance.OnPause;
+                @Pause.canceled -= instance.OnPause;
             }
 
             /// <summary>
@@ -1037,6 +1091,13 @@ namespace MyScripts.Common
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnLeaveAnimal(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Pause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnPause(InputAction.CallbackContext context);
         }
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Debug" which allows adding and removing callbacks.
