@@ -3967,6 +3967,9 @@ MonoBehaviour:
   colorSettingsBehaviour: 1
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 457859214}
+  previous: {fileID: 1320726220}
+  next: {fileID: 0}
+  isOnlySelectedAtFirst: 0
   fontSize: 90
   onPauseConfirmUi: {fileID: 2044450115}
   confirmYesButtonManager: {fileID: 156834168}
@@ -4099,6 +4102,9 @@ MonoBehaviour:
   colorSettingsBehaviour: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 457859214}
+  previous: {fileID: 0}
+  next: {fileID: 1320726220}
+  isOnlySelectedAtFirst: 1
   pauseInvoker: {fileID: 196192313}
 --- !u!1 &658782583
 GameObject:
@@ -8062,6 +8068,9 @@ MonoBehaviour:
   colorSettingsBehaviour: 1
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 457859214}
+  previous: {fileID: 636994049}
+  next: {fileID: 632719253}
+  isOnlySelectedAtFirst: 0
   fontSize: 90
   onPauseConfirmUi: {fileID: 2044450115}
   confirmYesButtonManager: {fileID: 156834168}
