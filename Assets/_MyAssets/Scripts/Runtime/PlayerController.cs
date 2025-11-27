@@ -98,7 +98,7 @@ namespace MyScripts.Runtime
 			SWalkSound.Surface.Sand,
 			SWalkSound.Surface.Grass,
 		});
-		private static readonly Dictionary<SWalkSound.Surface, ReadOnlyCollection<Border>> walkSoundBorders = new(); // Awake で初期化
+		private readonly Dictionary<SWalkSound.Surface, ReadOnlyCollection<Border>> walkSoundBorders = new(); // Awake で初期化
 
 		#region Public Methods and Properties
 
