@@ -2,12 +2,13 @@ namespace MyScripts.Runtime.UI.Main.Pause
 {
     internal sealed class BackToTitleButtonManager : ACustomFontSizeButtonManager
     {
+        [SerializeField] private Canvas onPauseConfirmUi;
+        [SerializeField] private ConfirmYesButtonManager confirmYesButtonManager;
+
         private protected sealed override void OnClickSucceeded()
         {
-            if (GuardFlag.IsLocked) return;
-            GuardFlag.IsLocked = true;
-
-            LoadManager.Instance.BeginLoad(Scene.Title);
+            confirmYesButtonManager.InjectInvokeAction(ConfirmYesButtonManager.InvokeAction.BackToTitle);
+            onPauseConfirmUi.gameObject.SetActive(true);
         }
     }
 }
