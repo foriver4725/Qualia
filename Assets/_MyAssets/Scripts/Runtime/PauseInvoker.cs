@@ -24,8 +24,9 @@ namespace MyScripts.Runtime
             if (isPaused) return false;
             isPaused = true;
 
-            CursorAdjuster.SetCursorEnabled(true);
+            pc.IsPcInputEnabled = false;
             pauseUi.gameObject.SetActive(true);
+            CursorAdjuster.SetCursorEnabled(true);
 
             return true;
         }
@@ -35,8 +36,9 @@ namespace MyScripts.Runtime
             if (!isPaused) return false;
             isPaused = false;
 
-            CursorAdjuster.SetCursorEnabled(false);
+            pc.IsPcInputEnabled = true;
             pauseUi.gameObject.SetActive(false);
+            CursorAdjuster.SetCursorEnabled(false);
 
             return true;
         }
