@@ -7,7 +7,7 @@ namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
         [SerializeField] private Image slotPointer;
         [SerializeField] private Image optionPointer;
         [SerializeField] private TextMeshProUGUI slotDescText;
-        [SerializeField] private GameObject optionContinueButton;
+        [SerializeField] private OptionButtonManager optionContinueButton;
         [SerializeField] private SubmitConfirmYesButtonManager submitConfirmYesButtonManager;
 
         internal const int SlotIndexCount = Constants.SlotCount;

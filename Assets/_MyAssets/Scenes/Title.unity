@@ -300,7 +300,6 @@ MonoBehaviour:
   colorSettingsBehaviour: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
-  confirmUi: {fileID: 1477480249}
 --- !u!1 &39753576
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,12 +347,11 @@ MonoBehaviour:
   eventTrigger: {fileID: 1979927136}
   backgroundImage: {fileID: 1979927137}
   text: {fileID: 1087343562}
-  displayText: "\u3044\u3044\u3048"
+  displayText: "\u3044\u3044\u3048 (B)"
   sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
   colorSettingsBehaviour: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
-  optionConfirmCanvas: {fileID: 99709683}
 --- !u!1 &99709679
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,8 +514,7 @@ MonoBehaviour:
   slotPointer: {fileID: 2059569293}
   optionPointer: {fileID: 310797379}
   slotDescText: {fileID: 1826516882}
-  optionContinueButton: {fileID: 1033298974}
-  optionConfirmCanvas: {fileID: 99709683}
+  optionContinueButton: {fileID: 1658113403}
   submitConfirmYesButtonManager: {fileID: 1045429810}
 --- !u!1 &290987250
 GameObject:
@@ -857,6 +854,11 @@ MonoBehaviour:
   colorSettingsBehaviour: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
+  left: {fileID: 0}
+  right: {fileID: 1054017438}
+  down: {fileID: 0}
+  up: {fileID: 636791176}
+  isOnlySelectedAtFirst: 0
   index: 2
   manager: {fileID: 222100968}
 --- !u!1 &329676873
@@ -1722,6 +1724,11 @@ MonoBehaviour:
   colorSettingsBehaviour: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
+  left: {fileID: 0}
+  right: {fileID: 1054017438}
+  down: {fileID: 316881383}
+  up: {fileID: 1866887183}
+  isOnlySelectedAtFirst: 0
   index: 1
   manager: {fileID: 222100968}
 --- !u!1001 &684799203
@@ -2040,12 +2047,11 @@ MonoBehaviour:
   eventTrigger: {fileID: 463565147}
   backgroundImage: {fileID: 463565146}
   text: {fileID: 463565145}
-  displayText: "\u623B\u308B"
+  displayText: "\u623B\u308B (B)"
   sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
   colorSettingsBehaviour: 1
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
-  ui: {fileID: 1267954206}
 --- !u!1001 &931534693
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2474,11 +2480,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1033298974 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4572354289211530162, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
-  m_PrefabInstance: {fileID: 1033298969}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1035696444
 GameObject:
   m_ObjectHideFlags: 0
@@ -2601,13 +2602,12 @@ MonoBehaviour:
   eventTrigger: {fileID: 1740934484}
   backgroundImage: {fileID: 1740934485}
   text: {fileID: 1533664318}
-  displayText: "\u306F\u3044"
+  displayText: "\u306F\u3044 (A)"
   sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
   colorSettingsBehaviour: 1
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
   labelText: {fileID: 295620621}
-  blockRaycastUI: {fileID: 0}
 --- !u!1 &1054017435
 GameObject:
   m_ObjectHideFlags: 0
@@ -2660,6 +2660,11 @@ MonoBehaviour:
   colorSettingsBehaviour: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
+  left: {fileID: 1866887183}
+  right: {fileID: 0}
+  down: {fileID: 1658113403}
+  up: {fileID: 0}
+  isOnlySelectedAtFirst: 0
   index: 0
   manager: {fileID: 222100968}
 --- !u!114 &1087343562 stripped
@@ -3514,6 +3519,11 @@ MonoBehaviour:
   colorSettingsBehaviour: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
+  left: {fileID: 1866887183}
+  right: {fileID: 0}
+  down: {fileID: 0}
+  up: {fileID: 1054017438}
+  isOnlySelectedAtFirst: 0
   index: 1
   manager: {fileID: 222100968}
 --- !u!1 &1663767710
@@ -3568,7 +3578,6 @@ MonoBehaviour:
   colorSettingsBehaviour: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
-  ui: {fileID: 1267954206}
 --- !u!1 &1683951568
 GameObject:
   m_ObjectHideFlags: 0
@@ -4222,7 +4231,6 @@ MonoBehaviour:
   colorSettingsBehaviour: 1
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
-  confirmUi: {fileID: 1477480249}
 --- !u!1 &1866887181
 GameObject:
   m_ObjectHideFlags: 0
@@ -4275,6 +4283,11 @@ MonoBehaviour:
   colorSettingsBehaviour: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
+  left: {fileID: 0}
+  right: {fileID: 1054017438}
+  down: {fileID: 636791176}
+  up: {fileID: 0}
+  isOnlySelectedAtFirst: 1
   index: 0
   manager: {fileID: 222100968}
 --- !u!1 &1868473675
@@ -4410,7 +4423,7 @@ MonoBehaviour:
   eventTrigger: {fileID: 1738589299}
   backgroundImage: {fileID: 1738589298}
   text: {fileID: 1738589297}
-  displayText: "\u6C7A\u5B9A"
+  displayText: "\u6C7A\u5B9A (A)"
   sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
   colorSettingsBehaviour: 1
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}

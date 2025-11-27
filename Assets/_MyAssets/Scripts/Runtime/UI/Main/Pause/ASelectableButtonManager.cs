@@ -21,22 +21,25 @@ namespace MyScripts.Runtime.UI.Main.Pause
 
         private void Update()
         {
-            if (UIActivationManager.Instance.Front == LocatedUI && IsSelected)
+            if (UIActivationManager.Instance.Front == LocatedUI)
             {
-                if (InputManager.OutGame.MoveUp)
+                if (InputManager.OutGame.MoveDown)
                 {
-                    InputManager.OutGame.MakeMoveUpInputDisabledUntilNextFrame();
-                    SelectPrevious();
+                    if (TrySelectDown())
+                        InputManager.OutGame.MakeMoveDownInputDisabledUntilNextFrame();
                 }
-                else if (InputManager.OutGame.MoveDown)
+                else if (InputManager.OutGame.MoveUp)
                 {
-                    InputManager.OutGame.MakeMoveDownInputDisabledUntilNextFrame();
-                    SelectNext();
+                    if (TrySelectUp())
+                        InputManager.OutGame.MakeMoveUpInputDisabledUntilNextFrame();
                 }
                 else if (InputManager.OutGame.Submit)
                 {
-                    InputManager.OutGame.MakeSubmitInputDisabledUntilNextFrame();
-                    this.OnSubmittedWithSelection();
+                    if (IsSelected)
+                    {
+                        InputManager.OutGame.MakeSubmitInputDisabledUntilNextFrame();
+                        this.OnSubmittedWithSelection();
+                    }
                 }
             }
         }

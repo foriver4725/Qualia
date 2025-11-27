@@ -28,6 +28,16 @@ namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
             };
         }
 
+        private void Update()
+        {
+            if (UIActivationManager.Instance.Front == UIActivationManager.UI.OptionConfirm && InputManager.OutGame.Submit)
+            {
+                InputManager.OutGame.MakeSubmitInputDisabledUntilNextFrame();
+                base.PlayClickSe();
+                this.OnClickSucceeded();
+            }
+        }
+
         private protected sealed override void OnClickSucceeded()
         {
             if (LoadManager.Instance.HasBegun) return;
