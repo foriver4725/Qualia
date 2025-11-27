@@ -28,6 +28,26 @@ namespace MyScripts.Runtime.UI.Main.Pause
             };
         }
 
+        private void Update()
+        {
+            if (invokeAction == InvokeAction.BackToTitle)
+            {
+                if (LoadManager.Instance.HasBegun == false && InputManager.OutGame.Cancel)
+                {
+                    base.PlayClickSe();
+                    this.OnClickSucceeded();
+                }
+            }
+            else // invokeAction == InvokeAction.BackToDesktop
+            {
+                if (GameQuitter.HasInvoked == false && InputManager.OutGame.Cancel)
+                {
+                    base.PlayClickSe();
+                    this.OnClickSucceeded();
+                }
+            }
+        }
+
         private protected sealed override void OnClickSucceeded()
         {
             if (invokeAction == InvokeAction.BackToTitle)

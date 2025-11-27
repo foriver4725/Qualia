@@ -1319,7 +1319,7 @@ MonoBehaviour:
   eventTrigger: {fileID: 1352660797}
   backgroundImage: {fileID: 1352660798}
   text: {fileID: 1352660796}
-  displayText: "\u306F\u3044"
+  displayText: "\u306F\u3044 (B)"
   sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
   colorSettingsBehaviour: 1
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
@@ -2912,7 +2912,7 @@ MonoBehaviour:
   eventTrigger: {fileID: 1525848973}
   backgroundImage: {fileID: 1525848972}
   text: {fileID: 1525848971}
-  displayText: "\u3044\u3044\u3048"
+  displayText: "\u3044\u3044\u3048 (A)"
   sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
   colorSettingsBehaviour: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
