@@ -1,6 +1,6 @@
 using MyScripts.Common.SaveSystem;
 
-namespace MyScripts.Runtime.OutGame.Title.SelectSaveSlotUI
+namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
 {
     /// <summary>
     /// 「はい」ボタンを押すとゲームが開始するので、ある種マネージャー的な感じ
