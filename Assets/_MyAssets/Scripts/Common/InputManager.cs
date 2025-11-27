@@ -56,20 +56,26 @@
 
             private static InputInfo submit;
             private static InputInfo cancel;
-            private static InputInfo moveH;
-            private static InputInfo moveV;
+            private static InputInfo moveLeft;
+            private static InputInfo moveRight;
+            private static InputInfo moveDown;
+            private static InputInfo moveUp;
 
             internal static bool Submit => Enabled ? submit.Bool : false;
             internal static bool Cancel => Enabled ? cancel.Bool : false;
-            internal static int MoveH => Enabled ? (moveH.Float > 0 ? 1 : (moveH.Float < 0 ? -1 : 0)) : 0;
-            internal static int MoveV => Enabled ? (moveV.Float > 0 ? 1 : (moveV.Float < 0 ? -1 : 0)) : 0;
+            internal static bool MoveLeft => Enabled ? moveLeft.Bool : false;
+            internal static bool MoveRight => Enabled ? moveRight.Bool : false;
+            internal static bool MoveDown => Enabled ? moveDown.Bool : false;
+            internal static bool MoveUp => Enabled ? moveUp.Bool : false;
 
             internal static void Bind(MyActions.OutGameActions actions)
             {
                 submit = Create(actions.Submit, InputType.Click);
                 cancel = Create(actions.Cancel, InputType.Click);
-                moveH = Create(actions.MoveH, InputType.Value1);
-                moveV = Create(actions.MoveV, InputType.Value1);
+                moveLeft = Create(actions.MoveLeft, InputType.Click);
+                moveRight = Create(actions.MoveRight, InputType.Click);
+                moveDown = Create(actions.MoveDown, InputType.Click);
+                moveUp = Create(actions.MoveUp, InputType.Click);
             }
         }
 
