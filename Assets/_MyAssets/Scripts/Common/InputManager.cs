@@ -38,7 +38,9 @@
 
             internal static bool Submit => Enabled ? submit.Bool : false;
             internal static bool Cancel => Enabled ? cancel.Bool : false;
-            internal static bool Escape => Enabled ? escape.Bool : false;
+
+            // InGame <-> OutGame の橋渡しをするので、常に有効な入力値とする
+            internal static bool Escape => escape.Bool; /*Enabled ? escape.Bool : false;*/
 
             internal static void Bind(MyActions.InGameActions actions)
             {
