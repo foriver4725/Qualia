@@ -27,6 +27,8 @@ namespace MyScripts.Runtime
             isPaused = true;
 
             InputManager.PlayerControl.Enabled = false;
+            InputManager.InGame.Enabled = false;
+
             pauseUi.gameObject.SetActive(true);
             CursorAdjuster.SetCursorEnabled(true);
 
@@ -39,6 +41,8 @@ namespace MyScripts.Runtime
             isPaused = false;
 
             InputManager.PlayerControl.Enabled = true;
+            InputManager.InGame.Enabled = true;
+
             pauseUi.gameObject.SetActive(false);
             CursorAdjuster.SetCursorEnabled(false);
 
