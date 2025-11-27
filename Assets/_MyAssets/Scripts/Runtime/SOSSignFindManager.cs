@@ -112,79 +112,81 @@ namespace MyScripts.Runtime
         {
             foreach (Collider sosSignCollider in sosSignColliders)
             {
-                Collider col = sosSignCollider;
+                Collider collider = sosSignCollider;
 
-                col.OnTriggerEnterAsObservable()
-                    .Where(c => ReferenceEquals(c, playerCapsuleCollider))
-                    .SubscribeAwait(col, async (c, col, ct) =>
-                {
-                    if (animalLeaveInvoker.IsPossessing)
+                // TODO: ラムダ式のGC.Allocを無くしたい
+                collider.OnTriggerEnterAsObservable()
+                    .Where(otherCollider => ReferenceEquals(otherCollider, playerCapsuleCollider))
+                    .SubscribeAwait(collider, async (otherCollider, selfCollider, ct) =>
                     {
-                        LogManager.Instance.ShowManually("左クリックで取り除く");
-
-                        if (await WaitForClickOrExitAsync(col, ct) == true)
+                        if (animalLeaveInvoker.IsPossessing)
                         {
-                            // 取り除く
-                            // "取り除く" = "ルートのゲームオブジェクトが非アクティブ"
-                            col.gameObject.SetActive(false);
+                            LogManager.Instance.ShowManually("左クリックで取り除く");
+
+                            if (await WaitForClickOrExitAsync(selfCollider, playerCapsuleCollider, ct) == true)
                             {
-                                leftSOSSignCount--;
-                                UpdateSOSSignLeftRatioText(sosSignLeftRatioText, leftSOSSignCount, totalSOSSignCount);
+                                // 取り除く
+                                // "取り除く" = "ルートのゲームオブジェクトが非アクティブ"
+                                selfCollider.gameObject.SetActive(false);
+                                {
+                                    leftSOSSignCount--;
+                                    UpdateSOSSignLeftRatioText(sosSignLeftRatioText, leftSOSSignCount, totalSOSSignCount);
 
-                                // このタイミングで、セーブデータに反映しておく
-                                SetMyPropertiesToData();
-                            }
+                                    // このタイミングで、セーブデータに反映しておく
+                                    SetMyPropertiesToData();
+                                }
 
-                            LogManager.Instance.ShowManually(string.Empty);
-                            LogManager.Instance.ShowAutomatically(
-                                sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnHumanClick)
-                            );
+                                LogManager.Instance.ShowManually(string.Empty);
+                                LogManager.Instance.ShowAutomatically(
+                                    sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnHumanClick)
+                                );
 
-                            soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
-                        }
-                        else
-                        {
-                            LogManager.Instance.ShowManually(string.Empty);
-                        }
-                    }
-                    else
-                    {
-                        {
-                            using var sb = ZString.CreateStringBuilder();
-                            sb.AppendFormat("{0}\n(動物でないと取り除けない)", sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnAnimalApproach));
-                            LogManager.Instance.ShowManually(sb);
-                        }
-
-                        while (true)
-                        {
-                            if (await WaitForClickOrExitAsync(col, ct) == true)
-                            {
-                                soundPlayer.LetPlay(SSOSSound.Situation.CouldNotRemove);
-                                continue;
+                                soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
                             }
                             else
                             {
-                                break;
+                                LogManager.Instance.ShowManually(string.Empty);
                             }
                         }
+                        else
+                        {
+                            {
+                                using var sb = ZString.CreateStringBuilder();
+                                sb.AppendFormat("{0}\n(動物でないと取り除けない)", sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnAnimalApproach));
+                                LogManager.Instance.ShowManually(sb);
+                            }
 
-                        LogManager.Instance.ShowManually(string.Empty);
-                    }
-                })
-                    .AddTo(col);
+                            while (true)
+                            {
+                                if (await WaitForClickOrExitAsync(selfCollider, playerCapsuleCollider, ct) == true)
+                                {
+                                    soundPlayer.LetPlay(SSOSSound.Situation.CouldNotRemove);
+                                    continue;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+
+                            LogManager.Instance.ShowManually(string.Empty);
+                        }
+                    })
+                    .AddTo(collider);
             }
         }
 
         // Click したなら true を、 Exit したなら false を返す
         // 同フレームなら Exit を優先する
-        private async UniTask<bool> WaitForClickOrExitAsync(Collider collider, Ct ct) => await UniTask.WhenAny(
-            // 同フレームなら Exit を優先するために、このタイミングで待つ
-            UniTask.WaitUntil(() => InputManager.InGame.Submit, timing: PlayerLoopTiming.LastUpdate, cancellationToken: ct),
-            collider.OnTriggerExitAsObservable()
-                .Where(c => ReferenceEquals(c, playerCapsuleCollider))
-                .FirstAsync(cancellationToken: ct)
-                .AsUniTask()
-        ) == 0;
+        private static async UniTask<bool> WaitForClickOrExitAsync(Collider selfCollider, Collider playerCollider, Ct ct)
+            => await UniTask.WhenAny(
+                // 同フレームなら Exit を優先するために、このタイミングで待つ
+                UniTask.WaitUntil(() => InputManager.InGame.Submit, timing: PlayerLoopTiming.LastUpdate, cancellationToken: ct),
+                selfCollider.OnTriggerExitAsObservable()
+                    .Where(otherCollider => ReferenceEquals(otherCollider, playerCollider))
+                    .FirstAsync(cancellationToken: ct)
+                    .AsUniTask()
+            ) == 0;
 
         private static void UpdateSOSSignLeftRatioText(TextMeshProUGUI text, int leftCount, int totalCount)
         {
