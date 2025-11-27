@@ -31,20 +31,40 @@
 
             private static InputInfo submit;
             private static InputInfo cancel;
-            private static InputInfo leaveAnimal;
-            private static InputInfo triggerPause;
+            private static InputInfo escape;
 
             internal static bool Submit => Enabled ? submit.Bool : false;
             internal static bool Cancel => Enabled ? cancel.Bool : false;
-            internal static bool LeaveAnimal => Enabled ? leaveAnimal.Bool : false;
-            internal static bool TriggerPause => Enabled ? triggerPause.Bool : false;
+            internal static bool Escape => Enabled ? escape.Bool : false;
 
             internal static void Bind(MyActions.InGameActions actions)
             {
                 submit = Create(actions.Submit, InputType.Click);
                 cancel = Create(actions.Cancel, InputType.Click);
-                leaveAnimal = Create(actions.LeaveAnimal, InputType.Click);
-                triggerPause = Create(actions.TriggerPause, InputType.Click);
+                escape = Create(actions.Escape, InputType.Click);
+            }
+        }
+
+        internal static class OutGame
+        {
+            internal static bool Enabled { get; set; } = true;
+
+            private static InputInfo submit;
+            private static InputInfo cancel;
+            private static InputInfo moveH;
+            private static InputInfo moveV;
+
+            internal static bool Submit => Enabled ? submit.Bool : false;
+            internal static bool Cancel => Enabled ? cancel.Bool : false;
+            internal static int MoveH => Enabled ? (moveH.Float > 0 ? 1 : (moveH.Float < 0 ? -1 : 0)) : 0;
+            internal static int MoveV => Enabled ? (moveV.Float > 0 ? 1 : (moveV.Float < 0 ? -1 : 0)) : 0;
+
+            internal static void Bind(MyActions.OutGameActions actions)
+            {
+                submit = Create(actions.Submit, InputType.Click);
+                cancel = Create(actions.Cancel, InputType.Click);
+                moveH = Create(actions.MoveH, InputType.Value1);
+                moveV = Create(actions.MoveV, InputType.Value1);
             }
         }
 
@@ -77,6 +97,7 @@
         {
             PlayerControl.Bind(source.PlayerControl);
             InGame.Bind(source.InGame);
+            OutGame.Bind(source.OutGame);
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             Debug.Bind(source.Debug);
