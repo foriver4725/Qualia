@@ -2,43 +2,84 @@
 {
     internal static partial class InputManager
     {
-        // PlayerControl
-        internal static InputInfo PcMove { get; private set; }
-        internal static InputInfo PcLook { get; private set; }
-        internal static InputInfo PcJump { get; private set; }
-        internal static InputInfo PcSprint { get; private set; }
+        internal static class PlayerControl
+        {
+            internal static bool Enabled { get; set; } = true;
 
-        // InGame
-        internal static InputInfo InGameSubmit { get; private set; }
-        internal static InputInfo InGameCancel { get; private set; }
-        internal static InputInfo InGameLeaveAnimal { get; private set; }
-        internal static InputInfo InGameTriggerPause { get; private set; }
+            private static InputInfo move;
+            private static InputInfo look;
+            private static InputInfo jump;
+            private static InputInfo sprint;
+
+            internal static Vector2 Move => Enabled ? move.Vector2 : Vector2.zero;
+            internal static Vector2 Look => Enabled ? look.Vector2 : Vector2.zero;
+            internal static bool Jump => Enabled ? jump.Bool : false;
+            internal static bool Sprint => Enabled ? sprint.Bool : false;
+
+            internal static void Bind(MyActions.PlayerControlActions actions)
+            {
+                move = Create(actions.Move, InputType.Value2);
+                look = Create(actions.Look, InputType.Value2);
+                jump = Create(actions.Jump, InputType.Click);
+                sprint = Create(actions.Sprint, InputType.Value0);
+            }
+        }
+
+        internal static class InGame
+        {
+            internal static bool Enabled { get; set; } = true;
+
+            private static InputInfo submit;
+            private static InputInfo cancel;
+            private static InputInfo leaveAnimal;
+            private static InputInfo triggerPause;
+
+            internal static bool Submit => Enabled ? submit.Bool : false;
+            internal static bool Cancel => Enabled ? cancel.Bool : false;
+            internal static bool LeaveAnimal => Enabled ? leaveAnimal.Bool : false;
+            internal static bool TriggerPause => Enabled ? triggerPause.Bool : false;
+
+            internal static void Bind(MyActions.InGameActions actions)
+            {
+                submit = Create(actions.Submit, InputType.Click);
+                cancel = Create(actions.Cancel, InputType.Click);
+                leaveAnimal = Create(actions.LeaveAnimal, InputType.Click);
+                triggerPause = Create(actions.TriggerPause, InputType.Click);
+            }
+        }
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
-        // Debug
-        internal static InputInfo DebugFastenMoveSpeed { get; private set; }
-        internal static InputInfo DebugSetGraphicQualityLow { get; private set; }
-        internal static InputInfo DebugSetGraphicQualityMedium { get; private set; }
-        internal static InputInfo DebugSetGraphicQualityHigh { get; private set; }
+        internal static class Debug
+        {
+            internal static bool Enabled { get; set; } = true;
+
+            private static InputInfo fastenMoveSpeed;
+            private static InputInfo setGraphicQualityLow;
+            private static InputInfo setGraphicQualityMedium;
+            private static InputInfo setGraphicQualityHigh;
+
+            internal static bool FastenMoveSpeed => Enabled ? fastenMoveSpeed.Bool : false;
+            internal static bool SetGraphicQualityLow => Enabled ? setGraphicQualityLow.Bool : false;
+            internal static bool SetGraphicQualityMedium => Enabled ? setGraphicQualityMedium.Bool : false;
+            internal static bool SetGraphicQualityHigh => Enabled ? setGraphicQualityHigh.Bool : false;
+
+            internal static void Bind(MyActions.DebugActions actions)
+            {
+                fastenMoveSpeed = Create(actions.FastenMoveSpeed, InputType.Value0);
+                setGraphicQualityLow = Create(actions.SetGraphicQualityLow, InputType.Click);
+                setGraphicQualityMedium = Create(actions.SetGraphicQualityMedium, InputType.Click);
+                setGraphicQualityHigh = Create(actions.SetGraphicQualityHigh, InputType.Click);
+            }
+        }
 #endif
 
         private static void Bind()
         {
-            PcMove = Create(source.PlayerControl.Move, InputType.Value2);
-            PcLook = Create(source.PlayerControl.Look, InputType.Value2);
-            PcJump = Create(source.PlayerControl.Jump, InputType.Click);
-            PcSprint = Create(source.PlayerControl.Sprint, InputType.Value0);
-
-            InGameSubmit = Create(source.InGame.Submit, InputType.Click);
-            InGameCancel = Create(source.InGame.Cancel, InputType.Click);
-            InGameLeaveAnimal = Create(source.InGame.LeaveAnimal, InputType.Click);
-            InGameTriggerPause = Create(source.InGame.TriggerPause, InputType.Click);
+            PlayerControl.Bind(source.PlayerControl);
+            InGame.Bind(source.InGame);
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
-            DebugFastenMoveSpeed = Create(source.Debug.FastenMoveSpeed, InputType.Value0);
-            DebugSetGraphicQualityLow = Create(source.Debug.SetGraphicQualityLow, InputType.Click);
-            DebugSetGraphicQualityMedium = Create(source.Debug.SetGraphicQualityMedium, InputType.Click);
-            DebugSetGraphicQualityHigh = Create(source.Debug.SetGraphicQualityHigh, InputType.Click);
+            Debug.Bind(source.Debug);
 #endif
         }
     }
