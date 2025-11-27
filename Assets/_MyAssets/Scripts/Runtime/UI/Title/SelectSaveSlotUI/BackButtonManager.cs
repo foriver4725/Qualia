@@ -1,4 +1,4 @@
-namespace MyScripts.Runtime.OutGame.Title.SelectSaveSlotUI
+namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
 {
     internal sealed class BackButtonManager : AButtonManager
     {

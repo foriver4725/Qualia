@@ -1,4 +1,4 @@
-namespace MyScripts.Runtime.OutGame.Title
+namespace MyScripts.Runtime.UI.Title
 {
     internal sealed class StartButtonManager : AButtonManager
     {
