@@ -34,6 +34,7 @@ namespace MyScripts.Runtime.UI.Main.Pause
             {
                 if (LoadManager.Instance.HasBegun == false && InputManager.OutGame.Cancel)
                 {
+                    InputManager.OutGame.MakeCancelInputDisabledUntilNextFrame();
                     base.PlayClickSe();
                     this.OnClickSucceeded();
                 }
@@ -42,6 +43,7 @@ namespace MyScripts.Runtime.UI.Main.Pause
             {
                 if (GameQuitter.HasInvoked == false && InputManager.OutGame.Cancel)
                 {
+                    InputManager.OutGame.MakeCancelInputDisabledUntilNextFrame();
                     base.PlayClickSe();
                     this.OnClickSucceeded();
                 }

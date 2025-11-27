@@ -6,6 +6,7 @@ namespace MyScripts.Runtime.UI.Title.GameQuit
         {
             if (GameQuitter.HasInvoked == false && InputManager.OutGame.Submit)
             {
+                InputManager.OutGame.MakeSubmitInputDisabledUntilNextFrame();
                 base.PlayClickSe();
                 this.OnClickSucceeded();
             }

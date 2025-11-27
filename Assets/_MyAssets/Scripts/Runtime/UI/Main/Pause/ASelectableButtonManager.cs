@@ -17,15 +17,18 @@ namespace MyScripts.Runtime.UI.Main.Pause
         {
             if (InputManager.OutGame.MoveUp)
             {
+                InputManager.OutGame.MakeMoveUpInputDisabledUntilNextFrame();
                 SelectPrevious();
             }
             else if (InputManager.OutGame.MoveDown)
             {
+                InputManager.OutGame.MakeMoveDownInputDisabledUntilNextFrame();
                 SelectNext();
             }
 
             if (IsSelected == true && InputManager.OutGame.Submit)
             {
+                InputManager.OutGame.MakeSubmitInputDisabledUntilNextFrame();
                 this.OnSubmittedWithSelection();
             }
         }

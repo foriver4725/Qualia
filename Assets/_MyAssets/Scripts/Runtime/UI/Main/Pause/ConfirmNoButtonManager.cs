@@ -8,6 +8,7 @@ namespace MyScripts.Runtime.UI.Main.Pause
         {
             if (onPauseConfirmUi.gameObject.activeSelf == true && InputManager.OutGame.Submit)
             {
+                InputManager.OutGame.MakeSubmitInputDisabledUntilNextFrame();
                 base.PlayClickSe();
                 this.OnClickSucceeded();
             }

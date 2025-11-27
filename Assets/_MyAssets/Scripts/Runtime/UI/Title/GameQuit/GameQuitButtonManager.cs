@@ -8,6 +8,7 @@ namespace MyScripts.Runtime.UI.Title.GameQuit
         {
             if (confirmUi.gameObject.activeSelf == false && InputManager.OutGame.Cancel)
             {
+                InputManager.OutGame.MakeCancelInputDisabledUntilNextFrame();
                 base.PlayClickSe();
                 this.OnClickSucceeded();
             }

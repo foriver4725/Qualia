@@ -8,6 +8,7 @@ namespace MyScripts.Runtime.UI.Title
         {
             if (ui.gameObject.activeSelf == false && InputManager.OutGame.Submit)
             {
+                InputManager.OutGame.MakeSubmitInputDisabledUntilNextFrame();
                 base.PlayClickSe();
                 this.OnClickSucceeded();
             }
