@@ -58,17 +58,7 @@ namespace MyScripts.Runtime
 		private float jumpTimeoutDelta;
 		private float fallTimeoutDelta;
 
-		// input
-		private Vector2 MoveInput => IsPcInputEnabled ? InputManager.PcMove.Vector2 : Vector2.zero;
-		private Vector2 LookInput => IsPcInputEnabled ? InputManager.PcLook.Vector2 : Vector2.zero;
-		private bool JumpInput => IsPcInputEnabled ? InputManager.PcJump.Bool : false;
-		private bool SprintInput => IsPcInputEnabled ? InputManager.PcSprint.Bool : false;
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-		private bool DebugFastenMoveSpeedInput => IsPcInputEnabled ? InputManager.DebugFastenMoveSpeed.Bool : false;
-#endif
-
 		// constraints
-		internal bool IsPcInputEnabled { get; set; } = true;
 		private bool isOwnGravityEnabled = true;
 		internal bool IsOwnGravityEnabled
 		{
@@ -107,7 +97,7 @@ namespace MyScripts.Runtime
 		internal void Teleport(Vector3 position, Vector3 forward)
 		{
 			// 一応、切り替わり中の挙動制限も適用しておく
-			IsPcInputEnabled = false;
+			InputManager.PlayerControl.Enabled = false;
 			IsOwnGravityEnabled = false;
 			CanApplyVelocityDelta = false;
 
@@ -117,7 +107,7 @@ namespace MyScripts.Runtime
 
 			CanApplyVelocityDelta = true;
 			IsOwnGravityEnabled = true;
-			IsPcInputEnabled = true;
+			InputManager.PlayerControl.Enabled = true;
 		}
 
 		#endregion
@@ -149,6 +139,9 @@ namespace MyScripts.Runtime
 
 		private void Awake()
 		{
+			// Resets the flag
+			InputManager.PlayerControl.Enabled = true;
+
 			param = InGameSOHolder.Instance.PlayerControl;
 
 			// reset our timeouts on start
@@ -269,7 +262,7 @@ namespace MyScripts.Runtime
 		private void CameraRotation()
 		{
 			// get input
-			Vector2 input = LookInput;
+			Vector2 input = InputManager.PlayerControl.Look;
 
 			// if there is an input
 			if (input.sqrMagnitude >= 0.01f)
@@ -311,8 +304,8 @@ namespace MyScripts.Runtime
 		private void InputAndFinallyMove()
 		{
 			// get input
-			Vector2 input = MoveInput;
-			bool isSprintingInput = SprintInput;
+			Vector2 input = InputManager.PlayerControl.Move;
+			bool isSprintingInput = InputManager.PlayerControl.Sprint;
 			// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
 			bool hasInput = input != Vector2.zero;
 			isSprinting = isSprintingInput && hasInput;
@@ -322,7 +315,7 @@ namespace MyScripts.Runtime
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
 			// for debug, make the player move faster while has the input
-			if (DebugFastenMoveSpeedInput)
+			if (InputManager.Debug.FastenMoveSpeed)
 				targetSpeed *= 5.0f;
 #endif
 
@@ -404,7 +397,7 @@ namespace MyScripts.Runtime
 			if (isGrounded)
 			{
 				// get input
-				bool input = JumpInput;
+				bool input = InputManager.PlayerControl.Jump;
 
 				// reset the fall timeout timer
 				fallTimeoutDelta = param.FallTimeout;

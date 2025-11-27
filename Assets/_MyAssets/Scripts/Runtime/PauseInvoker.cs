@@ -6,7 +6,6 @@ namespace MyScripts.Runtime
     /// </summary>
     internal sealed class PauseInvoker : MonoBehaviour
     {
-        [SerializeField] private PlayerController pc;
         [SerializeField] private Canvas pauseUi;
 
         private bool isPaused = false;
@@ -27,7 +26,7 @@ namespace MyScripts.Runtime
             if (isPaused) return false;
             isPaused = true;
 
-            pc.IsPcInputEnabled = false;
+            InputManager.PlayerControl.Enabled = false;
             pauseUi.gameObject.SetActive(true);
             CursorAdjuster.SetCursorEnabled(true);
 
@@ -39,7 +38,7 @@ namespace MyScripts.Runtime
             if (!isPaused) return false;
             isPaused = false;
 
-            pc.IsPcInputEnabled = true;
+            InputManager.PlayerControl.Enabled = true;
             pauseUi.gameObject.SetActive(false);
             CursorAdjuster.SetCursorEnabled(false);
 
