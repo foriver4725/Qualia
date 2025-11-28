@@ -9,7 +9,7 @@ namespace MyScripts.Runtime.UI.Button
 
         // ボタンの位置が動的に変わることはない想定なので、シンプルなキャッシュにする
         private bool hasCachedPosition = false;
-        private Vector2 position = new(-1, -1);
+        private Vector2 position;
         internal Vector2 Position
         {
             get
@@ -25,7 +25,7 @@ namespace MyScripts.Runtime.UI.Button
 
         // ボタンの大きさが動的に変わることはない想定なので、シンプルなキャッシュにする
         private bool hasCachedSize = false;
-        private Vector2 size = new(-1, -1);
+        private Vector2 size;
         internal Vector2 Size
         {
             get
