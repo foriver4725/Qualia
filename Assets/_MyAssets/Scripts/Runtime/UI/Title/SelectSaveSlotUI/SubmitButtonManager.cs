@@ -1,6 +1,6 @@
 namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
 {
-    internal sealed class SubmitButtonManager : AButtonManager
+    internal sealed class SubmitButtonManager : Button.AButtonManager
     {
         [SerializeField] private Manager manager;
 

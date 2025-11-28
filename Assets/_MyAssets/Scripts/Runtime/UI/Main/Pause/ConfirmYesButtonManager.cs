@@ -3,7 +3,7 @@ namespace MyScripts.Runtime.UI.Main.Pause
     /// <summary>
     /// 確認UIの決定ボタンなので、ある種マネージャーみたいな役割も担う
     /// </summary>
-    internal sealed class ConfirmYesButtonManager : AButtonManager
+    internal sealed class ConfirmYesButtonManager : Button.AButtonManager
     {
         [SerializeField] private TextMeshProUGUI confirmLabelText;
 

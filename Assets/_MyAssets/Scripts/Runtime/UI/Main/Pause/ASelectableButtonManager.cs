@@ -5,7 +5,7 @@ namespace MyScripts.Runtime.UI.Main.Pause
     /// Previous は上のボタン<br/>
     /// Next は下のボタン<br/>
     /// </summary>
-    internal abstract class ASelectableButtonManager : Runtime.ASelectableButtonManager
+    internal abstract class ASelectableButtonManager : Button.ASelectableButtonManager
     {
         /// <summary>
         /// このボタンがどのUIに所属しているか<br/>

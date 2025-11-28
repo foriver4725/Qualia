@@ -1,6 +1,6 @@
 namespace MyScripts.Runtime.UI.Title.GameQuit
 {
-    internal sealed class GameQuitConfirmNoButtonManager : AButtonManager
+    internal sealed class GameQuitConfirmNoButtonManager : Button.AButtonManager
     {
         private void Update()
         {

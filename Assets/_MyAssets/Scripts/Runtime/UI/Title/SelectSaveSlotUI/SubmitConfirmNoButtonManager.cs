@@ -1,6 +1,6 @@
 namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
 {
-    internal sealed class SubmitConfirmNoButtonManager : AButtonManager
+    internal sealed class SubmitConfirmNoButtonManager : Button.AButtonManager
     {
         private void Update()
         {

@@ -1,6 +1,6 @@
 namespace MyScripts.Runtime.UI.Title
 {
-    internal sealed class StartButtonManager : AButtonManager
+    internal sealed class StartButtonManager : Button.AButtonManager
     {
         private void Update()
         {

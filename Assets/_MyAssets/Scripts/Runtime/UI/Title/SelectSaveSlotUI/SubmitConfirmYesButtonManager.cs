@@ -5,7 +5,7 @@ namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
     /// <summary>
     /// 「はい」ボタンを押すとゲームが開始するので、ある種マネージャー的な感じ
     /// </summary>
-    internal sealed class SubmitConfirmYesButtonManager : AButtonManager
+    internal sealed class SubmitConfirmYesButtonManager : Button.AButtonManager
     {
         [SerializeField] private TextMeshProUGUI labelText;
 

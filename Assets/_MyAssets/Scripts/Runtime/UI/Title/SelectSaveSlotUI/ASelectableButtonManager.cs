@@ -5,7 +5,7 @@ namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
     /// Previous は上のボタン<br/>
     /// Next は下のボタン<br/>
     /// </summary>
-    internal abstract class ASelectableButtonManager : Runtime.ASelectableButtonManager
+    internal abstract class ASelectableButtonManager : Button.ASelectableButtonManager
     {
         /// <summary>
         /// このボタンがどのUIに所属しているか<br/>
@@ -75,7 +75,7 @@ namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
             }
         }
 
-        private void TryInvokeOnSelectChanged(Runtime.ASelectableButtonManager currentlySelectedButton)
+        private void TryInvokeOnSelectChanged(Button.ASelectableButtonManager currentlySelectedButton)
         {
             if (currentlySelectedButton is ASelectableButtonManager button)
                 this.OnSelectChanged(button);

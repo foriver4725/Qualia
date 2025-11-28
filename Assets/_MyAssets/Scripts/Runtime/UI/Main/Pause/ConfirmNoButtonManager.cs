@@ -1,6 +1,6 @@
 namespace MyScripts.Runtime.UI.Main.Pause
 {
-    internal sealed class ConfirmNoButtonManager : AButtonManager
+    internal sealed class ConfirmNoButtonManager : Button.AButtonManager
     {
         private void Update()
         {

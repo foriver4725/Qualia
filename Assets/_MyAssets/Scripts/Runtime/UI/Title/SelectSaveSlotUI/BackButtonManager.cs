@@ -1,6 +1,6 @@
 namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
 {
-    internal sealed class BackButtonManager : AButtonManager
+    internal sealed class BackButtonManager : Button.AButtonManager
     {
         private void Update()
         {
