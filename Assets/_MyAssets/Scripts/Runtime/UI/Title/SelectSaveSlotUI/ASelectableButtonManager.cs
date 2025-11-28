@@ -1,3 +1,5 @@
+using MyScripts.Runtime.UI.Button;
+
 namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
 {
     /// <summary>
@@ -36,6 +38,12 @@ namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
         private protected sealed override bool CanSelectDown => Down != null && Down is ASelectableButtonManager button && button.isActive;
         private protected sealed override bool CanSelectUp => Up != null && Up is ASelectableButtonManager button && button.isActive;
 
+        private protected sealed override void OnJustBeforeAwake()
+        {
+            base.OnJustBeforeAwake();
+            SelectFrameManager.Instance.Deselect();
+        }
+
         private void Update()
         {
             if (UIActivationManager.Instance.Front == LocatedUI)
@@ -72,6 +80,10 @@ namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
                         TryInvokeOnSelectChanged(Up);
                     }
                 }
+
+                // 枠線を描画
+                if (IsSelected && SelectFrameManager.Instance.SelectingButton != this)
+                    SelectFrameManager.Instance.Reselect(this);
             }
         }
 
