@@ -35,9 +35,6 @@ namespace MyScripts.Runtime.UI.Button
 
             this.IsSelected = false;
             left.IsSelected = true;
-
-            SelectFrameManager.Instance.Reselect(left);
-
             return true;
         }
 
@@ -49,9 +46,6 @@ namespace MyScripts.Runtime.UI.Button
 
             this.IsSelected = false;
             right.IsSelected = true;
-
-            SelectFrameManager.Instance.Reselect(right);
-
             return true;
         }
 
@@ -63,9 +57,6 @@ namespace MyScripts.Runtime.UI.Button
 
             this.IsSelected = false;
             down.IsSelected = true;
-
-            SelectFrameManager.Instance.Reselect(down);
-
             return true;
         }
 
@@ -77,21 +68,13 @@ namespace MyScripts.Runtime.UI.Button
 
             this.IsSelected = false;
             up.IsSelected = true;
-
-            SelectFrameManager.Instance.Reselect(up);
-
             return true;
         }
 
-        private protected sealed override void OnJustBeforeAwake()
+        private protected override void OnJustBeforeAwake()
         {
             if (isOnlySelectedAtFirst)
-            {
                 this.IsSelected = true;
-
-                SelectFrameManager.Instance.Deselect();
-                SelectFrameManager.Instance.Reselect(this);
-            }
         }
     }
 }

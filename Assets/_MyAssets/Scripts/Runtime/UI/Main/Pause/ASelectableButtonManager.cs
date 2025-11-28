@@ -1,3 +1,5 @@
+using MyScripts.Runtime.UI.Button;
+
 namespace MyScripts.Runtime.UI.Main.Pause
 {
     /// <summary>
@@ -18,6 +20,12 @@ namespace MyScripts.Runtime.UI.Main.Pause
         /// 可能かどうか調べて、PlayClickSe(), OnClickSucceeded() を呼び出してほしい<br/>
         /// </summary>
         private protected abstract void OnSubmittedWithSelection();
+
+        private protected sealed override void OnJustBeforeAwake()
+        {
+            base.OnJustBeforeAwake();
+            SelectFrameManager.Instance.Deselect();
+        }
 
         private void Update()
         {
@@ -41,6 +49,10 @@ namespace MyScripts.Runtime.UI.Main.Pause
                         this.OnSubmittedWithSelection();
                     }
                 }
+
+                // 枠線を描画
+                if (IsSelected && SelectFrameManager.Instance.SelectingButton != this)
+                    SelectFrameManager.Instance.Reselect(this);
             }
         }
     }
