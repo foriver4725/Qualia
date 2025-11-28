@@ -1,6 +1,6 @@
 using MyScripts.Common.Button;
 
-namespace MyScripts.Runtime
+namespace MyScripts.Runtime.UI.Button
 {
     internal abstract class AButtonManager : ATextButtonManager
     {
