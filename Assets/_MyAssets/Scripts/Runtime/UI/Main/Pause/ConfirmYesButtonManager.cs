@@ -30,17 +30,17 @@ namespace MyScripts.Runtime.UI.Main.Pause
 
         private void Update()
         {
-            if (UIActivationManager.Instance.Front == UIActivationManager.UI.OnPauseConfirm && InputManager.OutGame.Cancel)
+            if (UIActivationManager.Instance.Front == UIActivationManager.UI.OnPauseConfirm && InputManager.OutGame.Submit)
             {
                 if (invokeAction == InvokeAction.BackToTitle && LoadManager.Instance.HasBegun == false)
                 {
-                    InputManager.OutGame.MakeCancelInputDisabledUntilNextFrame();
+                    InputManager.OutGame.MakeSubmitInputDisabledUntilNextFrame();
                     base.PlayClickSe();
                     this.OnClickSucceeded();
                 }
                 else /* invokeAction == InvokeAction.BackToDesktop && */ if (GameQuitter.HasInvoked == false)
                 {
-                    InputManager.OutGame.MakeCancelInputDisabledUntilNextFrame();
+                    InputManager.OutGame.MakeSubmitInputDisabledUntilNextFrame();
                     base.PlayClickSe();
                     this.OnClickSucceeded();
                 }

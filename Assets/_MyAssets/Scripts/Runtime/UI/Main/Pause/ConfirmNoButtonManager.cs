@@ -4,9 +4,9 @@ namespace MyScripts.Runtime.UI.Main.Pause
     {
         private void Update()
         {
-            if (UIActivationManager.Instance.Front == UIActivationManager.UI.OnPauseConfirm && InputManager.OutGame.Submit)
+            if (UIActivationManager.Instance.Front == UIActivationManager.UI.OnPauseConfirm && InputManager.OutGame.Cancel)
             {
-                InputManager.OutGame.MakeSubmitInputDisabledUntilNextFrame();
+                InputManager.OutGame.MakeCancelInputDisabledUntilNextFrame();
                 base.PlayClickSe();
                 this.OnClickSucceeded();
             }
