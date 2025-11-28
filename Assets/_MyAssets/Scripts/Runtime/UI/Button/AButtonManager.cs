@@ -16,7 +16,10 @@ namespace MyScripts.Runtime.UI.Button
             {
                 if (!hasCachedPosition)
                 {
-                    position = BackgroundImage.rectTransform.anchoredPosition;
+                    // どこから辿っても良いが、とにかくボタンのルートを取得して位置を算出する
+                    RectTransform parent = BackgroundImage.rectTransform.parent as RectTransform;
+                    position = parent.anchoredPosition;
+
                     hasCachedPosition = true;
                 }
                 return position;
@@ -33,6 +36,7 @@ namespace MyScripts.Runtime.UI.Button
                 if (!hasCachedSize)
                 {
                     size = BackgroundImage.rectTransform.sizeDelta;
+
                     hasCachedSize = true;
                 }
                 return size;
