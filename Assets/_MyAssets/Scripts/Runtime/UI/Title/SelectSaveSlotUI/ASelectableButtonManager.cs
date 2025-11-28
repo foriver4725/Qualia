@@ -82,8 +82,13 @@ namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
                 }
 
                 // 枠線を描画
-                if (IsSelected && SelectFrameManager.Instance.SelectingButton != this)
+                if (IsSelected)
                     SelectFrameManager.Instance.Reselect(this);
+            }
+            else
+            {
+                // 枠線を非表示にする
+                SelectFrameManager.Instance.Deselect();
             }
         }
 

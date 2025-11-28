@@ -7,7 +7,8 @@ namespace MyScripts.Runtime.UI.Button
         internal AButtonManager SelectingButton { get; private set; } = null;
 
         /// <summary>
-        /// 何も選択していない状態にする
+        /// 何も選択していない状態にする<br/>
+        /// 重複実行は気にしなくて良い<br/>
         /// </summary>
         internal void Deselect()
         {
@@ -17,7 +18,8 @@ namespace MyScripts.Runtime.UI.Button
         }
 
         /// <summary>
-        /// 指定したボタンを新たに選択する
+        /// 指定したボタンを新たに選択する<br/>
+        /// 重複実行は気にしなくて良い<br/>
         /// </summary>
         internal void Reselect(AButtonManager button, float padding = 20.0f)
         {
