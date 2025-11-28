@@ -4,6 +4,10 @@ namespace MyScripts.Runtime.UI.Button
     {
         [SerializeField] private Image image;
 
+        // 9-sliced の外側8マスの幅 [px]
+        // プログラム内で数値を決め打っておく
+        private const int OuterSize = 32;
+
         internal AButtonManager SelectingButton { get; private set; } = null;
 
         /// <summary>
@@ -21,14 +25,14 @@ namespace MyScripts.Runtime.UI.Button
         /// 指定したボタンを新たに選択する<br/>
         /// 重複実行は気にしなくて良い<br/>
         /// </summary>
-        internal void Reselect(AButtonManager button, float padding = 20.0f)
+        internal void Reselect(AButtonManager button, float padding = 0.0f)
         {
             if (!SelectingButton)
                 image.gameObject.SetActive(true);
             SelectingButton = button;
 
             image.rectTransform.anchoredPosition = button.Position;
-            image.rectTransform.sizeDelta = button.Size + new Vector2(padding, padding) * 2.0f;
+            image.rectTransform.sizeDelta = button.Size + Vector2.one * ((OuterSize + padding) * 2.0f);
         }
     }
 }
