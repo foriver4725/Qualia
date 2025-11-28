@@ -1,10 +1,18 @@
 namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
 {
-    internal sealed class SubmitConfirmNoButtonManager : AButtonManager
+    internal sealed class SubmitConfirmNoButtonManager : Button.AButtonManager
     {
-        [SerializeField] private Canvas optionConfirmCanvas;
+        private void Update()
+        {
+            if (UIActivationManager.Instance.Front == UIActivationManager.UI.OptionConfirm && InputManager.OutGame.Cancel)
+            {
+                InputManager.OutGame.MakeCancelInputDisabledUntilNextFrame();
+                base.PlayClickSe();
+                this.OnClickSucceeded();
+            }
+        }
 
         private protected sealed override void OnClickSucceeded()
-            => optionConfirmCanvas.gameObject.SetActive(false);
+            => UIActivationManager.Instance.SetActive(UIActivationManager.UI.OptionConfirm, false);
     }
 }

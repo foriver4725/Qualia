@@ -52,57 +52,71 @@ namespace MyScripts.Runtime
 
             // 憑依
             collider.OnTriggerEnterAsObservable()
-                .Where(c => ReferenceEquals(c, pc.Collider))
-                .SubscribeAwait(collider, async (c, col, ct) =>
-            {
-                if (TMP_doesLikePlayer)
+                .Select(
+                    (this, collider, pc, animalLeaveInvoker, soundPlayer, TMP_doesLikePlayer),
+                    static (other, param) => (
+                        This: param.Item1,
+                        SelfCollider: param.collider,
+                        PlayerController: param.pc,
+                        PossessInvoker: param.animalLeaveInvoker,
+                        SoundPlayer: param.soundPlayer,
+                        OtherCollider: other,
+                        TMP_DoesLikePlayer: param.TMP_doesLikePlayer
+                    )
+                )
+                .Where(static param => ReferenceEquals(param.OtherCollider, param.PlayerController.Collider))
+                .Where(static param => !param.PossessInvoker.IsPossessing)
+                .SubscribeAwait(static async (param, ct) =>
                 {
-                    LogManager.Instance.ShowManually("左クリックで憑依");
-
-                    if (await WaitForClickOrExitAsync(col, ct) == true)
+                    if (param.TMP_DoesLikePlayer)
                     {
-                        // 憑依する
-                        animalLeaveInvoker.PossessCharacter(pc, this);
+                        LogManager.Instance.ShowManually("左クリックで憑依");
 
-                        LogManager.Instance.ShowManually(string.Empty);
-                        LogManager.Instance.ShowAutomatically("憑依した");
-
-                        soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
-                    }
-                    else
-                    {
-                        LogManager.Instance.ShowManually(string.Empty);
-                    }
-                }
-                else
-                {
-                    LogManager.Instance.ShowManually("好感度が足りなくて憑依できない");
-
-                    while (true)
-                    {
-                        if (await WaitForClickOrExitAsync(col, ct) == true)
+                        if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider, ct) == true)
                         {
-                            soundPlayer.LetPlay(SSOSSound.Situation.CouldNotRemove);
-                            continue;
+                            // 憑依する
+                            param.PossessInvoker.PossessCharacter(param.PlayerController, param.This);
+
+                            LogManager.Instance.ShowManually(string.Empty);
+                            LogManager.Instance.ShowAutomatically("憑依した");
+
+                            param.SoundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
                         }
                         else
                         {
-                            break;
+                            LogManager.Instance.ShowManually(string.Empty);
                         }
                     }
+                    else
+                    {
+                        LogManager.Instance.ShowManually("好感度が足りなくて憑依できない");
 
-                    LogManager.Instance.ShowManually(string.Empty);
-                }
-            })
+                        while (true)
+                        {
+                            if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider, ct) == true)
+                            {
+                                param.SoundPlayer.LetPlay(SSOSSound.Situation.CouldNotRemove);
+                                continue;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+
+                        LogManager.Instance.ShowManually(string.Empty);
+                    }
+                })
                 .AddTo(collider);
 
             // 離脱
             this.UpdateAsObservable()
                 .Select((animalLeaveInvoker, pc), static (_, param) => (Invoker: param.animalLeaveInvoker, Pc: param.pc))
                 .Where(static param => param.Invoker.IsPossessing)
-                .Where(static _ => InputManager.InGameLeaveAnimal.Bool)
+                .Where(static _ => InputManager.InGame.Cancel)
                 .Subscribe(static param =>
                 {
+                    InputManager.InGame.MakeCancelInputDisabledUntilNextFrame();
                     param.Invoker.LeaveCharacter(param.Pc);
                 })
                 .AddTo(this);
@@ -110,13 +124,26 @@ namespace MyScripts.Runtime
 
         // Click したなら true を、 Exit したなら false を返す
         // 同フレームなら Exit を優先する
-        private async UniTask<bool> WaitForClickOrExitAsync(Collider collider, Ct ct) => await UniTask.WhenAny(
-            // 同フレームなら Exit を優先するために、このタイミングで待つ
-            UniTask.WaitUntil(() => InputManager.InGameSubmit.Bool, timing: PlayerLoopTiming.LastUpdate, cancellationToken: ct),
-            collider.OnTriggerExitAsObservable()
-                .Where(c => ReferenceEquals(c, pc.Collider))
-                .FirstAsync(cancellationToken: ct)
-                .AsUniTask()
-        ) == 0;
+        private static async UniTask<bool> WaitForClickOrExitAsync(Collider selfCollider, Collider playerCollider, Ct ct)
+        {
+            int i = await UniTask.WhenAny(
+                // 同フレームなら Exit を優先するために、このタイミングで待つ
+                UniTask.WaitUntil(() => InputManager.InGame.Submit, timing: PlayerLoopTiming.LastUpdate, cancellationToken: ct),
+                selfCollider.OnTriggerExitAsObservable()
+                    .Where(otherCollider => ReferenceEquals(otherCollider, playerCollider))
+                    .FirstAsync(cancellationToken: ct)
+                    .AsUniTask()
+            );
+
+            if (i == 0)
+            {
+                InputManager.InGame.MakeSubmitInputDisabledUntilNextFrame();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

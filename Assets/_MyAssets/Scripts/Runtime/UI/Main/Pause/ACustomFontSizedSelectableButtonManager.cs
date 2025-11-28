@@ -1,6 +1,9 @@
 namespace MyScripts.Runtime.UI.Main.Pause
 {
-    internal abstract class ACustomFontSizeButtonManager : AButtonManager
+    /// <summary>
+    /// OnJustBeforeAwake(), OnJustAfterAwake(), Update() を使用
+    /// </summary>
+    internal abstract class ACustomFontSizedSelectableButtonManager : ASelectableButtonManager
     {
         [SerializeField, Range(0.0f, 360.0f)] private float fontSize = 120.0f;
 

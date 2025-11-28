@@ -1,10 +1,18 @@
 namespace MyScripts.Runtime.UI.Title
 {
-    internal sealed class StartButtonManager : AButtonManager
+    internal sealed class StartButtonManager : Button.AButtonManager
     {
-        [SerializeField] private Canvas ui;
+        private void Update()
+        {
+            if (UIActivationManager.Instance.Front == UIActivationManager.UI.None && InputManager.OutGame.Submit)
+            {
+                InputManager.OutGame.MakeSubmitInputDisabledUntilNextFrame();
+                base.PlayClickSe();
+                this.OnClickSucceeded();
+            }
+        }
 
         private protected sealed override void OnClickSucceeded()
-            => ui.gameObject.SetActive(true);
+            => UIActivationManager.Instance.SetActive(UIActivationManager.UI.SelectSaveSlot, true);
     }
 }

@@ -5,7 +5,7 @@
         [SerializeField] private TextMeshProUGUI loadingLabel;
         [SerializeField] private TextMeshProUGUI loadingText;
 
-        private bool hasLoadStarted = false;
+        internal bool HasBegun { get; private set; } = false;
 
         private void Awake()
         {
@@ -15,8 +15,8 @@
 
         internal void BeginLoad(Scene scene)
         {
-            if (hasLoadStarted) return;
-            hasLoadStarted = true;
+            if (HasBegun) return;
+            HasBegun |= true;
 
             loadingLabel.gameObject.SetActive(true);
             loadingText.gameObject.SetActive(true);

@@ -1,10 +1,18 @@
 namespace MyScripts.Runtime.UI.Main.Pause
 {
-    internal sealed class ConfirmNoButtonManager : AButtonManager
+    internal sealed class ConfirmNoButtonManager : Button.AButtonManager
     {
-        [SerializeField] private Canvas onPauseConfirmUi;
+        private void Update()
+        {
+            if (UIActivationManager.Instance.Front == UIActivationManager.UI.OnPauseConfirm && InputManager.OutGame.Cancel)
+            {
+                InputManager.OutGame.MakeCancelInputDisabledUntilNextFrame();
+                base.PlayClickSe();
+                this.OnClickSucceeded();
+            }
+        }
 
         private protected sealed override void OnClickSucceeded()
-            => onPauseConfirmUi.gameObject.SetActive(false);
+            => UIActivationManager.Instance.SetActive(UIActivationManager.UI.OnPauseConfirm, false);
     }
 }

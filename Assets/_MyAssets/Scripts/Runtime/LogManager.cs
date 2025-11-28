@@ -198,7 +198,10 @@
                     duration.SecAwait(ct: ct)
                 );
                 if (i == 0)
+                {
+                    InputManager.InGame.MakeCancelInputDisabledUntilNextFrame();
                     hasStoppedByOffInput = true;
+                }
             }
             else
                 await duration.SecAwait(ct: ct);
@@ -212,6 +215,6 @@
         }
 
         private static async UniTask WaitUntilOffInput(Ct ct)
-            => await UniTask.WaitUntil(() => InputManager.InGameCancel.Bool, cancellationToken: ct);
+            => await UniTask.WaitUntil(() => InputManager.InGame.Cancel, cancellationToken: ct);
     }
 }

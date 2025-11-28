@@ -300,7 +300,7 @@ namespace MyScripts.Common
                 {
                     ""name"": """",
                     ""id"": ""df880288-4fcb-450c-bcc1-388319dd88d5"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -333,16 +333,7 @@ namespace MyScripts.Common
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""LeaveAnimal"",
-                    ""type"": ""Button"",
-                    ""id"": ""5d868e31-595e-4802-99e0-66b9613faa4a"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""TriggerPause"",
+                    ""name"": ""Escape"",
                     ""type"": ""Button"",
                     ""id"": ""d1f5f8eb-b1fd-465d-b317-d7a7e0f74d38"",
                     ""expectedControlType"": """",
@@ -398,34 +389,12 @@ namespace MyScripts.Common
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a43207e7-0470-4bfb-b051-0fec0b5899ba"",
-                    ""path"": ""<Keyboard>/f"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""LeaveAnimal"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""5b2f84be-c52f-453f-8a0b-3267df8312a3"",
-                    ""path"": ""<Gamepad>/buttonWest"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""LeaveAnimal"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""30414afe-9d94-4f17-a2c4-9b7776488bb1"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TriggerPause"",
+                    ""action"": ""Escape"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -436,7 +405,7 @@ namespace MyScripts.Common
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TriggerPause"",
+                    ""action"": ""Escape"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -447,7 +416,333 @@ namespace MyScripts.Common
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TriggerPause"",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""OutGame"",
+            ""id"": ""04293587-7ecf-4a1b-95a9-4eb9f59792c8"",
+            ""actions"": [
+                {
+                    ""name"": ""Submit"",
+                    ""type"": ""Button"",
+                    ""id"": ""3b678cb2-80cc-4491-9e2d-89caf4960b1a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""6b5226d0-6181-4d7a-ac99-d6042f5cfc08"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""626fa880-2606-4a4f-b0a7-b0266e2e6239"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""1daeef28-8622-44ef-b561-86e5e78c7885"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""9c2f338c-00ed-4552-a5cb-b5d77e327282"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""38d491d1-36e8-48a5-ae61-83e0061dba37"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""e7c51961-6150-46b9-ab7b-4acab09c95df"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0250445d-3e80-48c3-b085-52c3805d51b0"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""37030ba3-4fb5-4a26-a490-80c660309faa"",
+                    ""path"": ""<Keyboard>/backspace"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""878e9c55-7c93-4c00-8561-a0363e0a4b15"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5d876c0e-dcf3-4152-9786-3a4a1b1371fd"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""53691b87-2c29-459f-a477-8db3895a558b"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3becb477-badd-4eed-b81c-1fd843391c4d"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""179b0691-19f8-4ed0-acbf-54599def0336"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0e60b744-d4f9-42a7-90bc-8e5ac182de75"",
+                    ""path"": ""<Gamepad>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fcca9bd9-9492-44b3-82df-a66785a7b7d8"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d85eb793-0abd-46ed-ba4b-df75e35a42ca"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""af18261b-a917-4c7f-a150-a040d91a1655"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d4c41a27-4d0b-4778-b6b3-23c5bb7bf6ec"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9f32d7a5-0cdb-4809-8e24-34b1a0198bae"",
+                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""605d06c9-d69c-433a-99a2-167498576b3f"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""24380a35-d8a8-46c2-90ac-22e73dfcede9"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7018cab7-07d8-447b-b253-0b163afdfea6"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0f32259f-ad13-45b4-9fe1-99cc8567cce6"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d4131f7e-2909-460b-9beb-9480e04a3b2e"",
+                    ""path"": ""<Gamepad>/rightStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5655c6e9-7400-4cd3-aebb-189938d07a1a"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e14efc69-182c-4d22-a42e-fa84a1ee9d09"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""942fb11b-9f83-49ab-ac24-b0c473e2ccfe"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f91619a1-13ef-4d16-803e-ab8178d451f1"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e2f5eb5d-aeee-4a75-ac87-d4162d863afa"",
+                    ""path"": ""<Gamepad>/rightStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -554,8 +849,15 @@ namespace MyScripts.Common
             m_InGame = asset.FindActionMap("InGame", throwIfNotFound: true);
             m_InGame_Submit = m_InGame.FindAction("Submit", throwIfNotFound: true);
             m_InGame_Cancel = m_InGame.FindAction("Cancel", throwIfNotFound: true);
-            m_InGame_LeaveAnimal = m_InGame.FindAction("LeaveAnimal", throwIfNotFound: true);
-            m_InGame_TriggerPause = m_InGame.FindAction("TriggerPause", throwIfNotFound: true);
+            m_InGame_Escape = m_InGame.FindAction("Escape", throwIfNotFound: true);
+            // OutGame
+            m_OutGame = asset.FindActionMap("OutGame", throwIfNotFound: true);
+            m_OutGame_Submit = m_OutGame.FindAction("Submit", throwIfNotFound: true);
+            m_OutGame_Cancel = m_OutGame.FindAction("Cancel", throwIfNotFound: true);
+            m_OutGame_MoveLeft = m_OutGame.FindAction("MoveLeft", throwIfNotFound: true);
+            m_OutGame_MoveRight = m_OutGame.FindAction("MoveRight", throwIfNotFound: true);
+            m_OutGame_MoveDown = m_OutGame.FindAction("MoveDown", throwIfNotFound: true);
+            m_OutGame_MoveUp = m_OutGame.FindAction("MoveUp", throwIfNotFound: true);
             // Debug
             m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
             m_Debug_FastenMoveSpeed = m_Debug.FindAction("FastenMoveSpeed", throwIfNotFound: true);
@@ -568,6 +870,7 @@ namespace MyScripts.Common
         {
             UnityEngine.Debug.Assert(!m_PlayerControl.enabled, "This will cause a leak and performance issues, MyActions.PlayerControl.Disable() has not been called.");
             UnityEngine.Debug.Assert(!m_InGame.enabled, "This will cause a leak and performance issues, MyActions.InGame.Disable() has not been called.");
+            UnityEngine.Debug.Assert(!m_OutGame.enabled, "This will cause a leak and performance issues, MyActions.OutGame.Disable() has not been called.");
             UnityEngine.Debug.Assert(!m_Debug.enabled, "This will cause a leak and performance issues, MyActions.Debug.Disable() has not been called.");
         }
 
@@ -775,8 +1078,7 @@ namespace MyScripts.Common
         private List<IInGameActions> m_InGameActionsCallbackInterfaces = new List<IInGameActions>();
         private readonly InputAction m_InGame_Submit;
         private readonly InputAction m_InGame_Cancel;
-        private readonly InputAction m_InGame_LeaveAnimal;
-        private readonly InputAction m_InGame_TriggerPause;
+        private readonly InputAction m_InGame_Escape;
         /// <summary>
         /// Provides access to input actions defined in input action map "InGame".
         /// </summary>
@@ -797,13 +1099,9 @@ namespace MyScripts.Common
             /// </summary>
             public InputAction @Cancel => m_Wrapper.m_InGame_Cancel;
             /// <summary>
-            /// Provides access to the underlying input action "InGame/LeaveAnimal".
+            /// Provides access to the underlying input action "InGame/Escape".
             /// </summary>
-            public InputAction @LeaveAnimal => m_Wrapper.m_InGame_LeaveAnimal;
-            /// <summary>
-            /// Provides access to the underlying input action "InGame/TriggerPause".
-            /// </summary>
-            public InputAction @TriggerPause => m_Wrapper.m_InGame_TriggerPause;
+            public InputAction @Escape => m_Wrapper.m_InGame_Escape;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -836,12 +1134,9 @@ namespace MyScripts.Common
                 @Cancel.started += instance.OnCancel;
                 @Cancel.performed += instance.OnCancel;
                 @Cancel.canceled += instance.OnCancel;
-                @LeaveAnimal.started += instance.OnLeaveAnimal;
-                @LeaveAnimal.performed += instance.OnLeaveAnimal;
-                @LeaveAnimal.canceled += instance.OnLeaveAnimal;
-                @TriggerPause.started += instance.OnTriggerPause;
-                @TriggerPause.performed += instance.OnTriggerPause;
-                @TriggerPause.canceled += instance.OnTriggerPause;
+                @Escape.started += instance.OnEscape;
+                @Escape.performed += instance.OnEscape;
+                @Escape.canceled += instance.OnEscape;
             }
 
             /// <summary>
@@ -859,12 +1154,9 @@ namespace MyScripts.Common
                 @Cancel.started -= instance.OnCancel;
                 @Cancel.performed -= instance.OnCancel;
                 @Cancel.canceled -= instance.OnCancel;
-                @LeaveAnimal.started -= instance.OnLeaveAnimal;
-                @LeaveAnimal.performed -= instance.OnLeaveAnimal;
-                @LeaveAnimal.canceled -= instance.OnLeaveAnimal;
-                @TriggerPause.started -= instance.OnTriggerPause;
-                @TriggerPause.performed -= instance.OnTriggerPause;
-                @TriggerPause.canceled -= instance.OnTriggerPause;
+                @Escape.started -= instance.OnEscape;
+                @Escape.performed -= instance.OnEscape;
+                @Escape.canceled -= instance.OnEscape;
             }
 
             /// <summary>
@@ -898,6 +1190,157 @@ namespace MyScripts.Common
         /// Provides a new <see cref="InGameActions" /> instance referencing this action map.
         /// </summary>
         public InGameActions @InGame => new InGameActions(this);
+
+        // OutGame
+        private readonly InputActionMap m_OutGame;
+        private List<IOutGameActions> m_OutGameActionsCallbackInterfaces = new List<IOutGameActions>();
+        private readonly InputAction m_OutGame_Submit;
+        private readonly InputAction m_OutGame_Cancel;
+        private readonly InputAction m_OutGame_MoveLeft;
+        private readonly InputAction m_OutGame_MoveRight;
+        private readonly InputAction m_OutGame_MoveDown;
+        private readonly InputAction m_OutGame_MoveUp;
+        /// <summary>
+        /// Provides access to input actions defined in input action map "OutGame".
+        /// </summary>
+        public struct OutGameActions
+        {
+            private @MyActions m_Wrapper;
+
+            /// <summary>
+            /// Construct a new instance of the input action map wrapper class.
+            /// </summary>
+            public OutGameActions(@MyActions wrapper) { m_Wrapper = wrapper; }
+            /// <summary>
+            /// Provides access to the underlying input action "OutGame/Submit".
+            /// </summary>
+            public InputAction @Submit => m_Wrapper.m_OutGame_Submit;
+            /// <summary>
+            /// Provides access to the underlying input action "OutGame/Cancel".
+            /// </summary>
+            public InputAction @Cancel => m_Wrapper.m_OutGame_Cancel;
+            /// <summary>
+            /// Provides access to the underlying input action "OutGame/MoveLeft".
+            /// </summary>
+            public InputAction @MoveLeft => m_Wrapper.m_OutGame_MoveLeft;
+            /// <summary>
+            /// Provides access to the underlying input action "OutGame/MoveRight".
+            /// </summary>
+            public InputAction @MoveRight => m_Wrapper.m_OutGame_MoveRight;
+            /// <summary>
+            /// Provides access to the underlying input action "OutGame/MoveDown".
+            /// </summary>
+            public InputAction @MoveDown => m_Wrapper.m_OutGame_MoveDown;
+            /// <summary>
+            /// Provides access to the underlying input action "OutGame/MoveUp".
+            /// </summary>
+            public InputAction @MoveUp => m_Wrapper.m_OutGame_MoveUp;
+            /// <summary>
+            /// Provides access to the underlying input action map instance.
+            /// </summary>
+            public InputActionMap Get() { return m_Wrapper.m_OutGame; }
+            /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+            public void Enable() { Get().Enable(); }
+            /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+            public void Disable() { Get().Disable(); }
+            /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+            public bool enabled => Get().enabled;
+            /// <summary>
+            /// Implicitly converts an <see ref="OutGameActions" /> to an <see ref="InputActionMap" /> instance.
+            /// </summary>
+            public static implicit operator InputActionMap(OutGameActions set) { return set.Get(); }
+            /// <summary>
+            /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+            /// </summary>
+            /// <param name="instance">Callback instance.</param>
+            /// <remarks>
+            /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+            /// </remarks>
+            /// <seealso cref="OutGameActions" />
+            public void AddCallbacks(IOutGameActions instance)
+            {
+                if (instance == null || m_Wrapper.m_OutGameActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_OutGameActionsCallbackInterfaces.Add(instance);
+                @Submit.started += instance.OnSubmit;
+                @Submit.performed += instance.OnSubmit;
+                @Submit.canceled += instance.OnSubmit;
+                @Cancel.started += instance.OnCancel;
+                @Cancel.performed += instance.OnCancel;
+                @Cancel.canceled += instance.OnCancel;
+                @MoveLeft.started += instance.OnMoveLeft;
+                @MoveLeft.performed += instance.OnMoveLeft;
+                @MoveLeft.canceled += instance.OnMoveLeft;
+                @MoveRight.started += instance.OnMoveRight;
+                @MoveRight.performed += instance.OnMoveRight;
+                @MoveRight.canceled += instance.OnMoveRight;
+                @MoveDown.started += instance.OnMoveDown;
+                @MoveDown.performed += instance.OnMoveDown;
+                @MoveDown.canceled += instance.OnMoveDown;
+                @MoveUp.started += instance.OnMoveUp;
+                @MoveUp.performed += instance.OnMoveUp;
+                @MoveUp.canceled += instance.OnMoveUp;
+            }
+
+            /// <summary>
+            /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+            /// </summary>
+            /// <remarks>
+            /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+            /// </remarks>
+            /// <seealso cref="OutGameActions" />
+            private void UnregisterCallbacks(IOutGameActions instance)
+            {
+                @Submit.started -= instance.OnSubmit;
+                @Submit.performed -= instance.OnSubmit;
+                @Submit.canceled -= instance.OnSubmit;
+                @Cancel.started -= instance.OnCancel;
+                @Cancel.performed -= instance.OnCancel;
+                @Cancel.canceled -= instance.OnCancel;
+                @MoveLeft.started -= instance.OnMoveLeft;
+                @MoveLeft.performed -= instance.OnMoveLeft;
+                @MoveLeft.canceled -= instance.OnMoveLeft;
+                @MoveRight.started -= instance.OnMoveRight;
+                @MoveRight.performed -= instance.OnMoveRight;
+                @MoveRight.canceled -= instance.OnMoveRight;
+                @MoveDown.started -= instance.OnMoveDown;
+                @MoveDown.performed -= instance.OnMoveDown;
+                @MoveDown.canceled -= instance.OnMoveDown;
+                @MoveUp.started -= instance.OnMoveUp;
+                @MoveUp.performed -= instance.OnMoveUp;
+                @MoveUp.canceled -= instance.OnMoveUp;
+            }
+
+            /// <summary>
+            /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="OutGameActions.UnregisterCallbacks(IOutGameActions)" />.
+            /// </summary>
+            /// <seealso cref="OutGameActions.UnregisterCallbacks(IOutGameActions)" />
+            public void RemoveCallbacks(IOutGameActions instance)
+            {
+                if (m_Wrapper.m_OutGameActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            /// <summary>
+            /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+            /// </summary>
+            /// <remarks>
+            /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+            /// </remarks>
+            /// <seealso cref="OutGameActions.AddCallbacks(IOutGameActions)" />
+            /// <seealso cref="OutGameActions.RemoveCallbacks(IOutGameActions)" />
+            /// <seealso cref="OutGameActions.UnregisterCallbacks(IOutGameActions)" />
+            public void SetCallbacks(IOutGameActions instance)
+            {
+                foreach (var item in m_Wrapper.m_OutGameActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_OutGameActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        /// <summary>
+        /// Provides a new <see cref="OutGameActions" /> instance referencing this action map.
+        /// </summary>
+        public OutGameActions @OutGame => new OutGameActions(this);
 
         // Debug
         private readonly InputActionMap m_Debug;
@@ -1085,19 +1528,62 @@ namespace MyScripts.Common
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnCancel(InputAction.CallbackContext context);
             /// <summary>
-            /// Method invoked when associated input action "LeaveAnimal" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// Method invoked when associated input action "Escape" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
             /// </summary>
             /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-            void OnLeaveAnimal(InputAction.CallbackContext context);
+            void OnEscape(InputAction.CallbackContext context);
+        }
+        /// <summary>
+        /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "OutGame" which allows adding and removing callbacks.
+        /// </summary>
+        /// <seealso cref="OutGameActions.AddCallbacks(IOutGameActions)" />
+        /// <seealso cref="OutGameActions.RemoveCallbacks(IOutGameActions)" />
+        public interface IOutGameActions
+        {
             /// <summary>
-            /// Method invoked when associated input action "TriggerPause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// Method invoked when associated input action "Submit" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
             /// </summary>
             /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-            void OnTriggerPause(InputAction.CallbackContext context);
+            void OnSubmit(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Cancel" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnCancel(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "MoveLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnMoveLeft(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "MoveRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnMoveRight(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "MoveDown" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnMoveDown(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "MoveUp" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnMoveUp(InputAction.CallbackContext context);
         }
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Debug" which allows adding and removing callbacks.

@@ -12,17 +12,17 @@ namespace MyScripts.Runtime
 
         private void Update()
         {
-            if (InputManager.DebugSetGraphicQualityLow.Bool)
+            if (InputManager.Debug.SetGraphicQualityLow)
             {
                 UpdateRPAsset(low);
                 UpdateText(text, "低");
             }
-            else if (InputManager.DebugSetGraphicQualityMedium.Bool)
+            else if (InputManager.Debug.SetGraphicQualityMedium)
             {
                 UpdateRPAsset(medium);
                 UpdateText(text, "中");
             }
-            else if (InputManager.DebugSetGraphicQualityHigh.Bool)
+            else if (InputManager.Debug.SetGraphicQualityHigh)
             {
                 UpdateRPAsset(high);
                 UpdateText(text, "高");

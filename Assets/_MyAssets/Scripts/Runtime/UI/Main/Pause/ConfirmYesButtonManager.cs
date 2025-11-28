@@ -3,7 +3,7 @@ namespace MyScripts.Runtime.UI.Main.Pause
     /// <summary>
     /// 確認UIの決定ボタンなので、ある種マネージャーみたいな役割も担う
     /// </summary>
-    internal sealed class ConfirmYesButtonManager : AButtonManager
+    internal sealed class ConfirmYesButtonManager : Button.AButtonManager
     {
         [SerializeField] private TextMeshProUGUI confirmLabelText;
 
@@ -26,6 +26,25 @@ namespace MyScripts.Runtime.UI.Main.Pause
                 InvokeAction.BackToDesktop => "ゲームを終了して\nデスクトップに戻りますか？",
                 _ => throw new ArgumentOutOfRangeException(nameof(invokeAction), invokeAction, null),
             };
+        }
+
+        private void Update()
+        {
+            if (UIActivationManager.Instance.Front == UIActivationManager.UI.OnPauseConfirm && InputManager.OutGame.Submit)
+            {
+                if (invokeAction == InvokeAction.BackToTitle && LoadManager.Instance.HasBegun == false)
+                {
+                    InputManager.OutGame.MakeSubmitInputDisabledUntilNextFrame();
+                    base.PlayClickSe();
+                    this.OnClickSucceeded();
+                }
+                else /* invokeAction == InvokeAction.BackToDesktop && */ if (GameQuitter.HasInvoked == false)
+                {
+                    InputManager.OutGame.MakeSubmitInputDisabledUntilNextFrame();
+                    base.PlayClickSe();
+                    this.OnClickSucceeded();
+                }
+            }
         }
 
         private protected sealed override void OnClickSucceeded()
