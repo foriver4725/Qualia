@@ -4980,6 +4980,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6528506281132013957, guid: 632d2a54e470c5a4ba9597a95980c76b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6659155271985788199, guid: 632d2a54e470c5a4ba9597a95980c76b, type: 3}
       propertyPath: m_Name
       value: SelectFrameUI
