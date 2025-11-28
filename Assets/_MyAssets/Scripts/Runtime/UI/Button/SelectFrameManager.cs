@@ -4,8 +4,32 @@ namespace MyScripts.Runtime.UI.Button
     {
         [SerializeField] private Image image;
 
-        internal void SetActive(bool value) => image.gameObject.SetActive(value);
-        internal void SetPosition(Vector2 position) => image.rectTransform.anchoredPosition = position;
-        internal void SetScale(Vector2 scale) => image.rectTransform.sizeDelta = scale;
+        private bool isSelectingAny = false;
+
+        /// <summary>
+        /// 何も選択していない状態にする
+        /// </summary>
+        internal void Deselect()
+        {
+            if (!isSelectingAny) return;
+            isSelectingAny = false;
+
+            image.gameObject.SetActive(false);
+        }
+
+        /// <summary>
+        /// 指定したボタンを新たに選択する
+        /// </summary>
+        internal void Reselect(AButtonManager button, float padding = 20.0f)
+        {
+            if (!isSelectingAny)
+            {
+                isSelectingAny = true;
+                image.gameObject.SetActive(true);
+            }
+
+            image.rectTransform.anchoredPosition = button.Position;
+            image.rectTransform.sizeDelta = button.Size + new Vector2(padding, padding) * 2.0f;
+        }
     }
 }
