@@ -4094,7 +4094,7 @@ MonoBehaviour:
   left: {fileID: 0}
   right: {fileID: 0}
   down: {fileID: 0}
-  up: {fileID: 0}
+  up: {fileID: 1320726220}
   isOnlySelectedAtFirst: 0
   fontSize: 90
   confirmYesButtonManager: {fileID: 156834168}
@@ -4229,7 +4229,7 @@ MonoBehaviour:
   soundPlayer: {fileID: 457859214}
   left: {fileID: 0}
   right: {fileID: 0}
-  down: {fileID: 0}
+  down: {fileID: 1320726220}
   up: {fileID: 0}
   isOnlySelectedAtFirst: 1
   pauseInvoker: {fileID: 196192313}
@@ -8263,8 +8263,8 @@ MonoBehaviour:
   soundPlayer: {fileID: 457859214}
   left: {fileID: 0}
   right: {fileID: 0}
-  down: {fileID: 0}
-  up: {fileID: 0}
+  down: {fileID: 632719253}
+  up: {fileID: 636994049}
   isOnlySelectedAtFirst: 0
   fontSize: 90
   confirmYesButtonManager: {fileID: 156834168}
