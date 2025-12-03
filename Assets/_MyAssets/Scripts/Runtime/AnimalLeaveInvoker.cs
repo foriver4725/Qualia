@@ -8,6 +8,8 @@ namespace MyScripts.Runtime
 
         // 現在憑依中かどうか
         internal bool IsPossessing => possessingCharacter != null;
+        // 憑依中のキャラクターの種類 (憑依していないなら None)
+        internal CharacterType PossessingCharacterType => (possessingCharacter != null) ? possessingCharacter.CharacterType : CharacterType.None;
 
         private void Awake()
         {

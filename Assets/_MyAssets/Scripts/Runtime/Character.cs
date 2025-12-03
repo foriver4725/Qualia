@@ -4,6 +4,7 @@ namespace MyScripts.Runtime
 {
     internal enum CharacterType : byte
     {
+        None, // 憑依していない状態を表すことが出来る
         Horse,
         Shellfish,
     }

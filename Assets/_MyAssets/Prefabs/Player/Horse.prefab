@@ -9,6 +9,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2510057862384921603, guid: 4df05c6b1fd9a4e4ba3298f9a9583471, type: 3}
+      propertyPath: characterType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2510057862384921603, guid: 4df05c6b1fd9a4e4ba3298f9a9583471, type: 3}
       propertyPath: possessableLimitSOSSignLeftRatio
       value: 100
       objectReference: {fileID: 0}

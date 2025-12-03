@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2510057862384921603, guid: 4df05c6b1fd9a4e4ba3298f9a9583471, type: 3}
       propertyPath: characterType
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2510057862384921603, guid: 4df05c6b1fd9a4e4ba3298f9a9583471, type: 3}
       propertyPath: TMP_doesLikePlayer
