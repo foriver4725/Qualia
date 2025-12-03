@@ -13,16 +13,6 @@ MonoBehaviour:
   m_Name: _ButtonColorSettings
   m_EditorClassIdentifier: 
   normal:
-    textNormal: {r: 1, g: 1, b: 1, a: 0}
-    textHovered: {r: 1, g: 0.7764706, b: 0.7764706, a: 0}
-    textClicked: {r: 1, g: 0, b: 0, a: 0}
-    backgroundNormal: {r: 0.019607844, g: 0.65882355, b: 0.99607843, a: 0}
-    backgroundHovered: {r: 0.019607844, g: 0.4862745, b: 0.99607843, a: 0}
-    backgroundClicked: {r: 0, g: 0, b: 1, a: 0}
-  notice:
-    textNormal: {r: 1, g: 1, b: 1, a: 0}
-    textHovered: {r: 0.7764706, g: 0.8666667, b: 1, a: 0}
-    textClicked: {r: 0, g: 0, b: 1, a: 0}
-    backgroundNormal: {r: 1, g: 0.6156863, b: 0, a: 0}
-    backgroundHovered: {r: 1, g: 0.41568628, b: 0, a: 0}
-    backgroundClicked: {r: 1, g: 0, b: 0, a: 0}
+    spriteDefault: {fileID: 21300000, guid: 94d1493bbccb1b441909b08204a6c9cb, type: 3}
+    spriteHovered: {fileID: 21300000, guid: a2af43cab1b741c4fb54a65477a2808b, type: 3}
+    spriteClicked: {fileID: 21300000, guid: a2af43cab1b741c4fb54a65477a2808b, type: 3}

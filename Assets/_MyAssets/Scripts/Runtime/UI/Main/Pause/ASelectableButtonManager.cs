@@ -31,7 +31,17 @@ namespace MyScripts.Runtime.UI.Main.Pause
         {
             if (UIActivationManager.Instance.Front == LocatedUI)
             {
-                if (InputManager.OutGame.MoveDown)
+                if (InputManager.OutGame.MoveLeft)
+                {
+                    if (TrySelectLeft())
+                        InputManager.OutGame.MakeMoveLeftInputDisabledUntilNextFrame();
+                }
+                else if (InputManager.OutGame.MoveRight)
+                {
+                    if (TrySelectRight())
+                        InputManager.OutGame.MakeMoveRightInputDisabledUntilNextFrame();
+                }
+                else if (InputManager.OutGame.MoveDown)
                 {
                     if (TrySelectDown())
                         InputManager.OutGame.MakeMoveDownInputDisabledUntilNextFrame();
