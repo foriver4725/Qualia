@@ -25,7 +25,6 @@ namespace MyScripts.Runtime
         [SerializeField] private new Transform transform;
         [SerializeField] private new Collider collider;
         [Space(10)]
-        [SerializeField] private Renderer defaultRenderer;
         [SerializeField] private Renderer horseRenderer;
         [SerializeField] private Renderer shellfishRenderer;
         [Space(10)]
@@ -42,9 +41,8 @@ namespace MyScripts.Runtime
         internal CharacterType CharacterType => characterType;
         internal Behaviour NameText => nameText;
 
-        internal void UpdateModel(CharacterType type, bool useDefaultModelIfNone = false)
+        internal void UpdateModel(CharacterType type)
         {
-            defaultRenderer.enabled = (type == CharacterType.None && useDefaultModelIfNone);
             horseRenderer.enabled = (type == CharacterType.Horse);
             shellfishRenderer.enabled = (type == CharacterType.Shellfish);
         }
@@ -66,7 +64,7 @@ namespace MyScripts.Runtime
                 _ => throw new ArgumentOutOfRangeException(nameof(characterType), characterType, null)
             };
 
-            UpdateModel(characterType, useDefaultModelIfNone: true);
+            UpdateModel(characterType);
 
             // 憑依
             collider.OnTriggerEnterAsObservable()
