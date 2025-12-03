@@ -26,6 +26,7 @@ namespace MyScripts.Runtime
 
 		[Header("Player Control")]
 		[SerializeField] private CharacterController controller;
+		[SerializeField] private AnimalLeaveInvoker animalLeaveInvoker;
 		[SerializeField] private CameraFOVManager cameraFOVManager;
 		[SerializeField] private PlayerControlSoundPlayer soundPlayer;
 		[SerializeField] private Transform cinemachineCameraTarget;
@@ -51,6 +52,7 @@ namespace MyScripts.Runtime
 		private bool isSprinting = false;
 		private bool isDoingInertiaJump = false;
 		private bool onInertiaJumpCt = false;
+		private Vector3 previousFramePosition = Vector3.zero; // 直前フレームの位置を記録して、戻せるようにする
 
 		// timeout deltatime
 		// Awake で初期化
@@ -169,6 +171,7 @@ namespace MyScripts.Runtime
 			UpdateFOVsSprintMode();
 			UpdateWalkSound();
 
+			RecordPreviousFramePosition();
 			SetMyPropertiesToData();
 		}
 
@@ -448,13 +451,33 @@ namespace MyScripts.Runtime
 			}
 		}
 
+		// 不正な場所にいる時、初期位置に戻す or 直前フレームの位置に戻す
 		private void TeleportBackWhenInvalidPosition()
 		{
+			// ゲーム世界の範囲外か?
+			// 初期位置に戻す
 			if (controller.transform.position is
 			{ x: < -1600 or > 1600 } or
 			{ y: < -50 or > 500 } or
 			{ z: < -1600 or > 1600 })
 				controller.transform.position = teleportBackPoint.position;
+
+			// 貝に憑依していない時、水の中に入っていないか?
+			// 直前フレームの位置に戻す (XZだけ、Yはそのまま)
+			// 水の中にいる判定は、水の足音ボーダーを使う
+			if (animalLeaveInvoker.PossessingCharacterType != CharacterType.Shellfish)
+			{
+				if (IsPlayerInsideOfAnyBorder(
+					walkSoundBorders[SWalkSound.Surface.Water],
+					controller.transform.position,
+					BorderLayer.WalkSound.Get(SWalkSound.Surface.Water)
+				))
+					controller.transform.position = new(
+						previousFramePosition.x,
+						controller.transform.position.y,
+						previousFramePosition.z
+					);
+			}
 		}
 
 		private void UpdateFOVsSprintMode()
@@ -474,6 +497,11 @@ namespace MyScripts.Runtime
 
 			var surface = GetSurfaceUnderfoot();
 			walkSoundPlayer.LetPlay(surface, new() { IsSprinting = isSprinting });
+		}
+
+		private void RecordPreviousFramePosition()
+		{
+			previousFramePosition = controller.transform.position;
 		}
 
 		private SWalkSound.Surface GetSurfaceUnderfoot()

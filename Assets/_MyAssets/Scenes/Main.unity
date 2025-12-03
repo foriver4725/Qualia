@@ -13273,6 +13273,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1395476145}
     - target: {fileID: 8645547747250865677, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
+    - target: {fileID: 8645547747250865677, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
       propertyPath: walkSoundUpdateInterval
       value: 4
       objectReference: {fileID: 0}
