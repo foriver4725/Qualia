@@ -16,7 +16,6 @@ namespace MyScripts.Runtime
 
         // Awake で初期化
         private SSOSSignLogText sosSignLogText;
-        private int totalSOSSignCount;
         private int leftSOSSignCount = -1;
         private Collider[] sosSigns; // コライダーはルートに付いている
 
@@ -27,7 +26,7 @@ namespace MyScripts.Runtime
             Span<bool> foundSOSSigns = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasFoundSOSSigns.AsSpan();
 
             int activeCount = 0;
-            for (int i = 0; i < totalSOSSignCount; i++)
+            for (int i = 0; i < Constants.SOSSignCount; i++)
             {
                 if (!foundSOSSigns[i])
                 {
@@ -48,7 +47,7 @@ namespace MyScripts.Runtime
             Span<bool> foundSOSSigns = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasFoundSOSSigns.AsSpan();
 
             int activeCount = 0;
-            for (int i = 0; i < totalSOSSignCount; i++)
+            for (int i = 0; i < Constants.SOSSignCount; i++)
             {
                 if (sosSigns[i].gameObject.activeSelf)
                 {
@@ -69,25 +68,14 @@ namespace MyScripts.Runtime
         private void Awake()
         {
             sosSignLogText = InGameSOHolder.Instance.SOSSignLogText;
-            // totalSOSSignCount = InGameSOHolder.Instance.GameRule.SOSSignCount;
-            totalSOSSignCount = Mathf.Min(InGameSOHolder.Instance.GameRule.SOSSignCount, pointRoot.childCount); // 暫定処理
-#if UNITY_EDITOR
-            // Assert.IsTrue(pointRoot.childCount == totalSOSSignCount);
-            """
-            配置箇所の数が規定値と一致しているか、ここでAssertするべきです。
-            しかし、現在は機能が実装途中のため、このAssertは一旦無効化しています。
-            """
-            .Print(LogSettings.Warning);
-#else
-#error "ここの処理が未完成です。このままリリースするべきではありません。"
-#endif
+            Assert.IsTrue(Constants.SOSSignCount == pointRoot.childCount);
 
-            sosSigns = new Collider[totalSOSSignCount];
-            RandomlyInstantiateAndPlace(totalSOSSignCount, sosSigns);
+            sosSigns = new Collider[Constants.SOSSignCount];
+            RandomlyInstantiateAndPlace(Constants.SOSSignCount, sosSigns);
 
             GetDataAndUpdateMyProperties();
 
-            UpdateSOSSignLeftRatioText(sosSignLeftRatioText, leftSOSSignCount, totalSOSSignCount);
+            UpdateSOSSignLeftRatioText(sosSignLeftRatioText, leftSOSSignCount, Constants.SOSSignCount);
             Setup(sosSigns);
         }
 
@@ -130,7 +118,7 @@ namespace MyScripts.Runtime
                                 selfCollider.gameObject.SetActive(false);
                                 {
                                     leftSOSSignCount--;
-                                    UpdateSOSSignLeftRatioText(sosSignLeftRatioText, leftSOSSignCount, totalSOSSignCount);
+                                    UpdateSOSSignLeftRatioText(sosSignLeftRatioText, leftSOSSignCount, Constants.SOSSignCount);
 
                                     // このタイミングで、セーブデータに反映しておく
                                     SetMyPropertiesToData();
