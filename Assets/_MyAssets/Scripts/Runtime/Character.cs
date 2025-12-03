@@ -42,9 +42,9 @@ namespace MyScripts.Runtime
         internal CharacterType CharacterType => characterType;
         internal Behaviour NameText => nameText;
 
-        internal void UpdateModel(CharacterType type)
+        internal void UpdateModel(CharacterType type, bool useDefaultModelIfNone = false)
         {
-            defaultRenderer.enabled = (type == CharacterType.None);
+            defaultRenderer.enabled = (type == CharacterType.None && useDefaultModelIfNone);
             horseRenderer.enabled = (type == CharacterType.Horse);
             shellfishRenderer.enabled = (type == CharacterType.Shellfish);
         }
@@ -66,7 +66,7 @@ namespace MyScripts.Runtime
                 _ => throw new ArgumentOutOfRangeException(nameof(characterType), characterType, null)
             };
 
-            UpdateModel(characterType);
+            UpdateModel(characterType, useDefaultModelIfNone: true);
 
             // 憑依
             collider.OnTriggerEnterAsObservable()
