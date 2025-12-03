@@ -100,6 +100,7 @@ namespace MyScripts.Runtime
 		#region Public Methods and Properties
 
 		internal Collider Collider => controller;
+		internal bool IsGrounded => isGrounded;
 
 		internal void Teleport(Vector3 position, Vector3 forward)
 		{

@@ -1,8 +1,11 @@
+using MyScripts.Runtime.Log;
+
 namespace MyScripts.Runtime
 {
     internal sealed class AnimalLeaveInvoker : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI displayText;
+        [SerializeField] private PlayerController pc; // 地面に設置していないと離脱できないので、それを取得するためだけの参照 (循環参照だけど...)
 
         private Character possessingCharacter = null;
 
@@ -50,6 +53,13 @@ namespace MyScripts.Runtime
             if (possessingCharacter == null)
             {
                 "憑依中のキャラクターがありません。".Print(LogSettings.Error);
+                return;
+            }
+
+            // 地面に設置していないとダメ
+            if (!pc.IsGrounded)
+            {
+                LogManager2.Instance.ShowAutomatically("地面に設置していないと、離脱できません", duration: 1.0f, fadeoutDuration: 0.5f);
                 return;
             }
 
