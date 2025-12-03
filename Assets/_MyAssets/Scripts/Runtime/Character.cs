@@ -70,32 +70,53 @@ namespace MyScripts.Runtime
                     )
                 )
                 .Where(static param => ReferenceEquals(param.OtherCollider, param.PlayerController.Collider))
-                .Where(static param => !param.PossessInvoker.IsPossessing)
                 .SubscribeAwait(static async (param, ct) =>
                 {
-                    // SOSサインの残り度が一定以下なら、憑依可能
-                    if (CalculateCurrentSOSSignLeftRatio() * 100.0f <= param.PossessableLimit)
+                    if (!param.PossessInvoker.IsPossessing)
                     {
-                        LogManager.Instance.ShowManually("左クリックで憑依");
-
-                        if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider, ct) == true)
+                        // SOSサインの残り度が一定以下なら、憑依可能
+                        if (CalculateCurrentSOSSignLeftRatio() * 100.0f <= param.PossessableLimit)
                         {
-                            // 憑依する
-                            param.PossessInvoker.PossessCharacter(param.PlayerController, param.This);
+                            LogManager.Instance.ShowManually("左クリックで憑依");
 
-                            LogManager.Instance.ShowManually(string.Empty);
-                            LogManager.Instance.ShowAutomatically("憑依した");
+                            if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider, ct) == true)
+                            {
+                                // 憑依する
+                                param.PossessInvoker.PossessCharacter(param.PlayerController, param.This);
 
-                            param.SoundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
+                                LogManager.Instance.ShowManually(string.Empty);
+                                LogManager.Instance.ShowAutomatically("憑依した");
+
+                                param.SoundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
+                            }
+                            else
+                            {
+                                LogManager.Instance.ShowManually(string.Empty);
+                            }
                         }
                         else
                         {
+                            LogManager.Instance.ShowManually("もっとSOSサインを取り除いてね!");
+
+                            while (true)
+                            {
+                                if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider, ct) == true)
+                                {
+                                    param.SoundPlayer.LetPlay(SSOSSound.Situation.CouldNotRemove);
+                                    continue;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+
                             LogManager.Instance.ShowManually(string.Empty);
                         }
                     }
                     else
                     {
-                        LogManager.Instance.ShowManually("もっとSOSサインを取り除いてね!");
+                        LogManager.Instance.ShowManually("憑依中は再度憑依できません");
 
                         while (true)
                         {
