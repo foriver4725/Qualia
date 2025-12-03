@@ -1404,11 +1404,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventTrigger: {fileID: 1352660797}
-  backgroundImage: {fileID: 1352660798}
-  text: {fileID: 1352660796}
-  displayText: "\u306F\u3044 (A)"
-  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
-  colorSettingsBehaviour: 1
+  image: {fileID: 1352660798}
+  sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 457859214}
   confirmLabelText: {fileID: 624981965}
@@ -3113,11 +3111,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventTrigger: {fileID: 1525848973}
-  backgroundImage: {fileID: 1525848972}
-  text: {fileID: 1525848971}
-  displayText: "\u3044\u3044\u3048 (B)"
-  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
-  colorSettingsBehaviour: 0
+  image: {fileID: 1525848972}
+  sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 457859214}
 --- !u!1 &486648491
@@ -4077,19 +4073,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventTrigger: {fileID: 1051256500}
-  backgroundImage: {fileID: 1051256499}
-  text: {fileID: 1051256498}
-  displayText: "\u30C7\u30B9\u30AF\u30C8\u30C3\u30D7\u306B\u623B\u308B"
-  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
-  colorSettingsBehaviour: 1
+  image: {fileID: 1051256499}
+  sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 457859214}
   left: {fileID: 0}
-  right: {fileID: 0}
+  right: {fileID: 1320726220}
   down: {fileID: 0}
-  up: {fileID: 1320726220}
+  up: {fileID: 636994049}
   isOnlySelectedAtFirst: 0
-  fontSize: 90
   confirmYesButtonManager: {fileID: 156834168}
 --- !u!1 &634230339
 GameObject:
@@ -4213,11 +4206,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventTrigger: {fileID: 953686726}
-  backgroundImage: {fileID: 953686727}
-  text: {fileID: 953686725}
-  displayText: "\u518D\u958B\u3059\u308B"
-  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
-  colorSettingsBehaviour: 0
+  image: {fileID: 953686727}
+  sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 457859214}
   left: {fileID: 0}
@@ -6023,10 +6014,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 900
       objectReference: {fileID: 0}
-    - target: {fileID: 3917549312973482166, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 900
-      objectReference: {fileID: 0}
     - target: {fileID: 4572354289211530162, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
       propertyPath: m_Name
       value: ResumeButton
@@ -6097,7 +6084,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 160
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6121,17 +6108,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
   m_PrefabInstance: {fileID: 953686723}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &953686725 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
-  m_PrefabInstance: {fileID: 953686723}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &953686726 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8451621099613409450, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
@@ -7138,11 +7114,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3917549312973482166, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 900
+      value: 384
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917549312973482166, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 384
       objectReference: {fileID: 0}
     - target: {fileID: 4572354289211530162, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
       propertyPath: m_Name
       value: BackToDesktopButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
+      propertyPath: m_fontSize
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
       propertyPath: m_Pivot.x
@@ -7206,11 +7194,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -360
       objectReference: {fileID: 0}
     - target: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -300
+      value: -240
       objectReference: {fileID: 0}
     - target: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -7234,17 +7222,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
   m_PrefabInstance: {fileID: 1051256496}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1051256498 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
-  m_PrefabInstance: {fileID: 1051256496}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1051256499 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2355952220133851959, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
@@ -8367,11 +8344,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3917549312973482166, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 900
+      value: 384
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917549312973482166, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 384
       objectReference: {fileID: 0}
     - target: {fileID: 4572354289211530162, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
       propertyPath: m_Name
       value: BackToTitleButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
+      propertyPath: m_fontSize
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
       propertyPath: m_Pivot.x
@@ -8435,11 +8424,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 360
       objectReference: {fileID: 0}
     - target: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -120
+      value: -240
       objectReference: {fileID: 0}
     - target: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -8463,17 +8452,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
   m_PrefabInstance: {fileID: 1317850032}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1317850034 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
-  m_PrefabInstance: {fileID: 1317850032}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1317850035 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8451621099613409450, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
@@ -8541,19 +8519,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventTrigger: {fileID: 1317850035}
-  backgroundImage: {fileID: 1317850036}
-  text: {fileID: 1317850034}
-  displayText: "\u30BF\u30A4\u30C8\u30EB\u306B\u623B\u308B"
-  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
-  colorSettingsBehaviour: 1
+  image: {fileID: 1317850036}
+  sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 457859214}
-  left: {fileID: 0}
+  left: {fileID: 632719253}
   right: {fileID: 0}
-  down: {fileID: 632719253}
+  down: {fileID: 0}
   up: {fileID: 636994049}
   isOnlySelectedAtFirst: 0
-  fontSize: 90
   confirmYesButtonManager: {fileID: 156834168}
 --- !u!1 &1341417392
 GameObject:
@@ -8707,17 +8682,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
   m_PrefabInstance: {fileID: 1352660794}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1352660796 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
-  m_PrefabInstance: {fileID: 1352660794}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1352660797 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8451621099613409450, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
@@ -10107,17 +10071,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
   m_PrefabInstance: {fileID: 1525848969}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1525848971 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
-  m_PrefabInstance: {fileID: 1525848969}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1525848972 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2355952220133851959, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}

@@ -12,10 +12,10 @@ namespace MyScripts.Common.Button
         [SerializeField] private EventTrigger eventTrigger;
         [SerializeField] private Image image;
 
-        [SerializeField] private Sprite defaultSprite;
-        [SerializeField] private Sprite hoveredSprite;
-        [SerializeField] private Sprite clickedSprite;
+        [SerializeField] private SButtonSpriteSettings sButtonSpriteSettings;
+        [SerializeField] private SButtonSpriteSettings.ButtonType spriteSettingsType;
 
+        private SpriteSettings spriteSettings;
         private Vector3 imageInitialScale;
 
         private enum AppearanceState : byte
@@ -38,10 +38,12 @@ namespace MyScripts.Common.Button
         {
             OnJustBeforeAwake();
 
+            spriteSettings = sButtonSpriteSettings.Get(spriteSettingsType);
+
             if (image != null)
             {
                 imageInitialScale = image.rectTransform.localScale;
-                image.sprite = defaultSprite;
+                image.sprite = spriteSettings.SpriteDefault;
             }
 
             if (eventTrigger != null)
@@ -65,7 +67,7 @@ namespace MyScripts.Common.Button
 
             if (image != null)
             {
-                image.sprite = defaultSprite;
+                image.sprite = spriteSettings.SpriteDefault;
                 image.rectTransform.localScale = imageInitialScale;
             }
 
@@ -164,10 +166,10 @@ namespace MyScripts.Common.Button
         {
             (Sprite sprite, float scaleCoef) = appearanceState switch
             {
-                AppearanceState.Default => (defaultSprite, 1.0f),
-                AppearanceState.BeingHovered => (hoveredSprite, 1.1f),
-                AppearanceState.BeingClicked => (clickedSprite, 1.0f),
-                _ => (defaultSprite, 1.0f)
+                AppearanceState.Default => (spriteSettings.SpriteDefault, 1.0f),
+                AppearanceState.BeingHovered => (spriteSettings.SpriteHovered, 1.1f),
+                AppearanceState.BeingClicked => (spriteSettings.SpriteClicked, 1.0f),
+                _ => (spriteSettings.SpriteDefault, 1.0f)
             };
 
             if (image != null)
@@ -233,6 +235,25 @@ namespace MyScripts.Common.Button
         // このスクリプトでやっていないプロパティ操作を行いたい場合に限る.
         private protected EventTrigger EventTrigger => eventTrigger;
         private protected Image Image => image;
+
+        private protected void UpdateSpriteSettings(SButtonSpriteSettings.ButtonType type)
+        {
+            spriteSettingsType = type;
+            spriteSettings = sButtonSpriteSettings.Get(spriteSettingsType);
+
+            // 見た目の更新
+            Sprite sprite = appearanceState switch
+            {
+                AppearanceState.Default => spriteSettings.SpriteDefault,
+                AppearanceState.BeingHovered => spriteSettings.SpriteHovered,
+                AppearanceState.BeingClicked => spriteSettings.SpriteClicked,
+                _ => spriteSettings.SpriteDefault
+            };
+            if (image != null)
+            {
+                image.sprite = sprite;
+            }
+        }
 
         #endregion
     }

@@ -1,6 +1,6 @@
 namespace MyScripts.Runtime.UI.Main.Pause
 {
-    internal sealed class BackToTitleButtonManager : ACustomFontSizedSelectableButtonManager
+    internal sealed class BackToTitleButtonManager : ASelectableButtonManager
     {
         [SerializeField] private ConfirmYesButtonManager confirmYesButtonManager;
 

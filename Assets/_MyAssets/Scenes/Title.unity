@@ -237,17 +237,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
   m_PrefabInstance: {fileID: 10762556}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &17451112 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
-  m_PrefabInstance: {fileID: 2031957351}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &24404438
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,11 +282,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventTrigger: {fileID: 1388633134}
-  backgroundImage: {fileID: 1388633135}
-  text: {fileID: 17451112}
-  displayText: "\u3044\u3044\u3048 (B)"
-  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
-  colorSettingsBehaviour: 0
+  image: {fileID: 1388633135}
+  sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
 --- !u!1 &39753576
@@ -345,11 +332,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventTrigger: {fileID: 1979927136}
-  backgroundImage: {fileID: 1979927137}
-  text: {fileID: 1087343562}
-  displayText: "\u3044\u3044\u3048 (B)"
-  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
-  colorSettingsBehaviour: 0
+  image: {fileID: 1979927137}
+  sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
 --- !u!1 &99709679
@@ -913,11 +898,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventTrigger: {fileID: 684799206}
-  backgroundImage: {fileID: 684799207}
-  text: {fileID: 684799205}
-  displayText: "\u30B9\u30ED\u30C3\u30C8C"
-  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
-  colorSettingsBehaviour: 0
+  image: {fileID: 684799207}
+  sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
   left: {fileID: 0}
@@ -1256,17 +1239,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
   m_PrefabInstance: {fileID: 411421642}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &411421644 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
-  m_PrefabInstance: {fileID: 411421642}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &411421645 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2355952220133851959, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
@@ -1407,17 +1379,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
   m_PrefabInstance: {fileID: 463565143}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &463565145 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
-  m_PrefabInstance: {fileID: 463565143}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &463565146 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2355952220133851959, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
@@ -1438,17 +1399,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &468372015 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
-  m_PrefabInstance: {fileID: 800463506}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &496388522
@@ -1569,17 +1519,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
   m_PrefabInstance: {fileID: 496388522}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &496388524 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
-  m_PrefabInstance: {fileID: 496388522}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &496388525 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2355952220133851959, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
@@ -1783,11 +1722,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventTrigger: {fileID: 1715790750}
-  backgroundImage: {fileID: 1715790751}
-  text: {fileID: 1715790749}
-  displayText: "\u30B9\u30ED\u30C3\u30C8B"
-  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
-  colorSettingsBehaviour: 0
+  image: {fileID: 1715790751}
+  sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
   left: {fileID: 0}
@@ -1915,17 +1852,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
   m_PrefabInstance: {fileID: 684799203}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &684799205 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
-  m_PrefabInstance: {fileID: 684799203}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &684799206 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8451621099613409450, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
@@ -2111,11 +2037,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventTrigger: {fileID: 463565147}
-  backgroundImage: {fileID: 463565146}
-  text: {fileID: 463565145}
-  displayText: "\u623B\u308B (B)"
-  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
-  colorSettingsBehaviour: 1
+  image: {fileID: 463565146}
+  sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
 --- !u!1001 &931534693
@@ -2127,8 +2051,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 1806547310}
     m_Modifications:
     - target: {fileID: 2355952220133851959, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2355952220133851959, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2355952220133851959, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
       propertyPath: m_Color.r
-      value: 0.019607835
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4572354289211530162, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
       propertyPath: m_Name
@@ -2240,17 +2172,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
   m_PrefabInstance: {fileID: 931534693}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &931534695 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
-  m_PrefabInstance: {fileID: 931534693}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &931534696 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2355952220133851959, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
@@ -2513,17 +2434,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
   m_PrefabInstance: {fileID: 1033298969}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1033298971 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
-  m_PrefabInstance: {fileID: 1033298969}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1033298972 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2355952220133851959, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
@@ -2666,11 +2576,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventTrigger: {fileID: 1740934484}
-  backgroundImage: {fileID: 1740934485}
-  text: {fileID: 1533664318}
-  displayText: "\u306F\u3044 (A)"
-  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
-  colorSettingsBehaviour: 1
+  image: {fileID: 1740934485}
+  sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
   labelText: {fileID: 295620621}
@@ -2719,11 +2627,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventTrigger: {fileID: 1353351256}
-  backgroundImage: {fileID: 1353351255}
-  text: {fileID: 1353351254}
-  displayText: "\u6700\u521D\u304B\u3089"
-  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
-  colorSettingsBehaviour: 0
+  image: {fileID: 1353351255}
+  sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
   left: {fileID: 1866887183}
@@ -2733,17 +2639,6 @@ MonoBehaviour:
   isOnlySelectedAtFirst: 0
   index: 0
   manager: {fileID: 222100968}
---- !u!114 &1087343562 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
-  m_PrefabInstance: {fileID: 10762556}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1095913419
 GameObject:
   m_ObjectHideFlags: 0
@@ -3327,17 +3222,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
   m_PrefabInstance: {fileID: 1353351252}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1353351254 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
-  m_PrefabInstance: {fileID: 1353351252}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1353351255 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2355952220133851959, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
@@ -3488,17 +3372,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 5
   m_TargetDisplay: 0
---- !u!114 &1533664318 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
-  m_PrefabInstance: {fileID: 1149176810}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1560753676
 GameObject:
   m_ObjectHideFlags: 0
@@ -3578,11 +3451,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventTrigger: {fileID: 1033298973}
-  backgroundImage: {fileID: 1033298972}
-  text: {fileID: 1033298971}
-  displayText: "\u7D9A\u304D\u304B\u3089"
-  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
-  colorSettingsBehaviour: 0
+  image: {fileID: 1033298972}
+  sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
   left: {fileID: 1866887183}
@@ -3637,11 +3508,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventTrigger: {fileID: 931534697}
-  backgroundImage: {fileID: 931534696}
-  text: {fileID: 931534695}
-  displayText: "\u30B9\u30BF\u30FC\u30C8 (A)"
-  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
-  colorSettingsBehaviour: 0
+  image: {fileID: 931534696}
+  sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
 --- !u!1 &1683951568
@@ -3841,17 +3710,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
   m_PrefabInstance: {fileID: 1715790747}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1715790749 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
-  m_PrefabInstance: {fileID: 1715790747}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1715790750 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8451621099613409450, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
@@ -4049,17 +3907,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6882634406955338455, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
   m_PrefabInstance: {fileID: 1738589295}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1738589297 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6067452517991899143, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
-  m_PrefabInstance: {fileID: 1738589295}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1738589298 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2355952220133851959, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
@@ -4290,11 +4137,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventTrigger: {fileID: 496388526}
-  backgroundImage: {fileID: 496388525}
-  text: {fileID: 496388524}
-  displayText: "\u7D42\u4E86 (B)"
-  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
-  colorSettingsBehaviour: 1
+  image: {fileID: 496388525}
+  sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
 --- !u!1 &1866887181
@@ -4342,11 +4187,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventTrigger: {fileID: 411421646}
-  backgroundImage: {fileID: 411421645}
-  text: {fileID: 411421644}
-  displayText: "\u30B9\u30ED\u30C3\u30C8A"
-  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
-  colorSettingsBehaviour: 0
+  image: {fileID: 411421645}
+  sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
   left: {fileID: 0}
@@ -4435,11 +4278,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventTrigger: {fileID: 1223747664}
-  backgroundImage: {fileID: 1223747665}
-  text: {fileID: 468372015}
-  displayText: "\u306F\u3044 (A)"
-  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
-  colorSettingsBehaviour: 1
+  image: {fileID: 1223747665}
+  sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
 --- !u!1 &1899594066
@@ -4487,11 +4328,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventTrigger: {fileID: 1738589299}
-  backgroundImage: {fileID: 1738589298}
-  text: {fileID: 1738589297}
-  displayText: "\u6C7A\u5B9A (A)"
-  sButtonColorSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
-  colorSettingsBehaviour: 1
+  image: {fileID: 1738589298}
+  sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
   manager: {fileID: 222100968}

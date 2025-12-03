@@ -2,7 +2,7 @@ using MyScripts.Common.Button;
 
 namespace MyScripts.Runtime.UI.Button
 {
-    internal abstract class AButtonManager : ATextButtonManager
+    internal abstract class AButtonManager : AImageButtonManager
     {
         [SerializeField] private SSoundSetting soundSetting;
         [SerializeField] private ButtonSoundPlayer soundPlayer;
@@ -17,7 +17,7 @@ namespace MyScripts.Runtime.UI.Button
                 if (!hasCachedPosition)
                 {
                     // どこから辿っても良いが、とにかくボタンのルートを取得して位置を算出する
-                    RectTransform parent = BackgroundImage.rectTransform.parent as RectTransform;
+                    RectTransform parent = Image.rectTransform.parent as RectTransform;
                     position = parent.anchoredPosition;
 
                     hasCachedPosition = true;
@@ -35,7 +35,7 @@ namespace MyScripts.Runtime.UI.Button
             {
                 if (!hasCachedSize)
                 {
-                    size = BackgroundImage.rectTransform.sizeDelta;
+                    size = Image.rectTransform.sizeDelta;
 
                     hasCachedSize = true;
                 }
