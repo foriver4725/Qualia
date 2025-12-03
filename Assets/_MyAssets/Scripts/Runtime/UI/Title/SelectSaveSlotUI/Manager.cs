@@ -74,11 +74,6 @@ namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
             if (slot.IsValid)
             {
                 // 穢れ度を計算する
-#if UNITY_EDITOR
-                "現在はSOSサインを規定数設置していないため、セーブスロットの表示はゲーム内の数値と異なります。".Print(LogSettings.Warning);
-#else
-#error "ここの実装が完了していません。リリースビルドを通すべきではありません。"
-#endif
                 int leftCount = 0;
                 foreach (bool hasFound in slot.HasFoundSOSSigns.AsSpan())
                 {
