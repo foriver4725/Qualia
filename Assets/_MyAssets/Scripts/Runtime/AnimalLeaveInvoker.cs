@@ -101,6 +101,7 @@ namespace MyScripts.Runtime
                 _ => possessingCharacter.CharacterType switch
                 {
                     CharacterType.Horse => "馬",
+                    CharacterType.Shellfish => "貝",
                     _ => "???",
                 },
             };
