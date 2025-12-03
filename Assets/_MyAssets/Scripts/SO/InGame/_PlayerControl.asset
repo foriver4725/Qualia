@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 6
   sprintSpeedMultiplier: 2
-  moveSpeedMultiplierWhenHorse: 1.5
+  moveSpeedMultiplierWhenHorse: 2
   moveAcceleration: 10
   nativeHorizontalVelocityAttenuationRateOnGround: 0.5
   nativeHorizontalVelocityAttenuationRateInAir: 0.02
