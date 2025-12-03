@@ -495,7 +495,7 @@ namespace MyScripts.Runtime
 					{
 						hasTriedToEnterWaterWhenNotShellfishForTheFirstTime = true;
 
-						LogManager2.Instance.ShowAutomatically("貝に憑依しないと、水の中には入れない");
+						LogManager2.Instance.ShowAutomatically("貝に憑依しないと、水の中には入れない", duration: 10.0f, fadeoutDuration: 2.0f);
 					}
 				}
 			}
