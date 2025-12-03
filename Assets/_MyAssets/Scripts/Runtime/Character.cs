@@ -100,7 +100,8 @@ namespace MyScripts.Runtime
                         }
                         else
                         {
-                            LogManager.Instance.ShowManually("もっとSOSサインを取り除いてね!");
+                            LogManager.Instance.ShowManually(
+                                ZString.Format("穢れ度が {0:F2}% 以下じゃないと\n憑依できないよ!", param.PossessableLimit));
 
                             while (true)
                             {
