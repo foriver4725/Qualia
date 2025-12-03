@@ -14,6 +14,10 @@ namespace MyScripts.Runtime
         // 憑依中のキャラクターの種類 (憑依していないなら None)
         internal CharacterType PossessingCharacterType => (possessingCharacter != null) ? possessingCharacter.CharacterType : CharacterType.None;
 
+        // 初めて馬に憑依したタイミングで true になり、以降二度と false にならない
+        // 馬になった時の能力強化を、一回だけログで知らせるために使う
+        private bool hasPossessedHorseForTheFirstTime = false;
+
         private void Awake()
         {
             UpdateDisplayText(displayText, possessingCharacter);
@@ -43,6 +47,13 @@ namespace MyScripts.Runtime
             pc.Teleport(character.transform.position, character.transform.forward);
 
             UpdateDisplayText(displayText, possessingCharacter);
+
+            if (character.CharacterType == CharacterType.Horse && !hasPossessedHorseForTheFirstTime)
+            {
+                hasPossessedHorseForTheFirstTime = true;
+
+                LogManager2.Instance.ShowAutomatically("速度アップ、慣性ジャンプが可能になった！");
+            }
         }
 
         // 憑依中のキャラクターから離脱する
