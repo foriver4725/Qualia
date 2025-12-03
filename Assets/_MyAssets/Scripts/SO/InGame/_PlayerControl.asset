@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0a5fd822d52d04baed2b5ec4f33777, type: 3}
   m_Name: _PlayerControl
   m_EditorClassIdentifier: 
-  moveSpeed: 10
+  moveSpeed: 6
   sprintSpeedMultiplier: 2
+  moveSpeedMultiplierWhenHorse: 1.5
   moveAcceleration: 10
   nativeHorizontalVelocityAttenuationRateOnGround: 0.5
   nativeHorizontalVelocityAttenuationRateInAir: 0.02
   moveInputInsensitiveTiming: 2
   moveInputInsensitiveRate: 0.2
   rotationSpeed: 1
-  cameraClamps: {x: -90, y: 90}
+  cameraPitchRange: {x: -90, y: 90}
   jumpHeight: 5
   ownGravity: -15
-  enableInertiaJump: 1
   inertiaJumpVelocity: {x: 30, y: 15, z: 30}
   inertiaJumpLimitSpeedSqr: 100
   inertiaJumpCoolTime: 0.1
@@ -34,3 +34,10 @@ MonoBehaviour:
     m_Bits: 513
   groundCheckOffset: 0.14
   groundCheckRadius: 0.5
+  cameraBlendOnCharacterTrigger:
+    floatDuration: 0.5
+    floatHeight: 20
+    floatLookSpeed: 6
+    moveSpeed: 500
+    moveDurationRange: {x: 0.5, y: 2}
+    moveDurationMinToPlayCloseToEndSound: 1

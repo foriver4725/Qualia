@@ -223,8 +223,8 @@ namespace MyScripts.Runtime
 		// 慣性ジャンプ
 		private void DoInertiaJumpIfTheTiming()
 		{
-			// 機能が無効なら論外！！
-			if (!param.EnableInertiaJump) return;
+			// 馬に憑依していないとダメ
+			if (animalLeaveInvoker.PossessingCharacterType != CharacterType.Horse) return;
 
 			// 水平方向にある程度の速度が必要
 			if (realHorizontalVelocity.sqrMagnitude < param.InertiaJumpLimitSpeedSqr) return;
@@ -311,7 +311,12 @@ namespace MyScripts.Runtime
 			isSprinting = isSprintingInput && hasInput;
 
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = isSprintingInput ? param.MoveSpeed * param.SprintSpeedMultiplier : param.MoveSpeed;
+			// when player is possessing horse, increase move speed more
+			float targetSpeed = param.MoveSpeed;
+			if (isSprintingInput)
+				targetSpeed *= param.SprintSpeedMultiplier;
+			if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Horse)
+				targetSpeed *= param.MoveSpeedMultiplierWhenHorse;
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
 			// for debug, make the player move faster while has the input
