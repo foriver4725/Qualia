@@ -44,7 +44,7 @@ namespace MyScripts.Runtime
 
             character.NameText.enabled = false;
             character.Collider.enabled = false;
-            character.Renderer.enabled = false;
+            character.UpdateModel(CharacterType.None);
             pc.Teleport(character.transform.position, character.transform.forward);
 
             UpdateDisplayText(displayText, possessingCharacter);
@@ -79,7 +79,7 @@ namespace MyScripts.Runtime
 
             possessingCharacter.NameText.enabled = true;
             possessingCharacter.Collider.enabled = true;
-            possessingCharacter.Renderer.enabled = true;
+            possessingCharacter.UpdateModel(possessingCharacter.CharacterType);
             {
                 // 見えるように、少し前の位置にテレポートさせる
                 // 数値は決め打ち

@@ -23,8 +23,11 @@ namespace MyScripts.Runtime
         private float possessableLimitSOSSignLeftRatio = 50.0f;
         [Space(10)]
         [SerializeField] private new Transform transform;
-        [SerializeField] private new Renderer renderer;
         [SerializeField] private new Collider collider;
+        [Space(10)]
+        [SerializeField] private Renderer defaultRenderer;
+        [SerializeField] private Renderer horseRenderer;
+        [SerializeField] private Renderer shellfishRenderer;
         [Space(10)]
         [SerializeField] private PlayerController pc;
         [SerializeField] private AnimalLeaveInvoker animalLeaveInvoker;
@@ -34,11 +37,17 @@ namespace MyScripts.Runtime
         #region Public Properties
 
         internal Transform Transform => transform;
-        internal Renderer Renderer => renderer;
         internal Collider Collider => collider;
 
         internal CharacterType CharacterType => characterType;
         internal Behaviour NameText => nameText;
+
+        internal void UpdateModel(CharacterType type)
+        {
+            defaultRenderer.enabled = (type == CharacterType.None);
+            horseRenderer.enabled = (type == CharacterType.Horse);
+            shellfishRenderer.enabled = (type == CharacterType.Shellfish);
+        }
 
         internal void Teleport(Vector3 position, Vector3 forward)
         {
@@ -56,6 +65,8 @@ namespace MyScripts.Runtime
                 CharacterType.Shellfish => "貝",
                 _ => throw new ArgumentOutOfRangeException(nameof(characterType), characterType, null)
             };
+
+            UpdateModel(characterType);
 
             // 憑依
             collider.OnTriggerEnterAsObservable()
