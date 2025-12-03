@@ -1,8 +1,11 @@
+using MyScripts.Common.SaveSystem;
+
 namespace MyScripts.Runtime
 {
     internal enum CharacterType : byte
     {
         Horse,
+        Shellfish,
     }
 
     /// <summary>
@@ -14,6 +17,8 @@ namespace MyScripts.Runtime
     {
         [SerializeField] private CharacterType characterType = CharacterType.Horse;
         [SerializeField] private TextMeshPro nameText;
+        [SerializeField, Range(0.0f, 100.0f), Tooltip("SOSサインの残り度(%)がこれ以下になったら、憑依できるようになる")]
+        private float possessableLimitSOSSignLeftRatio = 50.0f;
         [Space(10)]
         [SerializeField] private new Transform transform;
         [SerializeField] private new Renderer renderer;
@@ -22,7 +27,6 @@ namespace MyScripts.Runtime
         [SerializeField] private PlayerController pc;
         [SerializeField] private AnimalLeaveInvoker animalLeaveInvoker;
         [SerializeField] private SOSSoundPlayer soundPlayer;
-        [SerializeField] private bool TMP_doesLikePlayer = true; // テスト用
 
         // 外部公開プロパティ
         #region Public Properties
@@ -47,13 +51,14 @@ namespace MyScripts.Runtime
             nameText.text = characterType switch
             {
                 CharacterType.Horse => "馬",
+                CharacterType.Shellfish => "貝",
                 _ => throw new ArgumentOutOfRangeException(nameof(characterType), characterType, null)
             };
 
             // 憑依
             collider.OnTriggerEnterAsObservable()
                 .Select(
-                    (this, collider, pc, animalLeaveInvoker, soundPlayer, TMP_doesLikePlayer),
+                    (this, collider, pc, animalLeaveInvoker, soundPlayer, possessableLimitSOSSignLeftRatio),
                     static (other, param) => (
                         This: param.Item1,
                         SelfCollider: param.collider,
@@ -61,14 +66,15 @@ namespace MyScripts.Runtime
                         PossessInvoker: param.animalLeaveInvoker,
                         SoundPlayer: param.soundPlayer,
                         OtherCollider: other,
-                        TMP_DoesLikePlayer: param.TMP_doesLikePlayer
+                        PossessableLimit: param.possessableLimitSOSSignLeftRatio
                     )
                 )
                 .Where(static param => ReferenceEquals(param.OtherCollider, param.PlayerController.Collider))
                 .Where(static param => !param.PossessInvoker.IsPossessing)
                 .SubscribeAwait(static async (param, ct) =>
                 {
-                    if (param.TMP_DoesLikePlayer)
+                    // SOSサインの残り度が一定以下なら、憑依可能
+                    if (CalculateCurrentSOSSignLeftRatio() * 100.0f <= param.PossessableLimit)
                     {
                         LogManager.Instance.ShowManually("左クリックで憑依");
 
@@ -89,7 +95,7 @@ namespace MyScripts.Runtime
                     }
                     else
                     {
-                        LogManager.Instance.ShowManually("好感度が足りなくて憑依できない");
+                        LogManager.Instance.ShowManually("もっとSOSサインを取り除いてね!");
 
                         while (true)
                         {
@@ -144,6 +150,23 @@ namespace MyScripts.Runtime
             {
                 return false;
             }
+        }
+
+        // SOSサインが残っている割合を計算する [0, 1]
+        // 他クラスで同様の処理を行ったりはしているが、他 MonoBehaviour への依存は極力避けたいので、
+        // 逐一ここで計算するものとする
+        private static float CalculateCurrentSOSSignLeftRatio()
+        {
+            Span<bool> foundSOSSigns = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasFoundSOSSigns.AsSpan();
+            int leftCount = 0;
+            foreach (bool hasFound in foundSOSSigns)
+            {
+                if (!hasFound)
+                {
+                    leftCount++;
+                }
+            }
+            return 1.0f * leftCount / foundSOSSigns.Length;
         }
     }
 }
