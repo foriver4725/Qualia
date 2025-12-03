@@ -1,5 +1,6 @@
 ﻿using UnityEngine.InputSystem;
 using MyScripts.Common.SaveSystem;
+using MyScripts.Runtime.Log;
 
 namespace MyScripts.Runtime
 {
@@ -59,6 +60,10 @@ namespace MyScripts.Runtime
 		private SPlayerControl param;
 		private float jumpTimeoutDelta;
 		private float fallTimeoutDelta;
+
+		// flag
+		// 貝に憑依していない状態で、水のボーダー内に初めて入ったタイミングで、true にする (1度だけ警告を出すため)
+		private bool hasTriedToEnterWaterWhenNotShellfishForTheFirstTime = false;
 
 		// constraints
 		private bool isOwnGravityEnabled = true;
@@ -477,11 +482,21 @@ namespace MyScripts.Runtime
 					controller.transform.position,
 					BorderLayer.WalkSound.Get(SWalkSound.Surface.Water)
 				))
+				{
 					controller.transform.position = new(
 						previousFramePosition.x,
 						controller.transform.position.y,
 						previousFramePosition.z
 					);
+
+					// 1度だけ警告のログを出す
+					if (!hasTriedToEnterWaterWhenNotShellfishForTheFirstTime)
+					{
+						hasTriedToEnterWaterWhenNotShellfishForTheFirstTime = true;
+
+						LogManager2.Instance.ShowAutomatically("貝に憑依しないと、水の中には入れない");
+					}
+				}
 			}
 		}
 
