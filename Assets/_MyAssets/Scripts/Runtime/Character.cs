@@ -1,8 +1,13 @@
+using MyScripts.Common.SaveSystem;
+using MyScripts.Runtime.Log;
+
 namespace MyScripts.Runtime
 {
     internal enum CharacterType : byte
     {
+        None, // 憑依していない状態を表すことが出来る
         Horse,
+        Shellfish,
     }
 
     /// <summary>
@@ -14,6 +19,8 @@ namespace MyScripts.Runtime
     {
         [SerializeField] private CharacterType characterType = CharacterType.Horse;
         [SerializeField] private TextMeshPro nameText;
+        [SerializeField, Range(0.0f, 100.0f), Tooltip("SOSサインの残り度(%)がこれ以下になったら、憑依できるようになる")]
+        private float possessableLimitSOSSignLeftRatio = 50.0f;
         [Space(10)]
         [SerializeField] private new Transform transform;
         [SerializeField] private new Renderer renderer;
@@ -22,7 +29,6 @@ namespace MyScripts.Runtime
         [SerializeField] private PlayerController pc;
         [SerializeField] private AnimalLeaveInvoker animalLeaveInvoker;
         [SerializeField] private SOSSoundPlayer soundPlayer;
-        [SerializeField] private bool TMP_doesLikePlayer = true; // テスト用
 
         // 外部公開プロパティ
         #region Public Properties
@@ -47,13 +53,14 @@ namespace MyScripts.Runtime
             nameText.text = characterType switch
             {
                 CharacterType.Horse => "馬",
+                CharacterType.Shellfish => "貝",
                 _ => throw new ArgumentOutOfRangeException(nameof(characterType), characterType, null)
             };
 
             // 憑依
             collider.OnTriggerEnterAsObservable()
                 .Select(
-                    (this, collider, pc, animalLeaveInvoker, soundPlayer, TMP_doesLikePlayer),
+                    (this, collider, pc, animalLeaveInvoker, soundPlayer, possessableLimitSOSSignLeftRatio),
                     static (other, param) => (
                         This: param.Item1,
                         SelfCollider: param.collider,
@@ -61,40 +68,67 @@ namespace MyScripts.Runtime
                         PossessInvoker: param.animalLeaveInvoker,
                         SoundPlayer: param.soundPlayer,
                         OtherCollider: other,
-                        TMP_DoesLikePlayer: param.TMP_doesLikePlayer
+                        PossessableLimit: param.possessableLimitSOSSignLeftRatio
                     )
                 )
                 .Where(static param => ReferenceEquals(param.OtherCollider, param.PlayerController.Collider))
-                .Where(static param => !param.PossessInvoker.IsPossessing)
                 .SubscribeAwait(static async (param, ct) =>
                 {
-                    if (param.TMP_DoesLikePlayer)
+                    if (!param.PossessInvoker.IsPossessing)
                     {
-                        LogManager.Instance.ShowManually("左クリックで憑依");
-
-                        if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider, ct) == true)
+                        // SOSサインの残り度が一定以下なら、憑依可能
+                        if (CalculateCurrentSOSSignLeftRatio() * 100.0f <= param.PossessableLimit)
                         {
-                            // 憑依する
-                            param.PossessInvoker.PossessCharacter(param.PlayerController, param.This);
+                            LogManager.Instance.ShowManually("左クリックで憑依");
 
-                            LogManager.Instance.ShowManually(string.Empty);
-                            LogManager.Instance.ShowAutomatically("憑依した");
+                            if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider, ct) == true)
+                            {
+                                // 憑依する
+                                param.PossessInvoker.PossessCharacter(param.PlayerController, param.This);
 
-                            param.SoundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
+                                LogManager.Instance.ShowManually(string.Empty);
+                                LogManager.Instance.ShowAutomatically("憑依した");
+
+                                // これは AnimalLeaveInvoker 側で再生する (離脱時のサウンド再生も、一緒のクラスで行いたいので)
+                                // .// TODO: SOSサインのサウンドを使いまわす!
+                                // param.SoundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
+                            }
+                            else
+                            {
+                                LogManager.Instance.ShowManually(string.Empty);
+                            }
                         }
                         else
                         {
+                            LogManager.Instance.ShowManually(
+                                ZString.Format("穢れ度が {0:F2}% 以下じゃないと\n憑依できないよ!", param.PossessableLimit));
+
+                            while (true)
+                            {
+                                if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider, ct) == true)
+                                {
+                                    // TODO: SOSサインのサウンドを使いまわす!
+                                    param.SoundPlayer.LetPlay(SSOSSound.Situation.CouldNotRemove);
+                                    continue;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+
                             LogManager.Instance.ShowManually(string.Empty);
                         }
                     }
                     else
                     {
-                        LogManager.Instance.ShowManually("好感度が足りなくて憑依できない");
+                        LogManager.Instance.ShowManually("憑依中は再度憑依できません");
 
                         while (true)
                         {
                             if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider, ct) == true)
                             {
+                                // TODO: SOSサインのサウンドを使いまわす!
                                 param.SoundPlayer.LetPlay(SSOSSound.Situation.CouldNotRemove);
                                 continue;
                             }
@@ -144,6 +178,23 @@ namespace MyScripts.Runtime
             {
                 return false;
             }
+        }
+
+        // SOSサインが残っている割合を計算する [0, 1]
+        // 他クラスで同様の処理を行ったりはしているが、他 MonoBehaviour への依存は極力避けたいので、
+        // 逐一ここで計算するものとする
+        private static float CalculateCurrentSOSSignLeftRatio()
+        {
+            Span<bool> foundSOSSigns = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasFoundSOSSigns.AsSpan();
+            int leftCount = 0;
+            foreach (bool hasFound in foundSOSSigns)
+            {
+                if (!hasFound)
+                {
+                    leftCount++;
+                }
+            }
+            return 1.0f * leftCount / foundSOSSigns.Length;
         }
     }
 }

@@ -1,6 +1,10 @@
-﻿namespace MyScripts.Runtime
+﻿namespace MyScripts.Runtime.Log
 {
-    internal sealed class LogManager : ASingletonMonoBehaviour<LogManager>
+    /// <summary>
+    /// ログを複数増やしたいので、<see cref="LogManager"/> クラスをコピーして作成された (挙動は全く一緒)<br/>
+    /// TODO: シングルトンの設計の関係で、継承が出来ない...
+    /// </summary>
+    internal sealed class LogManager2 : ASingletonMonoBehaviour<LogManager2>
     {
         [SerializeField] private TextMeshProUGUI text;
         [SerializeField] private Image bg;

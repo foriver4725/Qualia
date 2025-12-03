@@ -1,5 +1,6 @@
 ﻿using UnityEngine.InputSystem;
 using MyScripts.Common.SaveSystem;
+using MyScripts.Runtime.Log;
 
 namespace MyScripts.Runtime
 {
@@ -26,6 +27,7 @@ namespace MyScripts.Runtime
 
 		[Header("Player Control")]
 		[SerializeField] private CharacterController controller;
+		[SerializeField] private AnimalLeaveInvoker animalLeaveInvoker;
 		[SerializeField] private CameraFOVManager cameraFOVManager;
 		[SerializeField] private PlayerControlSoundPlayer soundPlayer;
 		[SerializeField] private Transform cinemachineCameraTarget;
@@ -51,12 +53,17 @@ namespace MyScripts.Runtime
 		private bool isSprinting = false;
 		private bool isDoingInertiaJump = false;
 		private bool onInertiaJumpCt = false;
+		private Vector3 previousFramePosition = Vector3.zero; // 直前フレームの位置を記録して、戻せるようにする
 
 		// timeout deltatime
 		// Awake で初期化
 		private SPlayerControl param;
 		private float jumpTimeoutDelta;
 		private float fallTimeoutDelta;
+
+		// flag
+		// 貝に憑依していない状態で、水のボーダー内に初めて入ったタイミングで、true にする (1度だけ警告を出すため)
+		private bool hasTriedToEnterWaterWhenNotShellfishForTheFirstTime = false;
 
 		// constraints
 		private bool isOwnGravityEnabled = true;
@@ -93,6 +100,7 @@ namespace MyScripts.Runtime
 		#region Public Methods and Properties
 
 		internal Collider Collider => controller;
+		internal bool IsGrounded => isGrounded;
 
 		internal void Teleport(Vector3 position, Vector3 forward)
 		{
@@ -169,6 +177,7 @@ namespace MyScripts.Runtime
 			UpdateFOVsSprintMode();
 			UpdateWalkSound();
 
+			RecordPreviousFramePosition();
 			SetMyPropertiesToData();
 		}
 
@@ -220,8 +229,8 @@ namespace MyScripts.Runtime
 		// 慣性ジャンプ
 		private void DoInertiaJumpIfTheTiming()
 		{
-			// 機能が無効なら論外！！
-			if (!param.EnableInertiaJump) return;
+			// 馬に憑依していないとダメ
+			if (animalLeaveInvoker.PossessingCharacterType != CharacterType.Horse) return;
 
 			// 水平方向にある程度の速度が必要
 			if (realHorizontalVelocity.sqrMagnitude < param.InertiaJumpLimitSpeedSqr) return;
@@ -308,7 +317,12 @@ namespace MyScripts.Runtime
 			isSprinting = isSprintingInput && hasInput;
 
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = isSprintingInput ? param.MoveSpeed * param.SprintSpeedMultiplier : param.MoveSpeed;
+			// when player is possessing horse, increase move speed more
+			float targetSpeed = param.MoveSpeed;
+			if (isSprintingInput)
+				targetSpeed *= param.SprintSpeedMultiplier;
+			if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Horse)
+				targetSpeed *= param.MoveSpeedMultiplierWhenHorse;
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
 			// for debug, make the player move faster while has the input
@@ -448,13 +462,43 @@ namespace MyScripts.Runtime
 			}
 		}
 
+		// 不正な場所にいる時、初期位置に戻す or 直前フレームの位置に戻す
 		private void TeleportBackWhenInvalidPosition()
 		{
+			// ゲーム世界の範囲外か?
+			// 初期位置に戻す
 			if (controller.transform.position is
 			{ x: < -1600 or > 1600 } or
 			{ y: < -50 or > 500 } or
 			{ z: < -1600 or > 1600 })
 				controller.transform.position = teleportBackPoint.position;
+
+			// 貝に憑依していない時、水の中に入っていないか?
+			// 直前フレームの位置に戻す (XZだけ、Yはそのまま)
+			// 水の中にいる判定は、水の足音ボーダーを使う
+			if (animalLeaveInvoker.PossessingCharacterType != CharacterType.Shellfish)
+			{
+				if (IsPlayerInsideOfAnyBorder(
+					walkSoundBorders[SWalkSound.Surface.Water],
+					controller.transform.position,
+					BorderLayer.WalkSound.Get(SWalkSound.Surface.Water)
+				))
+				{
+					controller.transform.position = new(
+						previousFramePosition.x,
+						controller.transform.position.y,
+						previousFramePosition.z
+					);
+
+					// 1度だけ警告のログを出す
+					if (!hasTriedToEnterWaterWhenNotShellfishForTheFirstTime)
+					{
+						hasTriedToEnterWaterWhenNotShellfishForTheFirstTime = true;
+
+						LogManager2.Instance.ShowAutomatically("貝に憑依しないと、水の中には入れない", duration: 10.0f, fadeoutDuration: 2.0f);
+					}
+				}
+			}
 		}
 
 		private void UpdateFOVsSprintMode()
@@ -474,6 +518,11 @@ namespace MyScripts.Runtime
 
 			var surface = GetSurfaceUnderfoot();
 			walkSoundPlayer.LetPlay(surface, new() { IsSprinting = isSprinting });
+		}
+
+		private void RecordPreviousFramePosition()
+		{
+			previousFramePosition = controller.transform.position;
 		}
 
 		private SWalkSound.Surface GetSurfaceUnderfoot()

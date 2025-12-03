@@ -1,13 +1,23 @@
+using MyScripts.Runtime.Log;
+
 namespace MyScripts.Runtime
 {
     internal sealed class AnimalLeaveInvoker : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI displayText;
+        [SerializeField] private SOSSoundPlayer soundPlayer;
+        [SerializeField] private PlayerController pc; // 地面に設置していないと離脱できないので、それを取得するためだけの参照 (循環参照だけど...)
 
         private Character possessingCharacter = null;
 
         // 現在憑依中かどうか
         internal bool IsPossessing => possessingCharacter != null;
+        // 憑依中のキャラクターの種類 (憑依していないなら None)
+        internal CharacterType PossessingCharacterType => (possessingCharacter != null) ? possessingCharacter.CharacterType : CharacterType.None;
+
+        // 初めて馬に憑依したタイミングで true になり、以降二度と false にならない
+        // 馬になった時の能力強化を、一回だけログで知らせるために使う
+        private bool hasPossessedHorseForTheFirstTime = false;
 
         private void Awake()
         {
@@ -38,6 +48,15 @@ namespace MyScripts.Runtime
             pc.Teleport(character.transform.position, character.transform.forward);
 
             UpdateDisplayText(displayText, possessingCharacter);
+            // TODO: SOSサインのサウンドを使いまわす!
+            soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
+
+            if (character.CharacterType == CharacterType.Horse && !hasPossessedHorseForTheFirstTime)
+            {
+                hasPossessedHorseForTheFirstTime = true;
+
+                LogManager2.Instance.ShowAutomatically("速度アップ、慣性ジャンプが可能になった！");
+            }
         }
 
         // 憑依中のキャラクターから離脱する
@@ -48,6 +67,13 @@ namespace MyScripts.Runtime
             if (possessingCharacter == null)
             {
                 "憑依中のキャラクターがありません。".Print(LogSettings.Error);
+                return;
+            }
+
+            // 地面に設置していないとダメ
+            if (!pc.IsGrounded)
+            {
+                LogManager2.Instance.ShowAutomatically("地面に設置していないと、離脱できません", duration: 1.0f, fadeoutDuration: 0.5f);
                 return;
             }
 
@@ -63,6 +89,8 @@ namespace MyScripts.Runtime
             possessingCharacter = null;
 
             UpdateDisplayText(displayText, possessingCharacter);
+            // TODO: SOSサインのサウンドを使いまわす!
+            soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
         }
 
         private static void UpdateDisplayText(TextMeshProUGUI text, Character possessingCharacter)
@@ -73,6 +101,7 @@ namespace MyScripts.Runtime
                 _ => possessingCharacter.CharacterType switch
                 {
                     CharacterType.Horse => "馬",
+                    CharacterType.Shellfish => "貝",
                     _ => "???",
                 },
             };
