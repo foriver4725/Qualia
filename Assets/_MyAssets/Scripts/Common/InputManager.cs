@@ -1,10 +1,32 @@
-﻿namespace MyScripts.Common
+﻿using UnityEngine.InputSystem;
+
+namespace MyScripts.Common
 {
     /// <summary>
     /// Enabled フラグをリセットする兼ね合いで、Awake()では入力を参照しない方が好ましい
     /// </summary>
     internal static partial class InputManager
     {
+        internal enum Device : byte
+        {
+            Unknown = 0,
+            KeyboardAndMouse = 1,
+            Gamepad = 2,
+        }
+
+        // 現在使っているデバイスを返す
+        // 判定は単純で、最後に接続されたデバイスを返す
+        internal static Device GetCurrentDevice() => InputSystem.devices switch
+        {
+            [] => Device.Unknown,
+            _ => InputSystem.devices[^1] switch
+            {
+                Keyboard or Mouse => Device.KeyboardAndMouse,
+                Gamepad => Device.Gamepad,
+                _ => Device.Unknown,
+            }
+        };
+
         private sealed class MakeClickInputDisabledUntilNextFrameInfo
         {
             internal bool IsEnabled { get; private set; } = true;

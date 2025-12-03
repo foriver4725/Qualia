@@ -274,7 +274,7 @@ namespace MyScripts.Runtime
 			if (input.sqrMagnitude >= 0.01f)
 			{
 				//Don't multiply mouse input by Time.deltaTime
-				bool isCurrentDeviceMouse = Mouse.current != null && Mouse.current.wasUpdatedThisFrame;
+				bool isCurrentDeviceMouse = InputManager.GetCurrentDevice() == InputManager.Device.KeyboardAndMouse;
 				float deltaTimeMultiplier = isCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
 				cinemachineTargetPitch += input.y * param.RotationSpeed * deltaTimeMultiplier;
