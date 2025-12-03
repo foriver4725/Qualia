@@ -5,6 +5,7 @@ namespace MyScripts.Runtime
     internal sealed class AnimalLeaveInvoker : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI displayText;
+        [SerializeField] private SOSSoundPlayer soundPlayer;
         [SerializeField] private PlayerController pc; // 地面に設置していないと離脱できないので、それを取得するためだけの参照 (循環参照だけど...)
 
         private Character possessingCharacter = null;
@@ -47,6 +48,8 @@ namespace MyScripts.Runtime
             pc.Teleport(character.transform.position, character.transform.forward);
 
             UpdateDisplayText(displayText, possessingCharacter);
+            // TODO: SOSサインのサウンドを使いまわす!
+            soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
 
             if (character.CharacterType == CharacterType.Horse && !hasPossessedHorseForTheFirstTime)
             {
@@ -86,6 +89,8 @@ namespace MyScripts.Runtime
             possessingCharacter = null;
 
             UpdateDisplayText(displayText, possessingCharacter);
+            // TODO: SOSサインのサウンドを使いまわす!
+            soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
         }
 
         private static void UpdateDisplayText(TextMeshProUGUI text, Character possessingCharacter)

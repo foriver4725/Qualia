@@ -5398,6 +5398,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayText: {fileID: 1872016890}
+  soundPlayer: {fileID: 195949041}
+  pc: {fileID: 1986410594}
 --- !u!1001 &824152981
 PrefabInstance:
   m_ObjectHideFlags: 0

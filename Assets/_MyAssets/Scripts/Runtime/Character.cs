@@ -89,7 +89,9 @@ namespace MyScripts.Runtime
                                 LogManager.Instance.ShowManually(string.Empty);
                                 LogManager.Instance.ShowAutomatically("憑依した");
 
-                                param.SoundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
+                                // これは AnimalLeaveInvoker 側で再生する (離脱時のサウンド再生も、一緒のクラスで行いたいので)
+                                // .// TODO: SOSサインのサウンドを使いまわす!
+                                // param.SoundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
                             }
                             else
                             {
@@ -104,6 +106,7 @@ namespace MyScripts.Runtime
                             {
                                 if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider, ct) == true)
                                 {
+                                    // TODO: SOSサインのサウンドを使いまわす!
                                     param.SoundPlayer.LetPlay(SSOSSound.Situation.CouldNotRemove);
                                     continue;
                                 }
@@ -124,6 +127,7 @@ namespace MyScripts.Runtime
                         {
                             if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider, ct) == true)
                             {
+                                // TODO: SOSサインのサウンドを使いまわす!
                                 param.SoundPlayer.LetPlay(SSOSSound.Situation.CouldNotRemove);
                                 continue;
                             }
