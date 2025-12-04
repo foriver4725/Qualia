@@ -2560,6 +2560,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &346929284 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1621585285627112472, guid: 632d2a54e470c5a4ba9597a95980c76b, type: 3}
+  m_PrefabInstance: {fileID: 346929281}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &361975120
 GameObject:
   m_ObjectHideFlags: 0
@@ -8190,6 +8195,10 @@ PrefabInstance:
       propertyPath: image
       value: 
       objectReference: {fileID: 346929283}
+    - target: {fileID: 4406365098766575715, guid: b72db2c878c99d04480ccac853dada36, type: 3}
+      propertyPath: controllerIcon
+      value: 
+      objectReference: {fileID: 346929284}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

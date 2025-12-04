@@ -547,6 +547,11 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 2
   m_TargetDisplay: 0
+--- !u!224 &111110298 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1621585285627112472, guid: 632d2a54e470c5a4ba9597a95980c76b, type: 3}
+  m_PrefabInstance: {fileID: 2127189133}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &130617513
 GameObject:
   m_ObjectHideFlags: 0
@@ -735,6 +740,10 @@ PrefabInstance:
       propertyPath: image
       value: 
       objectReference: {fileID: 2127189135}
+    - target: {fileID: 4406365098766575715, guid: b72db2c878c99d04480ccac853dada36, type: 3}
+      propertyPath: controllerIcon
+      value: 
+      objectReference: {fileID: 111110298}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
