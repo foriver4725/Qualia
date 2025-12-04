@@ -19,11 +19,10 @@ namespace MyScripts.Runtime.UI.Main
         private void Awake()
         {
             fillRectWidthInit = fillRect.sizeDelta.x;
-
-            // セーブデータとかを見て、外部スクリプトから Awake() 時に UpdateUI() を呼び出してもらう想定
         }
 
         // 引数は [0.0f, 1.0f]
+        //! 初期値をキャッシュする関係で、必ず Awake() より後に呼び出すこと!!
         internal void UpdateUI(float leftRatio)
         {
             text.SetTextFormat("穢れ度 : {0:F2}%", leftRatio * 100.0f);

@@ -78,8 +78,13 @@ namespace MyScripts.Runtime
 
             GetDataAndUpdateMyProperties();
 
-            sosSignRatioUIManager.UpdateUI(1.0f * leftSOSSignCount / Constants.SOSSignCount);
             Setup(sosSigns);
+        }
+
+        private void Start()
+        {
+            // メソッドのコメントに従って、Awake() より後に呼び出すようにする
+            sosSignRatioUIManager.UpdateUI(1.0f * leftSOSSignCount / Constants.SOSSignCount);
         }
 
         // プレハブから生成して、ランダムに配置する
