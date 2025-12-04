@@ -83,8 +83,10 @@ namespace MyScripts.Runtime
 
         private void Start()
         {
-            // メソッドのコメントに従って、Awake() より後に呼び出すようにする
-            sosSignRatioUIManager.UpdateUI(1.0f * leftSOSSignCount / Constants.SOSSignCount);
+            // メソッドのコメントに従って、
+            // - Awake() より後に呼び出す
+            // - changeFillSmoothly は false にする
+            sosSignRatioUIManager.UpdateRatio(1.0f * leftSOSSignCount / Constants.SOSSignCount, changeFillSmoothly: false);
         }
 
         // プレハブから生成して、ランダムに配置する
@@ -126,7 +128,7 @@ namespace MyScripts.Runtime
                                 selfCollider.gameObject.SetActive(false);
                                 {
                                     leftSOSSignCount--;
-                                    sosSignRatioUIManager.UpdateUI(1.0f * leftSOSSignCount / Constants.SOSSignCount);
+                                    sosSignRatioUIManager.UpdateRatio(1.0f * leftSOSSignCount / Constants.SOSSignCount);
 
                                     // このタイミングで、セーブデータに反映しておく
                                     SetMyPropertiesToData();
