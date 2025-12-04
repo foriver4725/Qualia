@@ -21,6 +21,7 @@
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
+        "System.Runtime.CompilerServices.Unsafe.dll",
         "DOTween.dll",
         "R3.dll"
     ],

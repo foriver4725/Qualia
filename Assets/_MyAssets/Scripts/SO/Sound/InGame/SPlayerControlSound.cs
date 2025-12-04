@@ -8,8 +8,6 @@
         internal enum Action : byte
         {
             InertiaJump,
-
-            Count,
         }
 
         internal sealed override AudioClip GetClip(Action type) => type switch

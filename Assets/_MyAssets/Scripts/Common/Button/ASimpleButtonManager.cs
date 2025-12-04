@@ -52,8 +52,8 @@ namespace MyScripts.Common.Button
         {
             OnJustBeforeDisable();
 
-            appearanceState   = AppearanceState.Default;
-            isPointerInside   = false;
+            appearanceState = AppearanceState.Default;
+            isPointerInside = false;
             trackingPointerId = -1;
 
             if (image != null)
@@ -84,7 +84,7 @@ namespace MyScripts.Common.Button
             appearanceState = AppearanceState.BeingHovered;
 
             PlayHoverSe();
-            UpdateAppearences();
+            UpdateAppearances();
 
             OnEnterImpl();
         }
@@ -106,7 +106,7 @@ namespace MyScripts.Common.Button
             if (appearanceState != AppearanceState.BeingHovered) return;
             appearanceState = AppearanceState.Default;
 
-            UpdateAppearences();
+            UpdateAppearances();
 
             OnExitImpl();
         }
@@ -125,7 +125,7 @@ namespace MyScripts.Common.Button
             appearanceState = AppearanceState.BeingClicked;
 
             PlayClickSe();
-            UpdateAppearences();
+            UpdateAppearances();
 
             OnDownImpl();
         }
@@ -143,7 +143,7 @@ namespace MyScripts.Common.Button
             if (appearanceState != AppearanceState.BeingClicked) return;
             appearanceState = isPointerInside ? AppearanceState.BeingHovered : AppearanceState.Default;
 
-            UpdateAppearences();
+            UpdateAppearances();
 
             OnUpImpl();
 
@@ -152,14 +152,14 @@ namespace MyScripts.Common.Button
                 OnClickSucceeded();
         }
 
-        private void UpdateAppearences()
+        private void UpdateAppearances()
         {
             float scaleCoef = appearanceState switch
             {
-                AppearanceState.Default      => 1.0f,
+                AppearanceState.Default => 1.0f,
                 AppearanceState.BeingHovered => 1.05f,
                 AppearanceState.BeingClicked => 1.1f,
-                _                            => 1.0f
+                _ => 1.0f
             };
 
             if (image != null)

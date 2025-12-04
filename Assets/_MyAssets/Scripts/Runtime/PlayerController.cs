@@ -1,9 +1,11 @@
 ﻿using UnityEngine.InputSystem;
+using MyScripts.Common.SaveSystem;
+using MyScripts.Runtime.Log;
 
 namespace MyScripts.Runtime
 {
 	[RequireComponent(typeof(CharacterController))]
-	internal sealed class PlayerController : MonoBehaviour
+	internal sealed class PlayerController : MonoBehaviour, IDataHoldingObject
 	{
 		[Serializable]
 		private sealed class WalkSoundBorderRoots
@@ -25,6 +27,7 @@ namespace MyScripts.Runtime
 
 		[Header("Player Control")]
 		[SerializeField] private CharacterController controller;
+		[SerializeField] private AnimalLeaveInvoker animalLeaveInvoker;
 		[SerializeField] private CameraFOVManager cameraFOVManager;
 		[SerializeField] private PlayerControlSoundPlayer soundPlayer;
 		[SerializeField] private Transform cinemachineCameraTarget;
@@ -50,6 +53,7 @@ namespace MyScripts.Runtime
 		private bool isSprinting = false;
 		private bool isDoingInertiaJump = false;
 		private bool onInertiaJumpCt = false;
+		private Vector3 previousFramePosition = Vector3.zero; // 直前フレームの位置を記録して、戻せるようにする
 
 		// timeout deltatime
 		// Awake で初期化
@@ -57,17 +61,11 @@ namespace MyScripts.Runtime
 		private float jumpTimeoutDelta;
 		private float fallTimeoutDelta;
 
-		// input
-		private Vector2 MoveInput => IsPcInputEnabled ? InputManager.PcMove.Vector2 : Vector2.zero;
-		private Vector2 LookInput => IsPcInputEnabled ? InputManager.PcLook.Vector2 : Vector2.zero;
-		private bool JumpInput => IsPcInputEnabled ? InputManager.PcJump.Bool : false;
-		private bool SprintInput => IsPcInputEnabled ? InputManager.PcSprint.Bool : false;
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-		private bool DebugFastenMoveSpeedInput => IsPcInputEnabled ? InputManager.DebugFastenMoveSpeed.Bool : false;
-#endif
+		// flag
+		// 貝に憑依していない状態で、水のボーダー内に初めて入ったタイミングで、true にする (1度だけ警告を出すため)
+		private bool hasTriedToEnterWaterWhenNotShellfishForTheFirstTime = false;
 
 		// constraints
-		internal bool IsPcInputEnabled { get; set; } = true;
 		private bool isOwnGravityEnabled = true;
 		internal bool IsOwnGravityEnabled
 		{
@@ -97,7 +95,55 @@ namespace MyScripts.Runtime
 			SWalkSound.Surface.Sand,
 			SWalkSound.Surface.Grass,
 		});
-		private static readonly Dictionary<SWalkSound.Surface, ReadOnlyCollection<Border>> walkSoundBorders = new(); // Awake で初期化
+		private readonly Dictionary<SWalkSound.Surface, ReadOnlyCollection<Border>> walkSoundBorders = new(); // Awake で初期化
+
+		#region Public Methods and Properties
+
+		internal Collider Collider => controller;
+		internal bool IsGrounded => isGrounded;
+
+		internal void Teleport(Vector3 position, Vector3 forward)
+		{
+			// 一応、切り替わり中の挙動制限も適用しておく
+			InputManager.PlayerControl.Enabled = false;
+			IsOwnGravityEnabled = false;
+			CanApplyVelocityDelta = false;
+
+			{
+				transform.SetPositionAndRotation(position, Quaternion.LookRotation(forward, Vector3.up));
+			}
+
+			CanApplyVelocityDelta = true;
+			IsOwnGravityEnabled = true;
+			InputManager.PlayerControl.Enabled = true;
+		}
+
+		#endregion
+
+		#region Interface Implementation
+
+		public void GetDataAndUpdateMyProperties()
+		{
+			Vector3 playerPosition = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].PlayerPosition;
+			Vector3 playerForward = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].PlayerForward;
+			Teleport(playerPosition, playerForward);
+		}
+
+		public void SetMyPropertiesToData()
+		{
+			// ジャンプ中ならダメ
+			if (isJumping) return;
+
+			// 慣性ジャンプ中ならダメ
+			if (isDoingInertiaJump) return;
+
+			Vector3 playerPosition = transform.position;
+			Vector3 playerForward = new Vector3(transform.forward.x, 0, transform.forward.z).normalized; // Y成分は無視する
+			SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].PlayerPosition = playerPosition;
+			SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].PlayerForward = playerForward;
+		}
+
+		#endregion
 
 		private void Awake()
 		{
@@ -115,6 +161,8 @@ namespace MyScripts.Runtime
 				var borders = walkSoundBorderRoots.Get(surface).GetComponentsInChildren<Border>(includeInactive: true);
 				walkSoundBorders.Add(surface, Array.AsReadOnly(borders));
 			}
+
+			GetDataAndUpdateMyProperties();
 		}
 
 		private void Update()
@@ -128,6 +176,9 @@ namespace MyScripts.Runtime
 
 			UpdateFOVsSprintMode();
 			UpdateWalkSound();
+
+			RecordPreviousFramePosition();
+			SetMyPropertiesToData();
 		}
 
 		private void LateUpdate()
@@ -178,8 +229,8 @@ namespace MyScripts.Runtime
 		// 慣性ジャンプ
 		private void DoInertiaJumpIfTheTiming()
 		{
-			// 機能が無効なら論外！！
-			if (!param.EnableInertiaJump) return;
+			// 馬に憑依していないとダメ
+			if (animalLeaveInvoker.PossessingCharacterType != CharacterType.Horse) return;
 
 			// 水平方向にある程度の速度が必要
 			if (realHorizontalVelocity.sqrMagnitude < param.InertiaJumpLimitSpeedSqr) return;
@@ -217,13 +268,13 @@ namespace MyScripts.Runtime
 		private void CameraRotation()
 		{
 			// get input
-			Vector2 input = LookInput;
+			Vector2 input = InputManager.PlayerControl.Look;
 
 			// if there is an input
 			if (input.sqrMagnitude >= 0.01f)
 			{
 				//Don't multiply mouse input by Time.deltaTime
-				bool isCurrentDeviceMouse = Mouse.current != null && Mouse.current.wasUpdatedThisFrame;
+				bool isCurrentDeviceMouse = InputManager.GetCurrentDevice() == InputManager.Device.KeyboardAndMouse;
 				float deltaTimeMultiplier = isCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
 				cinemachineTargetPitch += input.y * param.RotationSpeed * deltaTimeMultiplier;
@@ -259,18 +310,23 @@ namespace MyScripts.Runtime
 		private void InputAndFinallyMove()
 		{
 			// get input
-			Vector2 input = MoveInput;
-			bool isSprintingInput = SprintInput;
+			Vector2 input = InputManager.PlayerControl.Move;
+			bool isSprintingInput = InputManager.PlayerControl.Sprint;
 			// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
 			bool hasInput = input != Vector2.zero;
 			isSprinting = isSprintingInput && hasInput;
 
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = isSprintingInput ? param.MoveSpeed * param.SprintSpeedMultiplier : param.MoveSpeed;
+			// when player is possessing horse, increase move speed more
+			float targetSpeed = param.MoveSpeed;
+			if (isSprintingInput)
+				targetSpeed *= param.SprintSpeedMultiplier;
+			if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Horse)
+				targetSpeed *= param.MoveSpeedMultiplierWhenHorse;
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
 			// for debug, make the player move faster while has the input
-			if (DebugFastenMoveSpeedInput)
+			if (InputManager.Debug.FastenMoveSpeed)
 				targetSpeed *= 5.0f;
 #endif
 
@@ -352,7 +408,7 @@ namespace MyScripts.Runtime
 			if (isGrounded)
 			{
 				// get input
-				bool input = JumpInput;
+				bool input = InputManager.PlayerControl.Jump;
 
 				// reset the fall timeout timer
 				fallTimeoutDelta = param.FallTimeout;
@@ -406,13 +462,43 @@ namespace MyScripts.Runtime
 			}
 		}
 
+		// 不正な場所にいる時、初期位置に戻す or 直前フレームの位置に戻す
 		private void TeleportBackWhenInvalidPosition()
 		{
+			// ゲーム世界の範囲外か?
+			// 初期位置に戻す
 			if (controller.transform.position is
 			{ x: < -1600 or > 1600 } or
 			{ y: < -50 or > 500 } or
 			{ z: < -1600 or > 1600 })
 				controller.transform.position = teleportBackPoint.position;
+
+			// 貝に憑依していない時、水の中に入っていないか?
+			// 直前フレームの位置に戻す (XZだけ、Yはそのまま)
+			// 水の中にいる判定は、水の足音ボーダーを使う
+			if (animalLeaveInvoker.PossessingCharacterType != CharacterType.Shellfish)
+			{
+				if (IsPlayerInsideOfAnyBorder(
+					walkSoundBorders[SWalkSound.Surface.Water],
+					controller.transform.position,
+					BorderLayer.WalkSound.Get(SWalkSound.Surface.Water)
+				))
+				{
+					controller.transform.position = new(
+						previousFramePosition.x,
+						controller.transform.position.y,
+						previousFramePosition.z
+					);
+
+					// 1度だけ警告のログを出す
+					if (!hasTriedToEnterWaterWhenNotShellfishForTheFirstTime)
+					{
+						hasTriedToEnterWaterWhenNotShellfishForTheFirstTime = true;
+
+						LogManager2.Instance.ShowAutomatically("貝に憑依しないと、水の中には入れない", duration: 10.0f, fadeoutDuration: 2.0f);
+					}
+				}
+			}
 		}
 
 		private void UpdateFOVsSprintMode()
@@ -432,6 +518,11 @@ namespace MyScripts.Runtime
 
 			var surface = GetSurfaceUnderfoot();
 			walkSoundPlayer.LetPlay(surface, new() { IsSprinting = isSprinting });
+		}
+
+		private void RecordPreviousFramePosition()
+		{
+			previousFramePosition = controller.transform.position;
 		}
 
 		private SWalkSound.Surface GetSurfaceUnderfoot()

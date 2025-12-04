@@ -14,6 +14,7 @@
         [Header("Move")]
         [SerializeField] private float moveSpeed = 4.0f;
         [SerializeField] private float sprintSpeedMultiplier = 1.5f;
+        [SerializeField] private float moveSpeedMultiplierWhenHorse = 1.5f;
         [SerializeField] private float moveAcceleration = 10.0f;
         [SerializeField, Tooltip("入力によらない水平移動速度の,地上での減衰係数 (空気抵抗に相当)")]
         private float nativeHorizontalVelocityAttenuationRateOnGround = 0.50f;
@@ -24,6 +25,7 @@
         [SerializeField, Tooltip("移動入力を鈍感にするとき,元の入力値の何倍にするか")] private float moveInputInsensitiveRate = 0.5f;
         internal float MoveSpeed => moveSpeed;
         internal float SprintSpeedMultiplier => sprintSpeedMultiplier;
+        internal float MoveSpeedMultiplierWhenHorse => moveSpeedMultiplierWhenHorse;
         internal float MoveAcceleration => moveAcceleration;
         internal float NativeHorizontalVelocityAttenuationRateOnGround => nativeHorizontalVelocityAttenuationRateOnGround;
         internal float NativeHorizontalVelocityAttenuationRateInAir => nativeHorizontalVelocityAttenuationRateInAir;
@@ -50,11 +52,9 @@
         [Space(10)]
 
         [Header("Inertia Jump")]
-        [SerializeField] private bool enableInertiaJump = true;
         [SerializeField, Tooltip("加算する速度(プレイヤーから見た相対ベクトル)")] private Vector3 inertiaJumpVelocity = new(30.0f, 15.0f, 30.0f);
         [SerializeField, Tooltip("必要な水平速度 の平方")] private float inertiaJumpLimitSpeedSqr = 100.0f;
         [SerializeField] private float inertiaJumpCoolTime = 0.2f;
-        internal bool EnableInertiaJump => enableInertiaJump;
         internal Vector3 InertiaJumpVelocity => inertiaJumpVelocity;
         internal float InertiaJumpLimitSpeedSqr => inertiaJumpLimitSpeedSqr;
         internal float InertiaJumpCoolTime => inertiaJumpCoolTime;
