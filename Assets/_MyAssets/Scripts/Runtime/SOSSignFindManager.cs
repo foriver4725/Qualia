@@ -1,18 +1,20 @@
 ﻿using MyScripts.Common.SaveSystem;
 using MyScripts.Runtime.Log;
+using MyScripts.Runtime.UI.Main;
 
 namespace MyScripts.Runtime
 {
     internal sealed class SOSSignFindManager : MonoBehaviour, IDataHoldingObject
     {
+        [Header("Self Components")]
         [SerializeField] private Transform root; // SOSサインの親オブジェクト (生成した後ここに格納する)
         [SerializeField] private Transform pointRoot; // 配置箇所の親オブジェクト
         [SerializeField] private SOSSign prefab;
         [Space(10)]
+        [Header("Outer Components")]
         [SerializeField] private Collider playerCapsuleCollider;
-        [SerializeField] private TextMeshProUGUI sosSignLeftRatioText;
-        [Space(10)]
         [SerializeField] private AnimalLeaveInvoker animalLeaveInvoker;
+        [SerializeField] private SOSSignRatioUIManager sosSignRatioUIManager;
         [SerializeField] private SOSSoundPlayer soundPlayer;
 
         // Awake で初期化
@@ -76,8 +78,15 @@ namespace MyScripts.Runtime
 
             GetDataAndUpdateMyProperties();
 
-            UpdateSOSSignLeftRatioText(sosSignLeftRatioText, leftSOSSignCount, Constants.SOSSignCount);
             Setup(sosSigns);
+        }
+
+        private void Start()
+        {
+            // メソッドのコメントに従って、
+            // - Awake() より後に呼び出す
+            // - changeFillSmoothly は false にする
+            sosSignRatioUIManager.UpdateRatio(1.0f * leftSOSSignCount / Constants.SOSSignCount, changeFillSmoothly: false);
         }
 
         // プレハブから生成して、ランダムに配置する
@@ -119,7 +128,7 @@ namespace MyScripts.Runtime
                                 selfCollider.gameObject.SetActive(false);
                                 {
                                     leftSOSSignCount--;
-                                    UpdateSOSSignLeftRatioText(sosSignLeftRatioText, leftSOSSignCount, Constants.SOSSignCount);
+                                    sosSignRatioUIManager.UpdateRatio(1.0f * leftSOSSignCount / Constants.SOSSignCount);
 
                                     // このタイミングで、セーブデータに反映しておく
                                     SetMyPropertiesToData();
@@ -187,11 +196,6 @@ namespace MyScripts.Runtime
             {
                 return false;
             }
-        }
-
-        private static void UpdateSOSSignLeftRatioText(TextMeshProUGUI text, int leftCount, int totalCount)
-        {
-            text.SetTextFormat("穢れ度 : {0:F2}%", 100.0f * leftCount / totalCount);
         }
     }
 }
