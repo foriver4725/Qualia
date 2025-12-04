@@ -43,6 +43,23 @@ namespace MyScripts.Runtime.UI.Button
             }
         }
 
+        // ボタンの RaycastPadding が動的に変わることはない想定なので、シンプルなキャッシュにする
+        private bool hasCachedRaycastPadding = false;
+        private Vector4 raycastPadding;
+        internal Vector4 RaycastPadding
+        {
+            get
+            {
+                if (!hasCachedRaycastPadding)
+                {
+                    raycastPadding = Image.raycastPadding;
+
+                    hasCachedRaycastPadding = true;
+                }
+                return raycastPadding;
+            }
+        }
+
         private protected sealed override void PlayHoverSe()
         {
             if (soundSetting.DoesPlayButtonHoverSe)
