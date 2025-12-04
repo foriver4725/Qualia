@@ -8,8 +8,8 @@
         private const float SHOW_DURATION_DEFAULT = 3;
         private const float FADEOUT_DURATION_DEFAULT = 1;
 
-        private float bgAlphaDefault; // 初期化時に設定される. 1行分の高さ
-        private float bgHeightDefault; // 初期化時に設定される
+        private float bgAlphaDefault; // 初期化時に設定される
+        private float bgHeightDefault; // 初期化時に設定される. 1行分の高さ
         private bool isShowingForcibly = false;
         private Cts cts = null;
 
