@@ -32,7 +32,10 @@ namespace MyScripts.Runtime.UI.Button
             SelectingButton = button;
 
             image.rectTransform.anchoredPosition = button.Position;
-            image.rectTransform.sizeDelta = button.Size + Vector2.one * ((OuterSize + padding) * 2.0f);
+            image.rectTransform.sizeDelta =
+                button.Size // ボタンの基本サイズ
+                - Vector2.up * (button.RaycastPadding.y + button.RaycastPadding.w) // RaycastPadding 分を引く (Left, Bottom, Right, Up)
+                + Vector2.one * ((OuterSize + padding) * 2.0f); // 9-sliced の外側8マス分 + 余白 を足す
         }
     }
 }
