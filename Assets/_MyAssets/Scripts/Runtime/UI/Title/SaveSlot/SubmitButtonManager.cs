@@ -1,4 +1,4 @@
-namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
+namespace MyScripts.Runtime.UI.Title.SaveSlot
 {
     internal sealed class SubmitButtonManager : Button.AButtonManager
     {

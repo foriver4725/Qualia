@@ -1,6 +1,6 @@
 using MyScripts.Runtime.UI.Button;
 
-namespace MyScripts.Runtime.UI.Title.SelectSaveSlotUI
+namespace MyScripts.Runtime.UI.Title.SaveSlot
 {
     /// <summary>
     /// OnJustBeforeAwake(), Update() を使用<br/>
