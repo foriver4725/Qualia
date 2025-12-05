@@ -9,7 +9,7 @@ namespace MyScripts.Runtime.UI.Button
         // プログラム内で数値を決め打っておく
         private const int OuterSize = 32;
 
-        internal AButtonManager SelectingButton { get; private set; } = null;
+        private AButtonManager selectingButton = null;
 
         /// <summary>
         /// 指定したボタンが現在選択されているなら、<br/>
@@ -18,11 +18,13 @@ namespace MyScripts.Runtime.UI.Button
         /// </summary>
         internal void Deselect(AButtonManager button)
         {
-            if (!SelectingButton) return;
-            if (SelectingButton != button) return;
+            if (InputManager.GetCurrentDevice() != InputManager.Device.Gamepad) return;
+
+            if (!selectingButton) return;
+            if (selectingButton != button) return;
 
             image.gameObject.SetActive(false);
-            SelectingButton = null;
+            selectingButton = null;
         }
 
         /// <summary>
@@ -31,9 +33,11 @@ namespace MyScripts.Runtime.UI.Button
         /// </summary>
         internal void Reselect(AButtonManager button, float padding = 0.0f)
         {
-            if (!SelectingButton)
+            if (InputManager.GetCurrentDevice() != InputManager.Device.Gamepad) return;
+
+            if (!selectingButton)
                 image.gameObject.SetActive(true);
-            SelectingButton = button;
+            selectingButton = button;
 
             image.rectTransform.anchoredPosition = button.Position;
             image.rectTransform.sizeDelta =
