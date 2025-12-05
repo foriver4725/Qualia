@@ -11,6 +11,7 @@ internal sealed class Data
 internal sealed class SingleData
 {
     public bool IsValid;
+    public DateTime LastSavedAt;
     public bool[] HasFoundSOSSigns;
     public Vector3 PlayerPosition;
     public Vector3 PlayerForward;
