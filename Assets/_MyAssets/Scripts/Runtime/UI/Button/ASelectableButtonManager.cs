@@ -73,6 +73,8 @@ namespace MyScripts.Runtime.UI.Button
 
         private protected override void OnJustBeforeAwake()
         {
+            base.OnJustBeforeAwake();
+
             if (isOnlySelectedAtFirst)
                 this.IsSelected = true;
         }

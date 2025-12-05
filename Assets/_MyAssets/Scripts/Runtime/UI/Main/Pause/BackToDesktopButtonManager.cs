@@ -16,6 +16,8 @@ namespace MyScripts.Runtime.UI.Main.Pause
 
         private protected sealed override void OnClickSucceeded()
         {
+            base.OnClickSucceeded();
+
             confirmYesButtonManager.InjectInvokeAction(ConfirmYesButtonManager.InvokeAction.BackToDesktop);
             UIActivationManager.Instance.SetActive(UIActivationManager.UI.OnPauseConfirm, true);
         }

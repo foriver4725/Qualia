@@ -1,4 +1,4 @@
-namespace MyScripts.Runtime.UI.Title.GameQuit
+namespace MyScripts.Runtime.UI.Title
 {
     internal sealed class GameQuitButtonManager : Button.AButtonManager
     {
@@ -14,6 +14,8 @@ namespace MyScripts.Runtime.UI.Title.GameQuit
 
         private protected sealed override void OnClickSucceeded()
         {
+            base.OnClickSucceeded();
+
             UIActivationManager.Instance.SetActive(UIActivationManager.UI.GameQuitConfirm, true);
         }
     }

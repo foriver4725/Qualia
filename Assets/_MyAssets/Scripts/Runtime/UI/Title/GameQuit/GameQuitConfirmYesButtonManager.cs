@@ -16,6 +16,10 @@ namespace MyScripts.Runtime.UI.Title.GameQuit
         }
 
         private protected sealed override void OnClickSucceeded()
-            => GameQuitter.InvokeQuit();
+        {
+            base.OnClickSucceeded();
+
+            GameQuitter.InvokeQuit();
+        }
     }
 }

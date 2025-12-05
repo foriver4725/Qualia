@@ -13,6 +13,10 @@ namespace MyScripts.Runtime.UI.Title
         }
 
         private protected sealed override void OnClickSucceeded()
-            => UIActivationManager.Instance.SetActive(UIActivationManager.UI.SaveSlot, true);
+        {
+            base.OnClickSucceeded();
+
+            UIActivationManager.Instance.SetActive(UIActivationManager.UI.SaveSlot, true);
+        }
     }
 }

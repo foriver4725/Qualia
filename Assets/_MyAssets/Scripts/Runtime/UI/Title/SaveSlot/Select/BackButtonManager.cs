@@ -18,6 +18,8 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
 
         private protected sealed override void OnClickSucceeded()
         {
+            base.OnClickSucceeded();
+
             UIActivationManager.Instance.SetActive(UIActivationManager.UI.SaveSlot, false);
         }
     }

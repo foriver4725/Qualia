@@ -13,6 +13,10 @@ namespace MyScripts.Runtime.UI.Main.Pause
         }
 
         private protected sealed override void OnClickSucceeded()
-            => UIActivationManager.Instance.SetActive(UIActivationManager.UI.OnPauseConfirm, false);
+        {
+            base.OnClickSucceeded();
+
+            UIActivationManager.Instance.SetActive(UIActivationManager.UI.OnPauseConfirm, false);
+        }
     }
 }

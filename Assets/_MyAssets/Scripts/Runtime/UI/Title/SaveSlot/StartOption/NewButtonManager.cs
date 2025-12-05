@@ -6,6 +6,8 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.StartOption
     {
         private protected sealed override void OnClickSucceeded()
         {
+            base.OnClickSucceeded();
+
             StartSettings.IsNewGame = true;
             StateRootObjectManager.Instance.ChangeState(State.Confirm);
         }

@@ -49,6 +49,8 @@ namespace MyScripts.Runtime.UI.Main.Pause
 
         private protected sealed override void OnClickSucceeded()
         {
+            base.OnClickSucceeded();
+
             if (invokeAction == InvokeAction.BackToTitle)
             {
                 LoadManager.Instance.BeginLoad(Scene.Title);

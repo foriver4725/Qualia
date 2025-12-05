@@ -18,6 +18,8 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Confirm
 
         private protected sealed override void OnClickSucceeded()
         {
+            base.OnClickSucceeded();
+
             StateRootObjectManager.Instance.ChangeState(State.StartOption);
         }
     }

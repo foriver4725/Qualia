@@ -15,6 +15,10 @@ namespace MyScripts.Runtime.UI.Main.Pause
         }
 
         private protected sealed override void OnClickSucceeded()
-            => _ = pauseInvoker.TryUnpause();
+        {
+            base.OnClickSucceeded();
+
+            _ = pauseInvoker.TryUnpause();
+        }
     }
 }

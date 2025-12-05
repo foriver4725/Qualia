@@ -19,6 +19,8 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Confirm
 
         private protected sealed override void OnClickSucceeded()
         {
+            base.OnClickSucceeded();
+
             // UI で隠すけど、一応多重クリック防止
             if (LoadManager.Instance.HasBegun) return;
 

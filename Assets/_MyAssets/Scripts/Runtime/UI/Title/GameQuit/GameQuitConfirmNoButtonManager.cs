@@ -14,6 +14,8 @@ namespace MyScripts.Runtime.UI.Title.GameQuit
 
         private protected sealed override void OnClickSucceeded()
         {
+            base.OnClickSucceeded();
+
             UIActivationManager.Instance.SetActive(UIActivationManager.UI.GameQuitConfirm, false);
         }
     }
