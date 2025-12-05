@@ -1,6 +1,8 @@
+using MyScripts.Runtime.UI.Button;
+
 namespace MyScripts.Runtime.UI.Title
 {
-    internal sealed class StartButtonManager : Button.AButtonManager
+    internal sealed class StartButtonManager : AButtonManager
     {
         private void Update()
         {

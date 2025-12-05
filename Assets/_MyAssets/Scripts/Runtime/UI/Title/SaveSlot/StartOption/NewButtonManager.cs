@@ -18,6 +18,7 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.StartOption
         {
             base.OnClickSucceeded();
 
+            if (IsSelected) SelectFrameManager.Instance.Deselect();
             StartSettings.IsNewGame = true;
             StateRootObjectManager.Instance.ChangeState(State.Confirm);
         }
