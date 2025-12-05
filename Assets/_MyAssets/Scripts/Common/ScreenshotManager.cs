@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEngine.Rendering;
+using MyScripts.Common.SaveSystem;
 
 namespace MyScripts.Common
 {
@@ -8,6 +9,17 @@ namespace MyScripts.Common
         [SerializeField] private Camera renderingCamera;
         [SerializeField] private RenderTexture renderTextureReadOnly;
         [SerializeField] private Camera playerCamera;
+
+        private const float CaptureDuration = 30.0f; // ゲーム中、この秒数おきにスクリーンショットを撮る
+
+        private static string CreateFilePath(int fileId)
+            => Path.Combine(
+                Application.persistentDataPath,
+                ZString.Format("screenshot_{0}_{1:yyyyMMdd_HHmmss}.png", fileId, DateTime.Now
+            ));
+
+        private void Awake()
+            => CaptureAndSavePeriodicallyAsync(Variables.CurrentSlotIndex, destroyCancellationToken).Forget();
 
         private void LateUpdate()
         {
@@ -18,15 +30,24 @@ namespace MyScripts.Common
             );
         }
 
-        internal async UniTask CaptureAndSaveAsync(string filePath)
+        private async UniTask CaptureAndSavePeriodicallyAsync(int fileId, CancellationToken ct)
+        {
+            ct.ThrowIfCancellationRequested();
+
+            while (true)
+            {
+                await CaptureAndSaveAsync(fileId);
+                await UniTask.WaitForSeconds(CaptureDuration, ignoreTimeScale: true, cancellationToken: ct);
+            }
+        }
+
+        private async UniTask CaptureAndSaveAsync(int fileId)
         {
             int w = renderTextureReadOnly.width;
             int h = renderTextureReadOnly.height;
 
             // 一瞬だけレンダリング
-            renderingCamera.enabled = true;
             renderingCamera.Render();
-            renderingCamera.enabled = false;
 
             "Screenshot captured".Print();
 
@@ -48,25 +69,32 @@ namespace MyScripts.Common
             // GPU転送をawait
             byte[] raw = await tcs.Task;
 
-            // PNG化 & 保存
+            await UniTask.SwitchToMainThread();
+
+            // ファイルパス
+            string filePath = CreateFilePath(fileId);
+
+            var tex = new Texture2D(w, h, TextureFormat.RGBA32, false);
+            tex.LoadRawTextureData(raw);
+            tex.Apply();
+
+            byte[] png = tex.EncodeToPNG();
+            Destroy(tex);
+
             await UniTask.RunOnThreadPool(() =>
             {
-                var tex = new Texture2D(w, h, TextureFormat.RGBA32, false);
-                tex.LoadRawTextureData(raw);
-                tex.Apply();
-
-                byte[] png = tex.EncodeToPNG();
-                Destroy(tex);
-
                 File.WriteAllBytes(filePath, png);
             });
 
             $"Screenshot saved: {filePath}".Print();
         }
 
-        internal static async UniTask<Texture2D> LoadAsync(string filePath)
+        internal static async UniTask<Texture2D> LoadAsync(int fileId)
         {
-            return await UniTask.RunOnThreadPool(() =>
+            // ファイルパス
+            string filePath = CreateFilePath(fileId);
+
+            byte[] bytes = await UniTask.RunOnThreadPool(() =>
             {
                 if (!File.Exists(filePath))
                 {
@@ -74,15 +102,15 @@ namespace MyScripts.Common
                     return null;
                 }
 
-                byte[] bytes = File.ReadAllBytes(filePath);
-
-                var tex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
-                tex.LoadImage(bytes);  // PNG / JPG 内部で自動処理
-
-                $"Screenshot loaded: {filePath}".Print();
-
-                return tex;
+                return File.ReadAllBytes(filePath);
             });
+
+            var tex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+            tex.LoadImage(bytes);  // PNG / JPG 内部で自動処理
+
+            $"Screenshot loaded: {filePath}".Print();
+
+            return tex;
         }
     }
 }
