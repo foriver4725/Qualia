@@ -20,6 +20,7 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
         {
             base.OnClickSucceeded();
 
+            if (IsSelected) SelectFrameManager.Instance.Deselect();
             StartSettings.SlotIndex = slotIndex;
             StateRootObjectManager.Instance.ChangeState(State.StartOption);
         }

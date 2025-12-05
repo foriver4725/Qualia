@@ -18,6 +18,7 @@ namespace MyScripts.Runtime.UI.Main.Pause
         {
             base.OnClickSucceeded();
 
+            if (IsSelected) SelectFrameManager.Instance.Deselect();
             _ = pauseInvoker.TryUnpause();
         }
     }
