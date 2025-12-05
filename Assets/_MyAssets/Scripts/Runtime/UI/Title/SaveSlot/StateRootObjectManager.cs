@@ -7,6 +7,9 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot
         [SerializeField] private GameObject confirmRoot;
         [SerializeField] private GameObject hideAllRoot;
 
+        [SerializeField] private Select.ViewConstructor selectViewConstructor;
+        [SerializeField] private StartOption.ViewConstructor startOptionViewConstructor;
+
         private State state = State.None;
 
         private void Awake()
@@ -24,6 +27,15 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot
             this.startOptionRoot.SetActive(this.state == State.StartOption);
             this.confirmRoot.SetActive(this.state == State.Confirm);
             this.hideAllRoot.SetActive(this.state == State.HideAll);
+
+            if (this.state == State.Select)
+            {
+                this.selectViewConstructor.Construct();
+            }
+            else if (this.state == State.StartOption)
+            {
+                this.startOptionViewConstructor.Construct();
+            }
         }
     }
 }
