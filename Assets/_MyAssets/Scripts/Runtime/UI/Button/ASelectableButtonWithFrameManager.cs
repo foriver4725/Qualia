@@ -18,54 +18,47 @@ namespace MyScripts.Runtime.UI.Button
         /// </summary>
         private protected abstract void OnSubmittedWithSelection();
 
-        private protected sealed override void OnJustBeforeAwake()
+        private protected sealed override void OnBecameSelected()
         {
-            base.OnJustBeforeAwake();
+            SelectFrameManager.Instance.Reselect(this);
+        }
 
+        private protected sealed override void OnBecameDeselected()
+        {
             SelectFrameManager.Instance.Deselect(this);
         }
 
         private void Update()
         {
-            if (IsFrontUI)
-            {
-                if (InputManager.OutGame.MoveLeft)
-                {
-                    if (TrySelectLeft())
-                        InputManager.OutGame.MakeMoveLeftInputDisabledUntilNextFrame();
-                }
-                else if (InputManager.OutGame.MoveRight)
-                {
-                    if (TrySelectRight())
-                        InputManager.OutGame.MakeMoveRightInputDisabledUntilNextFrame();
-                }
-                else if (InputManager.OutGame.MoveDown)
-                {
-                    if (TrySelectDown())
-                        InputManager.OutGame.MakeMoveDownInputDisabledUntilNextFrame();
-                }
-                else if (InputManager.OutGame.MoveUp)
-                {
-                    if (TrySelectUp())
-                        InputManager.OutGame.MakeMoveUpInputDisabledUntilNextFrame();
-                }
-                else if (InputManager.OutGame.Submit)
-                {
-                    if (IsSelected)
-                    {
-                        InputManager.OutGame.MakeSubmitInputDisabledUntilNextFrame();
-                        this.OnSubmittedWithSelection();
-                    }
-                }
+            if (!IsFrontUI) return;
 
-                // 枠線を描画
-                if (IsSelected)
-                    SelectFrameManager.Instance.Reselect(this);
-            }
-            else
+            if (InputManager.OutGame.MoveLeft)
             {
-                // 枠線を非表示にする
-                SelectFrameManager.Instance.Deselect(this);
+                if (TrySelectLeft())
+                    InputManager.OutGame.MakeMoveLeftInputDisabledUntilNextFrame();
+            }
+            else if (InputManager.OutGame.MoveRight)
+            {
+                if (TrySelectRight())
+                    InputManager.OutGame.MakeMoveRightInputDisabledUntilNextFrame();
+            }
+            else if (InputManager.OutGame.MoveDown)
+            {
+                if (TrySelectDown())
+                    InputManager.OutGame.MakeMoveDownInputDisabledUntilNextFrame();
+            }
+            else if (InputManager.OutGame.MoveUp)
+            {
+                if (TrySelectUp())
+                    InputManager.OutGame.MakeMoveUpInputDisabledUntilNextFrame();
+            }
+            else if (InputManager.OutGame.Submit)
+            {
+                if (IsSelected)
+                {
+                    InputManager.OutGame.MakeSubmitInputDisabledUntilNextFrame();
+                    this.OnSubmittedWithSelection();
+                }
             }
         }
     }

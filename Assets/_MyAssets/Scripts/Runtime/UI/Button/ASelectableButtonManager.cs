@@ -25,6 +25,9 @@ namespace MyScripts.Runtime.UI.Button
         private protected ASelectableButtonManager Down => down;
         private protected ASelectableButtonManager Up => up;
 
+        private protected abstract void OnBecameSelected();
+        private protected abstract void OnBecameDeselected();
+
         private protected bool TrySelectLeft()
         {
             if (!CanSelectLeft) return false;
@@ -33,6 +36,10 @@ namespace MyScripts.Runtime.UI.Button
 
             this.IsSelected = false;
             left.IsSelected = true;
+
+            this.OnBecameDeselected();
+            left.OnBecameSelected();
+
             return true;
         }
 
@@ -44,6 +51,10 @@ namespace MyScripts.Runtime.UI.Button
 
             this.IsSelected = false;
             right.IsSelected = true;
+
+            this.OnBecameDeselected();
+            right.OnBecameSelected();
+
             return true;
         }
 
@@ -55,6 +66,10 @@ namespace MyScripts.Runtime.UI.Button
 
             this.IsSelected = false;
             down.IsSelected = true;
+
+            this.OnBecameDeselected();
+            down.OnBecameSelected();
+
             return true;
         }
 
@@ -66,6 +81,10 @@ namespace MyScripts.Runtime.UI.Button
 
             this.IsSelected = false;
             up.IsSelected = true;
+
+            this.OnBecameDeselected();
+            up.OnBecameSelected();
+
             return true;
         }
 
@@ -77,6 +96,8 @@ namespace MyScripts.Runtime.UI.Button
         internal void SelectThisForciblyUnsafe()
         {
             this.IsSelected = true;
+
+            this.OnBecameSelected();
         }
 
         /// <summary>
@@ -87,6 +108,8 @@ namespace MyScripts.Runtime.UI.Button
         internal void DeselectThisForciblyUnsafe()
         {
             this.IsSelected = false;
+
+            this.OnBecameDeselected();
         }
     }
 }
