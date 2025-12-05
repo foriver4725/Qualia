@@ -565,11 +565,6 @@ MonoBehaviour:
   spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
-  left: {fileID: 1792769561}
-  right: {fileID: 0}
-  down: {fileID: 0}
-  up: {fileID: 0}
-  isOnlySelectedAtFirst: 0
 --- !u!1 &222100966
 GameObject:
   m_ObjectHideFlags: 0
@@ -4785,11 +4780,6 @@ MonoBehaviour:
   spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
-  left: {fileID: 0}
-  right: {fileID: 162066491}
-  down: {fileID: 0}
-  up: {fileID: 0}
-  isOnlySelectedAtFirst: 0
 --- !u!1 &1800033893
 GameObject:
   m_ObjectHideFlags: 0
