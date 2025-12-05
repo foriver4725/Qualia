@@ -10,6 +10,7 @@ namespace MyScripts.Runtime.UI.Button
         [SerializeField] private ASelectableButtonManager right;
         [SerializeField] private ASelectableButtonManager down;
         [SerializeField] private ASelectableButtonManager up;
+        [SerializeField] private bool isOnlySelectedAtFirst = false;
 
         // Try... で処理しているから、あまり見る必要はない
         private protected bool IsSelected { get; private set; } = false;
@@ -24,6 +25,7 @@ namespace MyScripts.Runtime.UI.Button
         private protected ASelectableButtonManager Right => right;
         private protected ASelectableButtonManager Down => down;
         private protected ASelectableButtonManager Up => up;
+        private protected bool IsOnlySelectedAtFirst => isOnlySelectedAtFirst;
 
         private protected bool TrySelectLeft()
         {
@@ -67,6 +69,14 @@ namespace MyScripts.Runtime.UI.Button
             this.IsSelected = false;
             up.IsSelected = true;
             return true;
+        }
+
+        private protected override void OnJustBeforeAwake()
+        {
+            base.OnJustBeforeAwake();
+
+            if (isOnlySelectedAtFirst)
+                this.IsSelected = true;
         }
     }
 }
