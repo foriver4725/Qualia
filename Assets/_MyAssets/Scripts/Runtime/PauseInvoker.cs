@@ -32,7 +32,6 @@ namespace MyScripts.Runtime
             InputManager.InGame.Enabled = false;
 
             UIActivationManager.Instance.SetActive(UIActivationManager.UI.Pause, true);
-            UI.Main.Pause.ViewConstructor.Instance.Construct();
             CursorAdjuster.SetCursorEnabled(true);
 
             return true;
