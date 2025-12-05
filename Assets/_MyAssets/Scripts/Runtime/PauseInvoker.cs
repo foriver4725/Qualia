@@ -1,5 +1,5 @@
+using MyScripts.Runtime.UI;
 using MyScripts.Runtime.UI.Main;
-using MyScripts.Runtime.UI.Main.Pause;
 
 namespace MyScripts.Runtime
 {
@@ -9,7 +9,7 @@ namespace MyScripts.Runtime
     /// </summary>
     internal sealed class PauseInvoker : MonoBehaviour
     {
-        [SerializeField] private ViewConstructor pauseViewConstructor;
+        [SerializeField] private AViewConstructor pauseViewConstructor;
 
         private bool isPaused = false;
 

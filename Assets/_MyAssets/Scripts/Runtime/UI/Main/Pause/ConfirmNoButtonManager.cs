@@ -4,8 +4,7 @@ namespace MyScripts.Runtime.UI.Main.Pause
 {
     internal sealed class ConfirmNoButtonManager : AButtonManager
     {
-        // ポーズUIで最初に選択するため
-        [SerializeField] private ASelectableButtonManager resumeButtonManager;
+        [SerializeField] private AViewConstructor pauseViewConstructor;
 
         private void Update()
         {
@@ -21,7 +20,7 @@ namespace MyScripts.Runtime.UI.Main.Pause
         {
             base.OnClickSucceeded();
 
-            resumeButtonManager.SelectThisForciblyUnsafe();
+            pauseViewConstructor.Construct();
             UIActivationManager.Instance.SetActive(UIActivationManager.UI.OnPauseConfirm, false);
         }
     }

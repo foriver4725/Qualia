@@ -4,6 +4,7 @@ namespace MyScripts.Runtime.UI.Main.Pause
 {
     internal sealed class BackToTitleButtonManager : ASelectableButtonWithFrameManager
     {
+        [SerializeField] private AViewConstructor pauseViewConstructor;
         [SerializeField] private ConfirmYesButtonManager confirmYesButtonManager;
 
         private protected sealed override bool IsFrontUI => UIActivationManager.Instance.Front == UIActivationManager.UI.Pause;
@@ -18,7 +19,7 @@ namespace MyScripts.Runtime.UI.Main.Pause
         {
             base.OnClickSucceeded();
 
-            if (this.IsSelected) this.DeselectThisForciblyUnsafe();
+            pauseViewConstructor.Deconstruct();
             confirmYesButtonManager.InjectInvokeAction(ConfirmYesButtonManager.InvokeAction.BackToTitle);
             UIActivationManager.Instance.SetActive(UIActivationManager.UI.OnPauseConfirm, true);
         }

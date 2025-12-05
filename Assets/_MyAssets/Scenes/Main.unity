@@ -3098,7 +3098,7 @@ MonoBehaviour:
   spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 457859214}
-  resumeButtonManager: {fileID: 636994049}
+  pauseViewConstructor: {fileID: 1252698440}
 --- !u!1 &486648491
 GameObject:
   m_ObjectHideFlags: 0
@@ -4065,6 +4065,7 @@ MonoBehaviour:
   right: {fileID: 1320726220}
   down: {fileID: 0}
   up: {fileID: 636994049}
+  pauseViewConstructor: {fileID: 1252698440}
   confirmYesButtonManager: {fileID: 156834168}
 --- !u!1 &634230339
 GameObject:
@@ -8356,6 +8357,7 @@ MonoBehaviour:
   right: {fileID: 0}
   down: {fileID: 0}
   up: {fileID: 636994049}
+  pauseViewConstructor: {fileID: 1252698440}
   confirmYesButtonManager: {fileID: 156834168}
 --- !u!1 &1341417392
 GameObject:
