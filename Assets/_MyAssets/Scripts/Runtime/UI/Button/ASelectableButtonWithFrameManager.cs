@@ -22,7 +22,7 @@ namespace MyScripts.Runtime.UI.Button
         {
             base.OnJustBeforeAwake();
 
-            SelectFrameManager.Instance.Deselect(this);
+            SelectFrameManager.Instance.Deselect();
         }
 
         private void Update()
@@ -65,7 +65,7 @@ namespace MyScripts.Runtime.UI.Button
             else
             {
                 // 枠線を非表示にする
-                SelectFrameManager.Instance.Deselect(this);
+                SelectFrameManager.Instance.Deselect();
             }
         }
     }
