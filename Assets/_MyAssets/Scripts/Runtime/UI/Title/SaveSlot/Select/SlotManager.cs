@@ -1,19 +1,17 @@
-using UnityEngine.EventSystems;
+using MyScripts.Runtime.UI.Button;
 
 namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
 {
-    internal sealed class SlotManager : MonoBehaviour
+    internal sealed class SlotManager : AButtonManager
     {
-        [SerializeField] private EventTrigger raycastedBg;
         [SerializeField, Range(0, 10)] private int slotIndex = 0;
 
-        private void Awake()
+        private protected sealed override void OnClickSucceeded()
         {
-            raycastedBg.AddListener(EventTriggerType.PointerClick, _ =>
-            {
-                StartSettings.SlotIndex = slotIndex;
-                StateRootObjectManager.Instance.ChangeState(State.StartOption);
-            });
+            base.OnClickSucceeded();
+
+            StartSettings.SlotIndex = slotIndex;
+            StateRootObjectManager.Instance.ChangeState(State.StartOption);
         }
     }
 }

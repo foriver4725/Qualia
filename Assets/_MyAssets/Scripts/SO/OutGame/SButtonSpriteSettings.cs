@@ -8,13 +8,16 @@ namespace MyScripts.SO
         internal enum ButtonType : byte
         {
             Normal,
+            SaveSlot,
         }
 
         [SerializeField] private SpriteSettings normal;
+        [SerializeField] private SpriteSettings saveSlot;
 
         internal SpriteSettings Get(ButtonType type) => type switch
         {
             ButtonType.Normal => normal,
+            ButtonType.SaveSlot => saveSlot,
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
     }
