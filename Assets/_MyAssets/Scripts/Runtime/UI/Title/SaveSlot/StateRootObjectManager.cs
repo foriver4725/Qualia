@@ -1,6 +1,6 @@
 namespace MyScripts.Runtime.UI.Title.SaveSlot
 {
-    internal sealed class StateRootObjectManager : MonoBehaviour
+    internal sealed class StateRootObjectManager : ASingletonMonoBehaviour<StateRootObjectManager>
     {
         [SerializeField] private GameObject selectRoot;
         [SerializeField] private GameObject startOptionRoot;
@@ -14,7 +14,7 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot
             ChangeState(State.None, doNothingIfSame: false);
         }
 
-        private void ChangeState(State newState, bool doNothingIfSame = true)
+        internal void ChangeState(State newState, bool doNothingIfSame = true)
         {
             if (doNothingIfSame && this.state == newState)
                 return;
