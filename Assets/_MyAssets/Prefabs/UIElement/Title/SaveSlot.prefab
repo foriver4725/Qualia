@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 650295062664018024}
   - component: {fileID: 5625860385002333195}
   m_Layer: 5
-  m_Name: gameScreenImage
+  m_Name: Screenshot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5849056, g: 0.08276958, b: 0.08276958, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 1385972543868462375}
   - component: {fileID: 2012903741691740942}
   m_Layer: 5
-  m_Name: game_screen
+  m_Name: ScreenshotBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 7613469740372496997}
   - component: {fileID: 8546870143520296642}
   m_Layer: 5
-  m_Name: day_text
+  m_Name: DateText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -300,7 +300,7 @@ GameObject:
   - component: {fileID: 431296429674069914}
   - component: {fileID: 2685642845690019477}
   m_Layer: 5
-  m_Name: leaf
+  m_Name: LeafDecoration
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -375,7 +375,7 @@ GameObject:
   - component: {fileID: 721195030565378215}
   - component: {fileID: 2028091191346049743}
   m_Layer: 5
-  m_Name: kegare_text
+  m_Name: ProgressLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -511,7 +511,7 @@ GameObject:
   - component: {fileID: 2762989445276715104}
   - component: {fileID: 829429515549644333}
   m_Layer: 5
-  m_Name: File_text
+  m_Name: SlotName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -736,7 +736,7 @@ GameObject:
   - component: {fileID: 8320539344308603539}
   - component: {fileID: 347558905062021864}
   m_Layer: 5
-  m_Name: line
+  m_Name: SplitLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -811,7 +811,7 @@ GameObject:
   - component: {fileID: 7722670118775211474}
   - component: {fileID: 6065658366343612044}
   m_Layer: 5
-  m_Name: kegare_text2
+  m_Name: ProgressText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -864,7 +864,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "50\uFF05"
+  m_text: 100.00%
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6e9e6f1cea410b94abf4ced5ca188b9c, type: 2}
   m_sharedMaterial: {fileID: 4098956524811788393, guid: 6e9e6f1cea410b94abf4ced5ca188b9c, type: 2}
@@ -964,14 +964,14 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4551102813718655831}
+  - {fileID: 2790563344929576408}
+  - {fileID: 5617882569652261026}
   - {fileID: 1328011321325460630}
   - {fileID: 6148338213484031888}
-  - {fileID: 6604890514918055535}
-  - {fileID: 5617882569652261026}
   - {fileID: 655243606078858599}
   - {fileID: 9100133062311558658}
+  - {fileID: 6604890514918055535}
   - {fileID: 2582891856534128996}
-  - {fileID: 2790563344929576408}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}

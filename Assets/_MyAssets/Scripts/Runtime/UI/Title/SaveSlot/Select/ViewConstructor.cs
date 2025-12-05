@@ -47,7 +47,7 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
                 else
                 {
                     slotInfos[i].ThumbnailImage.sprite = null; // デフォルトの画像にするなど
-                    slotInfos[i].ProgressText.text = "空きスロット";
+                    slotInfos[i].ProgressText.text = "-";
                     slotInfos[i].DateText.text = "-\n-";
                 }
             }
