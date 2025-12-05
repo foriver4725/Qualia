@@ -3746,6 +3746,11 @@ MonoBehaviour:
   spriteSettingsType: 1
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
+  left: {fileID: 0}
+  right: {fileID: 1880367729}
+  down: {fileID: 0}
+  up: {fileID: 0}
+  isOnlySelectedAtFirst: 1
   slotIndex: 0
 --- !u!1 &1407830531
 GameObject:
@@ -4628,6 +4633,11 @@ MonoBehaviour:
   spriteSettingsType: 1
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
+  left: {fileID: 1880367729}
+  right: {fileID: 0}
+  down: {fileID: 0}
+  up: {fileID: 0}
+  isOnlySelectedAtFirst: 0
   slotIndex: 2
 --- !u!1 &1734566688
 GameObject:
@@ -5058,6 +5068,11 @@ MonoBehaviour:
   spriteSettingsType: 1
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
+  left: {fileID: 1397707857}
+  right: {fileID: 1730799789}
+  down: {fileID: 0}
+  up: {fileID: 0}
+  isOnlySelectedAtFirst: 0
   slotIndex: 1
 --- !u!1 &1933717958
 GameObject:
