@@ -6,7 +6,7 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.StartOption
     {
         internal void Construct()
         {
-            // Continueボタンを消したり、ラベルテキストを変えたり？
+            // Continueボタンを消したり
             throw new NotImplementedException();
         }
     }

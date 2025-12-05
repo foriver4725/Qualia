@@ -9,6 +9,7 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot
 
         [SerializeField] private Select.ViewConstructor selectViewConstructor;
         [SerializeField] private StartOption.ViewConstructor startOptionViewConstructor;
+        [SerializeField] private Confirm.ViewConstructor confirmViewConstructor;
 
         private State state = State.None;
 
@@ -28,14 +29,9 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot
             this.confirmRoot.SetActive(this.state == State.Confirm);
             this.hideAllRoot.SetActive(this.state == State.HideAll);
 
-            if (this.state == State.Select)
-            {
-                this.selectViewConstructor.Construct();
-            }
-            else if (this.state == State.StartOption)
-            {
-                this.startOptionViewConstructor.Construct();
-            }
+            if (this.state == State.Select) this.selectViewConstructor.Construct();
+            else if (this.state == State.StartOption) this.startOptionViewConstructor.Construct();
+            else if (this.state == State.Confirm) this.confirmViewConstructor.Construct();
         }
     }
 }
