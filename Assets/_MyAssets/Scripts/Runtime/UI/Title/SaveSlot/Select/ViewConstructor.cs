@@ -40,15 +40,15 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
                     }
                     float leftRatio = 100.0f * leftCount / Constants.SOSSignCount;
 
-                    slotInfos[i].ThumbnailImage.sprite = null;
+                    slotInfos[i].ThumbnailImage.sprite = null; // セーブデータからサムネイル画像を取得してセットするなど
                     slotInfos[i].ProgressText.SetTextFormat("{0:F2}%", leftRatio);
-                    slotInfos[i].DateText.text = "yyyy/MM/dd\nHH:mm";
+                    slotInfos[i].DateText.text = ZString.Format("{0:yyyy-MM-dd}\n{0:HH:mm}", slotData.GetLastSavedAt());
                 }
                 else
                 {
                     slotInfos[i].ThumbnailImage.sprite = null; // デフォルトの画像にするなど
                     slotInfos[i].ProgressText.text = "-";
-                    slotInfos[i].DateText.text = "-\n-";
+                    slotInfos[i].DateText.text = "-";
                 }
             }
         }

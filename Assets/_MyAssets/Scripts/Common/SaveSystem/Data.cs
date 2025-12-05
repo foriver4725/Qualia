@@ -11,9 +11,23 @@ internal sealed class Data
 internal sealed class SingleData
 {
     public bool IsValid;
+    public string LastSavedAt;
     public bool[] HasFoundSOSSigns;
     public Vector3 PlayerPosition;
     public Vector3 PlayerForward;
+
+    public void SetLastSavedAt(DateTime dateTime)
+    {
+        LastSavedAt = dateTime.ToString();
+    }
+
+    public DateTime GetLastSavedAt()
+    {
+        if (DateTime.TryParse(LastSavedAt, out var result))
+            return result;
+        else
+            return DateTime.MinValue;
+    }
 }
 
 internal static class Constants
