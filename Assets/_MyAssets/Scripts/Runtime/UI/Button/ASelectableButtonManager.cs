@@ -37,6 +37,8 @@ namespace MyScripts.Runtime.UI.Button
             this.IsSelected = false;
             left.IsSelected = true;
 
+            this.PlayHoverSe();
+
             this.OnBecameDeselected();
             left.OnBecameSelected();
 
@@ -51,6 +53,8 @@ namespace MyScripts.Runtime.UI.Button
 
             this.IsSelected = false;
             right.IsSelected = true;
+
+            this.PlayHoverSe();
 
             this.OnBecameDeselected();
             right.OnBecameSelected();
@@ -67,6 +71,8 @@ namespace MyScripts.Runtime.UI.Button
             this.IsSelected = false;
             down.IsSelected = true;
 
+            this.PlayHoverSe();
+
             this.OnBecameDeselected();
             down.OnBecameSelected();
 
@@ -82,6 +88,8 @@ namespace MyScripts.Runtime.UI.Button
             this.IsSelected = false;
             up.IsSelected = true;
 
+            this.PlayHoverSe();
+
             this.OnBecameDeselected();
             up.OnBecameSelected();
 
@@ -93,9 +101,12 @@ namespace MyScripts.Runtime.UI.Button
         /// 一つもボタンが選択されていない時にのみ、実行するべき<br/>
         /// 例えば初期化処理など<br/>
         /// </summary>
-        internal void SelectThisForciblyUnsafe()
+        internal void SelectThisForciblyUnsafe(bool playSe = false)
         {
             this.IsSelected = true;
+
+            if (playSe)
+                this.PlayHoverSe();
 
             this.OnBecameSelected();
         }
@@ -105,9 +116,12 @@ namespace MyScripts.Runtime.UI.Button
         /// 現在一つのみボタンが選択されている時にのみ、実行するべき<br/>
         /// 例えばUIが閉じられる直前など<br/>
         /// </summary>
-        internal void DeselectThisForciblyUnsafe()
+        internal void DeselectThisForciblyUnsafe(bool playSe = false)
         {
             this.IsSelected = false;
+
+            if (playSe)
+                this.PlayHoverSe();
 
             this.OnBecameDeselected();
         }
