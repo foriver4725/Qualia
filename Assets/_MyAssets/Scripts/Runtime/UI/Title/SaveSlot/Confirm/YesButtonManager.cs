@@ -5,6 +5,18 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Confirm
 {
     internal sealed class YesButtonManager : AButtonManager
     {
+        private void Update()
+        {
+            if (UIActivationManager.Instance.Front == UIActivationManager.UI.SaveSlot
+                && StateRootObjectManager.Instance.State == State.Confirm
+                && InputManager.OutGame.Submit)
+            {
+                InputManager.OutGame.MakeSubmitInputDisabledUntilNextFrame();
+                base.PlayClickSe();
+                this.OnClickSucceeded();
+            }
+        }
+
         private protected sealed override void OnClickSucceeded()
         {
             // UI で隠すけど、一応多重クリック防止

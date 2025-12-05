@@ -11,7 +11,7 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot
         [SerializeField] private StartOption.ViewConstructor startOptionViewConstructor;
         [SerializeField] private Confirm.ViewConstructor confirmViewConstructor;
 
-        private State state = State.Select;
+        internal State State { get; private set; } = State.Select;
 
         private void Awake()
         {
@@ -20,18 +20,18 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot
 
         internal void ChangeState(State newState, bool doNothingIfSame = true)
         {
-            if (doNothingIfSame && this.state == newState)
+            if (doNothingIfSame && this.State == newState)
                 return;
-            this.state = newState;
+            this.State = newState;
 
-            this.selectRoot.SetActive(this.state == State.Select);
-            this.startOptionRoot.SetActive(this.state == State.StartOption);
-            this.confirmRoot.SetActive(this.state == State.Confirm);
-            this.hideAllRoot.SetActive(this.state == State.HideAll);
+            this.selectRoot.SetActive(this.State == State.Select);
+            this.startOptionRoot.SetActive(this.State == State.StartOption);
+            this.confirmRoot.SetActive(this.State == State.Confirm);
+            this.hideAllRoot.SetActive(this.State == State.HideAll);
 
-            if (this.state == State.Select) this.selectViewConstructor.Construct();
-            else if (this.state == State.StartOption) this.startOptionViewConstructor.Construct();
-            else if (this.state == State.Confirm) this.confirmViewConstructor.Construct();
+            if (this.State == State.Select) this.selectViewConstructor.Construct();
+            else if (this.State == State.StartOption) this.startOptionViewConstructor.Construct();
+            else if (this.State == State.Confirm) this.confirmViewConstructor.Construct();
         }
     }
 }
