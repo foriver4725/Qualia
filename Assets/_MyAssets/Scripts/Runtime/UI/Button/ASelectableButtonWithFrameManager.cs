@@ -1,19 +1,16 @@
-using MyScripts.Runtime.UI.Button;
-
-namespace MyScripts.Runtime.UI.Main.Pause
+namespace MyScripts.Runtime.UI.Button
 {
     /// <summary>
     /// OnJustBeforeAwake(), Update() を使用<br/>
     /// Previous は上のボタン<br/>
     /// Next は下のボタン<br/>
     /// </summary>
-    internal abstract class ASelectableButtonManager : Button.ASelectableButtonManager
+    internal abstract class ASelectableButtonWithFrameManager : ASelectableButtonManager
     {
         /// <summary>
-        /// このボタンがどのUIに所属しているか<br/>
         /// このUIが最前面の場合のみ入力を受け付ける<br/>
         /// </summary>
-        private protected abstract UIActivationManager.UI LocatedUI { get; }
+        private protected abstract bool IsFrontUI { get; }
 
         /// <summary>
         /// 選択されている状態で決定された<br/>
@@ -29,7 +26,7 @@ namespace MyScripts.Runtime.UI.Main.Pause
 
         private void Update()
         {
-            if (UIActivationManager.Instance.Front == LocatedUI)
+            if (IsFrontUI)
             {
                 if (InputManager.OutGame.MoveLeft)
                 {
