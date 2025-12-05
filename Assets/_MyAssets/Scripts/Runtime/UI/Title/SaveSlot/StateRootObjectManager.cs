@@ -11,11 +11,11 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot
         [SerializeField] private StartOption.ViewConstructor startOptionViewConstructor;
         [SerializeField] private Confirm.ViewConstructor confirmViewConstructor;
 
-        private State state = State.None;
+        private State state = State.Select;
 
         private void Awake()
         {
-            ChangeState(State.None, doNothingIfSame: false);
+            ChangeState(State.Select, doNothingIfSame: false);
         }
 
         internal void ChangeState(State newState, bool doNothingIfSame = true)

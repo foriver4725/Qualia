@@ -2,8 +2,7 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot;
 
 internal enum State : byte
 {
-    None,
-    Select,
+    Select, // デフォルト
     StartOption,
     Confirm,
     HideAll,

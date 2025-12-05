@@ -39,14 +39,14 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
                     float leftRatio = 100.0f * leftCount / Constants.SOSSignCount;
 
                     slotInfos[i].ThumbnailImage.sprite = null;
-                    slotInfos[i].ProgressText.SetTextFormat("穢れ度 : {0:F2}%", leftRatio);
-                    slotInfos[i].DateText.text = null;//slotData.SaveDate.ToString("yyyy/MM/dd HH:mm:ss");
+                    slotInfos[i].ProgressText.SetTextFormat("{0:F2}%", leftRatio);
+                    slotInfos[i].DateText.text = "yyyy/MM/dd\nHH:mm";
                 }
                 else
                 {
                     slotInfos[i].ThumbnailImage.sprite = null; // デフォルトの画像にするなど
                     slotInfos[i].ProgressText.text = "空きスロット";
-                    slotInfos[i].DateText.text = "";
+                    slotInfos[i].DateText.text = "-\n-";
                 }
             }
         }

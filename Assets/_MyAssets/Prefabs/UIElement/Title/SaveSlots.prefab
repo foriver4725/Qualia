@@ -262,7 +262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5848717412411293005}
   m_Layer: 5
-  m_Name: Save
+  m_Name: SaveSlots
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
