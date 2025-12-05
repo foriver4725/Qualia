@@ -10,7 +10,6 @@ namespace MyScripts.Runtime.UI.Button
         [SerializeField] private ASelectableButtonManager right;
         [SerializeField] private ASelectableButtonManager down;
         [SerializeField] private ASelectableButtonManager up;
-        [SerializeField] private bool isOnlySelectedAtFirst = false;
 
         // Try... で処理しているから、あまり見る必要はない
         private protected bool IsSelected { get; private set; } = false;
@@ -25,7 +24,6 @@ namespace MyScripts.Runtime.UI.Button
         private protected ASelectableButtonManager Right => right;
         private protected ASelectableButtonManager Down => down;
         private protected ASelectableButtonManager Up => up;
-        private protected bool IsOnlySelectedAtFirst => isOnlySelectedAtFirst;
 
         private protected bool TrySelectLeft()
         {
@@ -71,12 +69,14 @@ namespace MyScripts.Runtime.UI.Button
             return true;
         }
 
-        private protected override void OnJustBeforeAwake()
+        /// <summary>
+        /// 諸々の条件をガン無視して、強制的に自身を選択する<br/>
+        /// 一つもボタンが選択されていない時にのみ、実行するべき<br/>
+        /// 例えば初期化処理など<br/>
+        /// </summary>
+        internal void SelectThisForciblyUnsafe()
         {
-            base.OnJustBeforeAwake();
-
-            if (isOnlySelectedAtFirst)
-                this.IsSelected = true;
+            this.IsSelected = true;
         }
     }
 }

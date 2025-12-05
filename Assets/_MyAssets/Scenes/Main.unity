@@ -1761,6 +1761,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e65d20aff31c544d95270e14ad647b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resumeButtonManager: {fileID: 636994049}
 --- !u!1001 &232782354
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4063,7 +4064,6 @@ MonoBehaviour:
   right: {fileID: 1320726220}
   down: {fileID: 0}
   up: {fileID: 636994049}
-  isOnlySelectedAtFirst: 0
   confirmYesButtonManager: {fileID: 156834168}
 --- !u!1 &634230339
 GameObject:
@@ -4196,7 +4196,6 @@ MonoBehaviour:
   right: {fileID: 0}
   down: {fileID: 1320726220}
   up: {fileID: 0}
-  isOnlySelectedAtFirst: 1
   pauseInvoker: {fileID: 196192313}
 --- !u!1 &658782583
 GameObject:
@@ -5569,6 +5568,7 @@ MonoBehaviour:
   markColorWhenNotActive:
     serializedVersion: 2
     rgba: 4279659042
+  fillChangeSpeed: 2
 --- !u!114 &906896384 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2680911314314417782, guid: fc5a3d73f02683342b4b0d4b58f7271e, type: 3}
@@ -8309,7 +8309,6 @@ MonoBehaviour:
   right: {fileID: 0}
   down: {fileID: 0}
   up: {fileID: 636994049}
-  isOnlySelectedAtFirst: 0
   confirmYesButtonManager: {fileID: 156834168}
 --- !u!1 &1341417392
 GameObject:

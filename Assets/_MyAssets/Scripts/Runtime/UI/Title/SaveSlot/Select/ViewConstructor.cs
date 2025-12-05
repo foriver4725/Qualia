@@ -20,6 +20,8 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
 
         // セーブスロットの順番に
         [SerializeField] private SlotInfo[] slotInfos;
+        // 最初に選択するため
+        [SerializeField] private SlotManager mostLeftSlot;
 
         internal void Construct()
         {
@@ -49,6 +51,8 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
                     slotInfos[i].DateText.text = "-\n-";
                 }
             }
+
+            mostLeftSlot.SelectThisForciblyUnsafe();
         }
     }
 }

@@ -12,13 +12,16 @@ namespace MyScripts.Runtime.UI.Button
         internal AButtonManager SelectingButton { get; private set; } = null;
 
         /// <summary>
+        /// 指定したボタンが現在選択されているなら、<br/>
         /// 何も選択していない状態にする<br/>
         /// 重複実行は気にしなくて良い<br/>
         /// </summary>
-        internal void Deselect()
+        internal void Deselect(AButtonManager button)
         {
-            if (SelectingButton)
-                image.gameObject.SetActive(false);
+            if (!SelectingButton) return;
+            if (SelectingButton != button) return;
+
+            image.gameObject.SetActive(false);
             SelectingButton = null;
         }
 
