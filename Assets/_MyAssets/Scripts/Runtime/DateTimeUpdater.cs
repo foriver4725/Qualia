@@ -8,10 +8,10 @@ namespace MyScripts.Runtime
         private void Update()
         {
             // ドンドン新しいものに更新していく
-            var lastSavedAt = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].LastSavedAt;
+            var lastSavedAt = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].GetLastSavedAt();
             var current = DateTime.Now;
             if (current > lastSavedAt)
-                SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].LastSavedAt = current;
+                SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].SetLastSavedAt(current);
         }
     }
 }

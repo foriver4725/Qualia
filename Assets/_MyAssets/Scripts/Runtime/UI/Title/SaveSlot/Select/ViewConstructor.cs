@@ -42,7 +42,7 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
 
                     slotInfos[i].ThumbnailImage.sprite = null; // セーブデータからサムネイル画像を取得してセットするなど
                     slotInfos[i].ProgressText.SetTextFormat("{0:F2}%", leftRatio);
-                    slotInfos[i].DateText.text = ZString.Format("{0:yyyy-MM-dd}\n{0:HH:mm}", slotData.LastSavedAt);
+                    slotInfos[i].DateText.text = ZString.Format("{0:yyyy-MM-dd}\n{0:HH:mm}", slotData.GetLastSavedAt());
                 }
                 else
                 {

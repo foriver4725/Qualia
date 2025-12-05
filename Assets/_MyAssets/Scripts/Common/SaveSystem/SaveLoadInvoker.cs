@@ -10,7 +10,7 @@ internal static class SaveLoadInvoker
         {
             slot.IsValid = false;
 
-            slot.LastSavedAt = DateTime.MinValue;
+            slot.SetLastSavedAt(DateTime.MinValue);
 
             slot.HasFoundSOSSigns = new bool[Constants.SOSSignCount];
             slot.HasFoundSOSSigns.AsSpan().Fill(false);
