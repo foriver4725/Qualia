@@ -18,6 +18,7 @@ namespace MyScripts.Runtime.UI.Main.Pause
         {
             base.OnClickSucceeded();
 
+            if (this.IsSelected) this.DeselectThisForciblyUnsafe();
             confirmYesButtonManager.InjectInvokeAction(ConfirmYesButtonManager.InvokeAction.BackToTitle);
             UIActivationManager.Instance.SetActive(UIActivationManager.UI.OnPauseConfirm, true);
         }

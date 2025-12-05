@@ -9,8 +9,7 @@ namespace MyScripts.Runtime
     /// </summary>
     internal sealed class PauseInvoker : MonoBehaviour
     {
-        // ポーズUIで最初に選択するため
-        [SerializeField] private ResumeButtonManager resumeButtonManager;
+        [SerializeField] private ViewConstructor pauseViewConstructor;
 
         private bool isPaused = false;
 
@@ -36,7 +35,7 @@ namespace MyScripts.Runtime
             InputManager.InGame.Enabled = false;
 
             UIActivationManager.Instance.SetActive(UIActivationManager.UI.Pause, true);
-            resumeButtonManager.SelectThisForciblyUnsafe();
+            pauseViewConstructor.Construct();
             CursorAdjuster.SetCursorEnabled(true);
 
             return true;
@@ -51,6 +50,7 @@ namespace MyScripts.Runtime
             InputManager.InGame.Enabled = true;
 
             UIActivationManager.Instance.SetActive(UIActivationManager.UI.Pause, false);
+            pauseViewConstructor.Deconstruct();
             CursorAdjuster.SetCursorEnabled(false);
 
             return true;

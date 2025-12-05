@@ -2,13 +2,11 @@ using MyScripts.Common.SaveSystem;
 
 namespace MyScripts.Runtime.UI.Title.SaveSlot.Confirm
 {
-    // UIが有効になるたびに実行するべき
-    // 現在の数値を基に、見た目を再構成する
-    internal sealed class ViewConstructor : MonoBehaviour
+    internal sealed class ViewConstructor : AViewConstructor
     {
         [SerializeField] private TextMeshProUGUI labelText;
 
-        internal void Construct()
+        internal sealed override void Construct()
         {
             labelText.text = StartSettings.IsNewGame switch
             {
@@ -19,6 +17,10 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Confirm
                 },
                 _ => "このデータで続きから始めますか？",
             };
+        }
+
+        internal sealed override void Deconstruct()
+        {
         }
     }
 }

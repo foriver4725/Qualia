@@ -1,7 +1,12 @@
+using MyScripts.Runtime.UI.Button;
+
 namespace MyScripts.Runtime.UI.Main.Pause
 {
-    internal sealed class ConfirmNoButtonManager : Button.AButtonManager
+    internal sealed class ConfirmNoButtonManager : AButtonManager
     {
+        // ポーズUIで最初に選択するため
+        [SerializeField] private ASelectableButtonManager resumeButtonManager;
+
         private void Update()
         {
             if (UIActivationManager.Instance.Front == UIActivationManager.UI.OnPauseConfirm && InputManager.OutGame.Cancel)
@@ -16,6 +21,7 @@ namespace MyScripts.Runtime.UI.Main.Pause
         {
             base.OnClickSucceeded();
 
+            resumeButtonManager.SelectThisForciblyUnsafe();
             UIActivationManager.Instance.SetActive(UIActivationManager.UI.OnPauseConfirm, false);
         }
     }

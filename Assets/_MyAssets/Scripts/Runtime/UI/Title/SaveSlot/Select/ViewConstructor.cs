@@ -2,9 +2,7 @@ using MyScripts.Common.SaveSystem;
 
 namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
 {
-    // UIが有効になるたびに実行するべき
-    // 現在の数値を基に、見た目を再構成する
-    internal sealed class ViewConstructor : MonoBehaviour
+    internal sealed class ViewConstructor : AViewConstructor
     {
         [Serializable]
         private sealed class SlotInfo
@@ -20,11 +18,13 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
 
         // セーブスロットの順番に
         [SerializeField] private SlotInfo[] slotInfos;
-        // 最初に選択するため
-        [SerializeField] private SlotManager mostLeftSlot;
+        // 最初の要素が、最初に選択される
+        [SerializeField] private SlotManager[] slotManagers;
 
-        internal void Construct()
+        internal sealed override void Construct()
         {
+            slotManagers[0].SelectThisForciblyUnsafe();
+
             Span<SingleData> slotDatas = SaveLoadManager.Data.Slots;
             for (int i = 0; i < slotDatas.Length; i++)
             {
@@ -51,8 +51,15 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
                     slotInfos[i].DateText.text = "-\n-";
                 }
             }
+        }
 
-            mostLeftSlot.SelectThisForciblyUnsafe();
+        internal sealed override void Deconstruct()
+        {
+            foreach (var slotManager in slotManagers)
+            {
+                if (slotManager.IsSelected)
+                    slotManager.DeselectThisForciblyUnsafe();
+            }
         }
     }
 }

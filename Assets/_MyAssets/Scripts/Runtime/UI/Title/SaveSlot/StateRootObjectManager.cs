@@ -7,21 +7,26 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot
         [SerializeField] private GameObject confirmRoot;
         [SerializeField] private GameObject hideAllRoot;
 
-        [SerializeField] private Select.ViewConstructor selectViewConstructor;
-        [SerializeField] private StartOption.ViewConstructor startOptionViewConstructor;
-        [SerializeField] private Confirm.ViewConstructor confirmViewConstructor;
+        [SerializeField] private AViewConstructor selectViewConstructor;
+        [SerializeField] private AViewConstructor startOptionViewConstructor;
+        [SerializeField] private AViewConstructor confirmViewConstructor;
 
-        internal State State { get; private set; } = State.Select;
+        internal State State { get; private set; } = State.None;
 
         private void Awake()
         {
-            ChangeState(State.Select, doNothingIfSame: false);
+            ChangeState(State.None, doNothingIfSame: false);
         }
 
         internal void ChangeState(State newState, bool doNothingIfSame = true)
         {
             if (doNothingIfSame && this.State == newState)
                 return;
+
+            if (this.State == State.Select) this.selectViewConstructor.Deconstruct();
+            else if (this.State == State.StartOption) this.startOptionViewConstructor.Deconstruct();
+            else if (this.State == State.Confirm) this.confirmViewConstructor.Deconstruct();
+
             this.State = newState;
 
             this.selectRoot.SetActive(this.State == State.Select);

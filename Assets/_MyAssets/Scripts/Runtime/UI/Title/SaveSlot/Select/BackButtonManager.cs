@@ -20,6 +20,7 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
         {
             base.OnClickSucceeded();
 
+            StateRootObjectManager.Instance.ChangeState(State.None);
             UIActivationManager.Instance.SetActive(UIActivationManager.UI.SaveSlot, false);
         }
     }

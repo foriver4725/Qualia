@@ -12,7 +12,7 @@ namespace MyScripts.Runtime.UI.Button
         [SerializeField] private ASelectableButtonManager up;
 
         // Try... で処理しているから、あまり見る必要はない
-        private protected bool IsSelected { get; private set; } = false;
+        internal bool IsSelected { get; private set; } = false;
 
         private protected virtual bool CanSelectLeft => true;
         private protected virtual bool CanSelectRight => true;
@@ -77,6 +77,16 @@ namespace MyScripts.Runtime.UI.Button
         internal void SelectThisForciblyUnsafe()
         {
             this.IsSelected = true;
+        }
+
+        /// <summary>
+        /// 諸々の条件をガン無視して、強制的に自身の選択を解除する<br/>
+        /// 現在一つのみボタンが選択されている時にのみ、実行するべき<br/>
+        /// 例えばUIが閉じられる直前など<br/>
+        /// </summary>
+        internal void DeselectThisForciblyUnsafe()
+        {
+            this.IsSelected = false;
         }
     }
 }

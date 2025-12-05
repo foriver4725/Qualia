@@ -1761,7 +1761,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e65d20aff31c544d95270e14ad647b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resumeButtonManager: {fileID: 636994049}
+  pauseViewConstructor: {fileID: 1252698440}
 --- !u!1001 &232782354
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2287,7 +2287,7 @@ GameObject:
   m_Component:
   - component: {fileID: 306128667}
   m_Layer: 0
-  m_Name: OnPauseConfirm
+  m_Name: Confirm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2301,14 +2301,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 306128666}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 156834167}
   - {fileID: 483453314}
-  m_Father: {fileID: 969443849}
+  m_Father: {fileID: 2016293615}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &308964184
 GameObject:
@@ -3098,6 +3098,7 @@ MonoBehaviour:
   spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 457859214}
+  resumeButtonManager: {fileID: 636994049}
 --- !u!1 &486648491
 GameObject:
   m_ObjectHideFlags: 0
@@ -6062,7 +6063,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2016293615}
-  - {fileID: 306128667}
   m_Father: {fileID: 143727389}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &984612691
@@ -7906,6 +7906,53 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1098326054821571601, guid: b72db2c878c99d04480ccac853dada36, type: 3}
   m_PrefabInstance: {fileID: 1249322454}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1252698438
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1252698439}
+  - component: {fileID: 1252698440}
+  m_Layer: 0
+  m_Name: ViewConstructor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &1252698439
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252698438}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2016293615}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1252698440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252698438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c4f57e1db7b2384293af4ac2360ad6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resumeButtonManager: {fileID: 636994049}
+  backToTitleButtonManager: {fileID: 1320726220}
+  backToDesktopButtonManager: {fileID: 632719253}
 --- !u!1001 &1256303140
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12658,9 +12705,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1252698439}
   - {fileID: 636994048}
   - {fileID: 1320726219}
   - {fileID: 632719252}
+  - {fileID: 306128667}
   m_Father: {fileID: 969443849}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2016969628

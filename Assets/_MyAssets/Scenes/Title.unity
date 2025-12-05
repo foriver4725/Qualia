@@ -1684,7 +1684,10 @@ MonoBehaviour:
   - thumbnailImage: {fileID: 775608403}
     progressText: {fileID: 434464134}
     dateText: {fileID: 1475512193}
-  mostLeftSlot: {fileID: 1397707857}
+  slotManagers:
+  - {fileID: 1397707857}
+  - {fileID: 1880367729}
+  - {fileID: 1730799789}
 --- !u!114 &775608403 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1077418097980648345, guid: 576c53d7afdc23b45b5565207d562caa, type: 3}
@@ -3690,7 +3693,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1375649281
 RectTransform:
   m_ObjectHideFlags: 0
