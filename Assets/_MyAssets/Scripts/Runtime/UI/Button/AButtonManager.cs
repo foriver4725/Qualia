@@ -8,7 +8,7 @@ namespace MyScripts.Runtime.UI.Button
         [SerializeField] private ButtonSoundPlayer soundPlayer;
 
         // どこから辿っても良いが、とにかくボタンのルートを取得して位置を算出する
-        internal RectTransform Parent => Image.rectTransform.parent as RectTransform;
+        internal virtual RectTransform Parent => Image.rectTransform.parent as RectTransform;
 
         // ボタンの位置が動的に変わることはない想定なので、シンプルなキャッシュにする
         private bool hasCachedPosition = false;
