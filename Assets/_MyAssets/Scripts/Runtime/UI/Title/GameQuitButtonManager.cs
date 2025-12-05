@@ -1,10 +1,10 @@
-namespace MyScripts.Runtime.UI.Title.GameQuit
+namespace MyScripts.Runtime.UI.Title
 {
-    internal sealed class GameQuitConfirmNoButtonManager : Button.AButtonManager
+    internal sealed class GameQuitButtonManager : Button.AButtonManager
     {
         private void Update()
         {
-            if (UIActivationManager.Instance.Front == UIActivationManager.UI.GameQuitConfirm && InputManager.OutGame.Cancel)
+            if (UIActivationManager.Instance.Front == UIActivationManager.UI.None && InputManager.OutGame.Cancel)
             {
                 InputManager.OutGame.MakeCancelInputDisabledUntilNextFrame();
                 base.PlayClickSe();
@@ -16,7 +16,7 @@ namespace MyScripts.Runtime.UI.Title.GameQuit
         {
             base.OnClickSucceeded();
 
-            UIActivationManager.Instance.SetActive(UIActivationManager.UI.GameQuitConfirm, false);
+            UIActivationManager.Instance.SetActive(UIActivationManager.UI.GameQuitConfirm, true);
         }
     }
 }

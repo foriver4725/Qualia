@@ -5,17 +5,15 @@ namespace MyScripts.Runtime.UI.Title
         internal enum UI : byte
         {
             None,
-            SelectSaveSlot,
-            OptionConfirm,
+            SaveSlot,
             GameQuitConfirm,
         }
 
-        [SerializeField] private Canvas selectSaveSlotUi;
-        [SerializeField] private Canvas optionConfirmUi;
+        [SerializeField] private Canvas saveSlotUi;
         [SerializeField] private Canvas gameQuitConfirmUi;
 
         // 後ろほど前面にある
-        private readonly List<UI> uiActiveStates = new(3);
+        private readonly List<UI> uiActiveStates = new(2);
 
         internal UI Front
         {
@@ -40,8 +38,7 @@ namespace MyScripts.Runtime.UI.Title
 
             Canvas uiCanvas = ui switch
             {
-                UI.SelectSaveSlot => selectSaveSlotUi,
-                UI.OptionConfirm => optionConfirmUi,
+                UI.SaveSlot => saveSlotUi,
                 UI.GameQuitConfirm => gameQuitConfirmUi,
                 _ => throw new ArgumentOutOfRangeException(nameof(ui), ui, null),
             };

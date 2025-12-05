@@ -1,3 +1,5 @@
+using MyScripts.Runtime.UI.Title.SaveSlot;
+
 namespace MyScripts.Runtime.UI.Title
 {
     internal sealed class StartButtonManager : Button.AButtonManager
@@ -13,6 +15,11 @@ namespace MyScripts.Runtime.UI.Title
         }
 
         private protected sealed override void OnClickSucceeded()
-            => UIActivationManager.Instance.SetActive(UIActivationManager.UI.SelectSaveSlot, true);
+        {
+            base.OnClickSucceeded();
+
+            StateRootObjectManager.Instance.ChangeState(State.Select);
+            UIActivationManager.Instance.SetActive(UIActivationManager.UI.SaveSlot, true);
+        }
     }
 }

@@ -10,10 +10,9 @@ namespace MyScripts.Runtime.UI.Button
         [SerializeField] private ASelectableButtonManager right;
         [SerializeField] private ASelectableButtonManager down;
         [SerializeField] private ASelectableButtonManager up;
-        [SerializeField] private bool isOnlySelectedAtFirst = false;
 
         // Try... で処理しているから、あまり見る必要はない
-        private protected bool IsSelected { get; private set; } = false;
+        internal bool IsSelected { get; private set; } = false;
 
         private protected virtual bool CanSelectLeft => true;
         private protected virtual bool CanSelectRight => true;
@@ -25,7 +24,9 @@ namespace MyScripts.Runtime.UI.Button
         private protected ASelectableButtonManager Right => right;
         private protected ASelectableButtonManager Down => down;
         private protected ASelectableButtonManager Up => up;
-        private protected bool IsOnlySelectedAtFirst => isOnlySelectedAtFirst;
+
+        private protected abstract void OnBecameSelected();
+        private protected abstract void OnBecameDeselected();
 
         private protected bool TrySelectLeft()
         {
@@ -35,6 +36,12 @@ namespace MyScripts.Runtime.UI.Button
 
             this.IsSelected = false;
             left.IsSelected = true;
+
+            this.PlayHoverSe();
+
+            this.OnBecameDeselected();
+            left.OnBecameSelected();
+
             return true;
         }
 
@@ -46,6 +53,12 @@ namespace MyScripts.Runtime.UI.Button
 
             this.IsSelected = false;
             right.IsSelected = true;
+
+            this.PlayHoverSe();
+
+            this.OnBecameDeselected();
+            right.OnBecameSelected();
+
             return true;
         }
 
@@ -57,6 +70,12 @@ namespace MyScripts.Runtime.UI.Button
 
             this.IsSelected = false;
             down.IsSelected = true;
+
+            this.PlayHoverSe();
+
+            this.OnBecameDeselected();
+            down.OnBecameSelected();
+
             return true;
         }
 
@@ -68,13 +87,43 @@ namespace MyScripts.Runtime.UI.Button
 
             this.IsSelected = false;
             up.IsSelected = true;
+
+            this.PlayHoverSe();
+
+            this.OnBecameDeselected();
+            up.OnBecameSelected();
+
             return true;
         }
 
-        private protected override void OnJustBeforeAwake()
+        /// <summary>
+        /// 諸々の条件をガン無視して、強制的に自身を選択する<br/>
+        /// 一つもボタンが選択されていない時にのみ、実行するべき<br/>
+        /// 例えば初期化処理など<br/>
+        /// </summary>
+        internal void SelectThisForciblyUnsafe(bool playSe = false)
         {
-            if (isOnlySelectedAtFirst)
-                this.IsSelected = true;
+            this.IsSelected = true;
+
+            if (playSe)
+                this.PlayHoverSe();
+
+            this.OnBecameSelected();
+        }
+
+        /// <summary>
+        /// 諸々の条件をガン無視して、強制的に自身の選択を解除する<br/>
+        /// 現在一つのみボタンが選択されている時にのみ、実行するべき<br/>
+        /// 例えばUIが閉じられる直前など<br/>
+        /// </summary>
+        internal void DeselectThisForciblyUnsafe(bool playSe = false)
+        {
+            this.IsSelected = false;
+
+            if (playSe)
+                this.PlayHoverSe();
+
+            this.OnBecameDeselected();
         }
     }
 }

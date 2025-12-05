@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5f7bc676199fea44bd51b14a4fb24cc, type: 3}
+  m_Name: _ButtonSpriteSettings
+  m_EditorClassIdentifier: 
+  normal:
+    spriteDefault: {fileID: 21300000, guid: 94d1493bbccb1b441909b08204a6c9cb, type: 3}
+    spriteHovered: {fileID: 21300000, guid: a2af43cab1b741c4fb54a65477a2808b, type: 3}
+    spriteClicked: {fileID: 21300000, guid: a2af43cab1b741c4fb54a65477a2808b, type: 3}
+  saveSlot:
+    spriteDefault: {fileID: 21300000, guid: b5a6fb41f144fc54ea9f2eb03b3faf7a, type: 3}
+    spriteHovered: {fileID: 21300000, guid: cc25f4b041d29aa4f896bf3a50dcaeb6, type: 3}
+    spriteClicked: {fileID: 21300000, guid: cc25f4b041d29aa4f896bf3a50dcaeb6, type: 3}
