@@ -4,6 +4,7 @@ namespace MyScripts.Runtime.UI.Button
     {
         [SerializeField] private Image image;
         [SerializeField] private RectTransform controllerIcon;
+        [SerializeField] private SGameConfig gameConfig;
 
         // 9-sliced の外側8マスの幅 [px]
         // プログラム内で数値を決め打っておく
@@ -18,7 +19,8 @@ namespace MyScripts.Runtime.UI.Button
         /// </summary>
         internal void Deselect(AButtonManager button)
         {
-            if (InputManager.GetCurrentDevice() != InputManager.Device.Gamepad) return;
+            if (!gameConfig.DoesAlwaysShowGamepadButtonFrame)
+                if (InputManager.GetCurrentDevice() != InputManager.Device.Gamepad) return;
 
             if (!selectingButton) return;
             if (selectingButton != button) return;
@@ -33,7 +35,8 @@ namespace MyScripts.Runtime.UI.Button
         /// </summary>
         internal void Reselect(AButtonManager button, float padding = 0.0f)
         {
-            if (InputManager.GetCurrentDevice() != InputManager.Device.Gamepad) return;
+            if (!gameConfig.DoesAlwaysShowGamepadButtonFrame)
+                if (InputManager.GetCurrentDevice() != InputManager.Device.Gamepad) return;
 
             if (!selectingButton)
                 image.gameObject.SetActive(true);
