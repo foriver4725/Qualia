@@ -26,9 +26,12 @@ namespace MyScripts.Runtime
                 await UniTask.WaitForSeconds(captureDuration, ignoreTimeScale: true, cancellationToken: ct);
                 await UniTask.WaitUntil(() => !pauseInvoker.IsPaused, cancellationToken: ct); // ポーズ中は撮らない
 
-                ScreenCapture.CaptureScreenshot(CreateFilePath(fileId));
+                // ファイルパス
+                string filePath = CreateFilePath(fileId);
 
-                $"Screenshot captured and saved: {fileId}".Print();
+                ScreenCapture.CaptureScreenshot(filePath);
+
+                $"Screenshot captured and saved: {filePath}".Print();
             }
         }
 
