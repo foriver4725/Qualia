@@ -54,7 +54,7 @@ MonoBehaviour:
   transform: {fileID: 6817149522708907314}
   collider: {fileID: 2865232570204196652}
   horseRenderer: {fileID: 8094991985300133144}
-  shellfishRenderer: {fileID: 0}
+  shellfishRenderer: {fileID: 4125502195618582268}
   pc: {fileID: 0}
   animalLeaveInvoker: {fileID: 0}
   soundPlayer: {fileID: 0}
@@ -390,6 +390,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5fe87a980a5eac448db17a70ffc21c6, type: 3}
+--- !u!23 &4125502195618582268 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1351513828038451378, guid: c5fe87a980a5eac448db17a70ffc21c6, type: 3}
+  m_PrefabInstance: {fileID: 3134840459310018126}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6210077798812900071 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9056615786633393321, guid: c5fe87a980a5eac448db17a70ffc21c6, type: 3}
