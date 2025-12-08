@@ -17,7 +17,7 @@ namespace MyScripts.Runtime
             CaptureAndSavePeriodicallyAsync(Variables.CurrentSlotIndex, destroyCancellationToken).Forget();
         }
 
-        private async UniTask CaptureAndSavePeriodicallyAsync(int fileId, CancellationToken ct)
+        private async UniTask CaptureAndSavePeriodicallyAsync(int slotIndex, CancellationToken ct)
         {
             ct.ThrowIfCancellationRequested();
 
@@ -27,19 +27,19 @@ namespace MyScripts.Runtime
                 await UniTask.WaitUntil(() => !pauseInvoker.IsPaused, cancellationToken: ct); // ポーズ中は撮らない
 
                 // ファイルパス
-                string filePath = CreateFilePath(fileId);
+                string filePath = CreateFilePath(slotIndex);
 
                 ScreenCapture.CaptureScreenshot(filePath);
-                SaveLoadManager.Data.Slots[fileId].LastScreenshotSavedPath = filePath;
+                SaveLoadManager.Data.Slots[slotIndex].LastScreenshotSavedPath = filePath;
 
                 $"Screenshot captured and saved: {filePath}".Print();
             }
         }
 
-        internal static async UniTask<Texture2D> LoadAsync(int fileId)
+        internal static async UniTask<Texture2D> LoadAsync(int slotIndex)
         {
             // ファイルパス
-            string filePath = CreateFilePath(fileId);
+            string filePath = CreateFilePath(slotIndex);
 
             if (!File.Exists(filePath))
             {
@@ -57,10 +57,10 @@ namespace MyScripts.Runtime
             return tex;
         }
 
-        private static string CreateFilePath(int fileId)
+        private static string CreateFilePath(int slotIndex)
             => Path.Combine(
                 Application.persistentDataPath,
-                ZString.Format("screenshot_{0}_{1:yyyyMMdd_HHmmss}.png", fileId, DateTime.Now
+                ZString.Format("screenshot_{0}_{1:yyyyMMdd_HHmmss}.png", slotIndex, DateTime.Now
             ));
     }
 }
