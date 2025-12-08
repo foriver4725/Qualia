@@ -27,6 +27,8 @@ namespace MyScripts.Runtime
                 await UniTask.WaitUntil(() => !pauseInvoker.IsPaused, cancellationToken: ct); // ポーズ中は撮らない
 
                 ScreenCapture.CaptureScreenshot(CreateFilePath(fileId));
+
+                $"Screenshot captured and saved: {fileId}".Print();
             }
         }
 
