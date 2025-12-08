@@ -6,6 +6,8 @@ namespace MyScripts.Runtime.UI.Main.Pause
     {
         [SerializeField] private PauseInvoker pauseInvoker;
 
+        private protected sealed override float HoveredScaleCoef => 1.5f;
+
         private protected sealed override bool IsFrontUI => UIActivationManager.Instance.Front == UIActivationManager.UI.Pause;
 
         private protected sealed override void OnSubmittedWithSelection()

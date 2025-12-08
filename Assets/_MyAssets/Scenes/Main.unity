@@ -3082,6 +3082,10 @@ PrefabInstance:
       propertyPath: m_text
       value: "\u30C7\u30B9\u30AF\u30C8\u30C3\u30D7\u306B\u623B\u308B"
       objectReference: {fileID: 0}
+    - target: {fileID: 6367014018528248175, guid: 7e0675c85a3dcd941912d537a84cfaee, type: 3}
+      propertyPath: m_text
+      value: "\u30C7\u30B9\u30AF\u30C8\u30C3\u30D7\u306B\u623B\u308B"
+      objectReference: {fileID: 0}
     - target: {fileID: 8693385609332702422, guid: 7e0675c85a3dcd941912d537a84cfaee, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -3927,6 +3931,10 @@ PrefabInstance:
       value: Resume
       objectReference: {fileID: 0}
     - target: {fileID: 6332638645702563759, guid: 7e0675c85a3dcd941912d537a84cfaee, type: 3}
+      propertyPath: m_text
+      value: "\u518D\u958B\u3059\u308B"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6367014018528248175, guid: 7e0675c85a3dcd941912d537a84cfaee, type: 3}
       propertyPath: m_text
       value: "\u518D\u958B\u3059\u308B"
       objectReference: {fileID: 0}
@@ -12797,6 +12805,10 @@ PrefabInstance:
       value: 129.75
       objectReference: {fileID: 0}
     - target: {fileID: 6332638645702563759, guid: 7e0675c85a3dcd941912d537a84cfaee, type: 3}
+      propertyPath: m_text
+      value: "\u30BF\u30A4\u30C8\u30EB\u306B\u623B\u308B"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6367014018528248175, guid: 7e0675c85a3dcd941912d537a84cfaee, type: 3}
       propertyPath: m_text
       value: "\u30BF\u30A4\u30C8\u30EB\u306B\u623B\u308B"
       objectReference: {fileID: 0}
