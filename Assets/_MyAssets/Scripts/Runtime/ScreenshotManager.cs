@@ -27,7 +27,10 @@ namespace MyScripts.Runtime
                 await UniTask.WaitUntil(() => !pauseInvoker.IsPaused, cancellationToken: ct); // ポーズ中は撮らない
 
                 // ファイルパス
-                string filePath = CreateFilePath(slotIndex);
+                string filePath = Path.Combine(
+                    Application.persistentDataPath,
+                    ZString.Format("screenshot_{0}_{1:yyyyMMdd_HHmmss}.png", slotIndex, DateTime.Now)
+                );
 
                 ScreenCapture.CaptureScreenshot(filePath);
                 SaveLoadManager.Data.Slots[slotIndex].LastScreenshotSavedPath = filePath;
@@ -36,11 +39,8 @@ namespace MyScripts.Runtime
             }
         }
 
-        internal static async UniTask<Texture2D> LoadAsync(int slotIndex)
+        internal static async UniTask<Texture2D> LoadAsync(string filePath)
         {
-            // ファイルパス
-            string filePath = CreateFilePath(slotIndex);
-
             if (!File.Exists(filePath))
             {
                 $"Screenshot file not found: {filePath}".Print(LogSettings.Warning);
@@ -56,11 +56,5 @@ namespace MyScripts.Runtime
 
             return tex;
         }
-
-        private static string CreateFilePath(int slotIndex)
-            => Path.Combine(
-                Application.persistentDataPath,
-                ZString.Format("screenshot_{0}_{1:yyyyMMdd_HHmmss}.png", slotIndex, DateTime.Now
-            ));
     }
 }
