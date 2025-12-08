@@ -45,3 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 0}
+  controllerIcon: {fileID: 0}
+  gameConfig: {fileID: 11400000, guid: 2e1d8be3bf8079c42a877403b55ef6ed, type: 2}

@@ -20,3 +20,15 @@ MonoBehaviour:
     spriteDefault: {fileID: 21300000, guid: b5a6fb41f144fc54ea9f2eb03b3faf7a, type: 3}
     spriteHovered: {fileID: 21300000, guid: cc25f4b041d29aa4f896bf3a50dcaeb6, type: 3}
     spriteClicked: {fileID: 21300000, guid: cc25f4b041d29aa4f896bf3a50dcaeb6, type: 3}
+  pause_Resume:
+    spriteDefault: {fileID: 21300000, guid: 25e6d531b2663a94191f472713f72615, type: 3}
+    spriteHovered: {fileID: 21300000, guid: 25e6d531b2663a94191f472713f72615, type: 3}
+    spriteClicked: {fileID: 21300000, guid: 25e6d531b2663a94191f472713f72615, type: 3}
+  pause_BackToTitle:
+    spriteDefault: {fileID: 21300000, guid: 8270805d842d5f44b91a2cab95962413, type: 3}
+    spriteHovered: {fileID: 21300000, guid: 8270805d842d5f44b91a2cab95962413, type: 3}
+    spriteClicked: {fileID: 21300000, guid: 8270805d842d5f44b91a2cab95962413, type: 3}
+  pause_BackToDesktop:
+    spriteDefault: {fileID: 21300000, guid: 8ca14ee17bce11a4c96f20a9c7b0d644, type: 3}
+    spriteHovered: {fileID: 21300000, guid: 8ca14ee17bce11a4c96f20a9c7b0d644, type: 3}
+    spriteClicked: {fileID: 21300000, guid: 8ca14ee17bce11a4c96f20a9c7b0d644, type: 3}

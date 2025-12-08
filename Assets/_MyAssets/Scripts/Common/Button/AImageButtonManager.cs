@@ -166,20 +166,25 @@ namespace MyScripts.Common.Button
         {
             (Sprite sprite, float scaleCoef) = appearanceState switch
             {
-                AppearanceState.Default => (spriteSettings.SpriteDefault, 1.0f),
-                AppearanceState.BeingHovered => (spriteSettings.SpriteHovered, 1.1f),
-                AppearanceState.BeingClicked => (spriteSettings.SpriteClicked, 1.0f),
-                _ => (spriteSettings.SpriteDefault, 1.0f)
+                AppearanceState.Default => (spriteSettings.SpriteDefault, DefaultScaleCoef),
+                AppearanceState.BeingHovered => (spriteSettings.SpriteHovered, HoveredScaleCoef),
+                AppearanceState.BeingClicked => (spriteSettings.SpriteClicked, ClickedScaleCoef),
+                _ => (spriteSettings.SpriteDefault, DefaultScaleCoef)
             };
 
             if (image != null)
             {
                 image.sprite = sprite;
-                image.rectTransform.DOScale(imageInitialScale * scaleCoef, 0.1f).SetEase(Ease.OutBack);
+                image.rectTransform.DOScale(imageInitialScale * scaleCoef, ScaleAnimationDuration).SetEase(Ease.OutBack);
             }
         }
 
         #region 派生クラスに公開
+
+        private protected virtual float DefaultScaleCoef => 1.0f;
+        private protected virtual float HoveredScaleCoef => 1.1f;
+        private protected virtual float ClickedScaleCoef => 1.0f;
+        private protected virtual float ScaleAnimationDuration => 0.1f;
 
         // 各コールバック時、このプロパティがfalseを返すなら実行されない
         // ただし、フラグの管理などは行われる

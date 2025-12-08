@@ -10,6 +10,10 @@ namespace MyScripts.Runtime.UI.Button
         // どこから辿っても良いが、とにかくボタンのルートを取得して位置を算出する
         internal virtual RectTransform Parent => Image.rectTransform.parent as RectTransform;
 
+        // ツリー階層になっていて絶対座標が取得しにくいので、
+        // anchoredPosition をどのくらいオフセットするか、数値を決め打つ用
+        private protected virtual Vector2 AnchoredPositionOffset => Vector2.zero;
+
         // ボタンの位置が動的に変わることはない想定なので、シンプルなキャッシュにする
         private bool hasCachedPosition = false;
         private Vector2 position;
@@ -19,7 +23,7 @@ namespace MyScripts.Runtime.UI.Button
             {
                 if (!hasCachedPosition)
                 {
-                    position = Parent.anchoredPosition;
+                    position = Parent.anchoredPosition + AnchoredPositionOffset;
 
                     hasCachedPosition = true;
                 }
