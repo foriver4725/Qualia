@@ -44,6 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa2481ef5091ac7488dc701196f96649, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderingCamera: {fileID: 0}
-  renderTextureReadOnly: {fileID: 8400000, guid: 7443eb91a2830ef458e36d1613bdf348, type: 2}
-  playerCamera: {fileID: 0}
+  gameConfig: {fileID: 11400000, guid: 2e1d8be3bf8079c42a877403b55ef6ed, type: 2}
+  pauseInvoker: {fileID: 0}
