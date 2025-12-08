@@ -43,7 +43,6 @@ namespace MyScripts.Common
                 playerCamera.transform.position,
                 playerCamera.transform.rotation
             );
-            await UniTask.NextFrame(); // カメラ位置反映のため1フレーム待つ
             renderingCamera.Render();
 
             "Screenshot captured".Print();
