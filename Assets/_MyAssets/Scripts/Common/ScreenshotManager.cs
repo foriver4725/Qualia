@@ -13,8 +13,6 @@ namespace MyScripts.Common
 
         private const float CaptureDuration = 30.0f; // ゲーム中、この秒数おきにスクリーンショットを撮る
 
-        private Texture2D cachedSavingTexture = null;
-
         private static string CreateFilePath(int fileId)
             => Path.Combine(
                 Application.persistentDataPath,
@@ -23,15 +21,6 @@ namespace MyScripts.Common
 
         private void Awake()
             => CaptureAndSavePeriodicallyAsync(Variables.CurrentSlotIndex, destroyCancellationToken).Forget();
-
-        private void OnDestroy()
-        {
-            if (cachedSavingTexture)
-            {
-                Destroy(cachedSavingTexture);
-                cachedSavingTexture = null;
-            }
-        }
 
         private async UniTask CaptureAndSavePeriodicallyAsync(int fileId, CancellationToken ct)
         {
@@ -85,17 +74,12 @@ namespace MyScripts.Common
             // ファイルパス
             string filePath = CreateFilePath(fileId);
 
-            if (!cachedSavingTexture || cachedSavingTexture.width != w || cachedSavingTexture.height != h)
-            {
-                if (cachedSavingTexture)
-                    Destroy(cachedSavingTexture);
+            var tex = new Texture2D(w, h, TextureFormat.RGBA32, false);
+            tex.LoadRawTextureData(raw);
+            tex.Apply();
 
-                cachedSavingTexture = new(w, h, TextureFormat.RGBA32, false);
-            }
-            cachedSavingTexture.LoadRawTextureData(raw);
-            cachedSavingTexture.Apply();
-
-            byte[] png = cachedSavingTexture.EncodeToPNG();
+            byte[] png = tex.EncodeToPNG();
+            Destroy(tex);
 
             await UniTask.RunOnThreadPool(() =>
             {
