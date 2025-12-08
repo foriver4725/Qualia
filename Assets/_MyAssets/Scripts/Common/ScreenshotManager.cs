@@ -4,7 +4,6 @@ using MyScripts.Common.SaveSystem;
 
 namespace MyScripts.Common
 {
-    // 処理コスト高め
     internal sealed class ScreenshotManager : ASingletonMonoBehaviour<ScreenshotManager>
     {
         [SerializeField] private Camera renderingCamera;
@@ -22,33 +21,35 @@ namespace MyScripts.Common
         private void Awake()
             => CaptureAndSavePeriodicallyAsync(Variables.CurrentSlotIndex, destroyCancellationToken).Forget();
 
+        private void LateUpdate()
+        {
+            // プレイヤーのカメラと同じ位置・向きにする
+            renderingCamera.transform.SetPositionAndRotation(
+                playerCamera.transform.position,
+                playerCamera.transform.rotation
+            );
+        }
+
         private async UniTask CaptureAndSavePeriodicallyAsync(int fileId, CancellationToken ct)
         {
             ct.ThrowIfCancellationRequested();
 
             while (true)
             {
-                ct.ThrowIfCancellationRequested();
                 await CaptureAndSaveAsync(fileId);
-                ct.ThrowIfCancellationRequested();
-
                 await UniTask.WaitForSeconds(CaptureDuration, ignoreTimeScale: true, cancellationToken: ct);
             }
         }
 
         private async UniTask CaptureAndSaveAsync(int fileId)
         {
+            int w = renderTextureReadOnly.width;
+            int h = renderTextureReadOnly.height;
+
             // 一瞬だけレンダリング
-            renderingCamera.transform.SetPositionAndRotation(
-                playerCamera.transform.position,
-                playerCamera.transform.rotation
-            );
             renderingCamera.Render();
 
             "Screenshot captured".Print();
-
-            int w = renderTextureReadOnly.width;
-            int h = renderTextureReadOnly.height;
 
             // GPU → CPU 非同期転送
             var tcs = new UniTaskCompletionSource<byte[]>();
