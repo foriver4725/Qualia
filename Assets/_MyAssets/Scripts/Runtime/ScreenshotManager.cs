@@ -30,6 +30,7 @@ namespace MyScripts.Runtime
                 string filePath = CreateFilePath(fileId);
 
                 ScreenCapture.CaptureScreenshot(filePath);
+                SaveLoadManager.Data.Slots[fileId].LastScreenshotSavedPath = filePath;
 
                 $"Screenshot captured and saved: {filePath}".Print();
             }
