@@ -21,6 +21,9 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
         // 最初の要素が、最初に選択される
         [SerializeField] private SlotManager[] slotManagers;
 
+        private static readonly Texture2D[] cachedThumbnailTextures = new Texture2D[Constants.SlotCount];
+        private static readonly Sprite[] cachedThumbnailSprites = new Sprite[Constants.SlotCount];
+
         internal sealed override void Construct()
         {
             slotManagers[0].SelectThisForciblyUnsafe();
@@ -60,6 +63,29 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
                 if (slotManager.IsSelected)
                     slotManager.DeselectThisForciblyUnsafe();
             }
+        }
+
+        //! 新しく Texture, Sprite を作成する
+        private static async UniTask<(Texture2D Texture, Sprite Sprite)> LoadThumbnailImageAsync(int slotIndex)
+        {
+            string filePath = SaveLoadManager.Data.Slots[slotIndex].LastScreenshotSavedPath;
+            // セーブファイルのパスが無い
+            if (string.IsNullOrEmpty(filePath))
+                return (null, null);
+
+            Texture2D texture = await ScreenshotManager.LoadAsync(filePath);
+            // ロード失敗
+            if (!texture)
+                return (null, null);
+
+            // Sprite 化する
+            Sprite sprite = Sprite.Create(
+                texture,
+                new(0, 0, texture.width, texture.height),
+                new(0.5f, 0.5f)
+            );
+
+            return (texture, sprite);
         }
     }
 }
