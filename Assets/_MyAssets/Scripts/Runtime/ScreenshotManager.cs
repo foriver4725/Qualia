@@ -39,7 +39,9 @@ namespace MyScripts.Runtime
             }
         }
 
-        internal static async UniTask<Texture2D> LoadAsync(string filePath)
+        //! 新しくテクスチャを作成する
+        //TODO: 非同期化したい
+        internal static Texture2D Load(string filePath)
         {
             if (!File.Exists(filePath))
             {
@@ -49,12 +51,12 @@ namespace MyScripts.Runtime
 
             byte[] bytes = File.ReadAllBytes(filePath);
 
-            var tex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
-            tex.LoadImage(bytes.AsSpan());  // PNG / JPG 内部で自動処理
+            Texture2D texture = new(2, 2, TextureFormat.RGBA32, false);
+            texture.LoadImage(bytes.AsSpan());  // PNG / JPG 内部で自動処理
 
             $"Screenshot loaded: {filePath}".Print();
 
-            return tex;
+            return texture;
         }
     }
 }
