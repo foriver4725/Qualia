@@ -70,7 +70,7 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
                     }
                     float leftRatio = 100.0f * leftCount / Constants.SOSSignCount;
 
-                    slotInfos[i].ThumbnailImage.sprite = cachedThumbnailSprites[i];
+                    slotInfos[i].ThumbnailImage.sprite = (cachedThumbnailSprites[i] ? cachedThumbnailSprites[i] : defaultThumbnailSprite);
                     slotInfos[i].ProgressText.SetTextFormat("{0:F2}%", leftRatio);
                     slotInfos[i].DateText.text = ZString.Format("{0:yyyy-MM-dd}\n{0:HH:mm}", slotData.GetLastSavedAt());
                 }
