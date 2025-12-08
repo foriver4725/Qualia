@@ -5,8 +5,10 @@ namespace MyScripts.Runtime.UI.Main.Pause
     internal sealed class ResumeButtonManager : ASelectableButtonWithFrameManager
     {
         [SerializeField] private PauseInvoker pauseInvoker;
+        [SerializeField] private RectTransform parentRow;
 
         private protected sealed override float HoveredScaleCoef => 1.5f;
+        private protected sealed override Vector2 AnchoredPositionOffset => parentRow.anchoredPosition;
 
         private protected sealed override bool IsFrontUI => UIActivationManager.Instance.Front == UIActivationManager.UI.Pause;
 

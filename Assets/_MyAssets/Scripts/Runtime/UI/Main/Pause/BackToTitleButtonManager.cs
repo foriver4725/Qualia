@@ -6,8 +6,10 @@ namespace MyScripts.Runtime.UI.Main.Pause
     {
         [SerializeField] private AViewConstructor pauseViewConstructor;
         [SerializeField] private ConfirmYesButtonManager confirmYesButtonManager;
+        [SerializeField] private RectTransform parentRow;
 
         private protected sealed override float HoveredScaleCoef => 1.5f;
+        private protected sealed override Vector2 AnchoredPositionOffset => parentRow.anchoredPosition;
 
         private protected sealed override bool IsFrontUI => UIActivationManager.Instance.Front == UIActivationManager.UI.Pause;
 
