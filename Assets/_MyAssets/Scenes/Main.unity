@@ -2488,7 +2488,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &361975121
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3172,6 +3172,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8693385609332702422, guid: 7e0675c85a3dcd941912d537a84cfaee, type: 3}
   m_PrefabInstance: {fileID: 460171277}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &460171279 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2550128856894338207, guid: 7e0675c85a3dcd941912d537a84cfaee, type: 3}
+  m_PrefabInstance: {fileID: 460171277}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &460171280 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8546660273078970114, guid: 7e0675c85a3dcd941912d537a84cfaee, type: 3}
+  m_PrefabInstance: {fileID: 460171277}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &483453313
 GameObject:
   m_ObjectHideFlags: 0
@@ -3998,6 +4020,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8693385609332702422, guid: 7e0675c85a3dcd941912d537a84cfaee, type: 3}
   m_PrefabInstance: {fileID: 605308276}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &605308278 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8546660273078970114, guid: 7e0675c85a3dcd941912d537a84cfaee, type: 3}
+  m_PrefabInstance: {fileID: 605308276}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &605308279 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2550128856894338207, guid: 7e0675c85a3dcd941912d537a84cfaee, type: 3}
+  m_PrefabInstance: {fileID: 605308276}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &612055764
 GameObject:
   m_ObjectHideFlags: 0
@@ -4285,16 +4329,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fafcb8bc09bb1940984ae3051d47f0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventTrigger: {fileID: 0}
-  image: {fileID: 0}
+  eventTrigger: {fileID: 460171280}
+  image: {fileID: 460171279}
   sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
-  spriteSettingsType: 0
+  spriteSettingsType: 4
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 457859214}
   left: {fileID: 0}
-  right: {fileID: 1320726220}
+  right: {fileID: 0}
   down: {fileID: 0}
-  up: {fileID: 636994049}
+  up: {fileID: 1320726220}
   pauseViewConstructor: {fileID: 1252698440}
   confirmYesButtonManager: {fileID: 156834168}
 --- !u!1 &634230339
@@ -4418,10 +4462,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 354febd39ca6ed54d9b1a8699e3c5ece, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventTrigger: {fileID: 0}
-  image: {fileID: 0}
+  eventTrigger: {fileID: 605308278}
+  image: {fileID: 605308279}
   sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
-  spriteSettingsType: 0
+  spriteSettingsType: 2
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 457859214}
   left: {fileID: 0}
@@ -8025,15 +8069,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50be12972561e8e43a2c485a36a0f7b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventTrigger: {fileID: 0}
-  image: {fileID: 0}
+  eventTrigger: {fileID: 2047925040}
+  image: {fileID: 2047925041}
   sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
-  spriteSettingsType: 0
+  spriteSettingsType: 3
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 457859214}
-  left: {fileID: 632719253}
+  left: {fileID: 0}
   right: {fileID: 0}
-  down: {fileID: 0}
+  down: {fileID: 632719253}
   up: {fileID: 636994049}
   pauseViewConstructor: {fileID: 1252698440}
   confirmYesButtonManager: {fileID: 156834168}
@@ -12846,6 +12890,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8693385609332702422, guid: 7e0675c85a3dcd941912d537a84cfaee, type: 3}
   m_PrefabInstance: {fileID: 2047925038}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2047925040 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8546660273078970114, guid: 7e0675c85a3dcd941912d537a84cfaee, type: 3}
+  m_PrefabInstance: {fileID: 2047925038}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2047925041 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2550128856894338207, guid: 7e0675c85a3dcd941912d537a84cfaee, type: 3}
+  m_PrefabInstance: {fileID: 2047925038}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2119124802
 GameObject:
   m_ObjectHideFlags: 0
