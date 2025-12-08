@@ -156,17 +156,22 @@ namespace MyScripts.Common.Button
         {
             float scaleCoef = appearanceState switch
             {
-                AppearanceState.Default => 1.0f,
-                AppearanceState.BeingHovered => 1.05f,
-                AppearanceState.BeingClicked => 1.1f,
-                _ => 1.0f
+                AppearanceState.Default => DefaultScaleCoef,
+                AppearanceState.BeingHovered => HoveredScaleCoef,
+                AppearanceState.BeingClicked => ClickedScaleCoef,
+                _ => DefaultScaleCoef
             };
 
             if (image != null)
-                image.transform.DOScale(imageInitialScale * scaleCoef, 0.1f).SetEase(Ease.OutBack);
+                image.transform.DOScale(imageInitialScale * scaleCoef, ScaleAnimationDuration).SetEase(Ease.OutBack);
         }
 
         #region 派生クラスに公開
+
+        private protected virtual float DefaultScaleCoef => 1.0f;
+        private protected virtual float HoveredScaleCoef => 1.05f;
+        private protected virtual float ClickedScaleCoef => 1.1f;
+        private protected virtual float ScaleAnimationDuration => 0.1f;
 
         // 各コールバック時、このプロパティがfalseを返すなら実行されない
         // ただし、フラグの管理などは行われる
