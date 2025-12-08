@@ -12,6 +12,7 @@ internal sealed class SingleData
 {
     public bool IsValid;
     public string LastSavedAt;
+    public string LastScreenshotSavedPath;
     public bool[] HasFoundSOSSigns;
     public Vector3 PlayerPosition;
     public Vector3 PlayerForward;

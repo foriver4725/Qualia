@@ -20,6 +20,36 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
         [SerializeField] private SlotInfo[] slotInfos;
         // 最初の要素が、最初に選択される
         [SerializeField] private SlotManager[] slotManagers;
+        [SerializeField] private Sprite defaultThumbnailSprite;
+
+        private static readonly Texture2D[] cachedThumbnailTextures = new Texture2D[Constants.SlotCount];
+        private static readonly Sprite[] cachedThumbnailSprites = new Sprite[Constants.SlotCount];
+
+        private void Awake()
+        {
+            for (int i = 0; i < Constants.SlotCount; i++)
+            {
+                if (!cachedThumbnailSprites[i])
+                    (cachedThumbnailTextures[i], cachedThumbnailSprites[i]) = LoadThumbnailImage(i);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            foreach (var texture in cachedThumbnailTextures)
+            {
+                if (texture)
+                    Destroy(texture);
+            }
+            Array.Clear(cachedThumbnailTextures, 0, cachedThumbnailTextures.Length);
+
+            foreach (var sprite in cachedThumbnailSprites)
+            {
+                if (sprite)
+                    Destroy(sprite);
+            }
+            Array.Clear(cachedThumbnailSprites, 0, cachedThumbnailSprites.Length);
+        }
 
         internal sealed override void Construct()
         {
@@ -40,13 +70,13 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
                     }
                     float leftRatio = 100.0f * leftCount / Constants.SOSSignCount;
 
-                    slotInfos[i].ThumbnailImage.sprite = null; // セーブデータからサムネイル画像を取得してセットするなど
+                    slotInfos[i].ThumbnailImage.sprite = cachedThumbnailSprites[i];
                     slotInfos[i].ProgressText.SetTextFormat("{0:F2}%", leftRatio);
                     slotInfos[i].DateText.text = ZString.Format("{0:yyyy-MM-dd}\n{0:HH:mm}", slotData.GetLastSavedAt());
                 }
                 else
                 {
-                    slotInfos[i].ThumbnailImage.sprite = null; // デフォルトの画像にするなど
+                    slotInfos[i].ThumbnailImage.sprite = defaultThumbnailSprite;
                     slotInfos[i].ProgressText.text = "-";
                     slotInfos[i].DateText.text = "-";
                 }
@@ -60,6 +90,29 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
                 if (slotManager.IsSelected)
                     slotManager.DeselectThisForciblyUnsafe();
             }
+        }
+
+        //! 新しくテクスチャ、スプライトを作成する
+        private static (Texture2D Texture, Sprite Sprite) LoadThumbnailImage(int slotIndex)
+        {
+            string filePath = SaveLoadManager.Data.Slots[slotIndex].LastScreenshotSavedPath;
+            // セーブファイルのパスが無い
+            if (string.IsNullOrEmpty(filePath))
+                return (null, null);
+
+            Texture2D texture = ScreenshotManager.Load(filePath);
+            // ロード失敗
+            if (!texture)
+                return (null, null);
+
+            // スプライト化する
+            Sprite sprite = Sprite.Create(
+                texture,
+                new(0, 0, texture.width, texture.height),
+                new(0.5f, 0.5f)
+            );
+
+            return (texture, sprite);
         }
     }
 }

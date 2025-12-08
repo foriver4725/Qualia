@@ -11,6 +11,7 @@ internal static class SaveLoadInvoker
             slot.IsValid = false;
 
             slot.SetLastSavedAt(DateTime.MinValue);
+            slot.LastScreenshotSavedPath = "";
 
             slot.HasFoundSOSSigns = new bool[Constants.SOSSignCount];
             slot.HasFoundSOSSigns.AsSpan().Fill(false);
