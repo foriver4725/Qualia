@@ -29,8 +29,13 @@ namespace MyScripts.Runtime
                 // ファイルパス
                 string filePath = Path.Combine(
                     Application.persistentDataPath,
-                    ZString.Format("screenshot_{0}_{1:yyyyMMdd_HHmmss}.png", slotIndex, DateTime.Now)
+                    ZString.Format("screenshot_{0}.png", slotIndex)
                 );
+
+                if (File.Exists(filePath))
+                {
+                    $"Screenshot file already exists, overwriting: {filePath}".Print();
+                }
 
                 ScreenCapture.CaptureScreenshot(filePath);
                 SaveLoadManager.Data.Slots[slotIndex].LastScreenshotSavedPath = filePath;
