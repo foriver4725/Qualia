@@ -30,6 +30,9 @@ namespace MyScripts.Common.Button
 
         private AppearanceState appearanceState = AppearanceState.Default;
 
+        private MotionHandle backGroundTween = default;
+        private MotionHandle textTween = default;
+
         // PointerUpの時、ホバー状態に戻すか・通常状態に戻すか、判別するためのもの
         private bool isPointerInside = false;
 
@@ -193,28 +196,43 @@ namespace MyScripts.Common.Button
 
         private void UpdateAppearances()
         {
-            // (Color textColor, Color backgroundColor, float scaleCoef) = appearanceState switch
-            // {
-            //     AppearanceState.Default => (colorSettings.TextNormal, colorSettings.BackgroundNormal, 1.0f),
-            //     AppearanceState.BeingHovered => (colorSettings.TextHovered, colorSettings.BackgroundHovered, 1.05f),
-            //     AppearanceState.BeingClicked => (colorSettings.TextClicked, colorSettings.BackgroundClicked, 1.1f),
-            //     _ => (colorSettings.TextNormal, colorSettings.BackgroundNormal, 1.0f)
-            // };
+            (Color textColor, Color backgroundColor, float scaleCoef) = appearanceState switch
+            {
+                AppearanceState.Default => (/*colorSettings.TextNormal*/default, /*colorSettings.BackgroundNormal*/default, DefaultScaleCoef),
+                AppearanceState.BeingHovered => (/*colorSettings.TextHovered*/default, /*colorSettings.BackgroundHovered*/default, HoveredScaleCoef),
+                AppearanceState.BeingClicked => (/*colorSettings.TextClicked*/default, /*colorSettings.BackgroundClicked*/default, ClickedScaleCoef),
+                _ => (/*colorSettings.TextNormal*/(Color)default, /*colorSettings.BackgroundNormal*/(Color)default, DefaultScaleCoef)
+            };
 
-            // if (backgroundImage != null)
-            // {
-            //     backgroundImage.color = backgroundColor;
-            //     backgroundImage.rectTransform.DOScale(imageInitialScale * scaleCoef, 0.1f).SetEase(Ease.OutBack);
-            // }
+            if (backgroundImage != null)
+            {
+                backgroundImage.color = backgroundColor;
 
-            // if (text != null)
-            // {
-            //     text.color = textColor;
-            //     text.rectTransform.DOScale(textInitialScale * scaleCoef, 0.1f).SetEase(Ease.OutBack);
-            // }
+                if (backGroundTween.IsActive())
+                    backGroundTween.Cancel();
+                backGroundTween = LMotion.Create(backgroundImage.rectTransform.localScale, imageInitialScale * scaleCoef, ScaleAnimationDuration)
+                    .WithEase(Ease.OutBack)
+                    .BindToLocalScale(backgroundImage.rectTransform);
+            }
+
+            if (text != null)
+            {
+                text.color = textColor;
+
+                if (textTween.IsActive())
+                    textTween.Cancel();
+                textTween = LMotion.Create(text.rectTransform.localScale, textInitialScale * scaleCoef, ScaleAnimationDuration)
+                    .WithEase(Ease.OutBack)
+                    .BindToLocalScale(text.rectTransform);
+            }
         }
 
         #region 派生クラスに公開
+
+        private protected virtual float DefaultScaleCoef => 1.0f;
+        private protected virtual float HoveredScaleCoef => 1.05f;
+        private protected virtual float ClickedScaleCoef => 1.1f;
+        private protected virtual float ScaleAnimationDuration => 0.1f;
 
         // 各コールバック時、このプロパティがfalseを返すなら実行されない
         // ただし、フラグの管理などは行われる

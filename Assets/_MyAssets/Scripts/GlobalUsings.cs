@@ -13,10 +13,11 @@ global using TMPro;
 global using UnityEngine.Assertions;
 
 global using Cysharp.Threading.Tasks;
-global using DG.Tweening;
 global using R3;
 global using R3.Triggers;
 global using Cysharp.Text;
+global using LitMotion;
+global using LitMotion.Extensions;
 global using foriver4725.BetterLogging;
 global using foriver4725.Border;
 

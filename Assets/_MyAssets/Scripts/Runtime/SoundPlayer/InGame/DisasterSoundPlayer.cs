@@ -40,13 +40,13 @@
             AudioSource audioSource = AudioSources[index];
             if (!audioSource.isPlaying) return;
 
-            audioSource
-                .DOFade(0.0f, Param.FadeOutDuration)
-                .SetEase(Ease.OutQuad)
-                .OnComplete(() =>
+            LMotion.Create(audioSource.volume, 0.0f, Param.FadeOutDuration)
+                .WithEase(Ease.OutQuad)
+                .WithOnComplete(() =>
                 {
                     audioSource.LetStop();
-                });
+                })
+                .BindToVolume(audioSource);
         }
 
         private (byte Using, byte NotUsing, byte Smaller, byte Larger) GetIndices(SDisasterSound.Disaster type)
