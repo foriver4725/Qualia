@@ -178,7 +178,8 @@ namespace MyScripts.Common.Button
             {
                 image.sprite = sprite;
 
-                tween.Cancel();
+                if (tween.IsActive())
+                    tween.Cancel();
                 tween = LMotion.Create(image.rectTransform.localScale, imageInitialScale * scaleCoef, ScaleAnimationDuration)
                     .WithEase(Ease.OutBack)
                     .BindToLocalScale(image.rectTransform);

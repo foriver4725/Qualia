@@ -208,7 +208,8 @@ namespace MyScripts.Common.Button
             {
                 backgroundImage.color = backgroundColor;
 
-                backGroundTween.Cancel();
+                if (backGroundTween.IsActive())
+                    backGroundTween.Cancel();
                 backGroundTween = LMotion.Create(backgroundImage.rectTransform.localScale, imageInitialScale * scaleCoef, ScaleAnimationDuration)
                     .WithEase(Ease.OutBack)
                     .BindToLocalScale(backgroundImage.rectTransform);
@@ -218,7 +219,8 @@ namespace MyScripts.Common.Button
             {
                 text.color = textColor;
 
-                textTween.Cancel();
+                if (textTween.IsActive())
+                    textTween.Cancel();
                 textTween = LMotion.Create(text.rectTransform.localScale, textInitialScale * scaleCoef, ScaleAnimationDuration)
                     .WithEase(Ease.OutBack)
                     .BindToLocalScale(text.rectTransform);

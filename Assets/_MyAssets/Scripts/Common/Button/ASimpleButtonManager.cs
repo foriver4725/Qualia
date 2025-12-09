@@ -166,7 +166,8 @@ namespace MyScripts.Common.Button
 
             if (image)
             {
-                tween.Cancel();
+                if (tween.IsActive())
+                    tween.Cancel();
                 tween = LMotion.Create(image.transform.localScale, imageInitialScale * scaleCoef, ScaleAnimationDuration)
                     .WithEase(Ease.OutBack)
                     .BindToLocalScale(image.transform);
