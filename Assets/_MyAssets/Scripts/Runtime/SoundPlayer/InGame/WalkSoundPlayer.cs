@@ -30,7 +30,8 @@
 
                 if (arePlaying[i])
                 {
-                    fadeOutTweens[i].Cancel();
+                    if (fadeOutTweens[i].IsActive())
+                        fadeOutTweens[i].Cancel();
                     fadeOutTweens[i] = LMotion.Create(audioSources[i].volume, 0.0f, Param.FadeOutDuration)
                         .WithEase(Ease.OutQuad)
                         .WithOnComplete(() =>
