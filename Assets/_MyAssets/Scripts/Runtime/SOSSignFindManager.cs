@@ -19,7 +19,7 @@ namespace MyScripts.Runtime
 
         // Awake で初期化
         private SSOSSignLogText sosSignLogText;
-        private int leftSOSSignCount = -1;
+        private int removedSOSSignCount = -1;
         private Collider[] sosSigns; // コライダーはルートに付いている
 
         #region Interface Implementation
@@ -28,42 +28,42 @@ namespace MyScripts.Runtime
         {
             Span<bool> foundSOSSigns = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasFoundSOSSigns.AsSpan();
 
-            int activeCount = 0;
+            int removeCount = 0;
             for (int i = 0; i < Constants.SOSSignCount; i++)
             {
                 if (!foundSOSSigns[i])
                 {
                     sosSigns[i].gameObject.SetActive(true);
-                    activeCount++;
                 }
                 else
                 {
                     sosSigns[i].gameObject.SetActive(false);
+                    removeCount++;
                 }
             }
 
-            leftSOSSignCount = activeCount;
+            removedSOSSignCount = removeCount;
         }
 
         public void SetMyPropertiesToData()
         {
             Span<bool> foundSOSSigns = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasFoundSOSSigns.AsSpan();
 
-            int activeCount = 0;
+            int removeCount = 0;
             for (int i = 0; i < Constants.SOSSignCount; i++)
             {
                 if (sosSigns[i].gameObject.activeSelf)
                 {
                     foundSOSSigns[i] |= false; // 既に見つけたことがある場合は上書きしない
-                    activeCount++;
                 }
                 else
                 {
                     foundSOSSigns[i] |= true; // 既に見つけたことがある場合は上書きしない
+                    removeCount++;
                 }
             }
 
-            Assert.IsTrue(activeCount == leftSOSSignCount);
+            Assert.IsTrue(removeCount == removedSOSSignCount);
         }
 
         #endregion
@@ -86,7 +86,7 @@ namespace MyScripts.Runtime
             // メソッドのコメントに従って、
             // - Awake() より後に呼び出す
             // - changeFillSmoothly は false にする
-            sosSignRatioUIManager.UpdateRatio(1.0f * leftSOSSignCount / Constants.SOSSignCount, changeFillSmoothly: false);
+            sosSignRatioUIManager.UpdateRatio(1.0f * removedSOSSignCount / Constants.SOSSignCount, changeFillSmoothly: false);
         }
 
         // プレハブから生成して、ランダムに配置する
@@ -127,8 +127,8 @@ namespace MyScripts.Runtime
                                 // "取り除く" = "ルートのゲームオブジェクトが非アクティブ"
                                 selfCollider.gameObject.SetActive(false);
                                 {
-                                    leftSOSSignCount--;
-                                    sosSignRatioUIManager.UpdateRatio(1.0f * leftSOSSignCount / Constants.SOSSignCount);
+                                    removedSOSSignCount++;
+                                    sosSignRatioUIManager.UpdateRatio(1.0f * removedSOSSignCount / Constants.SOSSignCount);
 
                                     // このタイミングで、セーブデータに反映しておく
                                     SetMyPropertiesToData();

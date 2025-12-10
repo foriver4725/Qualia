@@ -13070,7 +13070,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1381151789146926813, guid: e653d0c446020e044b3ac191828fc56a, type: 3}
       propertyPath: m_Name
-      value: LeftRatio
+      value: RemovedRatio
       objectReference: {fileID: 0}
     - target: {fileID: 7629150122415817327, guid: e653d0c446020e044b3ac191828fc56a, type: 3}
       propertyPath: m_Pivot.x
