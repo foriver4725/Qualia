@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56f88b2d91cb1584d82d98545589837c, type: 3}
   m_Name: _Anima
   m_EditorClassIdentifier: 
-  landIcon: {fileID: 21300000, guid: 8270805d842d5f44b91a2cab95962413, type: 3}
-  seaIcon: {fileID: 21300000, guid: 8ca14ee17bce11a4c96f20a9c7b0d644, type: 3}
-  skyIcon: {fileID: 21300000, guid: 25e6d531b2663a94191f472713f72615, type: 3}
+  landIcon: {fileID: 21300000, guid: 5186ca43d57d2544fa6b88a1e15ef845, type: 3}
+  seaIcon: {fileID: 21300000, guid: f3ce8376e64485a40a05eb4c2efe0eb8, type: 3}
+  skyIcon: {fileID: 21300000, guid: e76eaf6eab3a3e045929c75438f54dfd, type: 3}
   possessDuration: 5

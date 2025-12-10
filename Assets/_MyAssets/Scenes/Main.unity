@@ -5461,7 +5461,6 @@ MonoBehaviour:
   displayImage: {fileID: 1523694406}
   sAnima: {fileID: 11400000, guid: 5be6b48a0ff56f14dabe61f08307a952, type: 2}
   soundPlayer: {fileID: 195949041}
-  pc: {fileID: 1986410594}
 --- !u!1001 &824152981
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9560,7 +9559,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8270805d842d5f44b91a2cab95962413, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5186ca43d57d2544fa6b88a1e15ef845, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
