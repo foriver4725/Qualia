@@ -25,8 +25,8 @@ namespace MyScripts.Runtime
         [SerializeField] private new Transform transform;
         [SerializeField] private new Collider collider;
         [Space(10)]
-        [SerializeField] private Renderer horseRenderer;
-        [SerializeField] private Renderer shellfishRenderer;
+        [SerializeField] private Renderer[] horseRenderers;
+        [SerializeField] private Renderer[] shellfishRenderers;
         [Space(10)]
         [SerializeField] private PlayerController pc;
         [SerializeField] private AnimalLeaveInvoker animalLeaveInvoker;
@@ -43,8 +43,10 @@ namespace MyScripts.Runtime
 
         internal void UpdateModel(CharacterType type)
         {
-            horseRenderer.enabled = (type == CharacterType.Horse);
-            shellfishRenderer.enabled = (type == CharacterType.Shellfish);
+            foreach (var renderer in horseRenderers.AsSpan())
+                renderer.enabled = (type == CharacterType.Horse);
+            foreach (var renderer in shellfishRenderers.AsSpan())
+                renderer.enabled = (type == CharacterType.Shellfish);
         }
 
         internal void Teleport(Vector3 position, Vector3 forward)
