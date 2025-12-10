@@ -21,6 +21,7 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
         // 最初の要素が、最初に選択される
         [SerializeField] private SlotManager[] slotManagers;
         [SerializeField] private Sprite defaultThumbnailSprite;
+        [SerializeField] private Color progressTextColorWhen100Percent;
 
         private static readonly Texture2D[] cachedThumbnailTextures = new Texture2D[Constants.SlotCount];
         private static readonly Sprite[] cachedThumbnailSprites = new Sprite[Constants.SlotCount];
@@ -70,14 +71,18 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
                     }
                     float removeRatio = 100.0f * removeCount / Constants.SOSSignCount;
 
-                    slotInfos[i].ThumbnailImage.sprite = (cachedThumbnailSprites[i] ? cachedThumbnailSprites[i] : defaultThumbnailSprite);
+                    slotInfos[i].ThumbnailImage.sprite = (cachedThumbnailSprites[i] ?
+                        cachedThumbnailSprites[i] : defaultThumbnailSprite);
                     slotInfos[i].ProgressText.SetTextFormat("{0:F2}%", removeRatio);
+                    slotInfos[i].ProgressText.color = (removeCount >= Constants.SOSSignCount ?
+                        progressTextColorWhen100Percent : Color.white);
                     slotInfos[i].DateText.text = ZString.Format("{0:yyyy-MM-dd}\n{0:HH:mm}", slotData.GetLastSavedAt());
                 }
                 else
                 {
                     slotInfos[i].ThumbnailImage.sprite = defaultThumbnailSprite;
                     slotInfos[i].ProgressText.text = "-";
+                    slotInfos[i].ProgressText.color = Color.white;
                     slotInfos[i].DateText.text = "-";
                 }
             }
