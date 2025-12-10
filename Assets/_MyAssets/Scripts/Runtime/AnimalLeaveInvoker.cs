@@ -4,6 +4,7 @@ namespace MyScripts.Runtime
 {
     internal sealed class AnimalLeaveInvoker : MonoBehaviour
     {
+        [SerializeField] private Image displayImageBg;
         [SerializeField] private Image displayImage;
         [SerializeField] private SAnima sAnima;
         [SerializeField] private SOSSoundPlayer soundPlayer;
@@ -21,7 +22,7 @@ namespace MyScripts.Runtime
 
         private void Awake()
         {
-            UpdateDisplayImage(displayImage, possessingCharacter, sAnima);
+            UpdateDisplayImage(displayImage, displayImageBg, possessingCharacter, sAnima);
         }
 
         // キャラクターを取得する
@@ -43,7 +44,7 @@ namespace MyScripts.Runtime
             possessingCharacter.SetVisible(false);
             possessingCharacter.Collider.enabled = false;
 
-            UpdateDisplayImage(displayImage, possessingCharacter, sAnima);
+            UpdateDisplayImage(displayImage, displayImageBg, possessingCharacter, sAnima);
             // TODO: SOSサインのサウンドを使いまわす!
             soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
 
@@ -69,16 +70,19 @@ namespace MyScripts.Runtime
             possessingCharacter.Collider.enabled = true;
             possessingCharacter = null;
 
-            UpdateDisplayImage(displayImage, possessingCharacter, sAnima);
+            UpdateDisplayImage(displayImage, displayImageBg, possessingCharacter, sAnima);
             // TODO: SOSサインのサウンドを使いまわす!
             soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
         }
 
-        private static void UpdateDisplayImage(Image image, Character possessingCharacter, SAnima sAnima)
+        private static void UpdateDisplayImage(Image image, Image bg, Character possessingCharacter, SAnima sAnima)
         {
             if (possessingCharacter)
             {
+                bg.enabled = true;
                 image.enabled = true;
+
+                bg.color = possessingCharacter.MaterialColor;
 
                 image.sprite = possessingCharacter.CharacterType switch
                 {
@@ -90,6 +94,7 @@ namespace MyScripts.Runtime
             }
             else
             {
+                bg.enabled = false;
                 image.enabled = false;
             }
         }

@@ -5458,6 +5458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80cc3df7ebc7119459e1013a6257f8c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  displayImageBg: {fileID: 1392295235}
   displayImage: {fileID: 1523694406}
   sAnima: {fileID: 11400000, guid: 5be6b48a0ff56f14dabe61f08307a952, type: 2}
   soundPlayer: {fileID: 195949041}
@@ -9613,7 +9614,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 192, y: 192}
+  m_SizeDelta: {x: 128, y: 128}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1523694406
 MonoBehaviour:

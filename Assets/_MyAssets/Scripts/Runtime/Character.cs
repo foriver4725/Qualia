@@ -47,6 +47,8 @@ namespace MyScripts.Runtime
         internal MeshRenderer Container => container;
         internal SpriteRenderer Icon => icon;
 
+        internal Color MaterialColor => container.material.color;
+
         internal bool SetVisible(bool isVisible)
         {
             container.enabled = isVisible;
