@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56f88b2d91cb1584d82d98545589837c, type: 3}
+  m_Name: _Anima
+  m_EditorClassIdentifier: 
+  landIcon: {fileID: 21300000, guid: 5186ca43d57d2544fa6b88a1e15ef845, type: 3}
+  seaIcon: {fileID: 21300000, guid: f3ce8376e64485a40a05eb4c2efe0eb8, type: 3}
+  skyIcon: {fileID: 21300000, guid: e76eaf6eab3a3e045929c75438f54dfd, type: 3}
+  possessDuration: 30

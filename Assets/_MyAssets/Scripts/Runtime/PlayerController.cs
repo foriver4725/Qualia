@@ -229,8 +229,8 @@ namespace MyScripts.Runtime
 		// 慣性ジャンプ
 		private void DoInertiaJumpIfTheTiming()
 		{
-			// 馬に憑依していないとダメ
-			if (animalLeaveInvoker.PossessingCharacterType != CharacterType.Horse) return;
+			// 陸のアニマを取得していないとダメ
+			if (animalLeaveInvoker.PossessingCharacterType != CharacterType.Land) return;
 
 			// 水平方向にある程度の速度が必要
 			if (realHorizontalVelocity.sqrMagnitude < param.InertiaJumpLimitSpeedSqr) return;
@@ -317,11 +317,11 @@ namespace MyScripts.Runtime
 			isSprinting = isSprintingInput && hasInput;
 
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			// when player is possessing horse, increase move speed more
+			// when player is possessing land anima, increase move speed
 			float targetSpeed = param.MoveSpeed;
 			if (isSprintingInput)
 				targetSpeed *= param.SprintSpeedMultiplier;
-			if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Horse)
+			if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Land)
 				targetSpeed *= param.MoveSpeedMultiplierWhenHorse;
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
@@ -473,10 +473,10 @@ namespace MyScripts.Runtime
 			{ z: < -1600 or > 1600 })
 				controller.transform.position = teleportBackPoint.position;
 
-			// 貝に憑依していない時、水の中に入っていないか?
+			// 水のアニマを取得していない時、水の中に入っていないか?
 			// 直前フレームの位置に戻す (XZだけ、Yはそのまま)
 			// 水の中にいる判定は、水の足音ボーダーを使う
-			if (animalLeaveInvoker.PossessingCharacterType != CharacterType.Shellfish)
+			if (animalLeaveInvoker.PossessingCharacterType != CharacterType.Sea)
 			{
 				if (IsPlayerInsideOfAnyBorder(
 					walkSoundBorders[SWalkSound.Surface.Water],
