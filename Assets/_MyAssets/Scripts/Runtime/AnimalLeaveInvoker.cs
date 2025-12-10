@@ -17,9 +17,14 @@ namespace MyScripts.Runtime
         // 憑依中のキャラクターの種類 (憑依していないなら None)
         internal CharacterType PossessingCharacterType => (possessingCharacter != null) ? possessingCharacter.CharacterType : CharacterType.None;
 
-        // 初めて馬に憑依したタイミングで true になり、以降二度と false にならない
-        // 馬になった時の能力強化を、一回だけログで知らせるために使う
-        private bool hasPossessedHorseForTheFirstTime = false;
+        // 初めて取得したタイミングで true になり、以降二度と false にならない
+        // 一回だけログで知らせるために使う
+        private readonly Dictionary<CharacterType, bool> hasPossessedForTheFirstTimeTable = new()
+        {
+            { CharacterType.Land, false },
+            { CharacterType.Sea, false },
+            { CharacterType.Sky, false },
+        };
 
         private void Awake()
         {
@@ -50,11 +55,29 @@ namespace MyScripts.Runtime
             // TODO: SOSサインのサウンドを使いまわす!
             soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
 
-            if (character.CharacterType == CharacterType.Land && !hasPossessedHorseForTheFirstTime)
+            // 初めて取得した場合、ログを表示する
             {
-                hasPossessedHorseForTheFirstTime = true;
+                CharacterType foundFirstTimeType = CharacterType.None;
 
-                LogManager2.Instance.ShowAutomatically("速度アップ、慣性ジャンプが可能になった！");
+                foreach (CharacterType type in hasPossessedForTheFirstTimeTable.Keys)
+                {
+                    if (type == CharacterType.None) continue;
+                    if (type != character.CharacterType) continue;
+                    if (hasPossessedForTheFirstTimeTable[type]) break;
+
+                    foundFirstTimeType = type;
+                    break;
+                }
+
+                hasPossessedForTheFirstTimeTable[foundFirstTimeType] = true;
+
+                LogManager2.Instance.ShowAutomatically(foundFirstTimeType switch
+                {
+                    CharacterType.Land => "陸の移動速度が向上し、慣性ジャンプが可能になった！",
+                    CharacterType.Sea => "水上の移動速度が大幅に向上した！",
+                    CharacterType.Sky => "空中で再度ジャンプすると大ジャンプし、落下時に滑空するようになった！",
+                    _ => ""
+                });
             }
         }
 

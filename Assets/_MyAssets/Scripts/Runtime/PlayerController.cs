@@ -54,6 +54,7 @@ namespace MyScripts.Runtime
 		private bool isDoingInertiaJump = false;
 		private bool onInertiaJumpCt = false;
 		private Vector3 previousFramePosition = Vector3.zero; // 直前フレームの位置を記録して、戻せるようにする
+		private int jumpCountWhenHasSky = 0; // 空のアニマを取得している時、空中ジャンプ出来るので、二段ジャンプより上を防止する用
 
 		// timeout deltatime
 		// Awake で初期化
@@ -317,12 +318,32 @@ namespace MyScripts.Runtime
 			isSprinting = isSprintingInput && hasInput;
 
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			// when player is possessing land anima, increase move speed
+			// when player is possessing an anima, increase move speed accordingly
 			float targetSpeed = param.MoveSpeed;
 			if (isSprintingInput)
 				targetSpeed *= param.SprintSpeedMultiplier;
-			if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Land)
-				targetSpeed *= param.MoveSpeedMultiplierWhenHorse;
+			{
+				if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Land)
+				{
+					// 陸にいるなら (水にいないなら)
+					if (!IsPlayerInsideOfAnyBorder(
+						walkSoundBorders[SWalkSound.Surface.Water],
+						controller.transform.position,
+						BorderLayer.WalkSound.Get(SWalkSound.Surface.Water)
+					))
+						targetSpeed *= param.MoveSpeedMultiplierWhenHasLand;
+				}
+				else if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Sea)
+				{
+					// 水にいるなら
+					if (IsPlayerInsideOfAnyBorder(
+						walkSoundBorders[SWalkSound.Surface.Water],
+						controller.transform.position,
+						BorderLayer.WalkSound.Get(SWalkSound.Surface.Water)
+					))
+						targetSpeed *= param.MoveSpeedMultiplierWhenHasSea;
+				}
+			}
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
 			// for debug, make the player move faster while has the input
@@ -407,6 +428,10 @@ namespace MyScripts.Runtime
 		{
 			if (isGrounded)
 			{
+				// 空のアニマを取得している時の、二段ジャンプ防止用カウンタをリセット
+				if (jumpCountWhenHasSky > 0) // 一応条件分岐
+					jumpCountWhenHasSky = 0;
+
 				// get input
 				bool input = InputManager.PlayerControl.Jump;
 
@@ -440,6 +465,51 @@ namespace MyScripts.Runtime
 					}
 				}
 			}
+			// 空中ジャンプ (空のアニマを取得している時)
+			// 通常のジャンプとほぼ同じロジック、ただしジャンプ力がめっちゃ強い
+			// 今たまたまロジックが共通しているだけなので、一緒の関数にまとめたりなどはしない
+			else if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Sky)
+			{
+				// 既にジャンプ済みでないか?
+				if (jumpCountWhenHasSky <= 0)
+				{
+					// get input
+					bool input = InputManager.PlayerControl.Jump;
+
+					// reset the fall timeout timer
+					fallTimeoutDelta = param.FallTimeout;
+
+					// stop our velocity dropping infinitely when grounded
+					if (verticalVelocity < 0.0f)
+					{
+						verticalVelocity = -2f;
+					}
+
+					// Jump
+					if (input && jumpTimeoutDelta <= 0.0f)
+					{
+						isJumping = true;
+
+						// 二段ジャンプのカウンタを増やす
+						jumpCountWhenHasSky++;
+
+						// the square root of H * -2 * G = how much velocity needed to reach desired height
+						verticalVelocity = Mathf.Sqrt(param.JumpHeightWhenHasSkyAndInTheAir * -2f * param.OwnGravity);
+					}
+				}
+
+				// jump timeout
+				if (jumpTimeoutDelta >= 0.0f)
+				{
+					jumpTimeoutDelta -= Time.deltaTime;
+
+					// ここでジャンプが終了したとみなす
+					if (jumpTimeoutDelta <= 0.0f)
+					{
+						isJumping = false;
+					}
+				}
+			}
 			else
 			{
 				// reset the jump timeout timer
@@ -454,10 +524,19 @@ namespace MyScripts.Runtime
 
 			if (IsOwnGravityEnabled)
 			{
+				// adjust gravity when possessing an anima
+				float ownGravity = param.OwnGravity;
+				if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Sky)
+				{
+					// 下向きに落下しているなら
+					if (verticalVelocity < 0.0f)
+						ownGravity = param.OwnGravityWhenHasSkyAndIsFalling;
+				}
+
 				// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
 				if (verticalVelocity < TerminalVelocity)
 				{
-					verticalVelocity += param.OwnGravity * Time.deltaTime;
+					verticalVelocity += ownGravity * Time.deltaTime;
 				}
 			}
 		}
@@ -472,33 +551,6 @@ namespace MyScripts.Runtime
 			{ y: < -50 or > 500 } or
 			{ z: < -1600 or > 1600 })
 				controller.transform.position = teleportBackPoint.position;
-
-			// 水のアニマを取得していない時、水の中に入っていないか?
-			// 直前フレームの位置に戻す (XZだけ、Yはそのまま)
-			// 水の中にいる判定は、水の足音ボーダーを使う
-			if (animalLeaveInvoker.PossessingCharacterType != CharacterType.Sea)
-			{
-				if (IsPlayerInsideOfAnyBorder(
-					walkSoundBorders[SWalkSound.Surface.Water],
-					controller.transform.position,
-					BorderLayer.WalkSound.Get(SWalkSound.Surface.Water)
-				))
-				{
-					controller.transform.position = new(
-						previousFramePosition.x,
-						controller.transform.position.y,
-						previousFramePosition.z
-					);
-
-					// 1度だけ警告のログを出す
-					if (!hasTriedToEnterWaterWhenNotShellfishForTheFirstTime)
-					{
-						hasTriedToEnterWaterWhenNotShellfishForTheFirstTime = true;
-
-						LogManager2.Instance.ShowAutomatically("貝に憑依しないと、水の中には入れない", duration: 10.0f, fadeoutDuration: 2.0f);
-					}
-				}
-			}
 		}
 
 		private void UpdateFOVsSprintMode()
