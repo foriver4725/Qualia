@@ -474,10 +474,14 @@ namespace MyScripts.Runtime
 
 			if (IsOwnGravityEnabled)
 			{
-				// プレイヤーが空にいるなら、違う重力係数で落下させる
-				float ownGravity = animalLeaveInvoker.PossessingCharacterType == CharacterType.Sky
-					? param.OwnGravityWhenHasSky
-					: param.OwnGravity;
+				// adjust gravity when possessing an anima
+				float ownGravity = param.OwnGravity;
+				if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Sky)
+				{
+					// 下向きに落下しているなら
+					if (verticalVelocity < 0.0f)
+						ownGravity = param.OwnFallGravityWhenHasSky;
+				}
 
 				// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
 				if (verticalVelocity < TerminalVelocity)

@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 6
   sprintSpeedMultiplier: 2
-  moveSpeedMultiplierWhenHorse: 2
+  moveSpeedMultiplierWhenHasLand: 1.5
+  moveSpeedMultiplierWhenHasSea: 3
   moveAcceleration: 10
   nativeHorizontalVelocityAttenuationRateOnGround: 0.5
   nativeHorizontalVelocityAttenuationRateInAir: 0.02
@@ -24,6 +25,7 @@ MonoBehaviour:
   cameraPitchRange: {x: -90, y: 90}
   jumpHeight: 5
   ownGravity: -15
+  ownFallGravityWhenHasSky: -1
   inertiaJumpVelocity: {x: 30, y: 15, z: 30}
   inertiaJumpLimitSpeedSqr: 100
   inertiaJumpCoolTime: 0.1
