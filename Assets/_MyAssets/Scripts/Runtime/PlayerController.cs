@@ -474,10 +474,15 @@ namespace MyScripts.Runtime
 
 			if (IsOwnGravityEnabled)
 			{
+				// プレイヤーが空にいるなら、違う重力係数で落下させる
+				float ownGravity = animalLeaveInvoker.PossessingCharacterType == CharacterType.Sky
+					? param.OwnGravityWhenHasSky
+					: param.OwnGravity;
+
 				// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
 				if (verticalVelocity < TerminalVelocity)
 				{
-					verticalVelocity += param.OwnGravity * Time.deltaTime;
+					verticalVelocity += ownGravity * Time.deltaTime;
 				}
 			}
 		}

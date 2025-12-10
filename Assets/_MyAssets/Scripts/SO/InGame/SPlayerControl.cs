@@ -48,8 +48,10 @@
         [Header("Jump")]
         [SerializeField] private float jumpHeight = 1.2f;
         [SerializeField, Tooltip("プレイヤーは独自の重力を使う. エンジンのデフォルトは -9.81f.")] private float ownGravity = -15.0f;
+        [SerializeField] private float ownGravityWhenHasSky = -2.0f;
         internal float JumpHeight => jumpHeight;
         internal float OwnGravity => ownGravity;
+        internal float OwnGravityWhenHasSky => ownGravityWhenHasSky;
 
         [Space(10)]
 
