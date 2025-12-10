@@ -102,6 +102,8 @@ namespace MyScripts.Runtime
 
                                 if (param.PossessInvoker.IsPossessing)
                                     param.PossessInvoker.LeaveCharacter(param.PlayerController);
+
+                                LogManager2.Instance.ShowAutomatically("アニマの取得状態が解除された");
                             },
                             cancellationToken: ct);
 
@@ -116,7 +118,7 @@ namespace MyScripts.Runtime
                     }
                     else
                     {
-                        LogManager.Instance.ShowManually("憑依中は再度憑依できません");
+                        LogManager.Instance.ShowManually("現在他のアニマを取得中です");
 
                         while (true)
                         {
