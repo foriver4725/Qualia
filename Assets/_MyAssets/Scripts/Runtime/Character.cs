@@ -6,8 +6,9 @@ namespace MyScripts.Runtime
     internal enum CharacterType : byte
     {
         None, // 憑依していない状態を表すことが出来る
-        Horse,
-        Shellfish,
+        Land,
+        Sea,
+        Sky,
     }
 
     /// <summary>
@@ -17,18 +18,22 @@ namespace MyScripts.Runtime
     /// </summary>
     internal sealed class Character : MonoBehaviour
     {
-        [SerializeField] private CharacterType characterType = CharacterType.Horse;
-        [SerializeField] private TextMeshPro nameText;
+        [SerializeField] private CharacterType characterType = CharacterType.Land;
+        [SerializeField] private MeshRenderer container;
+        [SerializeField] private SpriteRenderer icon;
         [SerializeField, Range(0.0f, 100.0f), Tooltip("SOSサインの残り度(%)がこれ以下になったら、憑依できるようになる")]
         private float possessableLimitSOSSignLeftRatio = 50.0f;
         [Space(10)]
         [SerializeField] private new Transform transform;
         [SerializeField] private new Collider collider;
         [Space(10)]
-        [SerializeField] private Renderer[] horseRenderers;
-        [SerializeField] private Renderer[] shellfishRenderers;
+        [SerializeField] private SAnima sAnima;
+        [SerializeField] private Material landMaterial;
+        [SerializeField] private Material seaMaterial;
+        [SerializeField] private Material skyMaterial;
         [Space(10)]
         [SerializeField] private PlayerController pc;
+        [SerializeField] private Camera playerCamera;
         [SerializeField] private AnimalLeaveInvoker animalLeaveInvoker;
         [SerializeField] private SOSSoundPlayer soundPlayer;
 
@@ -39,14 +44,14 @@ namespace MyScripts.Runtime
         internal Collider Collider => collider;
 
         internal CharacterType CharacterType => characterType;
-        internal Behaviour NameText => nameText;
+        internal MeshRenderer Container => container;
+        internal SpriteRenderer Icon => icon;
 
-        internal void UpdateModel(CharacterType type)
+        internal bool SetVisible(bool isVisible)
         {
-            foreach (var renderer in horseRenderers.AsSpan())
-                renderer.enabled = (type == CharacterType.Horse);
-            foreach (var renderer in shellfishRenderers.AsSpan())
-                renderer.enabled = (type == CharacterType.Shellfish);
+            container.enabled = isVisible;
+            icon.enabled = isVisible;
+            return isVisible;
         }
 
         internal void Teleport(Vector3 position, Vector3 forward)
@@ -59,13 +64,6 @@ namespace MyScripts.Runtime
 
         private void Awake()
         {
-            nameText.text = characterType switch
-            {
-                CharacterType.Horse => "馬",
-                CharacterType.Shellfish => "貝",
-                _ => throw new ArgumentOutOfRangeException(nameof(characterType), characterType, null)
-            };
-
             UpdateModel(characterType);
 
             // 憑依
@@ -87,47 +85,32 @@ namespace MyScripts.Runtime
                 {
                     if (!param.PossessInvoker.IsPossessing)
                     {
-                        // SOSサインの残り度が一定以下なら、憑依可能
-                        if (CalculateCurrentSOSSignLeftRatio() * 100.0f <= param.PossessableLimit)
+                        LogManager.Instance.ShowManually("左クリックで取得");
+
+                        if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider, ct) == true)
                         {
-                            LogManager.Instance.ShowManually("左クリックで憑依");
+                            // 取得する
+                            param.PossessInvoker.PossessCharacter(param.This);
 
-                            if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider, ct) == true)
+                            LogManager.Instance.ShowManually(string.Empty);
+                            LogManager.Instance.ShowAutomatically(ZString.Format("{0} のアニマを取得した", GetName(param.This.characterType)));
+
+                            // 一定時間経過後に、解除するようにする
+                            UniTask.Void(async ct =>
                             {
-                                // 憑依する
-                                param.PossessInvoker.PossessCharacter(param.PlayerController, param.This);
+                                await param.This.sAnima.PossessDuration.SecAwait(ct: ct);
 
-                                LogManager.Instance.ShowManually(string.Empty);
-                                LogManager.Instance.ShowAutomatically("憑依した");
+                                if (param.PossessInvoker.IsPossessing)
+                                    param.PossessInvoker.LeaveCharacter(param.PlayerController);
+                            },
+                            cancellationToken: ct);
 
-                                // これは AnimalLeaveInvoker 側で再生する (離脱時のサウンド再生も、一緒のクラスで行いたいので)
-                                // .// TODO: SOSサインのサウンドを使いまわす!
-                                // param.SoundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
-                            }
-                            else
-                            {
-                                LogManager.Instance.ShowManually(string.Empty);
-                            }
+                            // これは AnimalLeaveInvoker 側で再生する (離脱時のサウンド再生も、一緒のクラスで行いたいので)
+                            // .// TODO: SOSサインのサウンドを使いまわす!
+                            // param.SoundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
                         }
                         else
                         {
-                            LogManager.Instance.ShowManually(
-                                ZString.Format("穢れ度が {0:F2}% 以下じゃないと\n憑依できないよ!", param.PossessableLimit));
-
-                            while (true)
-                            {
-                                if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider, ct) == true)
-                                {
-                                    // TODO: SOSサインのサウンドを使いまわす!
-                                    param.SoundPlayer.LetPlay(SSOSSound.Situation.CouldNotRemove);
-                                    continue;
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
-
                             LogManager.Instance.ShowManually(string.Empty);
                         }
                     }
@@ -153,18 +136,49 @@ namespace MyScripts.Runtime
                     }
                 })
                 .AddTo(collider);
+        }
 
-            // 離脱
-            this.UpdateAsObservable()
-                .Select((animalLeaveInvoker, pc), static (_, param) => (Invoker: param.animalLeaveInvoker, Pc: param.pc))
-                .Where(static param => param.Invoker.IsPossessing)
-                .Where(static _ => InputManager.InGame.Cancel)
-                .Subscribe(static param =>
-                {
-                    InputManager.InGame.MakeCancelInputDisabledUntilNextFrame();
-                    param.Invoker.LeaveCharacter(param.Pc);
-                })
-                .AddTo(this);
+        private void LateUpdate()
+        {
+            // プレイヤーの方を向く
+            if (icon)
+            {
+                Vector3 directionToCamera = playerCamera.transform.position - icon.transform.position;
+                directionToCamera.y = 0;
+                if (directionToCamera != Vector3.zero)
+                    icon.transform.rotation = Quaternion.LookRotation(-directionToCamera);
+            }
+        }
+
+        private void UpdateModel(CharacterType type)
+        {
+            if (type == CharacterType.None)
+            {
+                // 見えなくする
+                container.enabled = false;
+                icon.enabled = false;
+                return;
+            }
+
+            // 見えるようにする
+            container.enabled = true;
+            icon.enabled = true;
+
+            container.material = type switch
+            {
+                CharacterType.Land => landMaterial,
+                CharacterType.Sea => seaMaterial,
+                CharacterType.Sky => skyMaterial,
+                _ => null
+            };
+
+            icon.sprite = type switch
+            {
+                CharacterType.Land => sAnima.LandIcon,
+                CharacterType.Sea => sAnima.SeaIcon,
+                CharacterType.Sky => sAnima.SkyIcon,
+                _ => null
+            };
         }
 
         // Click したなら true を、 Exit したなら false を返す
@@ -191,21 +205,12 @@ namespace MyScripts.Runtime
             }
         }
 
-        // SOSサインが残っている割合を計算する [0, 1]
-        // 他クラスで同様の処理を行ったりはしているが、他 MonoBehaviour への依存は極力避けたいので、
-        // 逐一ここで計算するものとする
-        private static float CalculateCurrentSOSSignLeftRatio()
+        private static string GetName(CharacterType type) => type switch
         {
-            Span<bool> foundSOSSigns = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasFoundSOSSigns.AsSpan();
-            int leftCount = 0;
-            foreach (bool hasFound in foundSOSSigns)
-            {
-                if (!hasFound)
-                {
-                    leftCount++;
-                }
-            }
-            return 1.0f * leftCount / foundSOSSigns.Length;
-        }
+            CharacterType.Land => "陸",
+            CharacterType.Sea => "海",
+            CharacterType.Sky => "空",
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+        };
     }
 }
