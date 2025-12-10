@@ -317,12 +317,32 @@ namespace MyScripts.Runtime
 			isSprinting = isSprintingInput && hasInput;
 
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			// when player is possessing land anima, increase move speed
+			// when player is possessing an anima, increase move speed accordingly
 			float targetSpeed = param.MoveSpeed;
 			if (isSprintingInput)
 				targetSpeed *= param.SprintSpeedMultiplier;
-			if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Land)
-				targetSpeed *= param.MoveSpeedMultiplierWhenHorse;
+			{
+				if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Land)
+				{
+					// 陸にいるなら (水にいないなら)
+					if (!IsPlayerInsideOfAnyBorder(
+						walkSoundBorders[SWalkSound.Surface.Water],
+						controller.transform.position,
+						BorderLayer.WalkSound.Get(SWalkSound.Surface.Water)
+					))
+						targetSpeed *= param.MoveSpeedMultiplierWhenHasLand;
+				}
+				else if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Sea)
+				{
+					// 水にいるなら
+					if (IsPlayerInsideOfAnyBorder(
+						walkSoundBorders[SWalkSound.Surface.Water],
+						controller.transform.position,
+						BorderLayer.WalkSound.Get(SWalkSound.Surface.Water)
+					))
+						targetSpeed *= param.MoveSpeedMultiplierWhenHasSea;
+				}
+			}
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
 			// for debug, make the player move faster while has the input
@@ -472,33 +492,6 @@ namespace MyScripts.Runtime
 			{ y: < -50 or > 500 } or
 			{ z: < -1600 or > 1600 })
 				controller.transform.position = teleportBackPoint.position;
-
-			// 水のアニマを取得していない時、水の中に入っていないか?
-			// 直前フレームの位置に戻す (XZだけ、Yはそのまま)
-			// 水の中にいる判定は、水の足音ボーダーを使う
-			if (animalLeaveInvoker.PossessingCharacterType != CharacterType.Sea)
-			{
-				if (IsPlayerInsideOfAnyBorder(
-					walkSoundBorders[SWalkSound.Surface.Water],
-					controller.transform.position,
-					BorderLayer.WalkSound.Get(SWalkSound.Surface.Water)
-				))
-				{
-					controller.transform.position = new(
-						previousFramePosition.x,
-						controller.transform.position.y,
-						previousFramePosition.z
-					);
-
-					// 1度だけ警告のログを出す
-					if (!hasTriedToEnterWaterWhenNotShellfishForTheFirstTime)
-					{
-						hasTriedToEnterWaterWhenNotShellfishForTheFirstTime = true;
-
-						LogManager2.Instance.ShowAutomatically("貝に憑依しないと、水の中には入れない", duration: 10.0f, fadeoutDuration: 2.0f);
-					}
-				}
-			}
 		}
 
 		private void UpdateFOVsSprintMode()
