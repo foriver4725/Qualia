@@ -1764,6 +1764,7 @@ MonoBehaviour:
   - {fileID: 1880367729}
   - {fileID: 1730799789}
   defaultThumbnailSprite: {fileID: 21300000, guid: 7ef1bdbf5c1d60143b1babd48b24cc39, type: 3}
+  progressTextColorWhen100Percent: {r: 0.7647059, g: 0, b: 1, a: 1}
 --- !u!114 &775608403 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1077418097980648345, guid: 576c53d7afdc23b45b5565207d562caa, type: 3}
