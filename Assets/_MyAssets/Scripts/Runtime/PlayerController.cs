@@ -480,7 +480,7 @@ namespace MyScripts.Runtime
 				{
 					// 下向きに落下しているなら
 					if (verticalVelocity < 0.0f)
-						ownGravity = param.OwnFallGravityWhenHasSky;
+						ownGravity = param.OwnGravityWhenHasSkyAndIsFalling;
 				}
 
 				// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
