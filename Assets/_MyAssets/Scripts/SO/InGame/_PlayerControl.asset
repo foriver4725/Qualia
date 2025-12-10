@@ -24,8 +24,9 @@ MonoBehaviour:
   rotationSpeed: 1
   cameraPitchRange: {x: -90, y: 90}
   jumpHeight: 5
+  jumpHeightWhenHasSkyAndInTheAir: 30
   ownGravity: -15
-  ownFallGravityWhenHasSky: -1
+  ownGravityWhenHasSkyAndIsFalling: -1
   inertiaJumpVelocity: {x: 30, y: 15, z: 30}
   inertiaJumpLimitSpeedSqr: 100
   inertiaJumpCoolTime: 0.1
