@@ -100,7 +100,19 @@ namespace MyScripts.Runtime
                             // 一定時間経過後に、解除するようにする
                             UniTask.Void(async ct =>
                             {
-                                await param.This.sAnima.PossessDuration.SecAwait(ct: ct);
+                                // 重複して取得はしないので、FillAmount の変更が競合することはない想定
+                                param.PossessInvoker.SetDisplayImageFillAmount(1.0f);
+                                {
+                                    float t = param.This.sAnima.PossessDuration;
+                                    while (t > 0.0f)
+                                    {
+                                        await UniTask.NextFrame(cancellationToken: ct);
+                                        t -= Time.deltaTime;
+
+                                        param.PossessInvoker.SetDisplayImageFillAmount(t / param.This.sAnima.PossessDuration);
+                                    }
+                                }
+                                param.PossessInvoker.SetDisplayImageFillAmount(0.0f);
 
                                 if (param.PossessInvoker.IsPossessing)
                                     param.PossessInvoker.LeaveCharacter(param.PlayerController);

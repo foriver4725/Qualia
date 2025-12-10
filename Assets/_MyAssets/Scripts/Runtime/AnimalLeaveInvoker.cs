@@ -4,6 +4,7 @@ namespace MyScripts.Runtime
 {
     internal sealed class AnimalLeaveInvoker : MonoBehaviour
     {
+        [SerializeField] private Image displayImageBgBack;
         [SerializeField] private Image displayImageBg;
         [SerializeField] private Image displayImage;
         [SerializeField] private SAnima sAnima;
@@ -22,7 +23,8 @@ namespace MyScripts.Runtime
 
         private void Awake()
         {
-            UpdateDisplayImage(displayImage, displayImageBg, possessingCharacter, sAnima);
+            UpdateDisplayImage(displayImage, displayImageBg, displayImageBgBack, possessingCharacter, sAnima);
+            SetDisplayImageFillAmount(0.0f);
         }
 
         // キャラクターを取得する
@@ -44,7 +46,7 @@ namespace MyScripts.Runtime
             possessingCharacter.SetVisible(false);
             possessingCharacter.Collider.enabled = false;
 
-            UpdateDisplayImage(displayImage, displayImageBg, possessingCharacter, sAnima);
+            UpdateDisplayImage(displayImage, displayImageBg, displayImageBgBack, possessingCharacter, sAnima);
             // TODO: SOSサインのサウンドを使いまわす!
             soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
 
@@ -70,19 +72,29 @@ namespace MyScripts.Runtime
             possessingCharacter.Collider.enabled = true;
             possessingCharacter = null;
 
-            UpdateDisplayImage(displayImage, displayImageBg, possessingCharacter, sAnima);
+            UpdateDisplayImage(displayImage, displayImageBg, displayImageBgBack, possessingCharacter, sAnima);
             // TODO: SOSサインのサウンドを使いまわす!
             soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
         }
 
-        private static void UpdateDisplayImage(Image image, Image bg, Character possessingCharacter, SAnima sAnima)
+        internal void SetDisplayImageFillAmount(float amount)
+        {
+            amount = Mathf.Clamp01(amount);
+            displayImageBg.fillAmount = amount;
+        }
+
+        private static void UpdateDisplayImage(Image image, Image bg, Image bgBack, Character possessingCharacter, SAnima sAnima)
         {
             if (possessingCharacter)
             {
+                bgBack.enabled = true;
                 bg.enabled = true;
                 image.enabled = true;
 
-                bg.color = possessingCharacter.MaterialColor;
+                // 不透明にする
+                Color color = possessingCharacter.MaterialColor;
+                color.a = 1.0f;
+                bg.color = color;
 
                 image.sprite = possessingCharacter.CharacterType switch
                 {
@@ -94,6 +106,7 @@ namespace MyScripts.Runtime
             }
             else
             {
+                bgBack.enabled = false;
                 bg.enabled = false;
                 image.enabled = false;
             }
