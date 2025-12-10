@@ -21,8 +21,6 @@ namespace MyScripts.Runtime
         [SerializeField] private CharacterType characterType = CharacterType.Land;
         [SerializeField] private MeshRenderer container;
         [SerializeField] private SpriteRenderer icon;
-        [SerializeField, Range(0.0f, 100.0f), Tooltip("SOSサインの残り度(%)がこれ以下になったら、憑依できるようになる")]
-        private float possessableLimitSOSSignLeftRatio = 50.0f;
         [Space(10)]
         [SerializeField] private new Transform transform;
         [SerializeField] private new Collider collider;
@@ -71,15 +69,14 @@ namespace MyScripts.Runtime
             // 憑依
             collider.OnTriggerEnterAsObservable()
                 .Select(
-                    (this, collider, pc, animalLeaveInvoker, soundPlayer, possessableLimitSOSSignLeftRatio),
+                    (this, collider, pc, animalLeaveInvoker, soundPlayer),
                     static (other, param) => (
                         This: param.Item1,
                         SelfCollider: param.collider,
                         PlayerController: param.pc,
                         PossessInvoker: param.animalLeaveInvoker,
                         SoundPlayer: param.soundPlayer,
-                        OtherCollider: other,
-                        PossessableLimit: param.possessableLimitSOSSignLeftRatio
+                        OtherCollider: other
                     )
                 )
                 .Where(static param => ReferenceEquals(param.OtherCollider, param.PlayerController.Collider))
