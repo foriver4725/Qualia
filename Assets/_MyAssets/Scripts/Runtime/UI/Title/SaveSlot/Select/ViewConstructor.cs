@@ -61,17 +61,17 @@ namespace MyScripts.Runtime.UI.Title.SaveSlot.Select
                 var slotData = slotDatas[i];
                 if (slotData.IsValid)
                 {
-                    // 穢れ度を計算する
-                    int leftCount = 0;
+                    // 達成度を計算する
+                    int removeCount = 0;
                     foreach (bool hasFound in slotData.HasFoundSOSSigns.AsSpan())
                     {
-                        if (!hasFound)
-                            leftCount++;
+                        if (hasFound)
+                            removeCount++;
                     }
-                    float leftRatio = 100.0f * leftCount / Constants.SOSSignCount;
+                    float removeRatio = 100.0f * removeCount / Constants.SOSSignCount;
 
                     slotInfos[i].ThumbnailImage.sprite = (cachedThumbnailSprites[i] ? cachedThumbnailSprites[i] : defaultThumbnailSprite);
-                    slotInfos[i].ProgressText.SetTextFormat("{0:F2}%", leftRatio);
+                    slotInfos[i].ProgressText.SetTextFormat("{0:F2}%", removeRatio);
                     slotInfos[i].DateText.text = ZString.Format("{0:yyyy-MM-dd}\n{0:HH:mm}", slotData.GetLastSavedAt());
                 }
                 else
