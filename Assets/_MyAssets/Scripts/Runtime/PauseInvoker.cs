@@ -19,9 +19,9 @@ namespace MyScripts.Runtime
             {
                 InputManager.InGame.MakeEscapeInputDisabledUntilNextFrame();
 
-                if (IsPaused)
+                if (IsPaused && UIActivationManager.Instance.Front == UIActivationManager.UI.Pause)
                     _ = TryUnpause();
-                else
+                else if (UIActivationManager.Instance.Front == UIActivationManager.UI.None)
                     _ = TryPause();
             }
         }
