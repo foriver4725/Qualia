@@ -178,8 +178,10 @@
                 await duration.SecAwait(ct: ct);
 
             if (!hasStoppedByOffInput)
-                await DOVirtual.Float(1, 0, fadeoutDuration, SetTransparencyByAlpha)
-                    .SetEase(Ease.InQuad).WithCancellation(ct);
+                await LMotion.Create(1.0f, 0.0f, fadeoutDuration)
+                    .WithEase(Ease.InQuad)
+                    .Bind(SetTransparencyByAlpha)
+                    .ToUniTask(cancellationToken: ct);
 
             // キャンセルしたら、ここまで処理が走らないことに注意！
             SetText(string.Empty);
@@ -207,8 +209,10 @@
                 await duration.SecAwait(ct: ct);
 
             if (!hasStoppedByOffInput)
-                await DOVirtual.Float(1, 0, fadeoutDuration, SetTransparencyByAlpha)
-                    .SetEase(Ease.InQuad).WithCancellation(ct);
+                await LMotion.Create(1.0f, 0.0f, fadeoutDuration)
+                    .WithEase(Ease.InQuad)
+                    .Bind(SetTransparencyByAlpha)
+                    .ToUniTask(cancellationToken: ct);
 
             // キャンセルしたら、ここまで処理が走らないことに注意！
             SetText(string.Empty);

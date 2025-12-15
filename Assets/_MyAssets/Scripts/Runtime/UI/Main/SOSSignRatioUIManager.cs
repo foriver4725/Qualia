@@ -42,9 +42,9 @@ namespace MyScripts.Runtime.UI.Main
 
         // 引数は [0.0f, 1.0f]
         //! 初期値をキャッシュする関係で、必ず Awake() より後に呼び出すこと!!
-        internal void UpdateRatio(float leftRatio, bool changeFillSmoothly = true)
+        internal void UpdateRatio(float removedRatio, bool changeFillSmoothly = true)
         {
-            targetFill = leftRatio;
+            targetFill = removedRatio;
 
             if (!changeFillSmoothly)
             {
@@ -55,7 +55,7 @@ namespace MyScripts.Runtime.UI.Main
 
         private void UpdateView(float fill)
         {
-            text.SetTextFormat("穢れ度 : {0:F2}%", fill * 100.0f);
+            text.SetTextFormat("達成度 : {0:F2}%", fill * 100.0f);
             fillRect.SetWidth(fillRectWidthInit * fill);
             SetMarkView(p25Mark, fill >= 0.25f);
             SetMarkView(p50Mark, fill >= 0.50f);

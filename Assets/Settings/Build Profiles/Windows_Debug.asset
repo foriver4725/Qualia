@@ -165,7 +165,7 @@ MonoBehaviour:
     - line: '|   loadStoreDebugModeEnabled: 0'
     - line: '|   visionOSBundleVersion: 1.0'
     - line: '|   tvOSBundleVersion: 1.0'
-    - line: '|   bundleVersion: 0.2.2.0.1'
+    - line: '|   bundleVersion: 0.3.0.3.1'
     - line: '|   preloadedAssets:'
     - line: '|   - {fileID: -944628639613478452, guid: c23ef74a3da3a5849ae6c32947ba54fd,
         type: 3}'
@@ -709,7 +709,7 @@ MonoBehaviour:
     - line: '|     PS5: DOTWEEN'
     - line: '|     QNX: DOTWEEN'
     - line: '|     ReservedCFE: DOTWEEN'
-    - line: '|     Standalone: DOTWEEN;UNITASK_DOTWEEN_SUPPORT'
+    - line: '|     Standalone: '
     - line: '|     VisionOS: DOTWEEN'
     - line: '|     WebGL: UNITY_POST_PROCESSING_STACK_V2;DOTWEEN'
     - line: '|     Windows Store Apps: UNITY_POST_PROCESSING_STACK_V2;DOTWEEN'

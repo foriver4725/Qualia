@@ -8,7 +8,7 @@
         }
 
         private AudioSource[] audioSources = null;
-        private Tween[] fadeOutTweens = null;
+        private MotionHandle[] fadeOutTweens = null;
         private bool[] arePlaying = null;
 
         private SWalkSound.Surface currentSurface = SWalkSound.Surface.None;
@@ -30,17 +30,18 @@
 
                 if (arePlaying[i])
                 {
-                    fadeOutTweens[i]?.Kill(complete: false);
-                    fadeOutTweens[i] = audioSources[i]
-                        .DOFade(0.0f, Param.FadeOutDuration)
-                        .SetEase(Ease.OutQuad)
-                        .OnComplete(() =>
+                    if (fadeOutTweens[i].IsActive())
+                        fadeOutTweens[i].Cancel();
+                    fadeOutTweens[i] = LMotion.Create(audioSources[i].volume, 0.0f, Param.FadeOutDuration)
+                        .WithEase(Ease.OutQuad)
+                        .WithOnComplete(() =>
                         {
                             audioSources[i].LetStop();
-                            fadeOutTweens[i] = null;
+                            fadeOutTweens[i] = default;
 
                             arePlaying[i] = false;
-                        });
+                        })
+                        .BindToVolume(audioSources[i]);
                 }
                 else if (!couldPlay)
                 {
@@ -72,7 +73,7 @@
         private protected sealed override void Init()
         {
             audioSources = new AudioSource[Param.MaxSoundAmount];
-            fadeOutTweens = new Tween[Param.MaxSoundAmount];
+            fadeOutTweens = new MotionHandle[Param.MaxSoundAmount];
             arePlaying = new bool[Param.MaxSoundAmount];
 
             for (int i = 0; i < Param.MaxSoundAmount; i++)
@@ -85,7 +86,7 @@
                 );
 
                 audioSources[i] = source;
-                fadeOutTweens[i] = null;
+                fadeOutTweens[i] = default;
                 arePlaying[i] = false;
             }
         }

@@ -23,6 +23,8 @@ namespace MyScripts.Common.Button
 
         private AppearanceState appearanceState = AppearanceState.Default;
 
+        private MotionHandle tween = default;
+
         // PointerUpの時、ホバー状態に戻すか・通常状態に戻すか、判別するためのもの
         private bool isPointerInside = false;
 
@@ -162,8 +164,14 @@ namespace MyScripts.Common.Button
                 _ => DefaultScaleCoef
             };
 
-            if (image != null)
-                image.transform.DOScale(imageInitialScale * scaleCoef, ScaleAnimationDuration).SetEase(Ease.OutBack);
+            if (image)
+            {
+                if (tween.IsActive())
+                    tween.Cancel();
+                tween = LMotion.Create(image.transform.localScale, imageInitialScale * scaleCoef, ScaleAnimationDuration)
+                    .WithEase(Ease.OutBack)
+                    .BindToLocalScale(image.transform);
+            }
         }
 
         #region 派生クラスに公開

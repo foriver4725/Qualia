@@ -4,9 +4,11 @@ namespace MyScripts.Runtime
 {
     internal sealed class AnimalLeaveInvoker : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI displayText;
+        [SerializeField] private Image displayImageBgBack;
+        [SerializeField] private Image displayImageBg;
+        [SerializeField] private Image displayImage;
+        [SerializeField] private SAnima sAnima;
         [SerializeField] private SOSSoundPlayer soundPlayer;
-        [SerializeField] private PlayerController pc; // 地面に設置していないと離脱できないので、それを取得するためだけの参照 (循環参照だけど...)
 
         private Character possessingCharacter = null;
 
@@ -15,19 +17,24 @@ namespace MyScripts.Runtime
         // 憑依中のキャラクターの種類 (憑依していないなら None)
         internal CharacterType PossessingCharacterType => (possessingCharacter != null) ? possessingCharacter.CharacterType : CharacterType.None;
 
-        // 初めて馬に憑依したタイミングで true になり、以降二度と false にならない
-        // 馬になった時の能力強化を、一回だけログで知らせるために使う
-        private bool hasPossessedHorseForTheFirstTime = false;
+        // 初めて取得したタイミングで true になり、以降二度と false にならない
+        // 一回だけログで知らせるために使う
+        private readonly Dictionary<CharacterType, bool> hasPossessedForTheFirstTimeTable = new()
+        {
+            { CharacterType.Land, false },
+            { CharacterType.Sea, false },
+            { CharacterType.Sky, false },
+        };
 
         private void Awake()
         {
-            UpdateDisplayText(displayText, possessingCharacter);
+            UpdateDisplayImage(displayImage, displayImageBg, displayImageBgBack, possessingCharacter, sAnima);
+            SetDisplayImageFillAmount(0.0f);
         }
 
-        // キャラクターに憑依する
-        // キャラクターを見えなくする (名前も消す、当たり判定も無効化)
-        // キャラクターの位置にプレイヤーをテレポートさせる
-        internal void PossessCharacter(PlayerController pc, Character character)
+        // キャラクターを取得する
+        // キャラクターを見えなくする (当たり判定も無効化)
+        internal void PossessCharacter(Character character)
         {
             if (possessingCharacter != null)
             {
@@ -41,27 +48,41 @@ namespace MyScripts.Runtime
             }
 
             possessingCharacter = character;
+            possessingCharacter.SetVisible(false);
+            possessingCharacter.Collider.enabled = false;
 
-            character.NameText.enabled = false;
-            character.Collider.enabled = false;
-            character.UpdateModel(CharacterType.None);
-            pc.Teleport(character.transform.position, character.transform.forward);
-
-            UpdateDisplayText(displayText, possessingCharacter);
+            UpdateDisplayImage(displayImage, displayImageBg, displayImageBgBack, possessingCharacter, sAnima);
             // TODO: SOSサインのサウンドを使いまわす!
             soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
 
-            if (character.CharacterType == CharacterType.Horse && !hasPossessedHorseForTheFirstTime)
+            // 初めて取得した場合、ログを表示する
             {
-                hasPossessedHorseForTheFirstTime = true;
+                CharacterType foundFirstTimeType = CharacterType.None;
 
-                LogManager2.Instance.ShowAutomatically("速度アップ、慣性ジャンプが可能になった！");
+                foreach (CharacterType type in hasPossessedForTheFirstTimeTable.Keys)
+                {
+                    if (type == CharacterType.None) continue;
+                    if (type != character.CharacterType) continue;
+                    if (hasPossessedForTheFirstTimeTable[type]) break;
+
+                    foundFirstTimeType = type;
+                    break;
+                }
+
+                hasPossessedForTheFirstTimeTable[foundFirstTimeType] = true;
+
+                LogManager2.Instance.ShowAutomatically(foundFirstTimeType switch
+                {
+                    CharacterType.Land => "陸の移動速度が向上し、慣性ジャンプが可能になった！",
+                    CharacterType.Sea => "水上の移動速度が大幅に向上した！",
+                    CharacterType.Sky => "空中で再度ジャンプすると大ジャンプし、落下時に滑空するようになった！",
+                    _ => ""
+                });
             }
         }
 
         // 憑依中のキャラクターから離脱する
-        // キャラクターを見えるようにする (名前も表示する、当たり判定も有効化)
-        // プレイヤーの位置にキャラクターをテレポートさせる
+        // キャラクターを見えるようにする (当たり判定も有効化)
         internal void LeaveCharacter(PlayerController pc)
         {
             if (possessingCharacter == null)
@@ -70,43 +91,48 @@ namespace MyScripts.Runtime
                 return;
             }
 
-            // 地面に設置していないとダメ
-            if (!pc.IsGrounded)
-            {
-                LogManager2.Instance.ShowAutomatically("地面に設置していないと、離脱できません", duration: 1.0f, fadeoutDuration: 0.5f);
-                return;
-            }
-
-            possessingCharacter.NameText.enabled = true;
+            possessingCharacter.SetVisible(true);
             possessingCharacter.Collider.enabled = true;
-            possessingCharacter.UpdateModel(possessingCharacter.CharacterType);
-            {
-                // 見えるように、少し前の位置にテレポートさせる
-                // 数値は決め打ち
-                Vector3 teleportPosition = pc.transform.position + pc.transform.forward * 2.0f;
-                possessingCharacter.Teleport(teleportPosition, pc.transform.forward);
-            }
             possessingCharacter = null;
 
-            UpdateDisplayText(displayText, possessingCharacter);
+            UpdateDisplayImage(displayImage, displayImageBg, displayImageBgBack, possessingCharacter, sAnima);
             // TODO: SOSサインのサウンドを使いまわす!
             soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
         }
 
-        private static void UpdateDisplayText(TextMeshProUGUI text, Character possessingCharacter)
+        internal void SetDisplayImageFillAmount(float amount)
         {
-            string currentCharacterString = possessingCharacter switch
-            {
-                null => "人間",
-                _ => possessingCharacter.CharacterType switch
-                {
-                    CharacterType.Horse => "馬",
-                    CharacterType.Shellfish => "貝",
-                    _ => "???",
-                },
-            };
+            amount = Mathf.Clamp01(amount);
+            displayImageBg.fillAmount = amount;
+        }
 
-            text.SetTextFormat("現在 : {0}", currentCharacterString);
+        private static void UpdateDisplayImage(Image image, Image bg, Image bgBack, Character possessingCharacter, SAnima sAnima)
+        {
+            if (possessingCharacter)
+            {
+                bgBack.enabled = true;
+                bg.enabled = true;
+                image.enabled = true;
+
+                // 不透明にする
+                Color color = possessingCharacter.MaterialColor;
+                color.a = 1.0f;
+                bg.color = color;
+
+                image.sprite = possessingCharacter.CharacterType switch
+                {
+                    CharacterType.Land => sAnima.LandIcon,
+                    CharacterType.Sea => sAnima.SeaIcon,
+                    CharacterType.Sky => sAnima.SkyIcon,
+                    _ => null
+                };
+            }
+            else
+            {
+                bgBack.enabled = false;
+                bg.enabled = false;
+                image.enabled = false;
+            }
         }
     }
 }
