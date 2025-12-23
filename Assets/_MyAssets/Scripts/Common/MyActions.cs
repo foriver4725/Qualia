@@ -278,7 +278,7 @@ namespace MyScripts.Common
                 {
                     ""name"": """",
                     ""id"": ""fbed4c6b-8891-4427-b971-ea59165975e8"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -357,7 +357,7 @@ namespace MyScripts.Common
                 {
                     ""name"": """",
                     ""id"": ""00c265fe-e65f-433d-aaf1-885e9f85319d"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
