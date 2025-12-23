@@ -43,18 +43,19 @@ namespace MyScripts.Runtime.UI.Title
                 { State.HidingAll, hidingAllCtor },
             };
 
-            ChangeState(State.Default, doNothingIfSame: false);
+            ChangeState(State.Default, manually: true);
         }
 
-        internal void ChangeState(State newState, bool doNothingIfSame = true)
+        // manually を true にすると、諸々のチェックをスキップする
+        internal void ChangeState(State newState, bool manually = false)
         {
-            if (doNothingIfSame && this.State == newState)
+            if (!manually && this.State == newState)
             {
                 $"同じUI状態への遷移要求がありました. 何も行いません: {newState}".Print(LogSettings.Warning);
                 return;
             }
 
-            if (!IsAvailableTransition(this.State, newState))
+            if (!manually && !IsAvailableTransition(this.State, newState))
             {
                 $"有効なUI状態遷移ではありません. 何も行いません: {this.State} -> {newState}".Print(LogSettings.Error);
                 return;
