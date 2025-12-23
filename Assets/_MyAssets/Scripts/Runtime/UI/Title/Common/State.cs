@@ -9,13 +9,13 @@ internal enum State : byte
     Default, // -> Quit_Confirm, SaveSlot_Select
 
     // ゲーム終了 確認
-    Quit_Confirm, // -> None, [Quit]
+    Quit_Confirm, // -> Default, [Quit]
 
     // セーブスロット
-    SaveSlot_Select, // -> None, SaveSlot_Select_PlayOption
+    SaveSlot_Select, // -> Default, SaveSlot_Select_PlayOption
     SaveSlot_Select_PlayOption, // -> SaveSlot_Select, SaveSlot_FinalConfirm
-    SaveSlot_FinalConfirm, // -> SaveSlot_Select_PlayOption, [StartGame]
+    SaveSlot_FinalConfirm, // -> SaveSlot_Select_PlayOption, HidingAll
 
     // ロード中の暗転
-    HidingAll, // -> .
+    HidingAll,
 }

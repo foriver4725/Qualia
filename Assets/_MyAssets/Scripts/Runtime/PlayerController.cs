@@ -1,6 +1,4 @@
-﻿using UnityEngine.InputSystem;
-using MyScripts.Common.SaveSystem;
-using MyScripts.Runtime.Log;
+﻿using MyScripts.Common.SaveSystem;
 
 namespace MyScripts.Runtime
 {
@@ -61,10 +59,6 @@ namespace MyScripts.Runtime
 		private SPlayerControl param;
 		private float jumpTimeoutDelta;
 		private float fallTimeoutDelta;
-
-		// flag
-		// 貝に憑依していない状態で、水のボーダー内に初めて入ったタイミングで、true にする (1度だけ警告を出すため)
-		private bool hasTriedToEnterWaterWhenNotShellfishForTheFirstTime = false;
 
 		// constraints
 		private bool isOwnGravityEnabled = true;

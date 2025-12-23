@@ -75,7 +75,7 @@ namespace MyScripts.Runtime.UI.Title
             (State.Quit_Confirm, State.Default) => true,
             (State.SaveSlot_Select, State.Default or State.SaveSlot_Select_PlayOption) => true,
             (State.SaveSlot_Select_PlayOption, State.SaveSlot_Select or State.SaveSlot_FinalConfirm) => true,
-            (State.SaveSlot_FinalConfirm, State.SaveSlot_Select_PlayOption) => true,
+            (State.SaveSlot_FinalConfirm, State.SaveSlot_Select_PlayOption or State.HidingAll) => true,
             _ => false,
         };
     }
