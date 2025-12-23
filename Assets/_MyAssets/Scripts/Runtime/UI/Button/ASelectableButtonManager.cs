@@ -14,10 +14,15 @@ namespace MyScripts.Runtime.UI.Button
         // Try... で処理しているから、あまり見る必要はない
         internal bool IsSelected { get; private set; } = false;
 
+        // ボタンの選択に制限を課する
+        // 適宜必要なものを使う
+        private protected virtual bool CanBeSelected => true;
+        private protected virtual bool CanSelectAny => true;
         private protected virtual bool CanSelectLeft => true;
         private protected virtual bool CanSelectRight => true;
         private protected virtual bool CanSelectDown => true;
         private protected virtual bool CanSelectUp => true;
+        private protected virtual bool CanSelect(ASelectableButtonManager button) => true;
 
         // 必要なら使ってね
         private protected ASelectableButtonManager Left => left;
@@ -30,9 +35,12 @@ namespace MyScripts.Runtime.UI.Button
 
         private protected bool TrySelectLeft()
         {
+            if (!CanSelectAny) return false;
             if (!CanSelectLeft) return false;
             if (!IsSelected) return false;
             if (left == null) return false;
+            if (!left.CanBeSelected) return false;
+            if (!CanSelect(left)) return false;
 
             this.IsSelected = false;
             left.IsSelected = true;
@@ -47,9 +55,12 @@ namespace MyScripts.Runtime.UI.Button
 
         private protected bool TrySelectRight()
         {
+            if (!CanSelectAny) return false;
             if (!CanSelectRight) return false;
             if (!IsSelected) return false;
             if (right == null) return false;
+            if (!right.CanBeSelected) return false;
+            if (!CanSelect(right)) return false;
 
             this.IsSelected = false;
             right.IsSelected = true;
@@ -64,9 +75,12 @@ namespace MyScripts.Runtime.UI.Button
 
         private protected bool TrySelectDown()
         {
+            if (!CanSelectAny) return false;
             if (!CanSelectDown) return false;
             if (!IsSelected) return false;
             if (down == null) return false;
+            if (!down.CanBeSelected) return false;
+            if (!CanSelect(down)) return false;
 
             this.IsSelected = false;
             down.IsSelected = true;
@@ -81,9 +95,12 @@ namespace MyScripts.Runtime.UI.Button
 
         private protected bool TrySelectUp()
         {
+            if (!CanSelectAny) return false;
             if (!CanSelectUp) return false;
             if (!IsSelected) return false;
             if (up == null) return false;
+            if (!up.CanBeSelected) return false;
+            if (!CanSelect(up)) return false;
 
             this.IsSelected = false;
             up.IsSelected = true;
