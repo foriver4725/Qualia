@@ -150,7 +150,7 @@ namespace MyScripts.Runtime
                         {
                             {
                                 using var sb = ZString.CreateStringBuilder();
-                                sb.AppendFormat("{0}\n(動物でないと取り除けない)", sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnAnimalApproach));
+                                sb.AppendFormat("{0}\n(アニマを取得していないと取り除けない)", sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnAnimalApproach));
                                 LogManager.Instance.ShowManually(sb);
                             }
 
