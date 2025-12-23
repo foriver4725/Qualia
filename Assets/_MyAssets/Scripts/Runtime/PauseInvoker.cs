@@ -1,4 +1,3 @@
-using MyScripts.Runtime.UI;
 using MyScripts.Runtime.UI.Main;
 
 namespace MyScripts.Runtime
@@ -9,8 +8,6 @@ namespace MyScripts.Runtime
     /// </summary>
     internal sealed class PauseInvoker : MonoBehaviour
     {
-        [SerializeField] private AViewConstructor pauseViewConstructor;
-
         internal bool IsPaused { get; private set; } = false;
 
         private void Update()
@@ -19,9 +16,9 @@ namespace MyScripts.Runtime
             {
                 InputManager.InGame.MakeEscapeInputDisabledUntilNextFrame();
 
-                if (IsPaused && UIActivationManager.Instance.Front == UIActivationManager.UI.Pause)
+                if (IsPaused && StateManager.Instance.State == State.Pause)
                     _ = TryUnpause();
-                else if (UIActivationManager.Instance.Front == UIActivationManager.UI.None)
+                else if (StateManager.Instance.State == State.Default)
                     _ = TryPause();
             }
         }
@@ -34,8 +31,7 @@ namespace MyScripts.Runtime
             InputManager.PlayerControl.Enabled = false;
             InputManager.InGame.Enabled = false;
 
-            UIActivationManager.Instance.SetActive(UIActivationManager.UI.Pause, true);
-            pauseViewConstructor.Construct();
+            StateManager.Instance.ChangeState(State.Pause);
             CursorAdjuster.SetCursorEnabled(true);
 
             return true;
@@ -49,8 +45,7 @@ namespace MyScripts.Runtime
             InputManager.PlayerControl.Enabled = true;
             InputManager.InGame.Enabled = true;
 
-            UIActivationManager.Instance.SetActive(UIActivationManager.UI.Pause, false);
-            pauseViewConstructor.Deconstruct();
+            StateManager.Instance.ChangeState(State.Default);
             CursorAdjuster.SetCursorEnabled(false);
 
             return true;
