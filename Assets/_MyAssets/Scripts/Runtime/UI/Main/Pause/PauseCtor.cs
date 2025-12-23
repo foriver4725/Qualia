@@ -16,6 +16,7 @@ namespace MyScripts.Runtime.UI.Main
             {
                 if (button.IsSelected)
                     button.DeselectThisForciblyUnsafe();
+                button.OnExit(default);
             }
         }
     }

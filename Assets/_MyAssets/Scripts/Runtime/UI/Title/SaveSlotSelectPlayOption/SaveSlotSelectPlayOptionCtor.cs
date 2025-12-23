@@ -26,8 +26,11 @@ namespace MyScripts.Runtime.UI.Title
         {
             if (newButtonManager.IsSelected)
                 newButtonManager.DeselectThisForciblyUnsafe();
+            newButtonManager.OnExit(default);
+
             if (continueButtonManager.IsSelected)
                 continueButtonManager.DeselectThisForciblyUnsafe();
+            continueButtonManager.OnExit(default);
         }
     }
 }
