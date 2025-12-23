@@ -30,6 +30,7 @@ namespace MyScripts.Runtime.UI.Title
             {
                 if (button.IsSelected)
                     button.DeselectThisForciblyUnsafe();
+                button.OnExit(default);
             }
         }
     }
