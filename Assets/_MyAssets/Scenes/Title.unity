@@ -327,7 +327,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &60662154
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1895,8 +1895,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3856315b41d0cd247b8cf4398c35fd71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventTrigger: {fileID: 1472313411}
-  image: {fileID: 1472313410}
+  eventTrigger: {fileID: 1215902557}
+  image: {fileID: 1215902556}
   sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
   spriteSettingsType: 1
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
@@ -3138,8 +3138,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 048ca0a7dc20eee448a17e242a91f40a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveSlotUi: {fileID: 1267954206}
-  gameQuitConfirmUi: {fileID: 1477480249}
 --- !u!1 &964622004
 GameObject:
   m_ObjectHideFlags: 0
@@ -3239,6 +3237,28 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_MaxRayIntersections: 0
+--- !u!114 &1215902556 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2401223330013045414, guid: 576c53d7afdc23b45b5565207d562caa, type: 3}
+  m_PrefabInstance: {fileID: 1472313406}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1215902557 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2099780921337417914, guid: 576c53d7afdc23b45b5565207d562caa, type: 3}
+  m_PrefabInstance: {fileID: 1472313406}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1235086104
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4064,6 +4084,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultSelectedButton: {fileID: 1855569470}
   allButtons:
+  - {fileID: 817813686}
   - {fileID: 1855569470}
   - {fileID: 27257511}
   - {fileID: 579783740}
