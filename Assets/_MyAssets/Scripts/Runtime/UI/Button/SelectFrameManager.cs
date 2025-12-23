@@ -9,7 +9,7 @@ namespace MyScripts.Runtime.UI.Button
         // 9-sliced の外側8マスの幅 [px]
         // プログラム内で数値を決め打っておく
         // 外側の幅は、全て同じ前提
-        private const int OuterSize = 32;
+        private const int OuterSize = 16;
 
         private AButtonManager selectingButton = null;
 
@@ -34,7 +34,7 @@ namespace MyScripts.Runtime.UI.Button
         /// 指定したボタンを新たに選択する<br/>
         /// 重複実行は気にしなくて良い<br/>
         /// </summary>
-        internal void Reselect(AButtonManager button, float padding = 0.0f)
+        internal void Reselect(AButtonManager button, int padding = 4 /*[px]*/)
         {
             if (!gameConfig.DoesAlwaysShowGamepadButtonFrame)
                 if (InputManager.GetCurrentDevice() != InputManager.Device.Gamepad) return;
