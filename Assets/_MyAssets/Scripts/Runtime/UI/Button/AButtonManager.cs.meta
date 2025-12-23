@@ -1,2 +1,16 @@
 fileFormatVersion: 2
 guid: 5e0bee234ae3fe140ac2707c222847d8
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - eventTrigger: {instanceID: 0}
+  - image: {instanceID: 0}
+  - sButtonSpriteSettings: {instanceID: 0}
+  - soundSetting: {instanceID: 0}
+  - soundPlayer: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
