@@ -10357,6 +10357,7 @@ MonoBehaviour:
   bg: {fileID: 605270166}
   rawImage: {fileID: 605270165}
   videoPlayer: {fileID: 605270164}
+  gameConfig: {fileID: 11400000, guid: 2e1d8be3bf8079c42a877403b55ef6ed, type: 2}
 --- !u!1001 &1550775609
 PrefabInstance:
   m_ObjectHideFlags: 0
