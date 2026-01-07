@@ -10,6 +10,8 @@ internal static class SaveLoadInvoker
         {
             slot.IsValid = false;
 
+            slot.HasObtainedAnima = false;
+
             slot.SetLastSavedAt(DateTime.MinValue);
             slot.LastScreenshotSavedPath = "";
 

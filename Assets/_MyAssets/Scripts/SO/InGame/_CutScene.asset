@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: _CutScene
   m_EditorClassIdentifier: 
   introClip: {fileID: 32900000, guid: e064270acb475874284f5e4093588407, type: 3}
-  animaDescClip: {fileID: 0}
-  sosRemoveDescClip: {fileID: 32900000, guid: 27c6d5f989bf3aa48a0b8adecf1b5267, type: 3}
+  animaDescClip: {fileID: 32900000, guid: 27c6d5f989bf3aa48a0b8adecf1b5267, type: 3}

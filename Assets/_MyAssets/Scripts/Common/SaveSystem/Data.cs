@@ -11,6 +11,7 @@ internal sealed class Data
 internal sealed class SingleData
 {
     public bool IsValid;
+    public bool HasObtainedAnima;
     public string LastSavedAt;
     public string LastScreenshotSavedPath;
     public bool[] HasFoundSOSSigns;
