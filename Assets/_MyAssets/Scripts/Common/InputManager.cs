@@ -27,6 +27,30 @@ namespace MyScripts.Common
             }
         };
 
+        internal static void EnableAllInputs()
+        {
+            PlayerControl.Enabled = true;
+            InGame.Enabled = true;
+            InGame.EscapeEnabled = true;
+            OutGame.Enabled = true;
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            Debug.Enabled = true;
+#endif
+        }
+
+        internal static void DisableAllInputs()
+        {
+            PlayerControl.Enabled = false;
+            InGame.Enabled = false;
+            InGame.EscapeEnabled = false;
+            OutGame.Enabled = false;
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            Debug.Enabled = false;
+#endif
+        }
+
         private sealed class MakeClickInputDisabledUntilNextFrameInfo
         {
             internal bool IsEnabled { get; private set; } = true;
@@ -85,6 +109,8 @@ namespace MyScripts.Common
         internal static class InGame
         {
             internal static bool Enabled { get; set; } = true;
+            // Escape は特殊な入力のため、個別に管理する (全体の Enabled に依存しない)
+            internal static bool EscapeEnabled { get; set; } = true;
 
             private static readonly MakeClickInputDisabledUntilNextFrameInfo submitDisableUntilNextFrameInfo = new();
             private static readonly MakeClickInputDisabledUntilNextFrameInfo cancelDisableUntilNextFrameInfo = new();
@@ -101,8 +127,8 @@ namespace MyScripts.Common
             internal static bool Submit => (Enabled && submitDisableUntilNextFrameInfo.IsEnabled) ? submit.Bool : false;
             internal static bool Cancel => (Enabled && cancelDisableUntilNextFrameInfo.IsEnabled) ? cancel.Bool : false;
 
-            // InGame <-> OutGame の橋渡しをするので、常に有効な入力値とする
-            internal static bool Escape => (escapeDisableUntilNextFrameInfo.IsEnabled) ? escape.Bool : false; /*Enabled ? escape.Bool : false;*/
+            // InGame <-> OutGame の橋渡しをするので、Enabled とは独立している
+            internal static bool Escape => (EscapeEnabled && escapeDisableUntilNextFrameInfo.IsEnabled) ? escape.Bool : false;
 
             internal static void Bind(MyActions.InGameActions actions)
             {
