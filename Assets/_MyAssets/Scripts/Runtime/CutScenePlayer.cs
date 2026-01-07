@@ -91,17 +91,17 @@ namespace MyScripts.Runtime
         private void OnBeginPlay()
         {
             InputManager.DisableAllInputs();
-            FadeInBg(destroyCancellationToken).Forget();
+            FadeInBgAsync(destroyCancellationToken).Forget();
         }
 
         private void OnEndPlay()
         {
             InputManager.EnableAllInputs();
-            FadeOutBg(destroyCancellationToken).Forget();
+            FadeOutBgAsync(destroyCancellationToken).Forget();
         }
 
         // 重複実行はバグると思う
-        private async UniTaskVoid FadeInBg(Ct ct)
+        private async UniTaskVoid FadeInBgAsync(Ct ct)
         {
             SetBgAlpha(0.0f);
             bg.enabled = true;
@@ -113,7 +113,7 @@ namespace MyScripts.Runtime
         }
 
         // 重複実行はバグると思う
-        private async UniTaskVoid FadeOutBg(Ct ct)
+        private async UniTaskVoid FadeOutBgAsync(Ct ct)
         {
             SetBgAlpha(bgAlphaMax);
 
