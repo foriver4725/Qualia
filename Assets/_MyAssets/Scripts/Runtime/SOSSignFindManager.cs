@@ -114,7 +114,7 @@ namespace MyScripts.Runtime
                     {
                         if (animalLeaveInvoker.IsPossessing)
                         {
-                            LogManager.Instance.ShowManually("左クリックで取り除く");
+                            LogManager.Instance.ShowManually("インタラクトで取り除く");
 
                             if (await WaitForClickOrExitAsync(selfCollider, playerCapsuleCollider, ct) == true)
                             {
