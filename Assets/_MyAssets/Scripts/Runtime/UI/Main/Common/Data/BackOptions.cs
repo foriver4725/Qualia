@@ -12,3 +12,9 @@ internal static class BackOptions
 {
     internal static BackType ChosenBackType { get; set; } = BackType.BackToTitle;
 }
+
+// ゲームプレイに関する情報を管理する
+internal static class PlayInfo
+{
+    internal static bool IsFirstPlay { get; set; } = true;
+}

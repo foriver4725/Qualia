@@ -1,4 +1,5 @@
 using MyScripts.Common.SaveSystem;
+using MyScripts.Runtime.UI.Main;
 
 namespace MyScripts.Runtime.UI.Title
 {
@@ -33,6 +34,9 @@ namespace MyScripts.Runtime.UI.Title
                 {
                     SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex] = SaveLoadInvoker.CreateDefaultSingleData();
                 }
+
+                // 初プレイか判定する
+                PlayInfo.IsFirstPlay = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].IsValid == false;
 
                 // セーブデータがリセットされようとされまいと、
                 // 最終的にこのセーブスロットは「セーブデータが入っている」状態となる
