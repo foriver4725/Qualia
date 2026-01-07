@@ -10,10 +10,14 @@ namespace MyScripts.Runtime
         private bool isPlaying = false;
         private SCutScene.CutSceneType currentPlayingType;
 
+        internal bool IsPlaying => isPlaying;
+
         private void Awake()
         {
             rawImage.enabled = false;
             videoPlayer.source = VideoSource.VideoClip;
+
+            3.0f.SecAwaitThenDo(() => Play(SCutScene.CutSceneType.Intro)).Forget();
         }
 
         private void OnDestroy()
@@ -34,6 +38,8 @@ namespace MyScripts.Runtime
             isPlaying = true;
             currentPlayingType = type;
 
+            OnBeginPlay();
+
             // 再生する
             {
                 videoPlayer.clip = InGameSOHolder.Instance.CutScene.Get(type);
@@ -43,6 +49,8 @@ namespace MyScripts.Runtime
                 videoPlayer.Prepare();
             }
         }
+
+        #region 内部デリゲート
 
         private void OnPrepareCompleted()
         {
@@ -59,9 +67,28 @@ namespace MyScripts.Runtime
 
         private void OnLoopPointReached()
         {
+            ResetFlags();
+        }
+
+        private void ResetFlags()
+        {
+            OnEndPlay();
+
             // currentPlayingType は何もしない
             videoPlayer.clip = null;
             isPlaying = false;
+        }
+
+        #endregion
+
+        private void OnBeginPlay()
+        {
+            InputManager.DisableAllInputs();
+        }
+
+        private void OnEndPlay()
+        {
+            InputManager.EnableAllInputs();
         }
     }
 }
