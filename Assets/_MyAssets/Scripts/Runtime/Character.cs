@@ -12,7 +12,7 @@ namespace MyScripts.Runtime
     }
 
     /// <summary>
-    /// 憑依する動物のクラス<br/>
+    /// 憑依するアニマのクラス<br/>
     /// 憑依・離脱のトリガーもここで扱う<br/>
     /// サウンドは、一旦SOSのものをそのまま流用する<br/>
     /// </summary>
@@ -90,6 +90,14 @@ namespace MyScripts.Runtime
                         {
                             // 取得する
                             param.PossessInvoker.PossessCharacter(param.This);
+
+                            // セーブデータ更新
+                            // 初取得ならば、カットシーンを再生する
+                            if (SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasObtainedAnima == false)
+                            {
+                                SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasObtainedAnima = true;
+                                await CutScenePlayer.Instance.PlayAsync(SCutScene.CutSceneType.AnimaDesc, ct);
+                            }
 
                             LogManager.Instance.ShowManually(string.Empty);
                             LogManager.Instance.ShowAutomatically(ZString.Format("{0} のアニマを取得した", GetName(param.This.characterType)));

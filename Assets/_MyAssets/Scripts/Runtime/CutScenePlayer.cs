@@ -57,6 +57,18 @@ namespace MyScripts.Runtime
             }
         }
 
+        public async UniTask PlayAsync(SCutScene.CutSceneType type, Ct ct)
+        {
+            if (isPlaying)
+            {
+                $"既に{currentPlayingType}のカットシーンが再生中です。".Print(LogSettings.Warning);
+                return;
+            }
+
+            Play(type);
+            await UniTask.WaitUntil(() => !isPlaying, cancellationToken: ct);
+        }
+
         #region 内部デリゲート
 
         private void OnPrepareCompleted()
