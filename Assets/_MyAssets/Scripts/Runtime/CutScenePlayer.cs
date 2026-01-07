@@ -2,7 +2,7 @@
 
 namespace MyScripts.Runtime
 {
-    internal sealed class CutScenePlayer : MonoBehaviour
+    internal sealed class CutScenePlayer : ASingletonMonoBehaviour<CutScenePlayer>
     {
         [SerializeField, Range(0.0f, 5.0f)] private float bgFadeDuration = 0.5f;
         [SerializeField] private Image bg;
