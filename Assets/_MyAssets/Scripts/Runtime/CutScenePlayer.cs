@@ -8,6 +8,7 @@ namespace MyScripts.Runtime
         [SerializeField] private Image bg;
         [SerializeField] private RawImage rawImage;
         [SerializeField] private VideoPlayer videoPlayer;
+        [SerializeField] private SGameConfig gameConfig;
 
         private bool isPlaying = false;
         private SCutScene.CutSceneType currentPlayingType;
@@ -42,6 +43,17 @@ namespace MyScripts.Runtime
                 return;
             }
 
+            if (!gameConfig.DoesPlayIntroCutScene && type == SCutScene.CutSceneType.Intro)
+            {
+                "イントロカットシーンの再生は設定で無効化されています。".Print(LogSettings.Warning);
+                return;
+            }
+            if (!gameConfig.DoesPlayAnimaDescCutScene && type == SCutScene.CutSceneType.AnimaDesc)
+            {
+                "アニマ説明カットシーンの再生は設定で無効化されています。".Print(LogSettings.Warning);
+                return;
+            }
+
             isPlaying = true;
             currentPlayingType = type;
 
@@ -59,14 +71,10 @@ namespace MyScripts.Runtime
 
         public async UniTask PlayAsync(SCutScene.CutSceneType type, Ct ct)
         {
-            if (isPlaying)
-            {
-                $"既に{currentPlayingType}のカットシーンが再生中です。".Print(LogSettings.Warning);
-                return;
-            }
-
             Play(type);
-            await UniTask.WaitUntil(() => !isPlaying, cancellationToken: ct);
+
+            if (isPlaying)
+                await UniTask.WaitUntil(() => !isPlaying, cancellationToken: ct);
         }
 
         #region 内部デリゲート
