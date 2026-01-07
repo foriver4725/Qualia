@@ -8,20 +8,17 @@ namespace MyScripts.SO
         internal enum CutSceneType : byte
         {
             Intro,         // オープニング
-            AnimaDesc,     // アニマの説明
-            SOSRemoveDesc, // SOSサイン除去の説明
+            AnimaDesc,     // アニマの説明と、ゲームの遊び方
         }
 
         [SerializeField] private VideoClip introClip;
         [SerializeField] private VideoClip animaDescClip;
-        [SerializeField] private VideoClip sosRemoveDescClip;
 
         internal VideoClip Get(CutSceneType type) => type switch
         {
             CutSceneType.Intro => introClip,
             CutSceneType.AnimaDesc => animaDescClip,
-            CutSceneType.SOSRemoveDesc => sosRemoveDescClip,
-            _ => throw new System.ArgumentOutOfRangeException(nameof(type), type, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
     }
 }
