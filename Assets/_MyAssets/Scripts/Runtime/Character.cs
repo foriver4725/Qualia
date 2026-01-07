@@ -84,7 +84,7 @@ namespace MyScripts.Runtime
                 {
                     if (!param.PossessInvoker.IsPossessing)
                     {
-                        LogManager.Instance.ShowManually("左クリックで取得");
+                        LogManager.Instance.ShowManually("インタラクトで取得する");
 
                         if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider, ct) == true)
                         {
