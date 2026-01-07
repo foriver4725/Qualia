@@ -17,6 +17,7 @@ namespace MyScripts.Runtime
 
         // Awake で初期化
         private SSOSSignLogText sosSignLogText;
+        private int sosSignCountReal;
         private int removedSOSSignCount = -1;
         private Collider[] sosSigns; // コライダーはルートに付いている
 
@@ -27,7 +28,7 @@ namespace MyScripts.Runtime
             Span<bool> foundSOSSigns = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasFoundSOSSigns.AsSpan();
 
             int removeCount = 0;
-            for (int i = 0; i < root.childCount; i++)
+            for (int i = 0; i < sosSignCountReal; i++)
             {
                 if (!foundSOSSigns[i])
                 {
@@ -48,7 +49,7 @@ namespace MyScripts.Runtime
             Span<bool> foundSOSSigns = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasFoundSOSSigns.AsSpan();
 
             int removeCount = 0;
-            for (int i = 0; i < root.childCount; i++)
+            for (int i = 0; i < sosSignCountReal; i++)
             {
                 if (sosSigns[i].gameObject.activeSelf)
                 {
@@ -70,7 +71,7 @@ namespace MyScripts.Runtime
         {
             sosSignLogText = InGameSOHolder.Instance.SOSSignLogText;
 
-            int sosSignCountReal = root.childCount;
+            sosSignCountReal = root.childCount;
             Assert.IsTrue(sosSignCountReal <= Constants.SOSSignCount);
             if (sosSignCountReal < Constants.SOSSignCount)
             {
