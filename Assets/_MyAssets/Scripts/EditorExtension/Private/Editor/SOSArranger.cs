@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -58,6 +59,45 @@ namespace MyScripts.EditorExtension.Private
                     randomSeed = EditorGUILayout.IntField("Random Seed", randomSeed);
                 }
 
+                // 木の座標を全取得 (中心座標, 高さ)
+                // TODO: 変な座標も取得してしまう. 高さは適当に決め打ち
+                // TODO: ↑岩とかも"TreeInstance"として取得されてしまうからか!?
+                List<(Vector3 Position, float Height)> treeTransforms = new List<(Vector3, float)>(4096);
+                {
+                    Terrain[] terrains = Terrain.activeTerrains;
+                    foreach (var terrain in terrains)
+                    {
+                        TerrainData terrainData = terrain.terrainData;
+                        int treeInstanceCount = terrainData.treeInstanceCount;
+                        for (int i = 0; i < treeInstanceCount; i++)
+                        {
+                            TreeInstance treeInstance = terrainData.GetTreeInstance(i);
+
+                            Vector3 localXZ = new Vector3(
+                                treeInstance.position.x * terrainData.size.x,
+                                0f,
+                                treeInstance.position.z * terrainData.size.z
+                            );
+                            Vector3 worldXZ = terrain.transform.TransformPoint(localXZ);
+                            // 地表Yを取り直す
+                            float groundY = terrain.SampleHeight(worldXZ) + terrain.transform.position.y;
+                            Vector3 treeRootPos = new Vector3(worldXZ.x, groundY, worldXZ.z);
+
+                            treeTransforms.Add((treeRootPos, 18.0f));
+                        }
+                    }
+                }
+                (Vector3, float)[] treeTransformsArray = treeTransforms.ToArray();
+                // シャッフルする (フィッシャー・イェーツのアルゴリズム)
+                {
+                    int n = treeTransformsArray.Length;
+                    for (int i = 0; i < n - 1; i++)
+                    {
+                        int j = UnityEngine.Random.Range(i, n);
+                        (treeTransformsArray[i], treeTransformsArray[j]) = (treeTransformsArray[j], treeTransformsArray[i]);
+                    }
+                }
+
                 if (GUILayout.Button("配置実行"))
                 {
                     // null チェック
@@ -85,7 +125,10 @@ namespace MyScripts.EditorExtension.Private
 
                     // 近すぎる場所には配置しないように、配置した座標を保存しておく
                     // デフォルト値は Vector3.zero なので、未使用の要素はそれで判定する
-                    Vector3[] placedPositions = new Vector3[landCount + seaCount + skyCount];
+                    // 種類ごとに作成
+                    Vector3[] placedPositionsLand = new Vector3[landCount];
+                    Vector3[] placedPositionsSea = new Vector3[seaCount];
+                    Vector3[] placedPositionsSky = new Vector3[skyCount];
 
                     // 配置
                     for (int i = 0; i < landCount; i++)
@@ -93,21 +136,21 @@ namespace MyScripts.EditorExtension.Private
                         GameObject landInstance = (GameObject)PrefabUtility.InstantiatePrefab(landPrefab);
                         landInstance.transform.SetParent(root.transform);
                         landInstance.name = $"Land_{i}";
-                        RandomlyArrange(landInstance, placedPositions, SOSType.Land);
+                        RandomlyArrange(landInstance, i, placedPositionsLand, treeTransformsArray, SOSType.Land);
                     }
                     for (int i = 0; i < seaCount; i++)
                     {
                         GameObject seaInstance = (GameObject)PrefabUtility.InstantiatePrefab(seaPrefab);
                         seaInstance.transform.SetParent(root.transform);
                         seaInstance.name = $"Sea_{i}";
-                        RandomlyArrange(seaInstance, placedPositions, SOSType.Sea);
+                        RandomlyArrange(seaInstance, i, placedPositionsSea, treeTransformsArray, SOSType.Sea);
                     }
                     for (int i = 0; i < skyCount; i++)
                     {
                         GameObject skyInstance = (GameObject)PrefabUtility.InstantiatePrefab(skyPrefab);
                         skyInstance.transform.SetParent(root.transform);
                         skyInstance.name = $"Sky_{i}";
-                        RandomlyArrange(skyInstance, placedPositions, SOSType.Sky);
+                        RandomlyArrange(skyInstance, i, placedPositionsSky, treeTransformsArray, SOSType.Sky);
                     }
 
                     Debug.Log("SOS Arrangement Completed.");
@@ -130,101 +173,110 @@ namespace MyScripts.EditorExtension.Private
 
                     EditorGUIUtility.labelWidth = 50f;
                     EditorGUIUtility.fieldWidth = 50f;
-                    count = EditorGUILayout.IntSlider("Count", count, 0, 100);
+                    count = EditorGUILayout.IntSlider("Count", count, 0, 1000);
 
                     EditorGUIUtility.labelWidth = labelWidth;
                     EditorGUIUtility.fieldWidth = fieldWidth;
                 }
             }
 
-            private static void RandomlyArrange(GameObject instance, Span<Vector3> placedPositions, SOSType type)
+            private static void RandomlyArrange(
+                GameObject instance, int instanceId, Span<Vector3> placedPositions, ReadOnlySpan<(Vector3, float)> treeTransforms, SOSType type)
             {
                 const float CenterX = -500f;
                 const float CenterZ = 350f;
                 const float MaxRange = 600.0f;
-
-                const float MinDistanceIfLand = 20.0f; // Land のみ : 他のオブジェクトと、最低どれ以上話すか (m. XZ平面距離)
                 const float MaxAttempts = 100; // 配置場所を探す最大試行回数
-                const float HeightAboveGround = 0.1f; // 地表からどのくらい上に配置するか (m)
 
                 for (int attempt = 0; attempt < MaxAttempts; attempt++)
                 {
-                    // ランダムな位置を計算 (X, Z)
-                    // 極座標系でランダムに選ぶ
-                    float r = UnityEngine.Random.Range(0f, MaxRange);
-                    float theta = UnityEngine.Random.Range(0f, Mathf.PI * 2f);
-                    float x = CenterX + r * Mathf.Cos(theta);
-                    float z = CenterZ + r * Mathf.Sin(theta);
-
-                    // Land のみ : 既に配置されたオブジェクトとの距離をチェック
                     if (type == SOSType.Land)
                     {
+                        const float MinDistance = 20.0f; // 他のオブジェクトと、最低どれ以上話すか (m. XZ平面距離)
+                        const float HeightAboveGround = 0.1f; // 地表からどのくらい上に配置するか (m)
+
+                        // ランダムな位置を計算 (X, Z)
+                        // 極座標系でランダムに選ぶ
+                        float r = UnityEngine.Random.Range(0f, MaxRange);
+                        float theta = UnityEngine.Random.Range(0f, Mathf.PI * 2f);
+                        float x = CenterX + r * Mathf.Cos(theta);
+                        float z = CenterZ + r * Mathf.Sin(theta);
+
+                        // 既に配置されたオブジェクトとの距離をチェック
                         bool tooClose = false;
                         foreach (var pos in placedPositions)
                         {
-                            if (pos == Vector3.zero) break; // 未使用の要素に到達したら終了
+                            if (pos == Vector3.zero)
+                                break; // 未使用の要素に到達したら終了
 
                             float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
-                            if (distanceSq < MinDistanceIfLand * MinDistanceIfLand)
+                            if (distanceSq < MinDistance * MinDistance)
                             {
                                 tooClose = true;
                                 break;
                             }
                         }
-                        if (tooClose) continue; // 近すぎるなら再試行
-                    }
+                        if (tooClose)
+                            continue; // 近すぎるなら再試行
 
-                    // 地表のY座標を算出
-                    // レイを打つ
-                    Ray ray = new Ray(new Vector3(x, 1000f, z), Vector3.down);
-                    bool raycastHit = Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity);
-                    if (!raycastHit)
-                    {
-                        // 地表が見つからなかった場合は再試行
-                        continue;
-                    }
+                        // 地表のY座標を算出
+                        // レイを打つ
+                        Ray ray = new Ray(new Vector3(x, 1000f, z), Vector3.down);
+                        bool raycastHit = Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity);
+                        if (!raycastHit)
+                            continue; // 地表が見つからなかった場合は再試行
 
-                    // 相手の名前を取得
-                    string hitObjectName = hitInfo.collider.gameObject.name;
-
-                    // Land は、水上・木の上には配置できない
-                    // TODO: 木の上の判定は未実装
-                    if (type == SOSType.Land)
-                    {
+                        // 水上には配置できない
+                        string hitObjectName = hitInfo.collider.gameObject.name;
                         if (hitObjectName == "WaterPlane")
-                        {
-                            // 再試行
-                            continue;
-                        }
-                    }
+                            continue; // 再試行
 
-                    // Sea は、水上にしか配置できない
-                    if (type == SOSType.Sea)
+                        // 配置成功
+                        Vector3 position = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
+                        instance.transform.position = position;
+                        placedPositions[instanceId] = position;
+                    }
+                    else if (type == SOSType.Sea)
                     {
+                        const float HeightAboveGround = 0.1f; // 地表からどのくらい上に配置するか (m)
+
+                        // ランダムな位置を計算 (X, Z)
+                        // 極座標系でランダムに選ぶ
+                        float r = UnityEngine.Random.Range(0f, MaxRange);
+                        float theta = UnityEngine.Random.Range(0f, Mathf.PI * 2f);
+                        float x = CenterX + r * Mathf.Cos(theta);
+                        float z = CenterZ + r * Mathf.Sin(theta);
+
+                        // 地表のY座標を算出
+                        // レイを打つ
+                        Ray ray = new Ray(new Vector3(x, 1000f, z), Vector3.down);
+                        bool raycastHit = Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity);
+                        if (!raycastHit)
+                            continue; // 地表が見つからなかった場合は再試行
+
+                        // 水上にしか配置できない
+                        string hitObjectName = hitInfo.collider.gameObject.name;
                         if (hitObjectName != "WaterPlane")
-                        {
-                            // 再試行
-                            continue;
-                        }
+                            continue; // 再試行
+
+                        // 配置成功
+                        Vector3 position = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
+                        instance.transform.position = position;
+                        placedPositions[instanceId] = position;
                     }
-
-                    // Sky は、木の上にしか配置できない
-                    // TODO: 木の上の判定は未実装
-                    if (type == SOSType.Sky)
+                    else // type == SOSType.Sky
                     {
-                    }
+                        // 木のトランスフォームを取得
+                        if (instanceId >= treeTransforms.Length) // インスタンスIDが、木の配列のサイズを超えた
+                            continue; // 再試行 (本当はすぐ return するべきだが、処理を共通化するためにこうしている)
+                        (Vector3 treePos, float treeHeight) = treeTransforms[instanceId];
 
-                    // 配置成功
-                    instance.transform.position = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
+                        // ランダムに、木の上の方に配置
+                        Vector3 position = treePos + Vector3.up * UnityEngine.Random.Range(treeHeight * 0.5f, treeHeight * 0.95f);
 
-                    // 配置した位置を記録
-                    for (int i = 0; i < placedPositions.Length; i++)
-                    {
-                        if (placedPositions[i] == Vector3.zero)
-                        {
-                            placedPositions[i] = instance.transform.position;
-                            break;
-                        }
+                        // 配置成功
+                        instance.transform.position = position;
+                        placedPositions[instanceId] = position;
                     }
 
                     return;
