@@ -5,18 +5,18 @@ using UnityEngine;
 
 namespace MyScripts.EditorExtension.Private
 {
-    internal static class SOSArranger
+    internal static class SOSAnimaArranger
     {
-        [MenuItem("Tools/SOS Arranger (Open Window)")]
+        [MenuItem("Tools/SOS and Anima Arranger (Open Window)")]
         private static void OpenWindow()
         {
             var window = EditorWindow.GetWindow<Window>();
-            window.titleContent = new GUIContent("SOS Arranger");
+            window.titleContent = new GUIContent("SOS & Anima Arranger");
         }
 
         private sealed class Window : EditorWindow
         {
-            private enum SOSType : byte
+            private enum Group : byte
             {
                 Land,
                 Sea,
@@ -33,15 +33,24 @@ namespace MyScripts.EditorExtension.Private
                 { "Pine_D", 12.7f },
             };
 
-            private GameObject landPrefab = null;
-            private GameObject seaPrefab = null;
-            private GameObject skyPrefab = null;
+            private GameObject sosLandPrefab = null;
+            private GameObject sosSeaPrefab = null;
+            private GameObject sosSkyPrefab = null;
 
-            private int landCount = 1;
-            private int seaCount = 1;
-            private int skyCount = 1;
+            private int sosLandCount = 1;
+            private int sosSeaCount = 1;
+            private int sosSkyCount = 1;
 
-            private GameObject root = null;
+            private GameObject animaLandPrefab = null;
+            private GameObject animaSeaPrefab = null;
+            private GameObject animaSkyPrefab = null;
+
+            private int animaLandCount = 1;
+            private int animaSeaCount = 1;
+            private int animaSkyCount = 1;
+
+            private GameObject sosRoot = null;
+            private GameObject animaRoot = null;
             private bool deleteRootChildren = false;
 
             private bool randomSeedOverride = false;
@@ -49,24 +58,52 @@ namespace MyScripts.EditorExtension.Private
 
             private void OnGUI()
             {
-                // SOS用のPrefabと配置個数を設定
-                CreatePrefabCountField(ref landPrefab, ref landCount, "Land");
-                CreatePrefabCountField(ref seaPrefab, ref seaCount, "Sea");
-                CreatePrefabCountField(ref skyPrefab, ref skyCount, "Sky");
-
-                EditorGUILayout.Space();
-
-                // ルートオブジェクト・削除オプションの設定
-                root = (GameObject)EditorGUILayout.ObjectField("Root Object", root, typeof(GameObject), true);
-                deleteRootChildren = EditorGUILayout.Toggle("Delete Existing Children", deleteRootChildren);
-
-                EditorGUILayout.Space();
-
-                // 乱数シードの設定
-                randomSeedOverride = EditorGUILayout.Toggle("Override Random Seed", randomSeedOverride);
-                using (new EditorGUI.DisabledScope(!randomSeedOverride))
                 {
-                    randomSeed = EditorGUILayout.IntField("Random Seed", randomSeed);
+                    EditorGUILayout.LabelField("Prefabs", EditorStyles.boldLabel);
+
+                    EditorGUILayout.Space();
+
+                    // SOS用のPrefabと配置個数を設定
+                    CreatePrefabCountField(ref sosLandPrefab, ref sosLandCount, "SOS - Land");
+                    CreatePrefabCountField(ref sosSeaPrefab, ref sosSeaCount, "SOS - Sea");
+                    CreatePrefabCountField(ref sosSkyPrefab, ref sosSkyCount, "SOS - Sky");
+
+                    EditorGUILayout.Space();
+
+                    // アニマ用のPrefabと配置個数を設定
+                    CreatePrefabCountField(ref animaLandPrefab, ref animaLandCount, "Anima - Land");
+                    CreatePrefabCountField(ref animaSeaPrefab, ref animaSeaCount, "Anima - Sea");
+                    CreatePrefabCountField(ref animaSkyPrefab, ref animaSkyCount, "Anima - Sky");
+
+                    EditorGUILayout.Space();
+                }
+
+                {
+                    EditorGUILayout.LabelField("Arrangement Settings", EditorStyles.boldLabel);
+
+                    EditorGUILayout.Space();
+
+                    // ルートオブジェクト・削除オプションの設定
+                    sosRoot = (GameObject)EditorGUILayout.ObjectField("SOS - Root Object", sosRoot, typeof(GameObject), true);
+                    animaRoot = (GameObject)EditorGUILayout.ObjectField("Anima - Root Object", animaRoot, typeof(GameObject), true);
+                    deleteRootChildren = EditorGUILayout.Toggle("Delete Existing Children", deleteRootChildren);
+
+                    EditorGUILayout.Space();
+                }
+
+                {
+                    EditorGUILayout.LabelField("Randomization Settings", EditorStyles.boldLabel);
+
+                    EditorGUILayout.Space();
+
+                    // 乱数シードの設定
+                    randomSeedOverride = EditorGUILayout.Toggle("Override Random Seed", randomSeedOverride);
+                    using (new EditorGUI.DisabledScope(!randomSeedOverride))
+                    {
+                        randomSeed = EditorGUILayout.IntField("Random Seed", randomSeed);
+                    }
+
+                    EditorGUILayout.Space();
                 }
 
                 // 木の座標を全取得 (中心座標, 高さ)
@@ -122,13 +159,13 @@ namespace MyScripts.EditorExtension.Private
                     }
                 }
 
-                if (GUILayout.Button("配置実行"))
+                if (GUILayout.Button("Execute SOS Arrangement"))
                 {
                     // null チェック
-                    if (!landPrefab) { Debug.LogError("Land Prefab is not set."); return; }
-                    if (!seaPrefab) { Debug.LogError("Sea Prefab is not set."); return; }
-                    if (!skyPrefab) { Debug.LogError("Sky Prefab is not set."); return; }
-                    if (!root) { Debug.LogError("Root Object is not set."); return; }
+                    if (!sosLandPrefab) { Debug.LogError("Land Prefab is not set."); return; }
+                    if (!sosSeaPrefab) { Debug.LogError("Sea Prefab is not set."); return; }
+                    if (!sosSkyPrefab) { Debug.LogError("Sky Prefab is not set."); return; }
+                    if (!sosRoot) { Debug.LogError("Root Object is not set."); return; }
 
                     // 乱数シードを設定
                     if (randomSeedOverride)
@@ -139,10 +176,10 @@ namespace MyScripts.EditorExtension.Private
                     // 指定されたなら、既存の子オブジェクトを削除
                     if (deleteRootChildren)
                     {
-                        int childCount = root.transform.childCount;
+                        int childCount = sosRoot.transform.childCount;
                         for (int i = childCount - 1; i >= 0; i--)
                         {
-                            Transform child = root.transform.GetChild(i);
+                            Transform child = sosRoot.transform.GetChild(i);
                             DestroyImmediate(child.gameObject);
                         }
                     }
@@ -150,31 +187,31 @@ namespace MyScripts.EditorExtension.Private
                     // 近すぎる場所には配置しないように、配置した座標を保存しておく
                     // デフォルト値は Vector3.zero なので、未使用の要素はそれで判定する
                     // 種類ごとに作成
-                    Vector3[] placedPositionsLand = new Vector3[landCount];
-                    Vector3[] placedPositionsSea = new Vector3[seaCount];
-                    Vector3[] placedPositionsSky = new Vector3[skyCount];
+                    Vector3[] placedPositionsLand = new Vector3[sosLandCount];
+                    Vector3[] placedPositionsSea = new Vector3[sosSeaCount];
+                    Vector3[] placedPositionsSky = new Vector3[sosSkyCount];
 
                     // 配置
-                    for (int i = 0; i < landCount; i++)
+                    for (int i = 0; i < sosLandCount; i++)
                     {
-                        GameObject landInstance = (GameObject)PrefabUtility.InstantiatePrefab(landPrefab);
-                        landInstance.transform.SetParent(root.transform);
+                        GameObject landInstance = (GameObject)PrefabUtility.InstantiatePrefab(sosLandPrefab);
+                        landInstance.transform.SetParent(sosRoot.transform);
                         landInstance.name = $"Land_{i}";
-                        RandomlyArrange(landInstance, i, placedPositionsLand, treeTransformsArray, SOSType.Land);
+                        RandomlyArrange(landInstance, i, placedPositionsLand, treeTransformsArray, Group.Land);
                     }
-                    for (int i = 0; i < seaCount; i++)
+                    for (int i = 0; i < sosSeaCount; i++)
                     {
-                        GameObject seaInstance = (GameObject)PrefabUtility.InstantiatePrefab(seaPrefab);
-                        seaInstance.transform.SetParent(root.transform);
+                        GameObject seaInstance = (GameObject)PrefabUtility.InstantiatePrefab(sosSeaPrefab);
+                        seaInstance.transform.SetParent(sosRoot.transform);
                         seaInstance.name = $"Sea_{i}";
-                        RandomlyArrange(seaInstance, i, placedPositionsSea, treeTransformsArray, SOSType.Sea);
+                        RandomlyArrange(seaInstance, i, placedPositionsSea, treeTransformsArray, Group.Sea);
                     }
-                    for (int i = 0; i < skyCount; i++)
+                    for (int i = 0; i < sosSkyCount; i++)
                     {
-                        GameObject skyInstance = (GameObject)PrefabUtility.InstantiatePrefab(skyPrefab);
-                        skyInstance.transform.SetParent(root.transform);
+                        GameObject skyInstance = (GameObject)PrefabUtility.InstantiatePrefab(sosSkyPrefab);
+                        skyInstance.transform.SetParent(sosRoot.transform);
                         skyInstance.name = $"Sky_{i}";
-                        RandomlyArrange(skyInstance, i, placedPositionsSky, treeTransformsArray, SOSType.Sky);
+                        RandomlyArrange(skyInstance, i, placedPositionsSky, treeTransformsArray, Group.Sky);
                     }
 
                     Debug.Log("SOS Arrangement Completed.");
@@ -188,15 +225,15 @@ namespace MyScripts.EditorExtension.Private
                     float labelWidth = EditorGUIUtility.labelWidth;
                     float fieldWidth = EditorGUIUtility.fieldWidth;
 
-                    EditorGUIUtility.labelWidth = 60f;
-                    EditorGUIUtility.fieldWidth = 120f;
+                    EditorGUIUtility.labelWidth = 120f;
+                    EditorGUIUtility.fieldWidth = 60f;
                     // シーンの GameObject は設定できないようにする
                     prefab = (GameObject)EditorGUILayout.ObjectField(label, prefab, typeof(GameObject), false);
 
                     GUILayout.Space(10f);
 
                     EditorGUIUtility.labelWidth = 50f;
-                    EditorGUIUtility.fieldWidth = 50f;
+                    EditorGUIUtility.fieldWidth = 80f;
                     count = EditorGUILayout.IntSlider("Count", count, 0, 1000);
 
                     EditorGUIUtility.labelWidth = labelWidth;
@@ -205,7 +242,7 @@ namespace MyScripts.EditorExtension.Private
             }
 
             private static void RandomlyArrange(
-                GameObject instance, int instanceId, Span<Vector3> placedPositions, ReadOnlySpan<(Vector3, float)> treeTransforms, SOSType type)
+                GameObject instance, int instanceId, Span<Vector3> placedPositions, ReadOnlySpan<(Vector3, float)> treeTransforms, Group type)
             {
                 const float CenterX = -500f;
                 const float CenterZ = 350f;
@@ -214,7 +251,7 @@ namespace MyScripts.EditorExtension.Private
 
                 for (int attempt = 0; attempt < MaxAttempts; attempt++)
                 {
-                    if (type == SOSType.Land)
+                    if (type == Group.Land)
                     {
                         const float MinDistance = 20.0f; // 他のオブジェクトと、最低どれ以上話すか (m. XZ平面距離)
                         const float HeightAboveGround = 0.1f; // 地表からどのくらい上に配置するか (m)
@@ -260,7 +297,7 @@ namespace MyScripts.EditorExtension.Private
                         instance.transform.position = position;
                         placedPositions[instanceId] = position;
                     }
-                    else if (type == SOSType.Sea)
+                    else if (type == Group.Sea)
                     {
                         const float HeightAboveGround = 0.1f; // 地表からどのくらい上に配置するか (m)
 
