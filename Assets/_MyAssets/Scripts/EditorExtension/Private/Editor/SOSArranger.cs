@@ -23,6 +23,16 @@ namespace MyScripts.EditorExtension.Private
                 Sky,
             }
 
+            private static readonly Dictionary<string, float> TreeNameHeightMap = new Dictionary<string, float>()
+            {
+                { "Conifer", 29.0f },
+                { "Cypress", 10.8f },
+                { "Pine_A", 29.0f },
+                { "Pine_B", 28.0f },
+                { "Pine_C", 20.3f },
+                { "Pine_D", 12.7f },
+            };
+
             private GameObject landPrefab = null;
             private GameObject seaPrefab = null;
             private GameObject skyPrefab = null;
@@ -60,8 +70,6 @@ namespace MyScripts.EditorExtension.Private
                 }
 
                 // 木の座標を全取得 (中心座標, 高さ)
-                // TODO: 変な座標も取得してしまう. 高さは適当に決め打ち
-                // TODO: ↑岩とかも"TreeInstance"として取得されてしまうからか!?
                 List<(Vector3 Position, float Height)> treeTransforms = new List<(Vector3, float)>(4096);
                 {
                     Terrain[] terrains = Terrain.activeTerrains;
@@ -72,6 +80,22 @@ namespace MyScripts.EditorExtension.Private
                         for (int i = 0; i < treeInstanceCount; i++)
                         {
                             TreeInstance treeInstance = terrainData.GetTreeInstance(i);
+                            string prefabName = terrainData.treePrototypes[treeInstance.prototypeIndex].prefab.name;
+
+                            // プレハブの名前を見て、木でないならスキップ
+                            {
+                                bool isTree = false;
+                                foreach (string name in TreeNameHeightMap.Keys)
+                                {
+                                    if (prefabName == name)
+                                    {
+                                        isTree = true;
+                                        break;
+                                    }
+                                }
+                                if (!isTree)
+                                    continue;
+                            }
 
                             Vector3 localXZ = new Vector3(
                                 treeInstance.position.x * terrainData.size.x,
@@ -83,7 +107,7 @@ namespace MyScripts.EditorExtension.Private
                             float groundY = terrain.SampleHeight(worldXZ) + terrain.transform.position.y;
                             Vector3 treeRootPos = new Vector3(worldXZ.x, groundY, worldXZ.z);
 
-                            treeTransforms.Add((treeRootPos, 18.0f));
+                            treeTransforms.Add((treeRootPos, TreeNameHeightMap[prefabName]));
                         }
                     }
                 }
