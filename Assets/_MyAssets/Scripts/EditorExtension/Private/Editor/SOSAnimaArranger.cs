@@ -244,15 +244,15 @@ namespace MyScripts.EditorExtension.Private
             private static void RandomlyArrange(
                 GameObject instance, int instanceId, Span<Vector3> placedPositions, ReadOnlySpan<(Vector3, float)> treeTransforms, Group type)
             {
-                const float CenterX = -500f;
-                const float CenterZ = 350f;
-                const float MaxRange = 600.0f;
                 const float MaxAttempts = 100; // 配置場所を探す最大試行回数
 
                 for (int attempt = 0; attempt < MaxAttempts; attempt++)
                 {
                     if (type == Group.Land)
                     {
+                        const float CenterX = -500f;
+                        const float CenterZ = 350f;
+                        const float MaxRange = 600.0f;
                         const float MinDistance = 20.0f; // 他のオブジェクトと、最低どれ以上話すか (m. XZ平面距離)
                         const float HeightAboveGround = 0.1f; // 地表からどのくらい上に配置するか (m)
 
@@ -299,6 +299,9 @@ namespace MyScripts.EditorExtension.Private
                     }
                     else if (type == Group.Sea)
                     {
+                        const float CenterX = -500f;
+                        const float CenterZ = 350f;
+                        const float MaxRange = 600.0f;
                         const float HeightAboveGround = 0.1f; // 地表からどのくらい上に配置するか (m)
 
                         // ランダムな位置を計算 (X, Z)
