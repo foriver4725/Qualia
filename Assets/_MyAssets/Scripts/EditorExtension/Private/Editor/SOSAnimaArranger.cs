@@ -166,10 +166,17 @@ namespace MyScripts.EditorExtension.Private
                     // 指定されたなら、既存の子オブジェクトを削除
                     if (deleteRootChildren)
                     {
-                        int childCount = sosRoot.transform.childCount;
-                        for (int i = childCount - 1; i >= 0; i--)
+                        int sosChildCount = sosRoot.transform.childCount;
+                        for (int i = sosChildCount - 1; i >= 0; i--)
                         {
                             Transform child = sosRoot.transform.GetChild(i);
+                            DestroyImmediate(child.gameObject);
+                        }
+
+                        int animaChildCount = animaRoot.transform.childCount;
+                        for (int i = animaChildCount - 1; i >= 0; i--)
+                        {
+                            Transform child = animaRoot.transform.GetChild(i);
                             DestroyImmediate(child.gameObject);
                         }
                     }
