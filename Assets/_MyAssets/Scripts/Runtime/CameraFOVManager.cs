@@ -9,7 +9,10 @@
             OnSprint = 1,
         }
 
-        [SerializeField] private Cinemachine.CinemachineVirtualCamera playerCamera;
+#pragma warning disable CS0618 // Type or member is obsolete
+        // 非推奨のコンポーネント. 現状はまだこれを使う
+        [SerializeField] private Unity.Cinemachine.CinemachineVirtualCamera playerCamera;
+#pragma warning restore CS0618 // Type or member is obsolete
 
         // Awake で初期化
         private SGameParameter.CameraFOVSettings param;
