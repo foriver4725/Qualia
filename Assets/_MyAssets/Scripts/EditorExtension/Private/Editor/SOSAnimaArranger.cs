@@ -106,13 +106,22 @@ namespace MyScripts.EditorExtension.Private
                     EditorGUILayout.Space();
                 }
 
-                if (GUILayout.Button("Execute SOS Arrangement"))
+                if (GUILayout.Button("Execute SOS & Anima Arrangement"))
                 {
                     // null チェック
                     if (!sosLandPrefab) { Debug.LogError("Land Prefab is not set."); return; }
                     if (!sosSeaPrefab) { Debug.LogError("Sea Prefab is not set."); return; }
                     if (!sosSkyPrefab) { Debug.LogError("Sky Prefab is not set."); return; }
+                    if (!animaLandPrefab) { Debug.LogError("Land Prefab is not set."); return; }
+                    if (!animaSeaPrefab) { Debug.LogError("Sea Prefab is not set."); return; }
+                    if (!animaSkyPrefab) { Debug.LogError("Sky Prefab is not set."); return; }
                     if (!sosRoot) { Debug.LogError("Root Object is not set."); return; }
+                    if (!animaRoot) { Debug.LogError("Root Object is not set."); return; }
+
+                    // Undo 登録開始 (Ctrl+Z でここまで戻せるようにする)
+                    Undo.IncrementCurrentGroup();
+                    int undoGroup = Undo.GetCurrentGroup();
+                    Undo.SetCurrentGroupName("SOS & Anima Arrangement");
 
                     // 乱数シードを設定
                     if (randomSeedOverride)
@@ -213,6 +222,9 @@ namespace MyScripts.EditorExtension.Private
                         skyInstance.name = $"Sky_{i}";
                         RandomlyArrange(skyInstance, i, placedPositionsSky, treeTransformsArray, Group.Sky);
                     }
+
+                    // Undo 登録終了 (ここまでの変更を1操作としてまとめる)
+                    Undo.CollapseUndoOperations(undoGroup);
 
                     // シーンへの変更を差分として出すようにする
                     UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
