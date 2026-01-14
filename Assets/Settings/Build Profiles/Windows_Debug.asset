@@ -709,7 +709,7 @@ MonoBehaviour:
     - line: '|     PS5: DOTWEEN'
     - line: '|     QNX: DOTWEEN'
     - line: '|     ReservedCFE: DOTWEEN'
-    - line: '|     Standalone: '
+    - line: '|     Standalone: STEAMWORKS_NET'
     - line: '|     VisionOS: DOTWEEN'
     - line: '|     WebGL: UNITY_POST_PROCESSING_STACK_V2;DOTWEEN'
     - line: '|     Windows Store Apps: UNITY_POST_PROCESSING_STACK_V2;DOTWEEN'
