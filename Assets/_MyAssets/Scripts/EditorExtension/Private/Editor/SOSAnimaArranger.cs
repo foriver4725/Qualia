@@ -106,59 +106,6 @@ namespace MyScripts.EditorExtension.Private
                     EditorGUILayout.Space();
                 }
 
-                // 木の座標を全取得 (中心座標, 高さ)
-                List<(Vector3 Position, float Height)> treeTransforms = new List<(Vector3, float)>(4096);
-                {
-                    Terrain[] terrains = Terrain.activeTerrains;
-                    foreach (var terrain in terrains)
-                    {
-                        TerrainData terrainData = terrain.terrainData;
-                        int treeInstanceCount = terrainData.treeInstanceCount;
-                        for (int i = 0; i < treeInstanceCount; i++)
-                        {
-                            TreeInstance treeInstance = terrainData.GetTreeInstance(i);
-                            string prefabName = terrainData.treePrototypes[treeInstance.prototypeIndex].prefab.name;
-
-                            // プレハブの名前を見て、木でないならスキップ
-                            {
-                                bool isTree = false;
-                                foreach (string name in TreeNameHeightMap.Keys)
-                                {
-                                    if (prefabName == name)
-                                    {
-                                        isTree = true;
-                                        break;
-                                    }
-                                }
-                                if (!isTree)
-                                    continue;
-                            }
-
-                            Vector3 localXZ = new Vector3(
-                                treeInstance.position.x * terrainData.size.x,
-                                0f,
-                                treeInstance.position.z * terrainData.size.z
-                            );
-                            Vector3 worldXZ = terrain.transform.TransformPoint(localXZ);
-                            // 地表Yを取り直す
-                            float groundY = terrain.SampleHeight(worldXZ) + terrain.transform.position.y;
-                            Vector3 treeRootPos = new Vector3(worldXZ.x, groundY, worldXZ.z);
-
-                            treeTransforms.Add((treeRootPos, TreeNameHeightMap[prefabName]));
-                        }
-                    }
-                }
-                (Vector3, float)[] treeTransformsArray = treeTransforms.ToArray();
-                // シャッフルする (フィッシャー・イェーツのアルゴリズム)
-                {
-                    int n = treeTransformsArray.Length;
-                    for (int i = 0; i < n - 1; i++)
-                    {
-                        int j = UnityEngine.Random.Range(i, n);
-                        (treeTransformsArray[i], treeTransformsArray[j]) = (treeTransformsArray[j], treeTransformsArray[i]);
-                    }
-                }
-
                 if (GUILayout.Button("Execute SOS Arrangement"))
                 {
                     // null チェック
@@ -191,6 +138,59 @@ namespace MyScripts.EditorExtension.Private
                     Vector3[] placedPositionsSea = new Vector3[sosSeaCount];
                     Vector3[] placedPositionsSky = new Vector3[sosSkyCount];
 
+                    // 木の座標を全取得 (中心座標, 高さ)
+                    List<(Vector3 Position, float Height)> treeTransforms = new List<(Vector3, float)>(4096);
+                    {
+                        Terrain[] terrains = Terrain.activeTerrains;
+                        foreach (var terrain in terrains)
+                        {
+                            TerrainData terrainData = terrain.terrainData;
+                            int treeInstanceCount = terrainData.treeInstanceCount;
+                            for (int i = 0; i < treeInstanceCount; i++)
+                            {
+                                TreeInstance treeInstance = terrainData.GetTreeInstance(i);
+                                string prefabName = terrainData.treePrototypes[treeInstance.prototypeIndex].prefab.name;
+
+                                // プレハブの名前を見て、木でないならスキップ
+                                {
+                                    bool isTree = false;
+                                    foreach (string name in TreeNameHeightMap.Keys)
+                                    {
+                                        if (prefabName == name)
+                                        {
+                                            isTree = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!isTree)
+                                        continue;
+                                }
+
+                                Vector3 localXZ = new Vector3(
+                                    treeInstance.position.x * terrainData.size.x,
+                                    0f,
+                                    treeInstance.position.z * terrainData.size.z
+                                );
+                                Vector3 worldXZ = terrain.transform.TransformPoint(localXZ);
+                                // 地表Yを取り直す
+                                float groundY = terrain.SampleHeight(worldXZ) + terrain.transform.position.y;
+                                Vector3 treeRootPos = new Vector3(worldXZ.x, groundY, worldXZ.z);
+
+                                treeTransforms.Add((treeRootPos, TreeNameHeightMap[prefabName]));
+                            }
+                        }
+                    }
+                    (Vector3, float)[] treeTransformsArray = treeTransforms.ToArray();
+                    // シャッフルする (フィッシャー・イェーツのアルゴリズム)
+                    {
+                        int n = treeTransformsArray.Length;
+                        for (int i = 0; i < n - 1; i++)
+                        {
+                            int j = UnityEngine.Random.Range(i, n);
+                            (treeTransformsArray[i], treeTransformsArray[j]) = (treeTransformsArray[j], treeTransformsArray[i]);
+                        }
+                    }
+
                     // 配置
                     for (int i = 0; i < sosLandCount; i++)
                     {
@@ -213,6 +213,11 @@ namespace MyScripts.EditorExtension.Private
                         skyInstance.name = $"Sky_{i}";
                         RandomlyArrange(skyInstance, i, placedPositionsSky, treeTransformsArray, Group.Sky);
                     }
+
+                    // シーンへの変更を差分として出すようにする
+                    UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                        UnityEngine.SceneManagement.SceneManager.GetActiveScene()
+                    );
 
                     Debug.Log("SOS Arrangement Completed.");
                 }
