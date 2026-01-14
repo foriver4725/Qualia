@@ -37,7 +37,7 @@ internal static class Constants
     internal const string DataKey = "SaveSystem_Data_1";
 
     internal const int SlotCount = 3;
-    internal const int SOSSignCount = 30;
+    internal const int SOSSignCount = 100;
 }
 
 // 外部から読み書きする
