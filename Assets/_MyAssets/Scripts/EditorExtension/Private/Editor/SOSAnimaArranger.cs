@@ -26,6 +26,16 @@ namespace MyScripts.EditorExtension.Private
                 Anima_Sky,
             }
 
+            private static readonly Dictionary<Group, string> PrefabDefaultPathMap = new Dictionary<Group, string>()
+            {
+                { Group.SOS_Land, "Assets/_MyAssets/Prefabs/SOSSign/SOSSign_Land.prefab" },
+                { Group.SOS_Sea, "Assets/_MyAssets/Prefabs/SOSSign/SOSSign_Sea.prefab" },
+                { Group.SOS_Sky, "Assets/_MyAssets/Prefabs/SOSSign/SOSSign_Sky.prefab" },
+                { Group.Anima_Land, "Assets/_MyAssets/Prefabs/Anima/Anima_Land.prefab" },
+                { Group.Anima_Sea, "Assets/_MyAssets/Prefabs/Anima/Anima_Sea.prefab" },
+                { Group.Anima_Sky, "Assets/_MyAssets/Prefabs/Anima/Anima_Sky.prefab" },
+            };
+
             private static readonly Dictionary<string, float> TreeNameHeightMap = new Dictionary<string, float>()
             {
                 { "Conifer", 29.0f },
@@ -77,6 +87,15 @@ namespace MyScripts.EditorExtension.Private
                     EditorGUILayout.LabelField("Prefabs", EditorStyles.boldLabel);
 
                     EditorGUILayout.Space();
+
+                    // デフォルトパスからプレハブをロードする
+                    // ロードに失敗したら、null のままになる
+                    if (!sosLandPrefab) sosLandPrefab = TryLoadPrefab(Group.SOS_Land);
+                    if (!sosSeaPrefab) sosSeaPrefab = TryLoadPrefab(Group.SOS_Sea);
+                    if (!sosSkyPrefab) sosSkyPrefab = TryLoadPrefab(Group.SOS_Sky);
+                    if (!animaLandPrefab) animaLandPrefab = TryLoadPrefab(Group.Anima_Land);
+                    if (!animaSeaPrefab) animaSeaPrefab = TryLoadPrefab(Group.Anima_Sea);
+                    if (!animaSkyPrefab) animaSkyPrefab = TryLoadPrefab(Group.Anima_Sky);
 
                     // SOS用のPrefabと配置個数を設定
                     CreatePrefabCountField(ref sosLandPrefab, ref sosLandCount, "SOS - Land");
@@ -236,6 +255,14 @@ namespace MyScripts.EditorExtension.Private
 
                     Debug.Log("SOS Arrangement Completed.");
                 }
+            }
+
+            // デフォルトパスから、プレハブのロードを試みる
+            // 失敗したら null が返される
+            private static GameObject TryLoadPrefab(Group group)
+            {
+                string defaultPath = PrefabDefaultPathMap[group];
+                return AssetDatabase.LoadAssetAtPath<GameObject>(defaultPath);
             }
 
             private static void CreatePrefabCountField(ref GameObject prefab, ref int count, string label)
