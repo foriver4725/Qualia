@@ -356,7 +356,8 @@ namespace MyScripts.EditorExtension.Private
                         (Vector3 treePos, float treeHeight) = treeTransforms[instanceId];
 
                         // ランダムに、木の上の方に配置
-                        Vector3 position = treePos + Vector3.up * UnityEngine.Random.Range(treeHeight * 0.5f, treeHeight * 0.95f);
+                        float height = UnityEngine.Random.Range(treeHeight * 0.5f, treeHeight * 0.95f);
+                        Vector3 position = treePos + Vector3.up * height;
 
                         // 配置成功
                         instance.transform.position = position;
