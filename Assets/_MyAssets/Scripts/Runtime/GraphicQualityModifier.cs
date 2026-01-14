@@ -10,6 +10,7 @@ namespace MyScripts.Runtime
 
         [SerializeField] private TextMeshProUGUI text;
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
         private void Update()
         {
             if (InputManager.Debug.SetGraphicQualityLow)
@@ -39,5 +40,6 @@ namespace MyScripts.Runtime
         {
             text.SetTextFormat("現在のグラフィック品質 : <color=#00ffff>{0}</color>", constWord);
         }
+#endif
     }
 }
