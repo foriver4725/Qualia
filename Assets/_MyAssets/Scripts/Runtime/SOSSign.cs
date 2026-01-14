@@ -31,7 +31,14 @@ namespace MyScripts.Runtime
                 foreach (var (type, objects) in typeObjectsMap)
                 {
                     for (int i = 0; i < objects.Length; i++)
-                        objects[i].SetActive(type == characterType && i == objectToUseIndex);
+                    {
+                        bool isActive = (type == characterType && i == objectToUseIndex);
+
+                        objects[i].SetActive(isActive);
+                        // ランダムに回転させて、自然な感じにする
+                        if (isActive)
+                            objects[i].transform.rotation = Quaternion.AngleAxis(Random.Range(0f, 360f), Vector3.up);
+                    }
                 }
             }
         }
