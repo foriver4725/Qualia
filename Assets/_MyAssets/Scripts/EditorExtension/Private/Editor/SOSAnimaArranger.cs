@@ -259,7 +259,10 @@ namespace MyScripts.EditorExtension.Private
             }
 
             private static void RandomlyArrange(
-                GameObject instance, int instanceId, Span<Vector3> placedPositions, ReadOnlySpan<(Vector3, float)> treeTransforms, Group type)
+                GameObject instance, int instanceId,
+                Span<Vector3> placedPositions, ReadOnlySpan<(Vector3, float)> treeTransforms,
+                Group type
+            )
             {
                 const float MaxAttempts = 100; // 配置場所を探す最大試行回数
 
