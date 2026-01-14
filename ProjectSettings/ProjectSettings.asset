@@ -681,7 +681,7 @@ PlayerSettings:
     PS5: DOTWEEN
     QNX: DOTWEEN
     ReservedCFE: DOTWEEN
-    Standalone: 
+    Standalone: STEAMWORKS_NET
     VisionOS: DOTWEEN
     WebGL: UNITY_POST_PROCESSING_STACK_V2;DOTWEEN
     Windows Store Apps: UNITY_POST_PROCESSING_STACK_V2;DOTWEEN
