@@ -43,6 +43,7 @@ namespace MyScripts.Runtime
                 return;
             }
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
             if (!gameConfig.DoesPlayIntroCutScene && type == SCutScene.CutSceneType.Intro)
             {
                 "イントロカットシーンの再生は設定で無効化されています。".Print(LogSettings.Warning);
@@ -53,6 +54,7 @@ namespace MyScripts.Runtime
                 "アニマ説明カットシーンの再生は設定で無効化されています。".Print(LogSettings.Warning);
                 return;
             }
+#endif
 
             isPlaying = true;
             currentPlayingType = type;
