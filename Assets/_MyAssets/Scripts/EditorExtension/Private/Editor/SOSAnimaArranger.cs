@@ -18,9 +18,12 @@ namespace MyScripts.EditorExtension.Private
         {
             private enum Group : byte
             {
-                Land,
-                Sea,
-                Sky,
+                SOS_Land,
+                SOS_Sea,
+                SOS_Sky,
+                Anima_Land,
+                Anima_Sea,
+                Anima_Sky,
             }
 
             private static readonly Dictionary<string, float> TreeNameHeightMap = new Dictionary<string, float>()
@@ -32,6 +35,18 @@ namespace MyScripts.EditorExtension.Private
                 { "Pine_C", 20.3f },
                 { "Pine_D", 12.7f },
             };
+
+            private readonly Dictionary<Group, Vector3[]> placedPositionsMap = new Dictionary<Group, Vector3[]>()
+            {
+                { Group.SOS_Land, null },
+                { Group.SOS_Sea, null },
+                { Group.SOS_Sky, null },
+                { Group.Anima_Land, null },
+                { Group.Anima_Sea, null },
+                { Group.Anima_Sky, null },
+            };
+
+            private (Vector3 Position, float Height)[] treeTransforms = null;
 
             private GameObject sosLandPrefab = null;
             private GameObject sosSeaPrefab = null;
@@ -143,12 +158,15 @@ namespace MyScripts.EditorExtension.Private
                     // 近すぎる場所には配置しないように、配置した座標を保存しておく
                     // デフォルト値は Vector3.zero なので、未使用の要素はそれで判定する
                     // 種類ごとに作成
-                    Vector3[] placedPositionsLand = new Vector3[sosLandCount];
-                    Vector3[] placedPositionsSea = new Vector3[sosSeaCount];
-                    Vector3[] placedPositionsSky = new Vector3[sosSkyCount];
+                    placedPositionsMap[Group.SOS_Land] = new Vector3[sosLandCount];
+                    placedPositionsMap[Group.SOS_Sea] = new Vector3[sosSeaCount];
+                    placedPositionsMap[Group.SOS_Sky] = new Vector3[sosSkyCount];
+                    placedPositionsMap[Group.Anima_Land] = new Vector3[animaLandCount];
+                    placedPositionsMap[Group.Anima_Sea] = new Vector3[animaSeaCount];
+                    placedPositionsMap[Group.Anima_Sky] = new Vector3[animaSkyCount];
 
                     // 木の座標を全取得 (中心座標, 高さ)
-                    List<(Vector3 Position, float Height)> treeTransforms = new List<(Vector3, float)>(4096);
+                    List<(Vector3 Position, float Height)> treeTransformsList = new(4096);
                     {
                         Terrain[] terrains = Terrain.activeTerrains;
                         foreach (var terrain in terrains)
@@ -185,43 +203,28 @@ namespace MyScripts.EditorExtension.Private
                                 float groundY = terrain.SampleHeight(worldXZ) + terrain.transform.position.y;
                                 Vector3 treeRootPos = new Vector3(worldXZ.x, groundY, worldXZ.z);
 
-                                treeTransforms.Add((treeRootPos, TreeNameHeightMap[prefabName]));
+                                treeTransformsList.Add((treeRootPos, TreeNameHeightMap[prefabName]));
                             }
                         }
                     }
-                    (Vector3, float)[] treeTransformsArray = treeTransforms.ToArray();
+                    treeTransforms = treeTransformsList.ToArray();
                     // シャッフルする (フィッシャー・イェーツのアルゴリズム)
                     {
-                        int n = treeTransformsArray.Length;
+                        int n = treeTransforms.Length;
                         for (int i = 0; i < n - 1; i++)
                         {
                             int j = UnityEngine.Random.Range(i, n);
-                            (treeTransformsArray[i], treeTransformsArray[j]) = (treeTransformsArray[j], treeTransformsArray[i]);
+                            (treeTransforms[i], treeTransforms[j]) = (treeTransforms[j], treeTransforms[i]);
                         }
                     }
 
                     // 配置
-                    for (int i = 0; i < sosLandCount; i++)
-                    {
-                        GameObject landInstance = (GameObject)PrefabUtility.InstantiatePrefab(sosLandPrefab);
-                        landInstance.transform.SetParent(sosRoot.transform);
-                        landInstance.name = $"Land_{i}";
-                        RandomlyArrange(landInstance, i, placedPositionsLand, treeTransformsArray, Group.Land);
-                    }
-                    for (int i = 0; i < sosSeaCount; i++)
-                    {
-                        GameObject seaInstance = (GameObject)PrefabUtility.InstantiatePrefab(sosSeaPrefab);
-                        seaInstance.transform.SetParent(sosRoot.transform);
-                        seaInstance.name = $"Sea_{i}";
-                        RandomlyArrange(seaInstance, i, placedPositionsSea, treeTransformsArray, Group.Sea);
-                    }
-                    for (int i = 0; i < sosSkyCount; i++)
-                    {
-                        GameObject skyInstance = (GameObject)PrefabUtility.InstantiatePrefab(sosSkyPrefab);
-                        skyInstance.transform.SetParent(sosRoot.transform);
-                        skyInstance.name = $"Sky_{i}";
-                        RandomlyArrange(skyInstance, i, placedPositionsSky, treeTransformsArray, Group.Sky);
-                    }
+                    Arrange(Group.SOS_Land);
+                    Arrange(Group.SOS_Sea);
+                    Arrange(Group.SOS_Sky);
+                    Arrange(Group.Anima_Land);
+                    Arrange(Group.Anima_Sea);
+                    Arrange(Group.Anima_Sky);
 
                     // Undo 登録終了 (ここまでの変更を1操作としてまとめる)
                     Undo.CollapseUndoOperations(undoGroup);
@@ -258,17 +261,58 @@ namespace MyScripts.EditorExtension.Private
                 }
             }
 
+            private void Arrange(Group group)
+            {
+                GameObject prefab = group switch
+                {
+                    Group.SOS_Land => sosLandPrefab,
+                    Group.SOS_Sea => sosSeaPrefab,
+                    Group.SOS_Sky => sosSkyPrefab,
+                    Group.Anima_Land => animaLandPrefab,
+                    Group.Anima_Sea => animaSeaPrefab,
+                    Group.Anima_Sky => animaSkyPrefab,
+                    _ => throw new ArgumentOutOfRangeException(nameof(group), group, null),
+                };
+
+                Transform parent = group switch
+                {
+                    Group.SOS_Land or Group.SOS_Sea or Group.SOS_Sky => sosRoot.transform,
+                    Group.Anima_Land or Group.Anima_Sea or Group.Anima_Sky => animaRoot.transform,
+                    _ => throw new ArgumentOutOfRangeException(nameof(group), group, null),
+                };
+
+                int count = group switch
+                {
+                    Group.SOS_Land => sosLandCount,
+                    Group.SOS_Sea => sosSeaCount,
+                    Group.SOS_Sky => sosSkyCount,
+                    Group.Anima_Land => animaLandCount,
+                    Group.Anima_Sea => animaSeaCount,
+                    Group.Anima_Sky => animaSkyCount,
+                    _ => throw new ArgumentOutOfRangeException(nameof(group), group, null),
+                };
+
+                for (int i = 0; i < count; i++)
+                {
+                    GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+                    instance.transform.SetParent(parent);
+                    instance.name = $"{group}_{i}";
+                    RandomlyArrange(instance, i, placedPositionsMap, treeTransforms, group);
+                }
+            }
+
             private static void RandomlyArrange(
                 GameObject instance, int instanceId,
-                Span<Vector3> placedPositions, ReadOnlySpan<(Vector3, float)> treeTransforms,
-                Group type
+                IReadOnlyDictionary<Group, Vector3[]> placedPositionsMap, // Vector3[] は中で書き換える
+                ReadOnlySpan<(Vector3, float)> treeTransforms,
+                Group group
             )
             {
                 const float MaxAttempts = 100; // 配置場所を探す最大試行回数
 
                 for (int attempt = 0; attempt < MaxAttempts; attempt++)
                 {
-                    if (type == Group.Land)
+                    if (group == Group.SOS_Land)
                     {
                         const float CenterX = -500f;
                         const float CenterZ = 350f;
@@ -285,7 +329,7 @@ namespace MyScripts.EditorExtension.Private
 
                         // 既に配置されたオブジェクトとの距離をチェック
                         bool tooClose = false;
-                        foreach (var pos in placedPositions)
+                        foreach (var pos in placedPositionsMap[group])
                         {
                             if (pos == Vector3.zero)
                                 break; // 未使用の要素に到達したら終了
@@ -315,9 +359,9 @@ namespace MyScripts.EditorExtension.Private
                         // 配置成功
                         Vector3 position = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
                         instance.transform.position = position;
-                        placedPositions[instanceId] = position;
+                        placedPositionsMap[group][instanceId] = position;
                     }
-                    else if (type == Group.Sea)
+                    else if (group == Group.SOS_Sea)
                     {
                         const float CenterX = -500f;
                         const float CenterZ = 350f;
@@ -346,9 +390,9 @@ namespace MyScripts.EditorExtension.Private
                         // 配置成功
                         Vector3 position = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
                         instance.transform.position = position;
-                        placedPositions[instanceId] = position;
+                        placedPositionsMap[group][instanceId] = position;
                     }
-                    else // type == SOSType.Sky
+                    else if (group == Group.SOS_Sky)
                     {
                         // 木のトランスフォームを取得
                         if (instanceId >= treeTransforms.Length) // インスタンスIDが、木の配列のサイズを超えた
@@ -361,7 +405,231 @@ namespace MyScripts.EditorExtension.Private
 
                         // 配置成功
                         instance.transform.position = position;
-                        placedPositions[instanceId] = position;
+                        placedPositionsMap[group][instanceId] = position;
+                    }
+                    else if (group == Group.Anima_Land)
+                    {
+                        const float CenterX = -500f;
+                        const float CenterZ = 350f;
+                        const float MaxRange = 600.0f;
+                        const float MinDistance = 30.0f; // 他のオブジェクトと、最低どれ以上話すか (m. XZ平面距離)
+                        const float MinDistanceToSOS = 5.0f; // SOSオブジェクトとは、最低どれくらい離すか (m. XZ平面距離)
+                        const float MaxDistanceToSOS = 50.0f; // SOSオブジェクトとは、最大どれくらい離すか (m. XZ平面距離)
+                        const float HeightAboveGround = 0.1f; // 地表からどのくらい上に配置するか (m)
+                        const float WaterPlacementProbability = 0.1f; // 水上に配置する確率
+
+                        // ランダムな位置を計算 (X, Z)
+                        // 極座標系でランダムに選ぶ
+                        float r = UnityEngine.Random.Range(0f, MaxRange);
+                        float theta = UnityEngine.Random.Range(0f, Mathf.PI * 2f);
+                        float x = CenterX + r * Mathf.Cos(theta);
+                        float z = CenterZ + r * Mathf.Sin(theta);
+
+                        // 既に配置されたオブジェクトとの距離をチェック
+                        bool tooClose = false;
+                        foreach (var pos in placedPositionsMap[group])
+                        {
+                            if (pos == Vector3.zero)
+                                break; // 未使用の要素に到達したら終了
+
+                            float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
+                            if (distanceSq < MinDistance * MinDistance)
+                            {
+                                tooClose = true;
+                                break;
+                            }
+                        }
+                        if (tooClose)
+                            continue; // 近すぎるなら再試行
+
+                        // 対応するSOSオブジェクトとの距離をチェック
+                        bool tooCloseToSOS = false;
+                        foreach (var pos in placedPositionsMap[Group.SOS_Land])
+                        {
+                            if (pos == Vector3.zero)
+                                break; // 未使用の要素に到達したら終了
+
+                            float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
+                            if (distanceSq < MinDistanceToSOS * MinDistanceToSOS)
+                            {
+                                tooCloseToSOS = true;
+                                break;
+                            }
+                        }
+                        if (tooCloseToSOS)
+                            continue; // 近すぎるなら再試行
+                        bool tooFarFromSOS = true;
+                        foreach (var pos in placedPositionsMap[Group.SOS_Land])
+                        {
+                            if (pos == Vector3.zero)
+                                break; // 未使用の要素に到達したら終了
+
+                            float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
+                            if (distanceSq <= MaxDistanceToSOS * MaxDistanceToSOS)
+                            {
+                                tooFarFromSOS = false;
+                                break;
+                            }
+                        }
+                        if (tooFarFromSOS)
+                            continue; // 離れすぎているなら再試行
+
+                        // 地表のY座標を算出
+                        // レイを打つ
+                        Ray ray = new Ray(new Vector3(x, 1000f, z), Vector3.down);
+                        bool raycastHit = Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity);
+                        if (!raycastHit)
+                            continue; // 地表が見つからなかった場合は再試行
+
+                        // 水上には、滅多に配置できない
+                        string hitObjectName = hitInfo.collider.gameObject.name;
+                        if (hitObjectName == "WaterPlane")
+                        {
+                            if (UnityEngine.Random.value > WaterPlacementProbability)
+                                continue; // 再試行
+                        }
+
+                        // 配置成功
+                        Vector3 position = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
+                        instance.transform.position = position;
+                        placedPositionsMap[group][instanceId] = position;
+                    }
+                    else if (group == Group.Anima_Sea)
+                    {
+                        const float CenterX = -500f;
+                        const float CenterZ = 350f;
+                        const float MaxRange = 600.0f;
+                        const float MinDistance = 20.0f; // 他のオブジェクトと、最低どれ以上話すか (m. XZ平面距離)
+                        const float MinDistanceToSOS = 5.0f; // SOSオブジェクトとは、最低どれくらい離すか (m. XZ平面距離)
+                        const float MaxDistanceToSOS = 150.0f; // SOSオブジェクトとは、最大どれくらい離すか (m. XZ平面距離)
+                        const float HeightAboveGround = 0.1f; // 地表からどのくらい上に配置するか (m)
+                        const float LandPlacementProbability = 0.5f; // 水上以外の場所に配置する確率
+
+                        // ランダムな位置を計算 (X, Z)
+                        // 極座標系でランダムに選ぶ
+                        float r = UnityEngine.Random.Range(0f, MaxRange);
+                        float theta = UnityEngine.Random.Range(0f, Mathf.PI * 2f);
+                        float x = CenterX + r * Mathf.Cos(theta);
+                        float z = CenterZ + r * Mathf.Sin(theta);
+
+                        // 地表のY座標を算出
+                        // レイを打つ
+                        Ray ray = new Ray(new Vector3(x, 1000f, z), Vector3.down);
+                        bool raycastHit = Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity);
+                        if (!raycastHit)
+                            continue; // 地表が見つからなかった場合は再試行
+
+                        // 既に配置されたオブジェクトとの距離をチェック
+                        bool tooClose = false;
+                        foreach (var pos in placedPositionsMap[group])
+                        {
+                            if (pos == Vector3.zero)
+                                break; // 未使用の要素に到達したら終了
+
+                            float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
+                            if (distanceSq < MinDistance * MinDistance)
+                            {
+                                tooClose = true;
+                                break;
+                            }
+                        }
+                        if (tooClose)
+                            continue; // 近すぎるなら再試行
+
+                        // 対応するSOSオブジェクトとの距離をチェック
+                        bool tooCloseToSOS = false;
+                        foreach (var pos in placedPositionsMap[Group.SOS_Sea])
+                        {
+                            if (pos == Vector3.zero)
+                                break; // 未使用の要素に到達したら終了
+
+                            float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
+                            if (distanceSq < MinDistanceToSOS * MinDistanceToSOS)
+                            {
+                                tooCloseToSOS = true;
+                                break;
+                            }
+                        }
+                        if (tooCloseToSOS)
+                            continue; // 近すぎるなら再試行
+                        bool tooFarFromSOS = true;
+                        foreach (var pos in placedPositionsMap[Group.SOS_Sea])
+                        {
+                            if (pos == Vector3.zero)
+                                break; // 未使用の要素に到達したら終了
+
+                            float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
+                            if (distanceSq <= MaxDistanceToSOS * MaxDistanceToSOS)
+                            {
+                                tooFarFromSOS = false;
+                                break;
+                            }
+                        }
+                        if (tooFarFromSOS)
+                            continue; // 離れすぎているなら再試行
+
+                        // 水上以外には、それほど配置できない
+                        string hitObjectName = hitInfo.collider.gameObject.name;
+                        if (hitObjectName != "WaterPlane")
+                        {
+                            if (UnityEngine.Random.value > LandPlacementProbability)
+                                continue; // 再試行
+                        }
+
+                        // 配置成功
+                        Vector3 position = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
+                        instance.transform.position = position;
+                        placedPositionsMap[group][instanceId] = position;
+                    }
+                    else if (group == Group.Anima_Sky)
+                    {
+                        // 場所を問わず、まばらに配置する
+
+                        const float CenterX = -500f;
+                        const float CenterZ = 350f;
+                        const float MaxRange = 600.0f;
+                        const float MinDistance = 40.0f; // 他のオブジェクトと、最低どれ以上話すか (m. XZ平面距離)
+                        const float HeightAboveGround = 0.1f; // 地表からどのくらい上に配置するか (m)
+
+                        // ランダムな位置を計算 (X, Z)
+                        // 極座標系でランダムに選ぶ
+                        float r = UnityEngine.Random.Range(0f, MaxRange);
+                        float theta = UnityEngine.Random.Range(0f, Mathf.PI * 2f);
+                        float x = CenterX + r * Mathf.Cos(theta);
+                        float z = CenterZ + r * Mathf.Sin(theta);
+
+                        // 既に配置されたオブジェクトとの距離をチェック
+                        bool tooClose = false;
+                        foreach (var pos in placedPositionsMap[group])
+                        {
+                            if (pos == Vector3.zero)
+                                break; // 未使用の要素に到達したら終了
+
+                            float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
+                            if (distanceSq < MinDistance * MinDistance)
+                            {
+                                tooClose = true;
+                                break;
+                            }
+                        }
+                        if (tooClose)
+                            continue; // 近すぎるなら再試行
+
+                        // 地表のY座標を算出
+                        // レイを打つ
+                        Ray ray = new Ray(new Vector3(x, 1000f, z), Vector3.down);
+                        bool raycastHit = Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity);
+                        if (!raycastHit)
+                            continue; // 地表が見つからなかった場合は再試行
+
+                        // 配置成功
+                        Vector3 position = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
+                        instance.transform.position = position;
+                        placedPositionsMap[group][instanceId] = position;
+                    }
+                    else
+                    {
+                        throw new ArgumentOutOfRangeException(nameof(group), group, null);
                     }
 
                     return;
