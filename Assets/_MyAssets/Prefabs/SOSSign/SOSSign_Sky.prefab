@@ -10,7 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2239677793117777547, guid: 5f748ef53f8e6954392ab172c23db175, type: 3}
       propertyPath: m_Name
-      value: SOSSign
+      value: SOSSign_Sky
+      objectReference: {fileID: 0}
+    - target: {fileID: 4513428926528137400, guid: 5f748ef53f8e6954392ab172c23db175, type: 3}
+      propertyPath: characterType
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7939171000004802562, guid: 5f748ef53f8e6954392ab172c23db175, type: 3}
       propertyPath: m_LocalPosition.x
