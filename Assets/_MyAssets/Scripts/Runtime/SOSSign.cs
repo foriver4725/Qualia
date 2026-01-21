@@ -71,5 +71,18 @@ namespace MyScripts.Runtime
                 }
             }
         }
+
+        /// <summary>
+        /// <para>【陸のSOSサインのみ】</para>
+        /// <para>煙パーティクルの有効/無効を設定する</para>
+        /// <para>陸のアニマは陸のSOSサインの煙を表示させるので、このメソッドを使って外部から制御する</para>
+        /// </summary>
+        public void TrySetActiveSmokeOnlyWhenLand(bool isActive)
+        {
+            if (characterType != CharacterType.Land)
+                return;
+
+            smokeParticle.gameObject.SetActive(isActive);
+        }
     }
 }
