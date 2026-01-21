@@ -1,0 +1,11 @@
+﻿<Solution>
+  <Project Path="MyScripts.csproj" />
+  <Project Path="ZString.csproj" />
+  <Project Path="foriver4725.Border.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="foriver4725.ScriptsValidator.csproj" />
+  <Project Path="MyScripts.EditorExtension.Public.csproj" />
+  <Project Path="MyScripts.Steam.csproj" />
+  <Project Path="MyScripts.EditorExtension.Private.csproj" />
+  <Project Path="foriver4725.Benchmarker.csproj" />
+</Solution>

@@ -9,6 +9,7 @@ namespace MyScripts.Runtime
         [SerializeField] private Image displayImage;
         [SerializeField] private SAnima sAnima;
         [SerializeField] private SOSSoundPlayer soundPlayer;
+        [SerializeField] private SOSSign[] landSOSSigns; // 陸のアニマは陸のSOSサインを表示させるので、ここで参照を設定する
 
         private Character possessingCharacter = null;
 
@@ -52,6 +53,11 @@ namespace MyScripts.Runtime
             possessingCharacter.SetVisible(false);
             possessingCharacter.Collider.enabled = false;
 
+            // 陸のアニマなら、陸のSOSサインを表示させる
+            if (possessingCharacter.CharacterType == CharacterType.Land)
+                foreach (var sosSign in landSOSSigns)
+                    sosSign.TrySetActiveSmokeOnlyWhenLand(true);
+
             UpdateDisplayImage(displayImage, displayImageBg, displayImageBgBack, possessingCharacter, sAnima);
             // TODO: SOSサインのサウンドを使いまわす!
             soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
@@ -94,6 +100,11 @@ namespace MyScripts.Runtime
                 "憑依中のアニマがありません。".Print(LogSettings.Error);
                 return;
             }
+
+            // 陸のアニマなら、陸のSOSサインを非表示にする
+            if (possessingCharacter.CharacterType == CharacterType.Land)
+                foreach (var sosSign in landSOSSigns)
+                    sosSign.TrySetActiveSmokeOnlyWhenLand(false);
 
             possessingCharacter.SetVisible(true);
             possessingCharacter.Collider.enabled = true;

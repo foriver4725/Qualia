@@ -317,25 +317,20 @@ namespace MyScripts.Runtime
 			if (isSprintingInput)
 				targetSpeed *= param.SprintSpeedMultiplier;
 			{
-				if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Land)
+				// 水にいるなら
+				if (IsPlayerInsideOfAnyBorder(
+					walkSoundBorders[SWalkSound.Surface.Water],
+					controller.transform.position,
+					BorderLayer.WalkSound.Get(SWalkSound.Surface.Water)))
 				{
-					// 陸にいるなら (水にいないなら)
-					if (!IsPlayerInsideOfAnyBorder(
-						walkSoundBorders[SWalkSound.Surface.Water],
-						controller.transform.position,
-						BorderLayer.WalkSound.Get(SWalkSound.Surface.Water)
-					))
-						targetSpeed *= param.MoveSpeedMultiplierWhenHasLand;
-				}
-				else if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Sea)
-				{
-					// 水にいるなら
-					if (IsPlayerInsideOfAnyBorder(
-						walkSoundBorders[SWalkSound.Surface.Water],
-						controller.transform.position,
-						BorderLayer.WalkSound.Get(SWalkSound.Surface.Water)
-					))
+					if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Sea)
 						targetSpeed *= param.MoveSpeedMultiplierWhenHasSea;
+				}
+				// 陸にいるなら (水にいないなら)
+				else
+				{
+					if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Land)
+						targetSpeed *= param.MoveSpeedMultiplierWhenHasLand;
 				}
 			}
 
