@@ -11,8 +11,5 @@
 
         [SerializeField] private bool doesPlayIntroCutScene = true;
         internal bool DoesPlayIntroCutScene => doesPlayIntroCutScene;
-
-        [SerializeField] private bool doesPlayAnimaDescCutScene = true;
-        internal bool DoesPlayAnimaDescCutScene => doesPlayAnimaDescCutScene;
     }
 }

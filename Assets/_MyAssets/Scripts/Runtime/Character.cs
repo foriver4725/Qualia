@@ -93,11 +93,9 @@ namespace MyScripts.Runtime
                                 param.PossessInvoker.PossessCharacter(param.This);
 
                                 // セーブデータ更新
-                                // 初取得ならば、カットシーンを再生する
                                 if (SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasObtainedAnima == false)
                                 {
                                     SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasObtainedAnima = true;
-                                    await CutScenePlayer.Instance.PlayAsync(SCutScene.CutSceneType.AnimaDesc, ct);
                                 }
 
                                 param.PossessInvoker.PossessCharacter_ShowLogIfFirstTime(param.This);

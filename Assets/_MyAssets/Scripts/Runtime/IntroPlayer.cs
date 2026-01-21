@@ -22,7 +22,7 @@ namespace MyScripts.Runtime
             // ポーズでなくなるまで待機
             await UniTask.WaitUntil(() => pauseInvoker.IsPaused == false, cancellationToken: ct);
 
-            CutScenePlayer.Instance.Play(SCutScene.CutSceneType.Intro);
+            await CutScenePlayer.Instance.PlayAsync(SCutScene.CutSceneType.Intro, ct);
         }
     }
 }

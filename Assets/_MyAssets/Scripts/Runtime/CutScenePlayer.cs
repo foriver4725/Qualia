@@ -1,4 +1,6 @@
-﻿using UnityEngine.Video;
+﻿using System.IO;
+using UnityEngine.Networking;
+using UnityEngine.Video;
 
 namespace MyScripts.Runtime
 {
@@ -21,21 +23,26 @@ namespace MyScripts.Runtime
         private void Awake()
         {
             rawImage.enabled = false;
-            videoPlayer.source = VideoSource.VideoClip;
+            videoPlayer.source = VideoSource.Url;
+            videoPlayer.url = "";
 
             bgAlphaMax = bg.color.a;
             SetBgAlpha(0.0f);
             bg.enabled = false;
+
+            videoPlayer.prepareCompleted += OnPrepareCompleted;
+            videoPlayer.started += OnStarted;
+            videoPlayer.loopPointReached += OnLoopPointReached;
         }
 
         private void OnDestroy()
         {
-            videoPlayer.prepareCompleted -= _ => OnPrepareCompleted();
-            videoPlayer.started -= _ => OnStarted();
-            videoPlayer.loopPointReached -= _ => OnLoopPointReached();
+            videoPlayer.prepareCompleted -= OnPrepareCompleted;
+            videoPlayer.started -= OnStarted;
+            videoPlayer.loopPointReached -= OnLoopPointReached;
         }
 
-        public void Play(SCutScene.CutSceneType type)
+        public async UniTask PlayAsync(SCutScene.CutSceneType type, Ct ct)
         {
             if (isPlaying)
             {
@@ -49,62 +56,56 @@ namespace MyScripts.Runtime
                 "イントロカットシーンの再生は設定で無効化されています。".Print(LogSettings.Warning);
                 return;
             }
-            if (!gameConfig.DoesPlayAnimaDescCutScene && type == SCutScene.CutSceneType.AnimaDesc)
-            {
-                "アニマ説明カットシーンの再生は設定で無効化されています。".Print(LogSettings.Warning);
-                return;
-            }
 #endif
 
+            string url = InGameSOHolder.Instance.CutScene.Get(type);
+            string saveName = ZString.Format("CutScene_{0}.mp4", type);
+            string localPath = await DownloadVideoAsync(url, saveName, ct);
+            if (string.IsNullOrEmpty(localPath))
+            {
+                "カットシーンのダウンロードに失敗したため、再生を中止します。".Print(LogSettings.Error);
+                return;
+            }
+
+            // 状態を更新
             isPlaying = true;
             currentPlayingType = type;
 
             OnBeginPlay();
 
             // 再生する
-            {
-                videoPlayer.clip = InGameSOHolder.Instance.CutScene.Get(type);
+            videoPlayer.url = ZString.Format("file://{0}", localPath);
+            videoPlayer.Prepare();
 
-                videoPlayer.prepareCompleted += _ => OnPrepareCompleted();
-                videoPlayer.loopPointReached += _ => OnLoopPointReached();
-                videoPlayer.Prepare();
-            }
-        }
-
-        public async UniTask PlayAsync(SCutScene.CutSceneType type, Ct ct)
-        {
-            Play(type);
-
-            if (isPlaying)
-                await UniTask.WaitUntil(() => !isPlaying, cancellationToken: ct);
+            await UniTask.WaitUntil(() => !isPlaying, cancellationToken: ct);
         }
 
         #region 内部デリゲート
 
-        private void OnPrepareCompleted()
+        private void OnPrepareCompleted(VideoPlayer _) => OnPrepareCompletedInternal();
+        private void OnStarted(VideoPlayer _) => OnStartedInternal();
+        private void OnLoopPointReached(VideoPlayer _) => OnLoopPointReachedInternal();
+
+        private void OnPrepareCompletedInternal()
         {
             rawImage.texture = videoPlayer.texture;
 
-            videoPlayer.started += _ => OnStarted();
             videoPlayer.Play();
         }
 
-        private void OnStarted()
+        private void OnStartedInternal()
         {
             rawImage.enabled = true;
         }
 
-        private void OnLoopPointReached()
-        {
-            ResetFlags();
-        }
-
-        private void ResetFlags()
+        private void OnLoopPointReachedInternal()
         {
             OnEndPlay();
 
+            rawImage.enabled = false;
+
             // currentPlayingType は何もしない
-            videoPlayer.clip = null;
+            videoPlayer.url = "";
             isPlaying = false;
         }
 
@@ -120,6 +121,43 @@ namespace MyScripts.Runtime
         {
             InputManager.EnableAllInputs();
             FadeOutBgAsync(destroyCancellationToken).Forget();
+        }
+
+        // ブラウザ上の動画URLをダウンロードしてローカル保存し、その絶対パスを返す
+        // 保存する名前も指定する. 拡張子も含めて指定すること!
+        // 失敗したら空文字列を返す
+        private static async UniTask<string> DownloadVideoAsync(string url, string saveName, Ct ct)
+        {
+            $"Downloading video from URL: {url}".Print();
+
+            string savePath = Path.Combine(Application.persistentDataPath, saveName);
+
+            // 既にダウンロード済みでローカルに存在するなら、それを使う
+            if (File.Exists(savePath))
+            {
+                $"Video already downloaded at: {savePath}. Using existing file.".Print();
+                return savePath;
+            }
+
+            using var request = UnityWebRequest.Get(url);
+            request.downloadHandler = new DownloadHandlerFile(savePath)
+            {
+                // ダウンロードに失敗した場合、途中までのファイルを削除する
+                removeFileOnAbort = true
+            };
+
+            await request.SendWebRequest().ToUniTask(cancellationToken: ct);
+
+            // ダウンロード失敗
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                $"Failed to download video. Error: {request.error}".Print(LogSettings.Error);
+                return "";
+            }
+
+            // ダウンロード成功
+            $"Video downloaded successfully to: {savePath}".Print();
+            return savePath;
         }
 
         // 重複実行はバグると思う
