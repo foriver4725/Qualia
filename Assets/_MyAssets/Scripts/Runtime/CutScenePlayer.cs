@@ -132,11 +132,12 @@ namespace MyScripts.Runtime
 
             string savePath = Path.Combine(Application.persistentDataPath, saveName);
 
-            // 既にダウンロード済みでローカルに存在するなら、それを使う
+            //! 既にダウンロード済みでローカルに存在するなら、それを削除して、この後新規にダウンロードする
+            //! こうしないと、クラウドの動画が更新されても、ローカルの旧動画を使ってしまう
             if (File.Exists(savePath))
             {
-                $"Video already downloaded at: {savePath}. Using existing file.".Print();
-                return savePath;
+                $"Video already downloaded at: {savePath}. Deleting existing file.".Print();
+                File.Delete(savePath);
             }
 
             using var request = UnityWebRequest.Get(url);
