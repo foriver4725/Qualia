@@ -7,9 +7,7 @@ namespace MyScripts.Runtime
     internal sealed class SOSSignFindManager : MonoBehaviour, IDataHoldingObject
     {
         [Header("Self Components")]
-        [SerializeField] private Transform root; // SOSサインの親オブジェクト (生成した後ここに格納する)
-        [SerializeField] private Transform pointRoot; // 配置箇所の親オブジェクト
-        [SerializeField] private SOSSign prefab;
+        [SerializeField] private Transform root; // SOSサインの親オブジェクト
         [Space(10)]
         [Header("Outer Components")]
         [SerializeField] private Collider playerCapsuleCollider;
@@ -19,6 +17,7 @@ namespace MyScripts.Runtime
 
         // Awake で初期化
         private SSOSSignLogText sosSignLogText;
+        private int sosSignCountReal;
         private int removedSOSSignCount = -1;
         private Collider[] sosSigns; // コライダーはルートに付いている
 
@@ -29,7 +28,7 @@ namespace MyScripts.Runtime
             Span<bool> foundSOSSigns = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasFoundSOSSigns.AsSpan();
 
             int removeCount = 0;
-            for (int i = 0; i < Constants.SOSSignCount; i++)
+            for (int i = 0; i < sosSignCountReal; i++)
             {
                 if (!foundSOSSigns[i])
                 {
@@ -50,7 +49,7 @@ namespace MyScripts.Runtime
             Span<bool> foundSOSSigns = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasFoundSOSSigns.AsSpan();
 
             int removeCount = 0;
-            for (int i = 0; i < Constants.SOSSignCount; i++)
+            for (int i = 0; i < sosSignCountReal; i++)
             {
                 if (sosSigns[i].gameObject.activeSelf)
                 {
@@ -71,10 +70,16 @@ namespace MyScripts.Runtime
         private void Awake()
         {
             sosSignLogText = InGameSOHolder.Instance.SOSSignLogText;
-            Assert.IsTrue(Constants.SOSSignCount == pointRoot.childCount);
 
-            sosSigns = new Collider[Constants.SOSSignCount];
-            RandomlyInstantiateAndPlace(Constants.SOSSignCount, sosSigns);
+            sosSignCountReal = root.childCount;
+            Assert.IsTrue(sosSignCountReal <= Constants.SOSSignCount);
+            if (sosSignCountReal < Constants.SOSSignCount)
+            {
+                "SOSサインの数が不足しています。".Print(LogSettings.Error);
+            }
+
+            sosSigns = new Collider[sosSignCountReal];
+            FetchAllInstance(sosSignCountReal, sosSigns);
 
             GetDataAndUpdateMyProperties();
 
@@ -89,21 +94,11 @@ namespace MyScripts.Runtime
             sosSignRatioUIManager.UpdateRatio(1.0f * removedSOSSignCount / Constants.SOSSignCount, changeFillSmoothly: false);
         }
 
-        // プレハブから生成して、ランダムに配置する
-        private void RandomlyInstantiateAndPlace(int count, Span<Collider> outColliders)
+        // SOSサインを取得する
+        private void FetchAllInstance(int count, Span<Collider> outColliders)
         {
-            // 配置箇所に一括でSOSサインを配置
-            SOSSignPoint[] candidatePoints = new SOSSignPoint[count];
             for (int i = 0; i < count; i++)
-            {
-                candidatePoints[i] = pointRoot.GetChild(i).GetComponent<SOSSignPoint>();
-            }
-
-            for (int i = 0; i < count; i++)
-            {
-                SOSSign instance = Instantiate(prefab, candidatePoints[i].transform.position, candidatePoints[i].transform.rotation, root);
-                outColliders[i] = instance.Collider;
-            }
+                outColliders[i] = root.GetChild(i).GetComponent<Collider>();
         }
 
         private void Setup(ReadOnlySpan<Collider> sosSignColliders)
@@ -119,7 +114,8 @@ namespace MyScripts.Runtime
                     {
                         if (animalLeaveInvoker.IsPossessing)
                         {
-                            LogManager.Instance.ShowManually("左クリックで取り除く");
+                            LogManager.Instance.ShowManually(
+                                sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnTouchWithAnima));
 
                             if (await WaitForClickOrExitAsync(selfCollider, playerCapsuleCollider, ct) == true)
                             {
@@ -136,8 +132,7 @@ namespace MyScripts.Runtime
 
                                 LogManager.Instance.ShowManually(string.Empty);
                                 LogManager.Instance.ShowAutomatically(
-                                    sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnHumanClick)
-                                );
+                                    sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnRemoveWithAnima));
 
                                 soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
                             }
@@ -148,16 +143,16 @@ namespace MyScripts.Runtime
                         }
                         else
                         {
-                            {
-                                using var sb = ZString.CreateStringBuilder();
-                                sb.AppendFormat("{0}\n(動物でないと取り除けない)", sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnAnimalApproach));
-                                LogManager.Instance.ShowManually(sb);
-                            }
+                            LogManager.Instance.ShowManually(
+                                sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnTouchWithoutAnima));
 
                             while (true)
                             {
                                 if (await WaitForClickOrExitAsync(selfCollider, playerCapsuleCollider, ct) == true)
                                 {
+                                    LogManager.Instance.ShowManually(
+                                        sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnRemoveWithoutAnima));
+
                                     soundPlayer.LetPlay(SSOSSound.Situation.CouldNotRemove);
                                     continue;
                                 }

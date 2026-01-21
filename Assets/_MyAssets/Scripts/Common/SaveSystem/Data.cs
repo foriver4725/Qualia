@@ -11,6 +11,7 @@ internal sealed class Data
 internal sealed class SingleData
 {
     public bool IsValid;
+    public bool HasObtainedAnima;
     public string LastSavedAt;
     public string LastScreenshotSavedPath;
     public bool[] HasFoundSOSSigns;
@@ -36,7 +37,7 @@ internal static class Constants
     internal const string DataKey = "SaveSystem_Data_1";
 
     internal const int SlotCount = 3;
-    internal const int SOSSignCount = 30;
+    internal const int SOSSignCount = 100;
 }
 
 // 外部から読み書きする

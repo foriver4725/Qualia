@@ -1,8 +1,6 @@
-using MyScripts.Runtime.UI.Button;
-
-namespace MyScripts.Runtime.UI.Main.Pause
+namespace MyScripts.Runtime.UI.Main
 {
-    internal sealed class ResumeButtonManager : ASelectableButtonWithFrameManager
+    internal sealed class ResumeButtonManager : Button.ASelectableButtonWithFrameManager
     {
         [SerializeField] private PauseInvoker pauseInvoker;
         [SerializeField] private RectTransform parentRow;
@@ -10,7 +8,7 @@ namespace MyScripts.Runtime.UI.Main.Pause
         private protected sealed override float HoveredScaleCoef => 1.5f;
         private protected sealed override Vector2 AnchoredPositionOffset => parentRow.anchoredPosition;
 
-        private protected sealed override bool IsFrontUI => UIActivationManager.Instance.Front == UIActivationManager.UI.Pause;
+        private protected sealed override bool IsFrontUI => StateManager.Instance.State == State.Pause;
 
         private protected sealed override void OnSubmittedWithSelection()
         {

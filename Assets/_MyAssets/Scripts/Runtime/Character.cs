@@ -12,7 +12,7 @@ namespace MyScripts.Runtime
     }
 
     /// <summary>
-    /// 憑依する動物のクラス<br/>
+    /// 憑依するアニマのクラス<br/>
     /// 憑依・離脱のトリガーもここで扱う<br/>
     /// サウンドは、一旦SOSのものをそのまま流用する<br/>
     /// </summary>
@@ -84,12 +84,22 @@ namespace MyScripts.Runtime
                 {
                     if (!param.PossessInvoker.IsPossessing)
                     {
-                        LogManager.Instance.ShowManually("左クリックで取得");
+                        LogManager.Instance.ShowManually("インタラクトで取得する");
 
                         if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider, ct) == true)
                         {
-                            // 取得する
-                            param.PossessInvoker.PossessCharacter(param.This);
+                            // 取得処理
+                            {
+                                param.PossessInvoker.PossessCharacter(param.This);
+
+                                // セーブデータ更新
+                                if (SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasObtainedAnima == false)
+                                {
+                                    SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasObtainedAnima = true;
+                                }
+
+                                param.PossessInvoker.PossessCharacter_ShowLogIfFirstTime(param.This);
+                            }
 
                             LogManager.Instance.ShowManually(string.Empty);
                             LogManager.Instance.ShowAutomatically(ZString.Format("{0} のアニマを取得した", GetName(param.This.characterType)));

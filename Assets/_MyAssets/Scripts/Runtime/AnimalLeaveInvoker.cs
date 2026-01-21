@@ -32,18 +32,19 @@ namespace MyScripts.Runtime
             SetDisplayImageFillAmount(0.0f);
         }
 
-        // キャラクターを取得する
-        // キャラクターを見えなくする (当たり判定も無効化)
+        // アニマを取得する
+        // アニマを見えなくする (当たり判定も無効化)
+        //! PossessCharacter_ShowLogIfFirstTime() のなるべく直前で呼び出すこと!! (引数は同じにする)
         internal void PossessCharacter(Character character)
         {
             if (possessingCharacter != null)
             {
-                "すでに憑依中のキャラクターがあります。".Print(LogSettings.Error);
+                "すでに憑依中のアニマがあります。".Print(LogSettings.Error);
                 return;
             }
             if (possessingCharacter == character)
             {
-                "すでに憑依中のキャラクターを記録しようとしました。".Print(LogSettings.Error);
+                "すでに憑依中のアニマを記録しようとしました。".Print(LogSettings.Error);
                 return;
             }
 
@@ -54,40 +55,43 @@ namespace MyScripts.Runtime
             UpdateDisplayImage(displayImage, displayImageBg, displayImageBgBack, possessingCharacter, sAnima);
             // TODO: SOSサインのサウンドを使いまわす!
             soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
-
-            // 初めて取得した場合、ログを表示する
-            {
-                CharacterType foundFirstTimeType = CharacterType.None;
-
-                foreach (CharacterType type in hasPossessedForTheFirstTimeTable.Keys)
-                {
-                    if (type == CharacterType.None) continue;
-                    if (type != character.CharacterType) continue;
-                    if (hasPossessedForTheFirstTimeTable[type]) break;
-
-                    foundFirstTimeType = type;
-                    break;
-                }
-
-                hasPossessedForTheFirstTimeTable[foundFirstTimeType] = true;
-
-                LogManager2.Instance.ShowAutomatically(foundFirstTimeType switch
-                {
-                    CharacterType.Land => "陸の移動速度が向上し、慣性ジャンプが可能になった！",
-                    CharacterType.Sea => "水上の移動速度が大幅に向上した！",
-                    CharacterType.Sky => "空中で再度ジャンプすると大ジャンプし、落下時に滑空するようになった！",
-                    _ => ""
-                });
-            }
         }
 
-        // 憑依中のキャラクターから離脱する
-        // キャラクターを見えるようにする (当たり判定も有効化)
+        // 初めて取得した場合、ログを表示する
+        // 初取得かどうかのフラグテーブルから検索し、その値を更新する
+        //! PossessCharacter() のなるべく直後で呼び出すこと!! (引数は同じにする)
+        internal void PossessCharacter_ShowLogIfFirstTime(Character character)
+        {
+            CharacterType foundFirstTimeType = CharacterType.None;
+
+            foreach (CharacterType type in hasPossessedForTheFirstTimeTable.Keys)
+            {
+                if (type == CharacterType.None) continue;
+                if (type != character.CharacterType) continue;
+                if (hasPossessedForTheFirstTimeTable[type]) break;
+
+                foundFirstTimeType = type;
+                break;
+            }
+
+            hasPossessedForTheFirstTimeTable[foundFirstTimeType] = true;
+
+            LogManager2.Instance.ShowAutomatically(foundFirstTimeType switch
+            {
+                CharacterType.Land => "陸の移動速度が向上し、慣性ジャンプが可能になった！",
+                CharacterType.Sea => "水上の移動速度が大幅に向上した！",
+                CharacterType.Sky => "空中で再度ジャンプすると大ジャンプし、落下時に滑空するようになった！",
+                _ => ""
+            });
+        }
+
+        // 憑依中のアニマから離脱する
+        // アニマを見えるようにする (当たり判定も有効化)
         internal void LeaveCharacter(PlayerController pc)
         {
             if (possessingCharacter == null)
             {
-                "憑依中のキャラクターがありません。".Print(LogSettings.Error);
+                "憑依中のアニマがありません。".Print(LogSettings.Error);
                 return;
             }
 
