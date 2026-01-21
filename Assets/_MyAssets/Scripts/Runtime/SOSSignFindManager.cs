@@ -114,7 +114,8 @@ namespace MyScripts.Runtime
                     {
                         if (animalLeaveInvoker.IsPossessing)
                         {
-                            LogManager.Instance.ShowManually("インタラクトで取り除く");
+                            LogManager.Instance.ShowManually(
+                                sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnTouchWithAnima));
 
                             if (await WaitForClickOrExitAsync(selfCollider, playerCapsuleCollider, ct) == true)
                             {
@@ -131,8 +132,7 @@ namespace MyScripts.Runtime
 
                                 LogManager.Instance.ShowManually(string.Empty);
                                 LogManager.Instance.ShowAutomatically(
-                                    sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnHumanClick)
-                                );
+                                    sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnRemoveWithAnima));
 
                                 soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
                             }
@@ -143,16 +143,16 @@ namespace MyScripts.Runtime
                         }
                         else
                         {
-                            {
-                                using var sb = ZString.CreateStringBuilder();
-                                sb.AppendFormat("{0}\n(アニマを取得していないと取り除けない)", sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnAnimalApproach));
-                                LogManager.Instance.ShowManually(sb);
-                            }
+                            LogManager.Instance.ShowManually(
+                                sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnTouchWithoutAnima));
 
                             while (true)
                             {
                                 if (await WaitForClickOrExitAsync(selfCollider, playerCapsuleCollider, ct) == true)
                                 {
+                                    LogManager.Instance.ShowManually(
+                                        sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnRemoveWithoutAnima));
+
                                     soundPlayer.LetPlay(SSOSSound.Situation.CouldNotRemove);
                                     continue;
                                 }
