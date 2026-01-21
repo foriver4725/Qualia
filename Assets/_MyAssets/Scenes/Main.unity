@@ -127,6 +127,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -911.14844
@@ -251,6 +267,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -906.2414
@@ -345,6 +377,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -310.56354
@@ -452,6 +500,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -383.85666
@@ -924,6 +988,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -579.91284
@@ -1178,6 +1258,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -714.2974
@@ -2925,6 +3021,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7245798877572402704, guid: aeb96043e18df644db526e8938a536ab, type: 3}
       propertyPath: m_Name
       value: Anima_Sea_12
@@ -3031,6 +3143,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Anima_Sky_3
       objectReference: {fileID: 0}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3049,6 +3177,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -378.1227
@@ -3711,6 +3855,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -496.7689
@@ -3970,6 +4130,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Anima_Sky_10
       objectReference: {fileID: 0}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4050,6 +4226,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -498.49023
@@ -4209,6 +4401,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -953.22125
@@ -4271,6 +4479,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7245798877572402704, guid: aeb96043e18df644db526e8938a536ab, type: 3}
       propertyPath: m_Name
       value: Anima_Sea_1
@@ -4536,6 +4760,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7245798877572402704, guid: aeb96043e18df644db526e8938a536ab, type: 3}
       propertyPath: m_Name
       value: Anima_Sea_6
@@ -4932,6 +5172,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -748.53394
@@ -5056,6 +5312,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -134.14558
@@ -5118,6 +5390,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -556.51575
@@ -5494,6 +5782,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7245798877572402704, guid: aeb96043e18df644db526e8938a536ab, type: 3}
       propertyPath: m_Name
       value: Anima_Sea_2
@@ -5607,6 +5911,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7245798877572402704, guid: aeb96043e18df644db526e8938a536ab, type: 3}
       propertyPath: m_Name
       value: Anima_Sea_8
@@ -5871,6 +6191,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -479.48615
@@ -6104,6 +6440,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Anima_Sky_11
       objectReference: {fileID: 0}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6306,6 +6658,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -709.83856
@@ -6492,6 +6860,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -389.86252
@@ -6982,6 +7366,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -446.0192
@@ -7622,6 +8022,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7245798877572402704, guid: aeb96043e18df644db526e8938a536ab, type: 3}
       propertyPath: m_Name
       value: Anima_Sea_9
@@ -8102,6 +8518,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Anima_Sky_4
       objectReference: {fileID: 0}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8176,6 +8608,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -582.3846
@@ -8238,6 +8686,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -832.23883
@@ -8424,6 +8888,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -568.43146
@@ -8749,6 +9229,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Anima_Sky_5
       objectReference: {fileID: 0}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9243,6 +9739,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -932.3993
@@ -9305,6 +9817,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -696.0781
@@ -9631,6 +10159,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -578.63214
@@ -9693,6 +10237,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -997.91394
@@ -9999,6 +10559,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1016.12067
@@ -10439,6 +11015,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -365.27362
@@ -10685,6 +11277,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -367.8697
@@ -11161,6 +11769,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -516.8436
@@ -11223,6 +11847,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7245798877572402704, guid: aeb96043e18df644db526e8938a536ab, type: 3}
       propertyPath: m_Name
       value: Anima_Sea_7
@@ -11526,6 +12166,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -688.62714
@@ -11588,6 +12244,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -497.02747
@@ -12988,6 +13660,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7245798877572402704, guid: aeb96043e18df644db526e8938a536ab, type: 3}
       propertyPath: m_Name
       value: Anima_Sea_10
@@ -13174,6 +13862,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -766.2107
@@ -13464,6 +14168,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Anima_Sky_14
       objectReference: {fileID: 0}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13606,6 +14326,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -537.7773
@@ -14342,6 +15078,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -508.72937
@@ -14510,6 +15262,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Anima_Sky_7
       objectReference: {fileID: 0}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15228,6 +15996,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -873.3556
@@ -15290,6 +16074,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -584.74054
@@ -15631,6 +16431,11 @@ Transform:
   - {fileID: 1942723024}
   m_Father: {fileID: 394817482}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &1348024044 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 3580093263347743222, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
+  m_PrefabInstance: {fileID: 2390642557826304883}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1352660794
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15783,6 +16588,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -751.90564
@@ -16253,6 +17074,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Anima_Sky_1
       objectReference: {fileID: 0}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16397,6 +17234,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -591.0992
@@ -16470,6 +17323,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -496.4292
@@ -16576,6 +17445,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Anima_Sky_9
       objectReference: {fileID: 0}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17335,6 +18220,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7245798877572402704, guid: aeb96043e18df644db526e8938a536ab, type: 3}
       propertyPath: m_Name
       value: Anima_Sea_0
@@ -17397,6 +18298,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -864.70087
@@ -17459,6 +18376,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -383.48517
@@ -18046,6 +18979,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -403.32056
@@ -18108,6 +19057,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -427.15045
@@ -18170,6 +19135,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -817.6725
@@ -18276,6 +19257,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Anima_Sky_13
       objectReference: {fileID: 0}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -18294,6 +19291,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -577.80664
@@ -18696,6 +19709,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -814.6981
@@ -18820,6 +19849,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -416.5187
@@ -19216,6 +20261,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Anima_Sky_12
       objectReference: {fileID: 0}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -19278,6 +20339,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Anima_Sky_6
       objectReference: {fileID: 0}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -19644,6 +20721,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Anima_Sky_2
       objectReference: {fileID: 0}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -19662,6 +20755,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -609.3081
@@ -19934,6 +21043,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -731.86646
@@ -20164,6 +21289,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Anima_Sky_0
       objectReference: {fileID: 0}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -20736,6 +21877,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Anima_Sky_8
       objectReference: {fileID: 0}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 8789994246547156162, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -20804,6 +21961,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7245798877572402704, guid: aeb96043e18df644db526e8938a536ab, type: 3}
       propertyPath: m_Name
       value: Anima_Sea_4
@@ -20990,6 +22163,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7245798877572402704, guid: aeb96043e18df644db526e8938a536ab, type: 3}
       propertyPath: m_Name
       value: Anima_Sea_3
@@ -21559,6 +22748,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1050.9767
@@ -21683,6 +22888,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -581.2947
@@ -22029,6 +23250,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -613.9297
@@ -22472,6 +23709,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7245798877572402704, guid: aeb96043e18df644db526e8938a536ab, type: 3}
       propertyPath: m_Name
       value: Anima_Sea_11
@@ -22534,6 +23787,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -611.0998
@@ -22987,6 +24256,17 @@ CharacterController:
   m_CorrespondingSourceObject: {fileID: 3580093262167643481, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
   m_PrefabInstance: {fileID: 2390642557826304883}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1986410594 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8645547747250865677, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
+  m_PrefabInstance: {fileID: 2390642557826304883}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f73c5d63ba00ab34aa9b4199649d22f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1986931802
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23959,6 +25239,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -782.5343
@@ -24021,6 +25317,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -464.98154
@@ -24083,6 +25395,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7245798877572402704, guid: aeb96043e18df644db526e8938a536ab, type: 3}
       propertyPath: m_Name
       value: Anima_Sea_13
@@ -24145,6 +25473,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -435.1356
@@ -24212,6 +25556,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -332.90503
@@ -24274,6 +25634,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -672.6275
@@ -24336,6 +25712,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7245798877572402704, guid: aeb96043e18df644db526e8938a536ab, type: 3}
       propertyPath: m_Name
       value: Anima_Sea_14
@@ -24522,6 +25914,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 414288224996900536, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7245798877572402704, guid: aeb96043e18df644db526e8938a536ab, type: 3}
       propertyPath: m_Name
       value: Anima_Sea_5
@@ -24616,6 +26024,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -551.0336
@@ -24710,6 +26134,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -634.3381
@@ -24834,6 +26274,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 242693633}
     m_Modifications:
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 1986410594}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 195949041}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1348024044}
+    - target: {fileID: 1601663197934341729, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+      propertyPath: animalLeaveInvoker
+      value: 
+      objectReference: {fileID: 817192304}
     - target: {fileID: 7670937749923931984, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -21.182493
