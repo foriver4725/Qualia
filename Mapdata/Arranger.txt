@@ -1,0 +1,11 @@
+# Count settings (common)
+SOS_LAND   = 70
+SOS_SEA    = 20
+SOS_SKY    = 10
+
+ANIMA_LAND = 60
+ANIMA_SEA  = 15
+ANIMA_SKY  = 15
+
+# Random Seed values
+SEEDS = 37, 38, 45
