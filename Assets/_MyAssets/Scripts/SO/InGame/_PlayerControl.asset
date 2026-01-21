@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 6
   sprintSpeedMultiplier: 2
-  moveSpeedMultiplierWhenHasLand: 1.5
+  moveSpeedMultiplierWhenHasLand: 2
   moveSpeedMultiplierWhenHasSea: 3
   moveAcceleration: 10
   nativeHorizontalVelocityAttenuationRateOnGround: 0.5
