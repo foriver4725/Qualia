@@ -5,7 +5,7 @@ namespace MyScripts.Runtime
         [SerializeField] private CharacterType characterType = CharacterType.Land;
         [SerializeField] private GameObject[] landObjects;
         [SerializeField] private GameObject[] seaObjects;
-        [SerializeField] private GameObject[] skyObjects;
+        [SerializeField] private ParticleSystem smokeParticle;
 
         [SerializeField] private new Collider collider;
 
@@ -13,19 +13,20 @@ namespace MyScripts.Runtime
 
         private void Awake()
         {
+            if (characterType is CharacterType.None)
+                return;
+
             // 自身の子供の中からランダムなオブジェクトを選択して、
             // それのみ有効化・他は全部無効化する
-
-            Dictionary<CharacterType, GameObject[]> typeObjectsMap = new()
             {
-                { CharacterType.Land, landObjects },
-                { CharacterType.Sea, seaObjects },
-                { CharacterType.Sky, skyObjects },
-            };
+                Dictionary<CharacterType, GameObject[]> typeObjectsMap = new()
+                {
+                    { CharacterType.Land, landObjects },
+                    { CharacterType.Sea, seaObjects },
+                    { CharacterType.Sky, Array.Empty<GameObject>() },
+                };
 
-            if (characterType is not CharacterType.None)
-            {
-                // 自身のオブジェクト群の中で、このインデックスのオブジェクトのみ、有効化する
+                // 自身のオブジェクト群の中で、このインデックスのオブジェクトのみ有効化する
                 int objectToUseIndex = Random.Range(0, typeObjectsMap[characterType].Length);
 
                 foreach (var (type, objects) in typeObjectsMap)
@@ -39,6 +40,34 @@ namespace MyScripts.Runtime
                         if (isActive)
                             objects[i].transform.SetLocalRotY(Random.Range(0f, 360f));
                     }
+                }
+            }
+
+            // 煙パーティクルの設定
+            {
+                switch (characterType)
+                {
+                    case CharacterType.Land:
+                        {
+                            smokeParticle.gameObject.SetActive(true);
+                            var main = smokeParticle.main;
+                            main.startLifetime = new(3.0f, 4.0f);
+                        }
+                        break;
+                    case CharacterType.Sky:
+                        {
+                            smokeParticle.gameObject.SetActive(false);
+                            var main = smokeParticle.main;
+                            main.startLifetime = new(1.0f, 2.0f);
+                        }
+                        break;
+                    case CharacterType.Sea:
+                        {
+                            smokeParticle.gameObject.SetActive(false);
+                        }
+                        break;
+                    default:
+                        break;
                 }
             }
         }

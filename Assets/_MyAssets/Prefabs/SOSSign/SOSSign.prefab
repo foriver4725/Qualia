@@ -84,8 +84,7 @@ MonoBehaviour:
   - {fileID: 7454471738957714538}
   - {fileID: 6175707836100587163}
   - {fileID: 8507003553326181309}
-  skyObjects:
-  - {fileID: 2230623506145769371}
+  smokeParticle: {fileID: 8201615485269318313}
   collider: {fileID: 869697362111999244}
 --- !u!1001 &912390935216703745
 PrefabInstance:
@@ -282,14 +281,14 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77835fc44dc5064449095458847aee95, type: 3}
---- !u!1 &2230623506145769371 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2582580663848204961, guid: 77835fc44dc5064449095458847aee95, type: 3}
-  m_PrefabInstance: {fileID: 4405627836765998394}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2705280944887108061 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1776944395218820327, guid: 77835fc44dc5064449095458847aee95, type: 3}
+  m_PrefabInstance: {fileID: 4405627836765998394}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &8201615485269318313 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5544514949768845203, guid: 77835fc44dc5064449095458847aee95, type: 3}
   m_PrefabInstance: {fileID: 4405627836765998394}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5014619044828601632
