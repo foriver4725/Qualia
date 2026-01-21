@@ -49,13 +49,6 @@ namespace MyScripts.Runtime
                 {
                     case CharacterType.Land:
                         {
-                            smokeParticle.gameObject.SetActive(true);
-                            var main = smokeParticle.main;
-                            main.startLifetime = new(3.0f, 4.0f);
-                        }
-                        break;
-                    case CharacterType.Sky:
-                        {
                             smokeParticle.gameObject.SetActive(false);
                             var main = smokeParticle.main;
                             main.startLifetime = new(1.0f, 2.0f);
@@ -64,6 +57,13 @@ namespace MyScripts.Runtime
                     case CharacterType.Sea:
                         {
                             smokeParticle.gameObject.SetActive(false);
+                        }
+                        break;
+                    case CharacterType.Sky:
+                        {
+                            smokeParticle.gameObject.SetActive(true);
+                            var main = smokeParticle.main;
+                            main.startLifetime = new(3.0f, 4.0f);
                         }
                         break;
                     default:
