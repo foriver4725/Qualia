@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59b1b9ddb86fccc4a9c4036c7e4134d9, type: 3}
   m_Name: _CutScene
   m_EditorClassIdentifier: 
-  introClip: {fileID: 32900000, guid: e064270acb475874284f5e4093588407, type: 3}
-  animaDescClip: {fileID: 32900000, guid: 27c6d5f989bf3aa48a0b8adecf1b5267, type: 3}
+  introUrl: https://github.com/foriver4725/Qualia/blob/main/CutScenes/Intro.mp4
