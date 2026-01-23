@@ -330,23 +330,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.HDRISky
   active: 1
   rotation:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
   skyIntensityMode:
     m_OverrideState: 1
     m_Value: 0
   exposure:
     m_OverrideState: 1
-    m_Value: 12
+    m_Value: 6
   multiplier:
     m_OverrideState: 0
     m_Value: 1
   upperHemisphereLuxValue:
     m_OverrideState: 1
-    m_Value: 2.1947973
+    m_Value: 1.4768621
   upperHemisphereLuxColor:
     m_OverrideState: 1
-    m_Value: {x: 0.5, y: 0.47405583, z: 0.45022956}
+    m_Value: {x: 0.5, y: 0.49849772, z: 0.4254279}
   desiredLuxValue:
     m_OverrideState: 0
     m_Value: 20000
@@ -361,7 +361,7 @@ MonoBehaviour:
     m_Value: 0
   hdriSky:
     m_OverrideState: 1
-    m_Value: {fileID: 8900000, guid: 8e40dab2d24099f419f988614b747cf7, type: 2}
+    m_Value: {fileID: 8900000, guid: a7ff318ab11ec2341b3b9c30b2706d25, type: 2}
   distortionMode:
     m_OverrideState: 0
     m_Value: 0

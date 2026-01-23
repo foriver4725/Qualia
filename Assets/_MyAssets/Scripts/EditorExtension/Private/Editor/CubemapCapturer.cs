@@ -1,4 +1,3 @@
-using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -59,27 +58,66 @@ namespace MyScripts.EditorExtension.Private
                 // カメラ → Cubemap RT にレンダリング
                 renderCamera.RenderToCubemap(cubemapRT);
 
-                // Cubemap アセットを作成
-                var cubemap = new Cubemap(cubemapSize, TextureFormat.RGBA32, true);
-                cubemap.Apply(updateMipmaps: true, makeNoLongerReadable: false);
+                // 既存アセットを探し、存在するならばそれをロードする
+                // 既存アセットが無いならば、新規作成する
+                var existingCubemap = AssetDatabase.LoadAssetAtPath<Cubemap>(savePath);
+                Cubemap cubemap;
+                if (existingCubemap != null)
+                {
+                    cubemap = existingCubemap;
+                    Undo.RegisterCompleteObjectUndo(cubemap, "Update Cubemap Asset");
+                }
+                else
+                {
+                    cubemap = new Cubemap(cubemapSize, TextureFormat.RGBA32, true);
+                    AssetDatabase.CreateAsset(cubemap, savePath);
+                }
 
                 // Cubemap RT -> Cubemap アセット にコピー
                 // 各面それぞれコピーする
+                // Graphics.CopyTexture だと上手くいかなかった
+                RenderTexture previousRT = RenderTexture.active;
                 for (int face = 0; face < 6; face++)
                 {
+                    // Cubemap の指定 face を 2D RT にコピー
+                    var tempRT = RenderTexture.GetTemporary(
+                        cubemapSize,
+                        cubemapSize,
+                        0,
+                        RenderTextureFormat.ARGB32,
+                        RenderTextureReadWrite.Linear
+                    );
+
                     Graphics.CopyTexture(
                         cubemapRT, face, 0,
-                        cubemap, face, 0
+                        tempRT, 0, 0
                     );
+
+                    RenderTexture.active = tempRT;
+
+                    var tex = new Texture2D(
+                        cubemapSize,
+                        cubemapSize,
+                        TextureFormat.RGBA32,
+                        false,
+                        true // linear
+                    );
+
+                    tex.ReadPixels(new Rect(0, 0, cubemapSize, cubemapSize), 0, 0);
+                    tex.Apply();
+
+                    cubemap.SetPixels(tex.GetPixels(), (CubemapFace)face);
+
+                    DestroyImmediate(tex);
+                    RenderTexture.ReleaseTemporary(tempRT);
                 }
+                RenderTexture.active = previousRT;
 
-                // 保存先のディレクトリが無いなら、新規作成
-                string saveDirectory = Path.GetDirectoryName(savePath);
-                if (!Directory.Exists(saveDirectory))
-                    Directory.CreateDirectory(saveDirectory);
+                // 変更を確定する
+                cubemap.Apply(updateMipmaps: true, makeNoLongerReadable: false);
 
-                // Cubemap アセットを保存して、リロードする
-                AssetDatabase.CreateAsset(cubemap, savePath);
+                // Dirty フラグを立てて保存
+                EditorUtility.SetDirty(cubemap);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
 
