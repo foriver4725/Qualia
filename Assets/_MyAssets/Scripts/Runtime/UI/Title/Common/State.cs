@@ -1,4 +1,4 @@
-namespace MyScripts.Runtime.UI.Title;
+﻿namespace MyScripts.Runtime.UI.Title;
 
 /// <summary>
 /// 最前面にあるUIを表現

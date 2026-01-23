@@ -1,4 +1,4 @@
-using MyScripts.Common.Button;
+﻿using MyScripts.Common.Button;
 
 namespace MyScripts.Runtime.UI.Button
 {

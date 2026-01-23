@@ -1,4 +1,4 @@
-namespace MyScripts.Runtime.UI.Button
+﻿namespace MyScripts.Runtime.UI.Button
 {
     internal sealed class SelectFrameManager : ASingletonMonoBehaviour<SelectFrameManager>
     {

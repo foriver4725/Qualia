@@ -1,4 +1,4 @@
-namespace MyScripts.Common.SaveSystem;
+﻿namespace MyScripts.Common.SaveSystem;
 
 [Serializable]
 internal sealed class Data

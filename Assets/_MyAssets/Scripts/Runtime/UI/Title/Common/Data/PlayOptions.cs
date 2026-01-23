@@ -1,4 +1,4 @@
-namespace MyScripts.Runtime.UI.Title;
+﻿namespace MyScripts.Runtime.UI.Title;
 
 // プレイ設定を記録しておく
 // UIへのインタラクトなどがあったら、即座に更新するべき

@@ -1,4 +1,4 @@
-using MyScripts.Runtime.Log;
+﻿using MyScripts.Runtime.Log;
 
 namespace MyScripts.Runtime
 {

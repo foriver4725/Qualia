@@ -1,4 +1,4 @@
-namespace MyScripts.Common.SaveSystem;
+﻿namespace MyScripts.Common.SaveSystem;
 
 internal static class SaveLoadInvoker
 {

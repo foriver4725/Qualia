@@ -1,4 +1,4 @@
-using MyScripts.Common.SaveSystem;
+﻿using MyScripts.Common.SaveSystem;
 
 namespace MyScripts.Runtime.UI.Title
 {

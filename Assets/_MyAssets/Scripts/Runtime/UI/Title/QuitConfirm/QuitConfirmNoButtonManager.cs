@@ -1,4 +1,4 @@
-namespace MyScripts.Runtime.UI.Title.GameQuit
+﻿namespace MyScripts.Runtime.UI.Title.GameQuit
 {
     internal sealed class QuitConfirmNoButtonManager : Button.ASelectableButtonWithFrameManager
     {

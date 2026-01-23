@@ -1,4 +1,4 @@
-namespace MyScripts.Runtime.UI.Title
+﻿namespace MyScripts.Runtime.UI.Title
 {
     internal abstract class AViewConstructor : MonoBehaviour
     {

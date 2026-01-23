@@ -1,4 +1,4 @@
-namespace MyScripts.Runtime
+﻿namespace MyScripts.Runtime
 {
     /// <summary>
     /// Awake()時にInputManagerのEnabledフラグをリセットする

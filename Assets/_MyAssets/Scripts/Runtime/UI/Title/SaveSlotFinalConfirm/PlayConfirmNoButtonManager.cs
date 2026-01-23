@@ -1,4 +1,4 @@
-namespace MyScripts.Runtime.UI.Title
+﻿namespace MyScripts.Runtime.UI.Title
 {
     internal sealed class PlayConfirmNoButtonManager : Button.ASelectableButtonWithFrameManager
     {

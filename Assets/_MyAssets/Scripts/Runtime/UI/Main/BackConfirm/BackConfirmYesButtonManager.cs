@@ -1,4 +1,4 @@
-namespace MyScripts.Runtime.UI.Main
+﻿namespace MyScripts.Runtime.UI.Main
 {
     /// <summary>
     /// 確認UIの決定ボタンなので、ある種マネージャーみたいな役割も担う
