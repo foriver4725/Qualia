@@ -25,6 +25,11 @@ namespace MyScripts.EditorExtension.Private
             private void OnGUI()
             {
                 EditorGUILayout.LabelField("Capture Settings", EditorStyles.boldLabel);
+                // TODO: dirty フラグが上手く立てられていないので、既存アセットを消してから実行するように書いておく
+                EditorGUILayout.HelpBox(
+                    "Dirty flag is not properly set. Please delete existing asset at the save path before capturing a new cubemap.",
+                    MessageType.Warning
+                );
 
                 renderCamera = EditorGUILayout.ObjectField("Render Camera", renderCamera, typeof(Camera), true) as Camera;
                 cubemapSize = EditorGUILayout.IntField("Cubemap Size", cubemapSize);
@@ -47,6 +52,7 @@ namespace MyScripts.EditorExtension.Private
             }
 
             // 値の不正チェックは済んでいる
+            // TODO: dirtyフラグを立てても上手くいかなかった
             private static void Capture(Camera renderCamera, int cubemapSize, string savePath)
             {
                 // Cubemap RT
