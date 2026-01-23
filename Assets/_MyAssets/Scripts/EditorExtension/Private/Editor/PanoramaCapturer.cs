@@ -96,6 +96,9 @@ namespace MyScripts.EditorExtension.Private
 
                 // PNGで保存
                 var bytes = equirectangularTexture.EncodeToPNG();
+                string directory = Path.GetDirectoryName(savePath);
+                if (!Directory.Exists(directory))
+                    Directory.CreateDirectory(directory);
                 File.WriteAllBytes(savePath, bytes);
 
                 // リソースを破棄
