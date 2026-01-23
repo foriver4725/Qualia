@@ -84,7 +84,7 @@ namespace MyScripts.Runtime
 
             LogManager2.Instance.ShowAutomatically(foundFirstTimeType switch
             {
-                CharacterType.Land => "陸の移動速度が向上し、慣性ジャンプが可能になった！",
+                CharacterType.Land => "陸の移動速度が向上し、一部のSOSの位置が可視化された！",
                 CharacterType.Sea => "水上の移動速度が大幅に向上した！",
                 CharacterType.Sky => "空中で再度ジャンプすると大ジャンプし、落下時に滑空するようになった！",
                 _ => ""

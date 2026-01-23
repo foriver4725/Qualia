@@ -50,7 +50,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2362484361427455322, guid: bf38a34b3e762fd4190f4320f1b2d4a3, type: 3}
       propertyPath: m_Name
-      value: Border
+      value: BorderBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 2362484361427455322, guid: bf38a34b3e762fd4190f4320f1b2d4a3, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650067007674122715, guid: bf38a34b3e762fd4190f4320f1b2d4a3, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2739493368177384838, guid: bf38a34b3e762fd4190f4320f1b2d4a3, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177882792124003408, guid: bf38a34b3e762fd4190f4320f1b2d4a3, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 3482539509372656734, guid: bf38a34b3e762fd4190f4320f1b2d4a3, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7215367499717837459, guid: bf38a34b3e762fd4190f4320f1b2d4a3, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7544240825503717429, guid: bf38a34b3e762fd4190f4320f1b2d4a3, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265230004883343835, guid: bf38a34b3e762fd4190f4320f1b2d4a3, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

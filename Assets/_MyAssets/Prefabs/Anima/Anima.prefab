@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2088665479805891556}
   - component: {fileID: 7960683513616459696}
   - component: {fileID: 1808345484191147063}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,6 +62,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -83,9 +85,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &4892144023437876395
 GameObject:
@@ -97,7 +101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6817149522708907314}
   - component: {fileID: 2510057862384921603}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Anima
   m_TagString: Untagged
   m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
@@ -136,7 +140,6 @@ MonoBehaviour:
   characterType: 0
   container: {fileID: 1808345484191147063}
   icon: {fileID: 2672382561259513305}
-  possessableLimitSOSSignLeftRatio: 50
   transform: {fileID: 6817149522708907314}
   collider: {fileID: 2865232570204196652}
   sAnima: {fileID: 11400000, guid: 5be6b48a0ff56f14dabe61f08307a952, type: 2}
@@ -157,7 +160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2753078301589349245}
   - component: {fileID: 2865232570204196652}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +215,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3752220787312659038}
   - component: {fileID: 2672382561259513305}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,6 +239,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2672382561259513305
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -254,6 +258,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -275,9 +281,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 5186ca43d57d2544fa6b88a1e15ef845, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -287,5 +295,4 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
