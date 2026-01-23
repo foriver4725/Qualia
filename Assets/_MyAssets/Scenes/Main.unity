@@ -7885,6 +7885,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e164df6ea2cbe294ca3b1bf73f44c01d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &770036683 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3580093263347743227, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
+  m_PrefabInstance: {fileID: 2390642557826304883}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &777322803
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19919,7 +19924,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3580093263347743226, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1458428905}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3580093263347743227, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2390642557826304892}
   m_SourcePrefab: {fileID: 100100000, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
 --- !u!4 &2390642557826304884 stripped
 Transform:
@@ -19942,6 +19950,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!169 &2390642557826304892
+AudioLowPassFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770036683}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_LowpassResonanceQ: 1.1
+  lowpassLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.13597089
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &2744601768304072785
 PrefabInstance:
   m_ObjectHideFlags: 0
