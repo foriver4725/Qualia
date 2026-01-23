@@ -69,7 +69,7 @@ namespace MyScripts.EditorExtension.Private
                 }
                 else
                 {
-                    cubemap = new Cubemap(cubemapSize, TextureFormat.RGBA32, false);
+                    cubemap = new Cubemap(cubemapSize, TextureFormat.RGBA32, true);
                     AssetDatabase.CreateAsset(cubemap, savePath);
                 }
 
@@ -114,7 +114,7 @@ namespace MyScripts.EditorExtension.Private
                 RenderTexture.active = previousRT;
 
                 // 変更を確定する
-                cubemap.Apply(updateMipmaps: false, makeNoLongerReadable: false);
+                cubemap.Apply(updateMipmaps: true, makeNoLongerReadable: false);
 
                 // Dirty フラグを立てて保存
                 EditorUtility.SetDirty(cubemap);
