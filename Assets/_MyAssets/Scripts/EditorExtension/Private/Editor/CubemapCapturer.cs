@@ -1,4 +1,3 @@
-using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -25,11 +24,6 @@ namespace MyScripts.EditorExtension.Private
             private void OnGUI()
             {
                 EditorGUILayout.LabelField("Capture Settings", EditorStyles.boldLabel);
-                // TODO: dirty フラグが上手く立てられていないので、既存アセットを消してから実行するように書いておく
-                EditorGUILayout.HelpBox(
-                    "Dirty flag is not properly set. Please delete existing asset at the save path before capturing a new cubemap.",
-                    MessageType.Warning
-                );
 
                 renderCamera = EditorGUILayout.ObjectField("Render Camera", renderCamera, typeof(Camera), true) as Camera;
                 cubemapSize = EditorGUILayout.IntField("Cubemap Size", cubemapSize);
@@ -52,7 +46,6 @@ namespace MyScripts.EditorExtension.Private
             }
 
             // 値の不正チェックは済んでいる
-            // TODO: dirtyフラグを立てても上手くいかなかった
             private static void Capture(Camera renderCamera, int cubemapSize, string savePath)
             {
                 // Cubemap RT
@@ -65,27 +58,45 @@ namespace MyScripts.EditorExtension.Private
                 // カメラ → Cubemap RT にレンダリング
                 renderCamera.RenderToCubemap(cubemapRT);
 
-                // Cubemap アセットを作成
-                var cubemap = new Cubemap(cubemapSize, TextureFormat.RGBA32, true);
-                cubemap.Apply(updateMipmaps: true, makeNoLongerReadable: false);
+                // 既存アセットを探し、存在するならばそれをロードする
+                // 既存アセットが無いならば、新規作成する
+                var existingCubemap = AssetDatabase.LoadAssetAtPath<Cubemap>(savePath);
+                Cubemap cubemap;
+                if (existingCubemap != null)
+                {
+                    cubemap = existingCubemap;
+                    Undo.RegisterCompleteObjectUndo(cubemap, "Update Cubemap Asset");
+                }
+                else
+                {
+                    cubemap = new Cubemap(cubemapSize, TextureFormat.RGBA32, false);
+                    AssetDatabase.CreateAsset(cubemap, savePath);
+                }
 
                 // Cubemap RT -> Cubemap アセット にコピー
                 // 各面それぞれコピーする
+                // Graphics.CopyTexture だと上手くいかなかった
+                RenderTexture previousRT = RenderTexture.active;
                 for (int face = 0; face < 6; face++)
                 {
-                    Graphics.CopyTexture(
-                        cubemapRT, face, 0,
-                        cubemap, face, 0
-                    );
+                    Graphics.SetRenderTarget(cubemapRT, 0, (CubemapFace)face);
+                    RenderTexture.active = cubemapRT;
+
+                    var tex = new Texture2D(cubemapSize, cubemapSize, TextureFormat.RGBA32, false, true);
+                    tex.ReadPixels(new Rect(0, 0, cubemapSize, cubemapSize), 0, 0);
+                    tex.Apply();
+
+                    cubemap.SetPixels(tex.GetPixels(), (CubemapFace)face);
+
+                    DestroyImmediate(tex);
                 }
+                RenderTexture.active = previousRT;
 
-                // 保存先のディレクトリが無いなら、新規作成
-                string saveDirectory = Path.GetDirectoryName(savePath);
-                if (!Directory.Exists(saveDirectory))
-                    Directory.CreateDirectory(saveDirectory);
+                // 変更を確定する
+                cubemap.Apply(updateMipmaps: false, makeNoLongerReadable: false);
 
-                // Cubemap アセットを保存して、リロードする
-                AssetDatabase.CreateAsset(cubemap, savePath);
+                // Dirty フラグを立てて保存
+                EditorUtility.SetDirty(cubemap);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
 
