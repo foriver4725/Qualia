@@ -61,6 +61,7 @@ namespace MyScripts.EditorExtension.Private
 
                 // Cubemap アセットを作成
                 var cubemap = new Cubemap(cubemapSize, TextureFormat.RGBA32, true);
+                cubemap.Apply(updateMipmaps: true, makeNoLongerReadable: false);
 
                 // Cubemap RT -> Cubemap アセット にコピー
                 // 各面それぞれコピーする
