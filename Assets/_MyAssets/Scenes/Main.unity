@@ -17991,6 +17991,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: MyScripts::MyScripts.Runtime.RainMaker
   sun: {fileID: 2744601768304072786}
   rainRenderer: {fileID: 142288422}
+  rainAudioLowPassFilter: {fileID: 2390642557826304892}
   sunIntensityMultiplierDuringRain: 0.25
   rainIntervalSeconds: {x: 90, y: 300}
   rainDurationSeconds: {x: 20, y: 45}

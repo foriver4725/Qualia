@@ -4,6 +4,7 @@ namespace MyScripts.Runtime
     {
         [SerializeField] private Light sun;
         [SerializeField] private MeshRenderer rainRenderer;
+        [SerializeField] private AudioLowPassFilter rainAudioLowPassFilter;
         [SerializeField, Range(0.0f, 1.0f)] private float sunIntensityMultiplierDuringRain = 0.5f;
         [SerializeField, MinMaxRange(0.0f, 3600.0f)] private Vector2 rainIntervalSeconds = new Vector2(90.0f, 300.0f);
         [SerializeField, MinMaxRange(0.0f, 3600.0f)] private Vector2 rainDurationSeconds = new Vector2(20.0f, 45.0f);
@@ -15,6 +16,7 @@ namespace MyScripts.Runtime
         {
             initialSunIntensity = sun.intensity;
             rainRenderer.enabled = false;
+            rainAudioLowPassFilter.enabled = false;
 
             TriggerRainCyclicallyAsync(destroyCancellationToken).Forget();
         }
@@ -32,11 +34,13 @@ namespace MyScripts.Runtime
 
                 sun.intensity = initialSunIntensity * sunIntensityMultiplierDuringRain;
                 rainRenderer.enabled = true;
+                rainAudioLowPassFilter.enabled = true;
 
                 await durationSeconds.SecAwait(ct: ct);
 
                 sun.intensity = initialSunIntensity;
                 rainRenderer.enabled = false;
+                rainAudioLowPassFilter.enabled = false;
             }
         }
     }
