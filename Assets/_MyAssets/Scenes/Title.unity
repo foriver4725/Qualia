@@ -2488,6 +2488,52 @@ Transform:
   - {fileID: 1641887409}
   m_Father: {fileID: 1868473676}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &997877250
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 997877251}
+  - component: {fileID: 997877252}
+  m_Layer: 0
+  m_Name: TitleCameraRotatorForPanorama
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &997877251
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997877250}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2138573431}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &997877252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997877250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b1c9ec47554a1e47a3df485809e1aeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: MyScripts::MyScripts.Runtime.TitleCameraRotatorForPanorama
+  targetCamera: {fileID: 1726104295}
+  rotationSpeed: 1
 --- !u!1 &1000745767
 GameObject:
   m_ObjectHideFlags: 0
@@ -4378,6 +4424,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1158902083}
   m_SourcePrefab: {fileID: 100100000, guid: a68a503cba3e95843ac0c29ef1ad84c8, type: 3}
+--- !u!20 &1726104295 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 6437839709001834909, guid: a68a503cba3e95843ac0c29ef1ad84c8, type: 3}
+  m_PrefabInstance: {fileID: 1726104294}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1757423830 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 807467596171801816, guid: 576c53d7afdc23b45b5565207d562caa, type: 3}
@@ -5495,6 +5546,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2720853608967336444, guid: 8b6c269a2ec98dc45937ad69eab4df54, type: 3}
       insertIndex: -1
       addedObject: {fileID: 238993188}
+    - targetCorrespondingSourceObject: {fileID: 2720853608967336444, guid: 8b6c269a2ec98dc45937ad69eab4df54, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 997877251}
     - targetCorrespondingSourceObject: {fileID: 2720853608967336444, guid: 8b6c269a2ec98dc45937ad69eab4df54, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1868473676}
