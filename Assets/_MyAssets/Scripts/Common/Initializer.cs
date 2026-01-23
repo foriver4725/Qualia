@@ -7,7 +7,7 @@ internal static class Initializer
     {
         Screen.SetResolution(1920, 1080, true);
         QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 30;
+        Application.targetFrameRate = 60;
 
         ConnectSteamAsync().Forget();
     }
