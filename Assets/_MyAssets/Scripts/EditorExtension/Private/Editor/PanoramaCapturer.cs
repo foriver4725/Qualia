@@ -105,6 +105,8 @@ namespace MyScripts.EditorExtension.Private
                 DestroyImmediate(rtBlitMaterial);
                 DestroyImmediate(equirectangularTexture);
                 cubemapRT.Release();
+                // 「アクティブになっていないけどいいの?」と警告が出る
+                // 一旦このままにしておく
                 equirectangularRT.Release();
 
                 // アセットをリロード
@@ -116,11 +118,18 @@ namespace MyScripts.EditorExtension.Private
                 var importer = AssetImporter.GetAtPath(savePath) as TextureImporter;
                 if (importer != null)
                 {
+                    importer.textureType = TextureImporterType.Sprite;
+                    importer.spriteImportMode = SpriteImportMode.Single;
+
                     importer.sRGBTexture = true;
+                    importer.alphaIsTransparency = false;
+                    importer.mipmapEnabled = false;
+
                     importer.wrapMode = TextureWrapMode.Repeat;
                     importer.filterMode = FilterMode.Bilinear;
-                    importer.mipmapEnabled = false;
+
                     importer.textureCompression = TextureImporterCompression.Uncompressed;
+
                     importer.SaveAndReimport();
                 }
 
