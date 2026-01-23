@@ -79,16 +79,37 @@ namespace MyScripts.EditorExtension.Private
                 RenderTexture previousRT = RenderTexture.active;
                 for (int face = 0; face < 6; face++)
                 {
-                    Graphics.SetRenderTarget(cubemapRT, 0, (CubemapFace)face);
-                    RenderTexture.active = cubemapRT;
+                    // Cubemap の指定 face を 2D RT にコピー
+                    var tempRT = RenderTexture.GetTemporary(
+                        cubemapSize,
+                        cubemapSize,
+                        0,
+                        RenderTextureFormat.ARGB32,
+                        RenderTextureReadWrite.Linear
+                    );
 
-                    var tex = new Texture2D(cubemapSize, cubemapSize, TextureFormat.RGBA32, false, true);
+                    Graphics.CopyTexture(
+                        cubemapRT, face, 0,
+                        tempRT, 0, 0
+                    );
+
+                    RenderTexture.active = tempRT;
+
+                    var tex = new Texture2D(
+                        cubemapSize,
+                        cubemapSize,
+                        TextureFormat.RGBA32,
+                        false,
+                        true // linear
+                    );
+
                     tex.ReadPixels(new Rect(0, 0, cubemapSize, cubemapSize), 0, 0);
                     tex.Apply();
 
                     cubemap.SetPixels(tex.GetPixels(), (CubemapFace)face);
 
                     DestroyImmediate(tex);
+                    RenderTexture.ReleaseTemporary(tempRT);
                 }
                 RenderTexture.active = previousRT;
 
