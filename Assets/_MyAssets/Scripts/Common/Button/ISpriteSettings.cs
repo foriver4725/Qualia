@@ -1,4 +1,4 @@
-namespace MyScripts.Common.Button;
+﻿namespace MyScripts.Common.Button;
 
 internal interface ISpriteSettings
 {

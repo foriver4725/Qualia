@@ -1,4 +1,4 @@
-using MyScripts.Runtime.UI.Main;
+﻿using MyScripts.Runtime.UI.Main;
 
 namespace MyScripts.Runtime
 {

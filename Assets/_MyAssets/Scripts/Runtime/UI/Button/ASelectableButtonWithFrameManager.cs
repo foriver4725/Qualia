@@ -1,4 +1,4 @@
-namespace MyScripts.Runtime.UI.Button
+﻿namespace MyScripts.Runtime.UI.Button
 {
     /// <summary>
     /// OnJustBeforeAwake(), Update() を使用<br/>

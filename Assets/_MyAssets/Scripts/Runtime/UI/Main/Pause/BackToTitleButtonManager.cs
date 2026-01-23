@@ -1,4 +1,4 @@
-namespace MyScripts.Runtime.UI.Main
+﻿namespace MyScripts.Runtime.UI.Main
 {
     internal sealed class BackToTitleButtonManager : Button.ASelectableButtonWithFrameManager
     {
