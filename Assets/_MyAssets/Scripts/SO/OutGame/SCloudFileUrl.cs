@@ -4,7 +4,7 @@
     internal sealed class SCloudFileUrl : ScriptableObject
     {
         [Header("画像")]
-        [SerializeField] private string image_empty;
+        [SerializeField] private string image_credit;
         [Space(10)]
 
         [Header("動画")]
@@ -21,11 +21,14 @@
 
         internal enum FileType : byte
         {
+            Image_Credit, // タイトルクレジット画像
+
             Movie_Intro, // 導入 & チュートリアル
         }
 
         internal string Get(FileType type) => type switch
         {
+            FileType.Image_Credit => image_credit,
             FileType.Movie_Intro => movie_intro,
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
