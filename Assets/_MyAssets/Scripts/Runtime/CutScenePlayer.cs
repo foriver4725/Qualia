@@ -8,10 +8,11 @@ namespace MyScripts.Runtime
         [SerializeField] private Image bg;
         [SerializeField] private RawImage rawImage;
         [SerializeField] private VideoPlayer videoPlayer;
+        [SerializeField] private SCloudFileUrl cloudFileUrl;
         [SerializeField] private SGameConfig gameConfig;
 
         private bool isPlaying = false;
-        private SCutScene.CutSceneType currentPlayingType;
+        private SCloudFileUrl.FileType currentPlayingType; // 動画のみが入る想定
 
         // Awake で初期化
         private float bgAlphaMax;
@@ -40,7 +41,7 @@ namespace MyScripts.Runtime
             videoPlayer.loopPointReached -= OnLoopPointReached;
         }
 
-        public async UniTask PlayAsync(SCutScene.CutSceneType type, Ct ct)
+        public async UniTask PlayAsync(SCloudFileUrl.FileType type, Ct ct)
         {
             if (isPlaying)
             {
@@ -49,14 +50,14 @@ namespace MyScripts.Runtime
             }
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
-            if (!gameConfig.DoesPlayIntroCutScene && type == SCutScene.CutSceneType.Intro)
+            if (!gameConfig.DoesPlayIntroCutScene && type == SCloudFileUrl.FileType.Movie_Intro)
             {
                 "イントロカットシーンの再生は設定で無効化されています。".Print(LogSettings.Warning);
                 return;
             }
 #endif
 
-            string url = InGameSOHolder.Instance.CutScene.Get(type);
+            string url = cloudFileUrl.Get(type);
             string saveName = ZString.Format("CutScene_{0}", type);
             (bool success, string savePath) = await FileDownloader.DownloadAsync(
                 url, saveName, FileDownloader.Extension.MP4, ct);

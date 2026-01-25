@@ -22,7 +22,7 @@ namespace MyScripts.Runtime
             // ポーズでなくなるまで待機
             await UniTask.WaitUntil(() => pauseInvoker.IsPaused == false, cancellationToken: ct);
 
-            await CutScenePlayer.Instance.PlayAsync(SCutScene.CutSceneType.Intro, ct);
+            await CutScenePlayer.Instance.PlayAsync(SCloudFileUrl.FileType.Movie_Intro, ct);
         }
     }
 }
