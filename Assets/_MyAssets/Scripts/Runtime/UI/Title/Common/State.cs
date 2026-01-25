@@ -6,10 +6,13 @@
 internal enum State : byte
 {
     // デフォルト
-    Default, // -> Quit_Confirm, SaveSlot_Select
+    Default, // -> Quit_Confirm, Credit, SaveSlot_Select
 
     // ゲーム終了 確認
     Quit_Confirm, // -> Default, [Quit]
+
+    // クレジット
+    Credit, // -> Default
 
     // セーブスロット
     SaveSlot_Select, // -> Default, SaveSlot_Select_PlayOption

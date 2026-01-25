@@ -1,9 +1,12 @@
-﻿namespace MyScripts.Runtime.UI.Title
+﻿using MyScripts.Runtime.UI.Main;
+
+namespace MyScripts.Runtime.UI.Title
 {
     internal sealed class StateManager : ASingletonMonoBehaviour<StateManager>
     {
         [SerializeField] private Canvas defaultCanvas;
         [SerializeField] private Canvas quitConfirmCanvas;
+        [SerializeField] private Canvas creditCanvas;
         [SerializeField] private Canvas saveSlotSelectCanvas;
         [SerializeField] private Canvas saveSlotSelectPlayOptionCanvas;
         [SerializeField] private Canvas saveSlotFinalConfirmCanvas;
@@ -11,6 +14,7 @@
 
         [SerializeField] private AViewConstructor defaultCtor;
         [SerializeField] private AViewConstructor quitConfirmCtor;
+        [SerializeField] private AViewConstructor creditCtor;
         [SerializeField] private AViewConstructor saveSlotSelectCtor;
         [SerializeField] private AViewConstructor saveSlotSelectPlayOptionCtor;
         [SerializeField] private AViewConstructor saveSlotFinalConfirmCtor;
@@ -28,6 +32,7 @@
             {
                 { State.Default, defaultCanvas },
                 { State.Quit_Confirm, quitConfirmCanvas },
+                { State.Credit, creditCanvas },
                 { State.SaveSlot_Select, saveSlotSelectCanvas },
                 { State.SaveSlot_Select_PlayOption, saveSlotSelectPlayOptionCanvas },
                 { State.SaveSlot_FinalConfirm, saveSlotFinalConfirmCanvas },
@@ -36,6 +41,7 @@
             stateCtorMap = new()
             {
                 { State.Default, defaultCtor },
+                { State.Credit, creditCtor },
                 { State.Quit_Confirm, quitConfirmCtor },
                 { State.SaveSlot_Select, saveSlotSelectCtor },
                 { State.SaveSlot_Select_PlayOption, saveSlotSelectPlayOptionCtor },
@@ -71,8 +77,9 @@
 
         private static bool IsAvailableTransition(State from, State to) => (from, to) switch
         {
-            (State.Default, State.Quit_Confirm or State.SaveSlot_Select) => true,
+            (State.Default, State.Quit_Confirm or State.Credit or State.SaveSlot_Select) => true,
             (State.Quit_Confirm, State.Default) => true,
+            (State.Credit, State.Default) => true,
             (State.SaveSlot_Select, State.Default or State.SaveSlot_Select_PlayOption) => true,
             (State.SaveSlot_Select_PlayOption, State.SaveSlot_Select or State.SaveSlot_FinalConfirm) => true,
             (State.SaveSlot_FinalConfirm, State.SaveSlot_Select_PlayOption or State.HidingAll) => true,

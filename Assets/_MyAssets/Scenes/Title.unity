@@ -620,12 +620,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultCanvas: {fileID: 60662157}
   quitConfirmCanvas: {fileID: 1477480249}
+  creditCanvas: {fileID: 1785200736}
   saveSlotSelectCanvas: {fileID: 1267954206}
   saveSlotSelectPlayOptionCanvas: {fileID: 915176186}
   saveSlotFinalConfirmCanvas: {fileID: 742698669}
   hidingAllCanvas: {fileID: 1283791364}
   defaultCtor: {fileID: 365855340}
   quitConfirmCtor: {fileID: 1763457785}
+  creditCtor: {fileID: 714234090}
   saveSlotSelectCtor: {fileID: 1430090836}
   saveSlotSelectPlayOptionCtor: {fileID: 1606980513}
   saveSlotFinalConfirmCtor: {fileID: 32561214}
@@ -861,6 +863,7 @@ MonoBehaviour:
   defaultSelectedButton: {fileID: 1813684951}
   allButtons:
   - {fileID: 1813684951}
+  - {fileID: 493377465}
   - {fileID: 1641887410}
 --- !u!114 &376673108 stripped
 MonoBehaviour:
@@ -1119,6 +1122,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &493377463
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 493377464}
+  - component: {fileID: 493377465}
+  m_Layer: 0
+  m_Name: CreditButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &493377464
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 493377463}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 964622005}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &493377465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 493377463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94b72a5fcb6b9df4b978d128bfd9c1a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: MyScripts::MyScripts.Runtime.UI.Title.CreditButtonManager
+  eventTrigger: {fileID: 1628764763}
+  image: {fileID: 1628764764}
+  sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  spriteSettingsType: 0
+  soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
+  soundPlayer: {fileID: 1707663799}
+  left: {fileID: 1813684951}
+  right: {fileID: 0}
+  down: {fileID: 1641887410}
+  up: {fileID: 1813684951}
 --- !u!1001 &496388522
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1548,6 +1605,107 @@ MonoBehaviour:
   down: {fileID: 817813686}
   up: {fileID: 0}
   slotIndex: 2
+--- !u!1 &714234088
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 714234089}
+  - component: {fileID: 714234090}
+  m_Layer: 0
+  m_Name: Ctor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &714234089
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714234088}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1088500973}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &714234090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714234088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bd2f716490ae6646a3797c310e750aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: MyScripts::MyScripts.Runtime.UI.Title.CreditCtor
+  defaultSelectedButton: {fileID: 739740015}
+  allButtons:
+  - {fileID: 739740015}
+--- !u!1 &739740012
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 739740014}
+  - component: {fileID: 739740015}
+  m_Layer: 0
+  m_Name: BackButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &739740014
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 739740012}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1088500973}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &739740015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 739740012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 127a8c9b9437f2e4cb40c18e1d1067bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: MyScripts::MyScripts.Runtime.UI.Title.CreditBackButtonManager
+  eventTrigger: {fileID: 1669908707}
+  image: {fileID: 1669908708}
+  sButtonSpriteSettings: {fileID: 11400000, guid: 2cb927efa98fc894aba6b31c3f2b6889, type: 2}
+  spriteSettingsType: 0
+  soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
+  soundPlayer: {fileID: 1707663799}
+  left: {fileID: 0}
+  right: {fileID: 0}
+  down: {fileID: 0}
+  up: {fileID: 0}
 --- !u!1 &742698665
 GameObject:
   m_ObjectHideFlags: 0
@@ -2486,6 +2644,7 @@ Transform:
   m_Children:
   - {fileID: 365855339}
   - {fileID: 1813684950}
+  - {fileID: 493377464}
   - {fileID: 1641887409}
   m_Father: {fileID: 1868473676}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2579,6 +2738,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96490cd3e9a106949aa75541d15dc5d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1088500972
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1088500973}
+  m_Layer: 0
+  m_Name: Credit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &1088500973
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088500972}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 714234089}
+  - {fileID: 739740014}
+  m_Father: {fileID: 1868473676}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1106026143
 GameObject:
   m_ObjectHideFlags: 0
@@ -4505,6 +4697,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   newButtonManager: {fileID: 523921561}
   continueButtonManager: {fileID: 1296288243}
+--- !u!114 &1628764763 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8451621099613409450, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
+  m_PrefabInstance: {fileID: 1921691801}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1628764764 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2355952220133851959, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
+  m_PrefabInstance: {fileID: 1921691801}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1641887408
 GameObject:
   m_ObjectHideFlags: 0
@@ -4558,7 +4772,7 @@ MonoBehaviour:
   left: {fileID: 1813684951}
   right: {fileID: 0}
   down: {fileID: 0}
-  up: {fileID: 1813684951}
+  up: {fileID: 493377465}
 --- !u!114 &1646098583 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3727631021674307089, guid: 576c53d7afdc23b45b5565207d562caa, type: 3}
@@ -4604,6 +4818,28 @@ Transform:
   - {fileID: 1689325038}
   m_Father: {fileID: 1868473676}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1669908707 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8451621099613409450, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
+  m_PrefabInstance: {fileID: 1138762494}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1669908708 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2355952220133851959, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
+  m_PrefabInstance: {fileID: 1138762494}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1689325037
 GameObject:
   m_ObjectHideFlags: 0
@@ -5199,8 +5435,8 @@ MonoBehaviour:
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
   left: {fileID: 0}
-  right: {fileID: 1641887410}
-  down: {fileID: 1641887410}
+  right: {fileID: 493377465}
+  down: {fileID: 493377465}
   up: {fileID: 0}
 --- !u!1 &1855569468
 GameObject:
@@ -5267,7 +5503,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1868473676}
   m_Layer: 0
-  m_Name: ButtonManagers
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5288,6 +5524,7 @@ Transform:
   m_Children:
   - {fileID: 294701034}
   - {fileID: 964622005}
+  - {fileID: 1088500973}
   - {fileID: 350306773}
   - {fileID: 578983254}
   - {fileID: 1669127156}
