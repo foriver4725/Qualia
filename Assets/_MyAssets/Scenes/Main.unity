@@ -13732,6 +13732,7 @@ MonoBehaviour:
   bg: {fileID: 605270166}
   rawImage: {fileID: 605270165}
   videoPlayer: {fileID: 605270164}
+  cloudFileUrl: {fileID: 11400000, guid: 49c00f74b03ed3c4b8511d528df5a66f, type: 2}
   gameConfig: {fileID: 11400000, guid: 2e1d8be3bf8079c42a877403b55ef6ed, type: 2}
 --- !u!1001 &1556964775
 PrefabInstance:
