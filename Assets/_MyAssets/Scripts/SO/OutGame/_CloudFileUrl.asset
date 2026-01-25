@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: _CloudFileUrl
   m_EditorClassIdentifier: MyScripts::MyScripts.SO.SCloudFileUrl
   image_empty: 
-  movie_intro: https://github.com/foriver4725/Qualia-CutScenes/releases/download/CutScenes/Intro.mp4
+  movie_intro: https://github.com/foriver4725/Qualia-CloudFiles/releases/download/Movies/Intro.mp4
   sound_empty: 
   text_empty: 
