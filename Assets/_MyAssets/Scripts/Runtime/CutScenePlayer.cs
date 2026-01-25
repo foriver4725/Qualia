@@ -1,6 +1,4 @@
-﻿using System.IO;
-using UnityEngine.Networking;
-using UnityEngine.Video;
+﻿using UnityEngine.Video;
 
 namespace MyScripts.Runtime
 {
@@ -59,9 +57,10 @@ namespace MyScripts.Runtime
 #endif
 
             string url = InGameSOHolder.Instance.CutScene.Get(type);
-            string saveName = ZString.Format("CutScene_{0}.mp4", type);
-            string localPath = await DownloadVideoAsync(url, saveName, ct);
-            if (string.IsNullOrEmpty(localPath))
+            string saveName = ZString.Format("CutScene_{0}", type);
+            (bool success, string savePath) = await FileDownloader.DownloadAsync(
+                url, saveName, FileDownloader.Extension.MP4, ct);
+            if (!success)
             {
                 "カットシーンのダウンロードに失敗したため、再生を中止します。".Print(LogSettings.Error);
                 return;
@@ -74,7 +73,7 @@ namespace MyScripts.Runtime
             OnBeginPlay();
 
             // 再生する
-            videoPlayer.url = ZString.Format("file://{0}", localPath);
+            videoPlayer.url = ZString.Format("file://{0}", savePath);
             videoPlayer.Prepare();
 
             await UniTask.WaitUntil(() => !isPlaying, cancellationToken: ct);
@@ -121,44 +120,6 @@ namespace MyScripts.Runtime
         {
             InputManager.EnableAllInputs();
             FadeOutBgAsync(destroyCancellationToken).Forget();
-        }
-
-        // ブラウザ上の動画URLをダウンロードしてローカル保存し、その絶対パスを返す
-        // 保存する名前も指定する. 拡張子も含めて指定すること!
-        // 失敗したら空文字列を返す
-        private static async UniTask<string> DownloadVideoAsync(string url, string saveName, Ct ct)
-        {
-            $"Downloading video from URL: {url}".Print();
-
-            string savePath = Path.Combine(Application.persistentDataPath, saveName);
-
-            //! 既にダウンロード済みでローカルに存在するなら、それを削除して、この後新規にダウンロードする
-            //! こうしないと、クラウドの動画が更新されても、ローカルの旧動画を使ってしまう
-            if (File.Exists(savePath))
-            {
-                $"Video already downloaded at: {savePath}. Deleting existing file.".Print();
-                File.Delete(savePath);
-            }
-
-            using var request = UnityWebRequest.Get(url);
-            request.downloadHandler = new DownloadHandlerFile(savePath)
-            {
-                // ダウンロードに失敗した場合、途中までのファイルを削除する
-                removeFileOnAbort = true
-            };
-
-            await request.SendWebRequest().ToUniTask(cancellationToken: ct);
-
-            // ダウンロード失敗
-            if (request.result != UnityWebRequest.Result.Success)
-            {
-                $"Failed to download video. Error: {request.error}".Print(LogSettings.Error);
-                return "";
-            }
-
-            // ダウンロード成功
-            $"Video downloaded successfully to: {savePath}".Print();
-            return savePath;
         }
 
         // 重複実行はバグると思う
