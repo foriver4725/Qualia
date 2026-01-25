@@ -12,6 +12,7 @@ namespace MyScripts.Runtime
         [SerializeField] private SGameConfig gameConfig;
 
         private bool isPlaying = false;
+        // 最後に再生したカットシーン種別 (再生終了後も保持)
         private SCloudFileUrl.FileType currentPlayingType; // 動画のみが入る想定
 
         // Awake で初期化
