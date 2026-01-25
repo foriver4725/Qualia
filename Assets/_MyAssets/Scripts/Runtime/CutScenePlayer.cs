@@ -42,6 +42,8 @@ namespace MyScripts.Runtime
 
         public async UniTask PlayAsync(SCloudFileUrl.FileType type, Ct ct)
         {
+            ct.ThrowIfCancellationRequested();
+
             if (isPlaying)
             {
                 $"既に{currentPlayingType}のカットシーンが再生中です。".Print(LogSettings.Warning);

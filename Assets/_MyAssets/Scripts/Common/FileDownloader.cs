@@ -79,9 +79,7 @@ internal static class FileDownloader
 
         $"Starting download from URL: {url}".Print();
 
-        ct.ThrowIfCancellationRequested();
         await request.SendWebRequest().ToUniTask(cancellationToken: ct);
-        ct.ThrowIfCancellationRequested();
 
         // ダウンロード失敗
         if (request.result != UnityWebRequest.Result.Success)
