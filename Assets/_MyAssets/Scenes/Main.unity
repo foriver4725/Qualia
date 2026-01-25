@@ -12004,6 +12004,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2044450112}
     m_Modifications:
+    - target: {fileID: 2355952220133851959, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
+      propertyPath: m_RaycastPadding.w
+      value: 144
+      objectReference: {fileID: 0}
+    - target: {fileID: 2355952220133851959, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
+      propertyPath: m_RaycastPadding.y
+      value: 144
+      objectReference: {fileID: 0}
     - target: {fileID: 4572354289211530162, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
       propertyPath: m_Name
       value: YesButton
@@ -13535,6 +13543,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2044450112}
     m_Modifications:
+    - target: {fileID: 2355952220133851959, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
+      propertyPath: m_RaycastPadding.w
+      value: 174
+      objectReference: {fileID: 0}
+    - target: {fileID: 2355952220133851959, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
+      propertyPath: m_RaycastPadding.y
+      value: 174
+      objectReference: {fileID: 0}
     - target: {fileID: 3917549312973482166, guid: 9ce7c19d5c3ad574c92362e917b4dac8, type: 3}
       propertyPath: m_SizeDelta.x
       value: 620
@@ -13732,6 +13748,7 @@ MonoBehaviour:
   bg: {fileID: 605270166}
   rawImage: {fileID: 605270165}
   videoPlayer: {fileID: 605270164}
+  cloudFileUrl: {fileID: 11400000, guid: 49c00f74b03ed3c4b8511d528df5a66f, type: 2}
   gameConfig: {fileID: 11400000, guid: 2e1d8be3bf8079c42a877403b55ef6ed, type: 2}
 --- !u!1001 &1556964775
 PrefabInstance:

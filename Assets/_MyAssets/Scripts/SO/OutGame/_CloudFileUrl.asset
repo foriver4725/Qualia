@@ -10,6 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 59b1b9ddb86fccc4a9c4036c7e4134d9, type: 3}
-  m_Name: _CutScene
-  m_EditorClassIdentifier: 
-  introUrl: https://github.com/foriver4725/Qualia-CutScenes/releases/download/CutScenes/Intro.mp4
+  m_Name: _CloudFileUrl
+  m_EditorClassIdentifier: MyScripts::MyScripts.SO.SCloudFileUrl
+  image_credit: https://github.com/foriver4725/Qualia-CloudFiles/releases/download/Images/Credit.png
+  movie_intro: https://github.com/foriver4725/Qualia-CloudFiles/releases/download/Movies/Intro.mp4
+  sound_empty: 
+  text_empty: 
