@@ -23,7 +23,6 @@ namespace MyScripts.Runtime
         {
             rawImage.enabled = false;
             videoPlayer.source = VideoSource.Url;
-            videoPlayer.url = "";
 
             bgAlphaMax = bg.color.a;
             SetBgAlpha(0.0f);
@@ -57,6 +56,11 @@ namespace MyScripts.Runtime
             }
 #endif
 
+            // 状態を更新
+            isPlaying = true;
+            currentPlayingType = type; // 元に戻すことはない
+            OnBeginPlay();
+
             string url = cloudFileUrl.Get(type);
             string saveName = ZString.Format("CutScene_{0}", type);
             (bool success, string savePath) = await FileDownloader.DownloadAsync(
@@ -64,20 +68,37 @@ namespace MyScripts.Runtime
             if (!success)
             {
                 "カットシーンのダウンロードに失敗したため、再生を中止します。".Print(LogSettings.Error);
+
+                // 状態をリセット
+                OnEndPlay();
+                isPlaying = false;
+
                 return;
             }
 
-            // 状態を更新
-            isPlaying = true;
-            currentPlayingType = type;
-
-            OnBeginPlay();
-
             // 再生する
-            videoPlayer.url = ZString.Format("file://{0}", savePath);
+            videoPlayer.Stop(); // 念のため、明示的にストップ
+            videoPlayer.url = ""; // URLをクリアしないとPrepareが動作しない場合がある
+            videoPlayer.url = ZString.Format("file://{0}", savePath); // 元に戻すことはない
             videoPlayer.Prepare();
 
-            await UniTask.WaitUntil(() => !isPlaying, cancellationToken: ct);
+            try
+            {
+                await UniTask.WaitUntil(() => !isPlaying, cancellationToken: ct);
+            }
+            catch (OperationCanceledException)
+            {
+                "カットシーンの再生がキャンセルされました。".Print(LogSettings.Warning);
+            }
+            // キャンセル時、確実に状態をリセットする
+            finally
+            {
+                if (isPlaying)
+                {
+                    OnEndPlay();
+                    isPlaying = false;
+                }
+            }
         }
 
         #region 内部デリゲート
@@ -89,7 +110,6 @@ namespace MyScripts.Runtime
         private void OnPrepareCompletedInternal()
         {
             rawImage.texture = videoPlayer.texture;
-
             videoPlayer.Play();
         }
 
@@ -100,12 +120,9 @@ namespace MyScripts.Runtime
 
         private void OnLoopPointReachedInternal()
         {
-            OnEndPlay();
-
             rawImage.enabled = false;
 
-            // currentPlayingType は何もしない
-            videoPlayer.url = "";
+            OnEndPlay();
             isPlaying = false;
         }
 
