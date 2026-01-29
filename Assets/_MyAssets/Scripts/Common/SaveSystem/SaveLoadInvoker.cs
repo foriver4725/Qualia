@@ -51,6 +51,7 @@ internal static class SaveLoadInvoker
     /// <para>エラーが起こったら処理を中断するが、例外は投げない</para>
     /// </summary>
     // TODO: 保存中にアプリ終了したりするとデータが破損するかもなので、テンポラリファイルに保存してから差し替えるようにしたい
+    // TODO: 簡易でいいので暗号化したい
     internal static void Save(Data data)
     {
         try
@@ -85,6 +86,7 @@ internal static class SaveLoadInvoker
     /// <para>ディレクトリが存在しない・ファイルが存在しない場合は、デフォルトのデータオブジェクトを新規作成して返す</para>
     /// <para>エラーが起こったら中断して、デフォルトのデータオブジェクトを新規作成して返す</para>
     /// </summary>
+    // TODO: 簡易でいいので暗号化したい
     internal static void Load(out Data data)
     {
         try
