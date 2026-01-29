@@ -34,7 +34,10 @@ internal sealed class SingleData
 
 internal static class Constants
 {
-    internal const string DataKey = "SaveSystem_Data_1";
+    // 拡張子付きファイル名
+    internal const string SaveFileName = "SaveData_1.dat";
+    // UTF8 (BOMなし)
+    internal static readonly System.Text.Encoding SaveFileEncoding = new System.Text.UTF8Encoding(false);
 
     internal const int SlotCount = 3;
     internal const int SOSSignCount = 100;
