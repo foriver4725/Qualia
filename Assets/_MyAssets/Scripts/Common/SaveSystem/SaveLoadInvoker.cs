@@ -83,8 +83,8 @@ internal static class SaveLoadInvoker
     /// <summary>
     /// <para>ロード</para>
     /// <para>UTF8 (BOMなし)</para>
-    /// <para>ディレクトリが存在しない・ファイルが存在しない場合は、データのデフォルトインスタンスを新規作成して返す</para>
-    /// <para>エラーが起こったら中断して、データのデフォルトインスタンスを新規作成して返す</para>
+    /// <para>ディレクトリが存在しない・ファイルが存在しない場合は、デフォルトのデータオブジェクトを新規作成して返す</para>
+    /// <para>エラーが起こったら中断して、デフォルトのデータオブジェクトを新規作成して返す</para>
     /// </summary>
     internal static void Load(out Data data)
     {
@@ -94,7 +94,7 @@ internal static class SaveLoadInvoker
             if (!Directory.Exists(saveDirectoryPath))
             {
                 data = CreateDefaultData();
-                $"[{nameof(SaveLoadInvoker)}] No directory found. Created new data.".Print();
+                $"[{nameof(SaveLoadInvoker)}] No directory found. Created new data object.".Print();
                 return;
             }
 
@@ -102,7 +102,7 @@ internal static class SaveLoadInvoker
             if (!File.Exists(saveFilePath))
             {
                 data = CreateDefaultData();
-                $"[{nameof(SaveLoadInvoker)}] No file found. Created new data.".Print();
+                $"[{nameof(SaveLoadInvoker)}] No file found. Created new data object.".Print();
                 return;
             }
 
@@ -111,7 +111,7 @@ internal static class SaveLoadInvoker
                 string json = sr.ReadToEnd();
                 data = JsonUtility.FromJson<Data>(json);
                 if (data == null)
-                    throw new Exception("<JsonUtility.FromJson> resulted in null data instance.");
+                    throw new Exception("<JsonUtility.FromJson> resulted in null data object.");
             }
 
             $"[{nameof(SaveLoadInvoker)}] Load succeeded.".Print();
@@ -120,7 +120,7 @@ internal static class SaveLoadInvoker
         catch (Exception e)
         {
             data = CreateDefaultData();
-            $"[{nameof(SaveLoadInvoker)}] Load failed: {e}. Created new data.".Print(LogSettings.Error);
+            $"[{nameof(SaveLoadInvoker)}] Load failed: {e}. Created new data object.".Print(LogSettings.Error);
             return;
         }
     }
