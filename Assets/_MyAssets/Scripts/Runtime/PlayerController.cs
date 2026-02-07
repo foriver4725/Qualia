@@ -229,7 +229,7 @@ namespace MyScripts.Runtime
 			if (animalLeaveInvoker.PossessingCharacterType != CharacterType.Land) return;
 
 			//後ろに慣性がついていたらダメ
-			if (realHorizontalVelocity.z < 0) return;
+			if (realHorizontalVelocity.z <= 0) return;
 
 			// 水平方向にある程度の速度が必要
 			if (realHorizontalVelocity.sqrMagnitude < param.InertiaJumpLimitSpeedSqr) return;
@@ -326,13 +326,13 @@ namespace MyScripts.Runtime
 					controller.transform.position,
 					BorderLayer.WalkSound.Get(SWalkSound.Surface.Water)))
 				{
-					if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Sea)
+					if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Sea && isGrounded)
 						targetSpeed *= param.MoveSpeedMultiplierWhenHasSea;
 				}
 				// 陸にいるなら (水にいないなら)
 				else
 				{
-					if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Land)
+					if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Land && isGrounded)
 						targetSpeed *= param.MoveSpeedMultiplierWhenHasLand;
 				}
 			}
