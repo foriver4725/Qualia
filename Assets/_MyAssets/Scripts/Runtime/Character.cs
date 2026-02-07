@@ -34,7 +34,7 @@ namespace MyScripts.Runtime
         [SerializeField] private Camera playerCamera;
         [SerializeField] private AnimalLeaveInvoker animalLeaveInvoker;
         [SerializeField] private SOSSoundPlayer soundPlayer;
-
+        private static readonly Dictionary<AnimalLeaveInvoker, CancellationTokenSource> s_possessTimerCtsByInvoker = new();
         // 外部公開プロパティ
         #region Public Properties
 
@@ -82,81 +82,59 @@ namespace MyScripts.Runtime
                 .Where(static param => ReferenceEquals(param.OtherCollider, param.PlayerController.Collider))
                 .SubscribeAwait(static async (param, ct) =>
                 {
-                    if (!param.PossessInvoker.IsPossessing)
+                    // 既存タイマーがあれば必ず止める（同じアニマでも時間リセットを保証）
+                    if (s_possessTimerCtsByInvoker.TryGetValue(param.PossessInvoker, out var oldCts))
                     {
-                        LogManager.Instance.ShowManually("インタラクトで取得する");
-
-                        if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider, ct) == true)
-                        {
-                            // 取得処理
-                            {
-                                param.PossessInvoker.PossessCharacter(param.This);
-
-                                // セーブデータ更新
-                                if (SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasObtainedAnima == false)
-                                {
-                                    SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasObtainedAnima = true;
-                                }
-
-                                param.PossessInvoker.PossessCharacter_ShowLogIfFirstTime(param.This);
-                            }
-
-                            LogManager.Instance.ShowManually(string.Empty);
-                            LogManager.Instance.ShowAutomatically(ZString.Format("{0} のアニマを取得した", GetName(param.This.characterType)));
-
-                            // 一定時間経過後に、解除するようにする
-                            UniTask.Void(async ct =>
-                            {
-                                // 重複して取得はしないので、FillAmount の変更が競合することはない想定
-                                param.PossessInvoker.SetDisplayImageFillAmount(1.0f);
-                                {
-                                    float t = param.This.sAnima.PossessDuration;
-                                    while (t > 0.0f)
-                                    {
-                                        await UniTask.NextFrame(cancellationToken: ct);
-                                        t -= Time.deltaTime;
-
-                                        param.PossessInvoker.SetDisplayImageFillAmount(t / param.This.sAnima.PossessDuration);
-                                    }
-                                }
-                                param.PossessInvoker.SetDisplayImageFillAmount(0.0f);
-
-                                if (param.PossessInvoker.IsPossessing)
-                                    param.PossessInvoker.LeaveCharacter(param.PlayerController);
-
-                                LogManager2.Instance.ShowAutomatically("アニマの取得状態が解除された");
-                            },
-                            cancellationToken: ct);
-
-                            // これは AnimalLeaveInvoker 側で再生する (離脱時のサウンド再生も、一緒のクラスで行いたいので)
-                            // .// TODO: SOSサインのサウンドを使いまわす!
-                            // param.SoundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
-                        }
-                        else
-                        {
-                            LogManager.Instance.ShowManually(string.Empty);
-                        }
+                        oldCts.Cancel();
+                        oldCts.Dispose();
+                        s_possessTimerCtsByInvoker.Remove(param.PossessInvoker);
                     }
-                    else
+
+                    // 上書き獲得：取得済みなら一旦解除してから取り直す（同じ/違う関係なく）
+                    if (param.PossessInvoker.IsPossessing)
                     {
-                        LogManager.Instance.ShowManually("現在他のアニマを取得中です");
-
-                        while (true)
-                        {
-                            if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider, ct) == true)
-                            {
-                                // TODO: SOSサインのサウンドを使いまわす!
-                                param.SoundPlayer.LetPlay(SSOSSound.Situation.CouldNotRemove);
-                                continue;
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-
-                        LogManager.Instance.ShowManually(string.Empty);
+                        param.PossessInvoker.LeaveCharacter(param.PlayerController);
                     }
+
+                    // 取得
+                    param.PossessInvoker.PossessCharacter(param.This);
+
+                    if (!SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasObtainedAnima)
+                    {
+                        SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].HasObtainedAnima = true;
+                    }
+
+                    param.PossessInvoker.PossessCharacter_ShowLogIfFirstTime(param.This);
+
+                    LogManager.Instance.ShowManually(string.Empty);
+                    LogManager.Instance.ShowAutomatically(
+                        ZString.Format("{0} のアニマを取得した", GetName(param.This.characterType))
+                    );
+
+                    // 新タイマー開始（Destroy連動 ct とリンク）
+                    var newCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+                    s_possessTimerCtsByInvoker[param.PossessInvoker] = newCts;
+
+                    UniTask.Void(async token =>
+                        {
+                            param.PossessInvoker.SetDisplayImageFillAmount(1.0f);
+
+                            float duration = param.This.sAnima.PossessDuration;
+                            float t = duration;
+
+                            while (t > 0.0f)
+                            {
+                                await UniTask.NextFrame(cancellationToken: token);
+
+                                t -= Time.deltaTime;
+                                param.PossessInvoker.SetDisplayImageFillAmount(t / duration);
+                            }
+
+                            param.PossessInvoker.SetDisplayImageFillAmount(0.0f);
+                            param.PossessInvoker.LeaveCharacter(param.PlayerController);
+                            LogManager2.Instance.ShowAutomatically("アニマの取得状態が解除された");
+                        },
+                        newCts.Token);
                 })
                 .AddTo(collider);
         }
