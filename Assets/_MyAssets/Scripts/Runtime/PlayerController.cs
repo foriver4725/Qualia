@@ -1,4 +1,5 @@
 ﻿using MyScripts.Common.SaveSystem;
+using UnityEditor.Experimental.GraphView;
 
 namespace MyScripts.Runtime
 {
@@ -227,6 +228,9 @@ namespace MyScripts.Runtime
 			// 陸のアニマを取得していないとダメ
 			if (animalLeaveInvoker.PossessingCharacterType != CharacterType.Land) return;
 
+			//後ろに慣性がついていたらダメ
+			if (realHorizontalVelocity.z < 0) return;
+
 			// 水平方向にある程度の速度が必要
 			if (realHorizontalVelocity.sqrMagnitude < param.InertiaJumpLimitSpeedSqr) return;
 
@@ -254,7 +258,6 @@ namespace MyScripts.Runtime
 				param.InertiaJumpVelocity.y,
 				directionXZ.y * param.InertiaJumpVelocity.z
 			);
-
 			ApplyOuterVelocity(velocity);
 
 			soundPlayer.LetPlay(SPlayerControlSound.Action.InertiaJump);
