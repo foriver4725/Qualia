@@ -13,6 +13,7 @@ namespace MyScripts.Runtime
         // 陸のアニマは陸のSOSサインを表示させるので、参照が必要
         private readonly HashSet<SOSSign> landSOSSigns = new(capacity: 1024);
         private Character possessingCharacter = null;
+        private CancellationTokenSource possessTimerCts;
 
         // 現在憑依中かどうか
         internal bool IsPossessing => possessingCharacter != null;
@@ -34,6 +35,16 @@ namespace MyScripts.Runtime
         {
             UpdateDisplayImage(displayImage, displayImageBg, displayImageBgBack, possessingCharacter, sAnima);
             SetDisplayImageFillAmount(0.0f);
+        }
+        
+        // 憑依効果時間のタイマーをリセットし、タイマー用のトークンを返す
+        // 取得（上書き）するたびに必ず呼ぶ
+        internal CancellationToken ResetPossessTimer(CancellationToken ownerCt)
+        {
+            possessTimerCts?.Cancel();
+            possessTimerCts?.Dispose();
+            possessTimerCts = CancellationTokenSource.CreateLinkedTokenSource(ownerCt);
+            return possessTimerCts.Token;
         }
 
         // SOSサインの生成タイミングがゲーム開始直後なので、それが終わったら生成されたSOSから自身を追加してもらう
