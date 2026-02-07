@@ -12,6 +12,7 @@ namespace MyScripts.Runtime
         [SerializeField] private SOSSign[] landSOSSigns; // 陸のアニマは陸のSOSサインを表示させるので、ここで参照を設定する
 
         private Character possessingCharacter = null;
+        private CancellationTokenSource possessTimerCts;
 
         // 現在憑依中かどうか
         internal bool IsPossessing => possessingCharacter != null;
@@ -31,6 +32,16 @@ namespace MyScripts.Runtime
         {
             UpdateDisplayImage(displayImage, displayImageBg, displayImageBgBack, possessingCharacter, sAnima);
             SetDisplayImageFillAmount(0.0f);
+        }
+        
+        // 憑依効果時間のタイマーをリセットし、タイマー用のトークンを返す
+        // 取得（上書き）するたびに必ず呼ぶ
+        internal CancellationToken ResetPossessTimer(CancellationToken ownerCt)
+        {
+            possessTimerCts?.Cancel();
+            possessTimerCts?.Dispose();
+            possessTimerCts = CancellationTokenSource.CreateLinkedTokenSource(ownerCt);
+            return possessTimerCts.Token;
         }
 
         // アニマを取得する

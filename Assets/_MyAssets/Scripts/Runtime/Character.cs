@@ -34,7 +34,7 @@ namespace MyScripts.Runtime
         [SerializeField] private Camera playerCamera;
         [SerializeField] private AnimalLeaveInvoker animalLeaveInvoker;
         [SerializeField] private SOSSoundPlayer soundPlayer;
-        private static readonly Dictionary<AnimalLeaveInvoker, CancellationTokenSource> s_possessTimerCtsByInvoker = new();
+        
         // 外部公開プロパティ
         #region Public Properties
 
@@ -82,19 +82,8 @@ namespace MyScripts.Runtime
                 .Where(static param => ReferenceEquals(param.OtherCollider, param.PlayerController.Collider))
                 .SubscribeAwait(static async (param, ct) =>
                 {
-                    // 既存タイマーがあれば必ず止める（同じアニマでも時間リセットを保証）
-                    if (s_possessTimerCtsByInvoker.TryGetValue(param.PossessInvoker, out var oldCts))
-                    {
-                        oldCts.Cancel();
-                        oldCts.Dispose();
-                        s_possessTimerCtsByInvoker.Remove(param.PossessInvoker);
-                    }
-
-                    // 上書き獲得：取得済みなら一旦解除してから取り直す（同じ/違う関係なく）
-                    if (param.PossessInvoker.IsPossessing)
-                    {
-                        param.PossessInvoker.LeaveCharacter(param.PlayerController);
-                    }
+                    // 接触したら即取得。取得済みでも上書きして獲得（効果時間もリセット）
+                    if (param.PossessInvoker.IsPossessing) param.PossessInvoker.LeaveCharacter(param.PlayerController);
 
                     // 取得
                     param.PossessInvoker.PossessCharacter(param.This);
@@ -106,14 +95,13 @@ namespace MyScripts.Runtime
 
                     param.PossessInvoker.PossessCharacter_ShowLogIfFirstTime(param.This);
 
-                    LogManager.Instance.ShowManually(string.Empty);
+                   
                     LogManager.Instance.ShowAutomatically(
                         ZString.Format("{0} のアニマを取得した", GetName(param.This.characterType))
                     );
 
-                    // 新タイマー開始（Destroy連動 ct とリンク）
-                    var newCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
-                    s_possessTimerCtsByInvoker[param.PossessInvoker] = newCts;
+                    // タイマーは AnimalLeaveInvoker 側で一元管理してリセットする
+                    var token = param.PossessInvoker.ResetPossessTimer(ct);
 
                     UniTask.Void(async token =>
                         {
@@ -134,7 +122,7 @@ namespace MyScripts.Runtime
                             param.PossessInvoker.LeaveCharacter(param.PlayerController);
                             LogManager2.Instance.ShowAutomatically("アニマの取得状態が解除された");
                         },
-                        newCts.Token);
+                        token);
                 })
                 .AddTo(collider);
         }
@@ -182,29 +170,7 @@ namespace MyScripts.Runtime
             };
         }
 
-        // Click したなら true を、 Exit したなら false を返す
-        // 同フレームなら Exit を優先する
-        private static async UniTask<bool> WaitForClickOrExitAsync(Collider selfCollider, Collider playerCollider, Ct ct)
-        {
-            int i = await UniTask.WhenAny(
-                // 同フレームなら Exit を優先するために、このタイミングで待つ
-                UniTask.WaitUntil(() => InputManager.InGame.Submit, timing: PlayerLoopTiming.LastUpdate, cancellationToken: ct),
-                selfCollider.OnTriggerExitAsObservable()
-                    .Where(otherCollider => ReferenceEquals(otherCollider, playerCollider))
-                    .FirstAsync(cancellationToken: ct)
-                    .AsUniTask()
-            );
-
-            if (i == 0)
-            {
-                InputManager.InGame.MakeSubmitInputDisabledUntilNextFrame();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        
 
         private static string GetName(CharacterType type) => type switch
         {
