@@ -227,9 +227,6 @@ namespace MyScripts.Runtime
 			// 陸のアニマを取得していないとダメ
 			if (animalLeaveInvoker.PossessingCharacterType != CharacterType.Land) return;
 
-			//後ろに慣性がついていたらダメ
-			if (realHorizontalVelocity.z <= 0) return;
-
 			// 水平方向にある程度の速度が必要
 			if (realHorizontalVelocity.sqrMagnitude < param.InertiaJumpLimitSpeedSqr) return;
 
@@ -251,12 +248,17 @@ namespace MyScripts.Runtime
 
 			isDoingInertiaJump = true;
 
-			Vector2 directionXZ = new Vector2(realHorizontalVelocity.x, realHorizontalVelocity.z).normalized;
+			Vector2 moveDirectionXZ = new Vector2(realHorizontalVelocity.x, realHorizontalVelocity.z).normalized;
 			Vector3 velocity = new(
-				directionXZ.x * param.InertiaJumpVelocity.x,
+				moveDirectionXZ.x * param.InertiaJumpVelocity.x,
 				param.InertiaJumpVelocity.y,
-				directionXZ.y * param.InertiaJumpVelocity.z
+				moveDirectionXZ.y * param.InertiaJumpVelocity.z
 			);
+			Vector2 bodyDirectionXZ = new Vector2(transform.forward.x, transform.forward.z).normalized;
+
+			//体の向きと移動方向の角度が60度より大きいとダメ
+			if (Vector2.Dot(moveDirectionXZ, bodyDirectionXZ) < 0.5) return;
+
 			ApplyOuterVelocity(velocity);
 
 			soundPlayer.LetPlay(SPlayerControlSound.Action.InertiaJump);
