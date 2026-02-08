@@ -61,9 +61,11 @@
         [SerializeField, Tooltip("加算する速度(プレイヤーから見た相対ベクトル)")] private Vector3 inertiaJumpVelocity = new(30.0f, 15.0f, 30.0f);
         [SerializeField, Tooltip("必要な水平速度 の平方")] private float inertiaJumpLimitSpeedSqr = 100.0f;
         [SerializeField] private float inertiaJumpCoolTime = 0.2f;
+        [SerializeField, Tooltip("慣性ジャンプが行える方向の範囲（体の向きと移動方向の内積）")] private float inertiaJumpRange = 0.5f;
         internal Vector3 InertiaJumpVelocity => inertiaJumpVelocity;
         internal float InertiaJumpLimitSpeedSqr => inertiaJumpLimitSpeedSqr;
         internal float InertiaJumpCoolTime => inertiaJumpCoolTime;
+        internal float InertiaJumpRange => inertiaJumpRange;
 
         [Space(10)]
 

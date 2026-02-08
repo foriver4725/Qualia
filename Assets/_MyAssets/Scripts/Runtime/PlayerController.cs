@@ -257,7 +257,7 @@ namespace MyScripts.Runtime
 			Vector2 bodyDirectionXZ = new Vector2(transform.forward.x, transform.forward.z).normalized;
 
 			//体の向きと移動方向の角度が60度より大きいとダメ
-			if (Vector2.Dot(moveDirectionXZ, bodyDirectionXZ) < 0.5) return;
+			if (Vector2.Dot(moveDirectionXZ, bodyDirectionXZ) < param.InertiaJumpRange) return;
 
 			ApplyOuterVelocity(velocity);
 
