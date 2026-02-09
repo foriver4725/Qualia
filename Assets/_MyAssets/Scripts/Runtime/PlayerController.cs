@@ -227,8 +227,16 @@ namespace MyScripts.Runtime
 			// 陸のアニマを取得していないとダメ
 			if (animalLeaveInvoker.PossessingCharacterType != CharacterType.Land) return;
 
-			// 水平方向にある程度の速度が必要
-			if (realHorizontalVelocity.sqrMagnitude < param.InertiaJumpLimitSpeedSqr) return;
+            Vector2 moveDirectionXZ = new Vector2(realHorizontalVelocity.x, realHorizontalVelocity.z).normalized;
+            {
+                Vector2 playerForwardXZ = new Vector2(transform.forward.x, transform.forward.z).normalized;
+                float threshold = Mathf.Cos(param.InertiaJumpDirectionAllowedAngle * 0.5f * Mathf.Deg2Rad);
+                // "前方"に向かって移動している必要がある
+                if (Vector2.Dot(playerForwardXZ, moveDirectionXZ) < threshold) return;
+            }
+
+            // 水平方向にある程度の速度が必要
+            if (realHorizontalVelocity.sqrMagnitude < param.InertiaJumpLimitSpeedSqr) return;
 
 			// ダッシュしていないならダメ
 			if (!isSprinting) return;
@@ -248,13 +256,11 @@ namespace MyScripts.Runtime
 
 			isDoingInertiaJump = true;
 
-			Vector2 directionXZ = new Vector2(realHorizontalVelocity.x, realHorizontalVelocity.z).normalized;
 			Vector3 velocity = new(
-				directionXZ.x * param.InertiaJumpVelocity.x,
+				moveDirectionXZ.x * param.InertiaJumpVelocity.x,
 				param.InertiaJumpVelocity.y,
-				directionXZ.y * param.InertiaJumpVelocity.z
+				moveDirectionXZ.y * param.InertiaJumpVelocity.z
 			);
-
 			ApplyOuterVelocity(velocity);
 
 			soundPlayer.LetPlay(SPlayerControlSound.Action.InertiaJump);
