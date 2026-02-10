@@ -1,4 +1,4 @@
-# Qualia
+# Qualial Nature
 
 ![](https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4333730/9fa3142c6ca6e15ba1a7a1986640113c15ee766b/header_japanese.jpg?t=1770236567)
 
