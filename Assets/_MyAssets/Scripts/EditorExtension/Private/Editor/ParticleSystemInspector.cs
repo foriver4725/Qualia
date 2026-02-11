@@ -5,7 +5,7 @@ using UnityEngine;
 namespace MyScripts.EditorExtension.Private
 {
     [CustomEditor(typeof(ParticleSystem))]
-    public sealed class ParticleSystemInspector : Editor
+    internal sealed class ParticleSystemInspector : Editor
     {
         private static readonly Type BASE_EDITOR_TYPE = typeof(Editor)
             .Assembly

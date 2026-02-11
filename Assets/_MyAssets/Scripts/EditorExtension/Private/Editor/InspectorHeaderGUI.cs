@@ -14,7 +14,7 @@ namespace MyScripts.EditorExtension.Private
             Editor.finishedDefaultHeaderGUI += OnGUI;
         }
 
-        private static void OnGUI(Editor editor)
+        internal static void OnGUI(Editor editor)
         {
             using (new EditorGUILayout.HorizontalScope())
             {

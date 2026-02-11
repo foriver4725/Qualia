@@ -9,7 +9,7 @@ namespace MyScripts.EditorExtension.Private
     /// <summary>
     /// 音声ファイルをダブルクリックしたら別窓で再生をするためのエディタ拡張
     /// </summary>
-    public sealed class AudioClipPreviewWindow : EditorWindow
+    internal sealed class AudioClipPreviewWindow : EditorWindow
     {
         #region Fields
         /// <summary>
@@ -43,7 +43,7 @@ namespace MyScripts.EditorExtension.Private
         /// ダブルクリックのコールバック
         /// </summary>
         [OnOpenAsset(0)]
-        public static bool OnOpen(int instanceID, int line)
+        internal static bool OnOpen(int instanceID, int line)
         {
             //AudioClip以外は通常
             if (EditorUtility.InstanceIDToObject(instanceID) is not AudioClip audioClip)
@@ -60,7 +60,7 @@ namespace MyScripts.EditorExtension.Private
         /// この関数は正直不要だけども確認用として残す
         /// </summary>
         [MenuItem("Tools/ScreenPocket/AudioClip Preview")]
-        public static void Open()
+        internal static void Open()
         {
             Open(null);
         }
@@ -132,7 +132,7 @@ namespace MyScripts.EditorExtension.Private
             Cleanup();
         }
 
-        public void OnGUI()
+        internal void OnGUI()
         {
             //ラベル幅を狭く
             EditorGUIUtility.labelWidth = 60;

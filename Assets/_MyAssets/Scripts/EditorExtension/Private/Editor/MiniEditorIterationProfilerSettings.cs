@@ -10,7 +10,7 @@ namespace MyScripts.EditorExtension.Private
     internal static class MiniEditorIterationProfilerSettings
     {
         [SettingsProvider]
-        public static SettingsProvider CreateMyCustomSettingsProvider()
+        internal static SettingsProvider CreateMyCustomSettingsProvider()
         {
             var provider = new SettingsProvider("Preferences/MiniEditorIterationProfilerSettings", SettingsScope.User)
             {

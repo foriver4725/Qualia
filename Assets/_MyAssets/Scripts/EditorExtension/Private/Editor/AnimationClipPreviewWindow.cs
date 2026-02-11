@@ -9,7 +9,7 @@ namespace MyScripts.EditorExtension.Private
     /// <summary>
     /// AnimationClipをダブルクリックしたら別窓で再生をするためのエディタ拡張
     /// </summary>
-    public sealed class AnimationClipPreviewWindow : EditorWindow
+    internal sealed class AnimationClipPreviewWindow : EditorWindow
     {
         private static readonly Vector2 size = new Vector2(640, 640);
 
@@ -58,7 +58,7 @@ namespace MyScripts.EditorExtension.Private
         /// AnimationClipを開いた時のコールバック
         /// </summary>
         [OnOpenAsset(0)]
-        public static bool OnOpen(int instanceID, int line)
+        internal static bool OnOpen(int instanceID, int line)
         {
             //AnimationClip以外は通常
             if (EditorUtility.InstanceIDToObject(instanceID) is not AnimationClip animationClip)
@@ -74,7 +74,7 @@ namespace MyScripts.EditorExtension.Private
         /// メニューから開く場合
         /// </summary>
         [MenuItem("Tools/ScreenPocket/AnimationClip Preview")]
-        public static void Open()
+        internal static void Open()
         {
             Open(null);
         }
@@ -122,7 +122,7 @@ namespace MyScripts.EditorExtension.Private
             }
         }
 
-        public void OnGUI()
+        internal void OnGUI()
         {
             _previewAnimationClip = (AnimationClip)EditorGUILayout.ObjectField("AnimationClip", _previewAnimationClip, typeof(AnimationClip), false);
             _previewObject = (GameObject)EditorGUILayout.ObjectField("Prefab", _previewObject, typeof(GameObject), true);

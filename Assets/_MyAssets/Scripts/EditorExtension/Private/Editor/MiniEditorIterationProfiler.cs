@@ -15,7 +15,7 @@ namespace MyScripts.EditorExtension.Private
         /// <summary>
         /// Show the compilation and assembly reload timings.
         /// </summary>
-        public static bool showCompilationAndAssemblyReload
+        internal static bool showCompilationAndAssemblyReload
         {
             get { return EditorPrefs.GetBool(k_ShowCompilationAndAssemblyReload, true); }
             set { EditorPrefs.SetBool(k_ShowCompilationAndAssemblyReload, value); }
@@ -24,7 +24,7 @@ namespace MyScripts.EditorExtension.Private
         /// <summary>
         /// Show the enter play mode timing.
         /// </summary>
-        public static bool showEnterPlayMode
+        internal static bool showEnterPlayMode
         {
             get { return EditorPrefs.GetBool(k_ShowEnterPlayMode, true); }
             set { EditorPrefs.SetBool(k_ShowEnterPlayMode, value); }
@@ -33,7 +33,7 @@ namespace MyScripts.EditorExtension.Private
         /// <summary>
         /// Show the exit play mode timing.
         /// </summary>
-        public static bool showExitPlayMode
+        internal static bool showExitPlayMode
         {
             get { return EditorPrefs.GetBool(k_ShowEnterEditMode, true); }
             set { EditorPrefs.SetBool(k_ShowEnterEditMode, value); }
@@ -42,7 +42,7 @@ namespace MyScripts.EditorExtension.Private
         /// <summary>
         /// Amount of time to display the message on screen for.
         /// </summary>
-        public static float displayTime
+        internal static float displayTime
         {
             get { return EditorPrefs.GetFloat(k_DisplayTime, 1); }
             set { EditorPrefs.SetFloat(k_DisplayTime, value); }
