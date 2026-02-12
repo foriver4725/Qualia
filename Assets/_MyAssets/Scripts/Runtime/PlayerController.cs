@@ -322,21 +322,20 @@ namespace MyScripts.Runtime
             float targetSpeed = param.MoveSpeed;
             if (isSprintingInput)
                 targetSpeed *= param.SprintSpeedMultiplier;
+            // 特定のアニマを取得している場合、対応するエリア内で移動速度が速くなる
+            if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Sea)
             {
-                // 水にいるなら
-                if (IsPlayerInsideOfAnyBorder(
-                    walkSoundBorders[SWalkSound.Surface.Water],
-                    controller.transform.position,
-                    BorderLayer.WalkSound.Get(SWalkSound.Surface.Water)))
+                if (IsInsideOfArea(SWalkSound.Surface.Water))
                 {
-                    //海のアニマを取得し且つ地面に接触していたら
                     if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Sea && isGrounded)
                         targetSpeed *= param.MoveSpeedMultiplierWhenHasSea;
                 }
-                // 陸にいるなら (水にいないなら)
-                else
+            }
+            else if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Land)
+            {
+                // Water 以外の場所を、陸上とみなす
+                if (!IsInsideOfArea(SWalkSound.Surface.Water))
                 {
-                    //陸のアニマを取得し且つ地面に接触していたら
                     if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Land && isGrounded)
                         targetSpeed *= param.MoveSpeedMultiplierWhenHasLand;
                 }
@@ -591,6 +590,19 @@ namespace MyScripts.Runtime
             }
 
             return SWalkSound.Surface.Default;
+        }
+
+        /// <summary>
+        /// この地形エリア内にプレイヤーがいるか?
+        /// </summary>
+        /// <remarks>計算コスト高めなので、多用しないこと</remarks>
+        private bool IsInsideOfArea(SWalkSound.Surface surface)
+        {
+            return IsPlayerInsideOfAnyBorder(
+                walkSoundBorders[surface],
+                controller.transform.position,
+                BorderLayer.WalkSound.Get(surface)
+            );
         }
 
         private static bool IsPlayerInsideOfAnyBorder(IReadOnlyList<Border> borders, Vector3 playerPosition, byte targetLayer)
