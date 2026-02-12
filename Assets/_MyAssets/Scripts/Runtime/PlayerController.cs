@@ -335,7 +335,7 @@ namespace MyScripts.Runtime
             {
                 if (isGrounded)
                 {
-                    if (IsInsideOfArea(SWalkSound.Surface.Water, transform.position))
+                    if (IsInsideOfArea(SWalkSound.Surface.Water, controller.transform.position))
                     {
                         targetSpeed *= param.MoveSpeedMultiplierWhenHasSea;
                     }
@@ -346,7 +346,7 @@ namespace MyScripts.Runtime
                 if (isGrounded)
                 {
                     // Water 以外の場所を、陸上とみなす
-                    if (!IsInsideOfArea(SWalkSound.Surface.Water, transform.position))
+                    if (!IsInsideOfArea(SWalkSound.Surface.Water, controller.transform.position))
                     {
                         targetSpeed *= param.MoveSpeedMultiplierWhenHasLand;
                     }
@@ -597,7 +597,7 @@ namespace MyScripts.Runtime
             // 優先度の高い順に調べていく
             foreach (var surface in WalkSoundPriority)
             {
-                if (IsPlayerInsideOfAnyBorder(walkSoundBorders[surface], playerPosition, BorderLayer.WalkSound.Get(surface)))
+                if (IsInsideOfArea(surface, playerPosition))
                     return surface;
             }
 
@@ -610,19 +610,19 @@ namespace MyScripts.Runtime
         /// <remarks>計算コスト高めなので、多用しないこと</remarks>
         private bool IsInsideOfArea(SWalkSound.Surface surface, Vector3 position)
         {
-            return IsPlayerInsideOfAnyBorder(
+            return IsInsideOfAnyBorder(
                 walkSoundBorders[surface],
                 position,
                 BorderLayer.WalkSound.Get(surface)
             );
         }
 
-        private static bool IsPlayerInsideOfAnyBorder(IReadOnlyList<Border> borders, Vector3 playerPosition, byte targetLayer)
+        private static bool IsInsideOfAnyBorder(IReadOnlyList<Border> borders, Vector3 position, byte targetLayer)
         {
             for (int i = 0; i < borders.Count; i++)
             {
                 Border border = borders[i];
-                if (border.DoesContain(playerPosition, targetLayer))
+                if (border.DoesContain(position, targetLayer))
                     return true;
             }
             return false;
