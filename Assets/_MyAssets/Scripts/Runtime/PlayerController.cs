@@ -333,23 +333,19 @@ namespace MyScripts.Runtime
             // 特定のアニマを取得している場合、対応するエリア内で移動速度が速くなる
             if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Sea)
             {
-                if (isGrounded || IsInsideOfArea(SWalkSound.Surface.Water, becameNotGroundedPosition))
+                if ((isGrounded && IsInsideOfArea(SWalkSound.Surface.Water, controller.transform.position)) ||
+                    (!isGrounded && IsInsideOfArea(SWalkSound.Surface.Water, becameGroundedPosition)))
                 {
-                    if (IsInsideOfArea(SWalkSound.Surface.Water, controller.transform.position))
-                    {
-                        targetSpeed *= param.MoveSpeedMultiplierWhenHasSea;
-                    }
+                    targetSpeed *= param.MoveSpeedMultiplierWhenHasSea;
                 }
             }
             else if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Land)
             {
                 // Water 以外の場所を陸上とみなす
-                if (isGrounded || !IsInsideOfArea(SWalkSound.Surface.Water, becameNotGroundedPosition))
+                if ((isGrounded && !IsInsideOfArea(SWalkSound.Surface.Water, controller.transform.position)) ||
+                    (!isGrounded && !IsInsideOfArea(SWalkSound.Surface.Water, becameGroundedPosition)))
                 {
-                    if (!IsInsideOfArea(SWalkSound.Surface.Water, controller.transform.position))
-                    {
-                        targetSpeed *= param.MoveSpeedMultiplierWhenHasLand;
-                    }
+                    targetSpeed *= param.MoveSpeedMultiplierWhenHasLand;
                 }
             }
 
