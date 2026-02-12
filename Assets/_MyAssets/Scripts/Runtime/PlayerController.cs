@@ -335,7 +335,7 @@ namespace MyScripts.Runtime
             {
                 if (isGrounded)
                 {
-                    if (IsInsideOfArea(SWalkSound.Surface.Water))
+                    if (IsInsideOfArea(SWalkSound.Surface.Water, transform.position))
                     {
                         targetSpeed *= param.MoveSpeedMultiplierWhenHasSea;
                     }
@@ -346,7 +346,7 @@ namespace MyScripts.Runtime
                 if (isGrounded)
                 {
                     // Water 以外の場所を、陸上とみなす
-                    if (!IsInsideOfArea(SWalkSound.Surface.Water))
+                    if (!IsInsideOfArea(SWalkSound.Surface.Water, transform.position))
                     {
                         targetSpeed *= param.MoveSpeedMultiplierWhenHasLand;
                     }
@@ -605,14 +605,14 @@ namespace MyScripts.Runtime
         }
 
         /// <summary>
-        /// この地形エリア内にプレイヤーがいるか?
+        /// この地形エリア内に、指定された座標が入っているか
         /// </summary>
         /// <remarks>計算コスト高めなので、多用しないこと</remarks>
-        private bool IsInsideOfArea(SWalkSound.Surface surface)
+        private bool IsInsideOfArea(SWalkSound.Surface surface, Vector3 position)
         {
             return IsPlayerInsideOfAnyBorder(
                 walkSoundBorders[surface],
-                controller.transform.position,
+                position,
                 BorderLayer.WalkSound.Get(surface)
             );
         }
