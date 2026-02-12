@@ -47,6 +47,8 @@ namespace MyScripts.Runtime
         private bool isGrounded = true;
         private bool hasBecameGroundedThisFrame = false;
         private bool hasBecameNotGroundedThisFrame = false;
+        private Vector3 becameGroundedPosition = Vector3.zero; // 一番最後に地面に着地した位置を記録しておく
+        private Vector3 becameNotGroundedPosition = Vector3.zero; // 一番最後に地面から離れた位置を記録しておく
         private bool isJumping = false;
         private bool isSprinting = false;
         private bool isDoingInertiaJump = false;
@@ -207,6 +209,12 @@ namespace MyScripts.Runtime
 
             hasBecameGroundedThisFrame = isGrounded && !isGroundedPrev;
             hasBecameNotGroundedThisFrame = !isGrounded && isGroundedPrev;
+
+            // 着地・離地位置を記録
+            if (hasBecameGroundedThisFrame)
+                becameGroundedPosition = transform.position;
+            if (hasBecameNotGroundedThisFrame)
+                becameNotGroundedPosition = transform.position;
 
             // 地面に着地したら、少しだけ(クールタイム)待ってから、再度慣性ジャンプを行えるようにする
             if (isGrounded && isDoingInertiaJump && !onInertiaJumpCt)
