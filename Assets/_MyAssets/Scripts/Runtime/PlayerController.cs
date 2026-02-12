@@ -329,13 +329,15 @@ namespace MyScripts.Runtime
 					controller.transform.position,
 					BorderLayer.WalkSound.Get(SWalkSound.Surface.Water)))
 				{
-					if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Sea)
+					//海のアニマを取得し且つ地面に接触していたら
+					if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Sea && isGrounded)
 						targetSpeed *= param.MoveSpeedMultiplierWhenHasSea;
 				}
 				// 陸にいるなら (水にいないなら)
 				else
 				{
-					if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Land)
+					//陸のアニマを取得し且つ地面に接触していたら
+					if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Land && isGrounded)
 						targetSpeed *= param.MoveSpeedMultiplierWhenHasLand;
 				}
 			}
