@@ -4,8 +4,8 @@
     internal sealed class SCloudFileUrl : ScriptableObject
     {
         [Header("【共通】")]
-        [Header("A/B/C/file.png の 'file' 部分は、固有名であること.")]
-        [Header("A/B/C/file.png のように、末尾が拡張子であること.")]
+        [Header("- A/B/C/file.png の 'file' 部分は、固有名であること.")]
+        [Header("- A/B/C/file.png のように、末尾が拡張子であること.")]
         [Space(30)]
 
         [Header("画像")]
