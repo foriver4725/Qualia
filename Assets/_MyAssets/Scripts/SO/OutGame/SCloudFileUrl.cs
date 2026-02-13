@@ -3,6 +3,9 @@
     [CreateAssetMenu(fileName = "_CloudFileUrl", menuName = "SO/OutGame/Cloud File Url")]
     internal sealed class SCloudFileUrl : ScriptableObject
     {
+        [Header("共通: 末尾が拡張子であること!")]
+        [Space(30)]
+
         [Header("画像")]
         [SerializeField] private string image_credit;
         [Space(10)]
