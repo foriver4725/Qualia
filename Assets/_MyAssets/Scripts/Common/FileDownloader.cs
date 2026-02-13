@@ -24,12 +24,12 @@ internal static class FileDownloader
     /// <param name="saveName">ローカルに保存する名前. 拡張子は含めない</param>
     /// <param name="extension">拡張子. URLの文字列からは厳密に判定できないので、明示的に指定する</param>
     /// <param name="ct">キャンセレーショントークン</param>
-    /// <param name="webRequestTimeoutSeconds">Webリクエストのタイムアウト時間 (秒)</param>
-    /// <param name="downloadTimeoutSeconds">ファイルダウンロード自体のタイムアウト時間 (秒)<br/>回線が悪いだけの場合、Webリクエストは失敗しない懸念があるので、別途この条件でタイムアウトさせる</param>
+    /// <param name="wholeTimeout">ダウンロード全体のタイムアウト時間. 通信が途切れても、この時間が過ぎるまではタイムアウトを通知しない</param>
+    /// <param name="noProgressTimeout">通信なしタイムアウト時間. この時間ごとに通信の進捗をチェックし、進捗がなければタイムアウトと判定する</param>
     /// <returns>ダウンロード成功ならば (true, ローカル保存パス)、失敗ならば (false, "") を返す</returns>
     internal static async UniTask<(bool Success, string Path)> DownloadAsync(
         string url, string saveName, Extension extension, Ct ct,
-        int webRequestTimeoutSeconds = 5, int downloadTimeoutSeconds = 10
+        TimeSpan wholeTimeout, TimeSpan noProgressTimeout
     )
     {
         ct.ThrowIfCancellationRequested();
@@ -75,32 +75,25 @@ internal static class FileDownloader
         {
             // ダウンロードに失敗した場合、途中までのファイルを削除する
             request.downloadHandler = new DownloadHandlerFile(savePath) { removeFileOnAbort = true };
-            request.timeout = webRequestTimeoutSeconds;
+            request.timeout = wholeTimeout.Seconds;
         }
 
         $"Starting download from URL: {url}".Print();
 
         try
         {
-            // Cts を合成する (外部からのキャンセル要求 or ダウンロードタイムアウト)
-            using Cts downloadTimeoutCts = new(TimeSpan.FromSeconds(downloadTimeoutSeconds));
-            using Cts ctsReal = Cts.CreateLinkedTokenSource(ct, downloadTimeoutCts.Token);
-
-            await request.SendWebRequest().ToUniTask(cancellationToken: ctsReal.Token);
+            await SendRequestWithNoProgressTimeout(request, ct, noProgressTimeout);
         }
-        catch (OperationCanceledException)
+        catch (UnityWebRequestException e)
         {
-            // 外部からのキャンセル要求
-            if (ct.IsCancellationRequested)
-            {
-                $"Download canceled by external request.".Print(LogSettings.Warning);
-            }
-            // ダウンロードタイムアウト
-            else
-            {
-                $"Download timed out after {downloadTimeoutSeconds} seconds.".Print(LogSettings.Warning);
-            }
-
+            // 200番台以外の失敗ステータスとかコネクションエラーなど
+            $"UnityWebRequestException occurred: {e}".Print(LogSettings.Error);
+            return (false, "");
+        }
+        catch (TimeoutException e)
+        {
+            // タイムアウト. ダイアログ表示など
+            $"TimeoutException occurred: {e}".Print(LogSettings.Error);
             return (false, "");
         }
 
@@ -114,5 +107,72 @@ internal static class FileDownloader
         // ダウンロード成功
         $"File downloaded successfully to: {savePath}".Print();
         return (true, savePath);
+    }
+
+    /// <summary>
+    /// 通信なしタイムアウトを設定してリクエストを送信する
+    /// </summary>
+    /// <param name="request">リクエスト</param>
+    /// <param name="ct">キャンセルトークン</param>
+    /// <param name="noProgressTimeout">通信なしタイムアウト時間.
+    /// この時間ごとに通信の進捗をチェックする.
+    /// 短すぎるとタイムアウトが頻繁に起きてしまうので注意すること.
+    /// </param>
+    /// <exception cref="TimeoutException">通信なしタイムアウトが発生した場合</exception>
+    /// <returns></returns>
+    // このサイトを参考にした : https://zenn.dev/mingos/articles/c5435ecc974a1f
+    private static async UniTask SendRequestWithNoProgressTimeout(UnityWebRequest request, Ct ct, TimeSpan noProgressTimeout)
+    {
+        using var compositeDisposable = new CompositeDisposable();
+        bool isNoProgressTimeout = false;
+
+        try
+        {
+            // 一定時間データが受信できない場合、通信なしタイムアウトと判定してリクエストを中断する
+            Observable.Interval(noProgressTimeout)
+                .Select(_ => new
+                {
+                    DownloadedBytes = request.downloadedBytes,
+                    UploadedBytes = request.uploadedBytes
+                })
+                .Pairwise() // 前回と今回の進捗を取得
+                .Where(pair =>
+                {
+                    // ダウンロード進捗は常にチェック
+                    bool isDownloadedProgress = pair.Previous.DownloadedBytes != pair.Current.DownloadedBytes;
+
+                    // アップロード進捗はPOST/PUTの場合のみチェック。それ以外は常にtrue
+                    bool isUploadedProgress = true;
+                    if (request.method == UnityWebRequest.kHttpVerbPOST || request.method == UnityWebRequest.kHttpVerbPUT)
+                    {
+                        isUploadedProgress = pair.Previous.UploadedBytes != pair.Current.UploadedBytes;
+                    }
+
+                    // どちらも進捗がなければタイムアウトと判定する
+                    return !isDownloadedProgress && !isUploadedProgress;
+                })
+                .Subscribe(pair =>
+                {
+                    isNoProgressTimeout = true;
+                    request.Abort();
+                })
+                .AddTo(compositeDisposable);
+
+            await request.SendWebRequest().WithCancellation(ct);
+        }
+        catch (Exception e)
+        {
+            // 通信なしタイムアウトが発生した場合、ログを出力して例外をスローする
+            if (isNoProgressTimeout)
+            {
+                $"通信なしタイムアウトが発生しました: method={request.method}, uri={request.uri}, error={e}".Print(LogSettings.Error);
+                throw new TimeoutException("通信がタイムアウトしました");
+            }
+            else
+            {
+                // それ以外の例外はそのままスローする
+                throw;
+            }
+        }
     }
 }
