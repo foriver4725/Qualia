@@ -28,10 +28,8 @@ internal static class FileDownloader
     internal static async UniTask<(bool Success, string Path)> DownloadFileAsync(this string url, Ct ct)
     {
         // ちょっと効率が悪い. ベース名と拡張子に分解して、委譲メソッドの内部で再結合される
-
-        string saveName = Path.GetFileNameWithoutExtension(url);
-        // Path.GetExtension はドット付きの拡張子文字列を返す
-        Extension extension = Path.GetExtension(url).GetExtension();
+        string saveName = Path.GetFileNameWithoutExtension(url);     // "A/B/C/file.png" -> "file"
+        Extension extension = Path.GetExtension(url).GetExtension(); // "A/B/C/file.png" -> ".png" -> Extension.PNG
 
         return await DownloadFileAsync(
             url, saveName, extension, ct,
