@@ -17,6 +17,25 @@ internal static class FileDownloader
         TXT, JSON,
     }
 
+    private static readonly TimeSpan WholeTimeoutDefault = TimeSpan.FromSeconds(10);
+    private static readonly TimeSpan NoProgressTimeoutDefault = TimeSpan.FromSeconds(5);
+
+    /// <summary>
+    /// クラウドにあるファイルを、URLからダウンロードしてローカル保存する
+    /// </summary>
+    /// <param name="url">ダウンロード元のURL</param>
+    /// <param name="saveName">ローカルに保存する名前. 拡張子は含めない</param>
+    /// <param name="extension">拡張子. URLの文字列からは厳密に判定できないので、明示的に指定する</param>
+    /// <param name="ct">キャンセレーショントークン</param>
+    /// <returns>ダウンロード成功ならば (true, ローカル保存パス)、失敗ならば (false, "") を返す</returns>
+    internal static async UniTask<(bool Success, string Path)> DownloadAsync(
+        string url, string saveName, Extension extension, Ct ct
+    )
+        => await DownloadAsync(
+            url, saveName, extension, ct,
+            WholeTimeoutDefault, NoProgressTimeoutDefault
+        );
+
     /// <summary>
     /// クラウドにあるファイルを、URLからダウンロードしてローカル保存する
     /// </summary>
