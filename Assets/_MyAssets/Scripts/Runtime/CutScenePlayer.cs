@@ -64,10 +64,10 @@ namespace MyScripts.Runtime
             currentPlayingType = type; // 元に戻すことはない
             OnBeginPlay();
 
+            "カットシーンのダウンロード中...".Print();
+
             string url = cloudFileUrl.Get(type);
-            string saveName = ZString.Format("CutScene_{0}", type);
-            (bool success, string savePath) = await FileDownloader.DownloadAsync(
-                url, saveName, FileDownloader.Extension.MP4, ct);
+            (bool success, string savePath) = await url.DownloadFileAsync(ct);
             if (!success)
             {
                 "カットシーンのダウンロードに失敗したため、再生を中止します。".Print(LogSettings.Error);
@@ -79,11 +79,15 @@ namespace MyScripts.Runtime
                 return;
             }
 
+            "カットシーンのダウンロードに成功しました。再生準備中...".Print();
+
             // 再生する
             videoPlayer.Stop(); // 念のため、明示的にストップ
             videoPlayer.url = ""; // URLをクリアしないとPrepareが動作しない場合がある
             videoPlayer.url = ZString.Format("file://{0}", savePath); // 元に戻すことはない
             videoPlayer.Prepare();
+
+            "カットシーンの再生を開始しました。".Print();
 
             try
             {
