@@ -5,7 +5,7 @@ namespace MyScripts.Common;
 
 internal static class FileDownloader
 {
-    internal enum Extension : byte
+    private enum Extension : byte
     {
         // 画像
         JPG, PNG,
@@ -23,18 +23,21 @@ internal static class FileDownloader
     /// <summary>
     /// クラウドにあるファイルを、URLからダウンロードしてローカル保存する
     /// </summary>
-    /// <param name="url">ダウンロード元のURL</param>
-    /// <param name="saveName">ローカルに保存する名前. 拡張子は含めない</param>
-    /// <param name="extension">拡張子. URLの文字列からは厳密に判定できないので、明示的に指定する</param>
-    /// <param name="ct">キャンセレーショントークン</param>
+    /// <param name="url">ダウンロード元のURL. 拡張子を含む. この名前でローカル保存する</param>
     /// <returns>ダウンロード成功ならば (true, ローカル保存パス)、失敗ならば (false, "") を返す</returns>
-    internal static async UniTask<(bool Success, string Path)> DownloadAsync(
-        string url, string saveName, Extension extension, Ct ct
-    )
-        => await DownloadAsync(
+    internal static async UniTask<(bool Success, string Path)> DownloadFileAsync(this string url, Ct ct)
+    {
+        // ちょっと効率が悪い. ベース名と拡張子に分解して、委譲メソッドの内部で再結合される
+
+        string saveName = Path.GetFileNameWithoutExtension(url);
+        // Path.GetExtension はドット付きの拡張子文字列を返す
+        Extension extension = Path.GetExtension(url).GetExtension();
+
+        return await DownloadFileAsync(
             url, saveName, extension, ct,
             WholeTimeoutDefault, NoProgressTimeoutDefault
         );
+    }
 
     /// <summary>
     /// クラウドにあるファイルを、URLからダウンロードしてローカル保存する
@@ -46,33 +49,17 @@ internal static class FileDownloader
     /// <param name="wholeTimeout">ダウンロード全体のタイムアウト時間. 通信が途切れても、この時間が過ぎるまではタイムアウトを通知しない</param>
     /// <param name="noProgressTimeout">通信なしタイムアウト時間. この時間ごとに通信の進捗をチェックし、進捗がなければタイムアウトと判定する</param>
     /// <returns>ダウンロード成功ならば (true, ローカル保存パス)、失敗ならば (false, "") を返す</returns>
-    internal static async UniTask<(bool Success, string Path)> DownloadAsync(
+    private static async UniTask<(bool Success, string Path)> DownloadFileAsync(
         string url, string saveName, Extension extension, Ct ct,
         TimeSpan wholeTimeout, TimeSpan noProgressTimeout
     )
     {
         ct.ThrowIfCancellationRequested();
 
-        // ドット付きの拡張子文字列を取得
-        // Extension.PNG -> ".png"
-        // Extension.MP4 -> ".mp4"
-        string extensionWithDot = extension switch
-        {
-            Extension.JPG => ".jpg",
-            Extension.PNG => ".png",
-            Extension.MP4 => ".mp4",
-            Extension.MOV => ".mov",
-            Extension.MP3 => ".mp3",
-            Extension.WAV => ".wav",
-            Extension.TXT => ".txt",
-            Extension.JSON => ".json",
-            _ => throw new ArgumentOutOfRangeException(nameof(extension), extension, null)
-        };
-
         // TODO: URL の拡張子を見て、extension と矛盾していないかチェックする？
 
         // ローカルに保存する絶対パスを決定
-        string savePath = Path.Combine(Application.persistentDataPath, saveName + extensionWithDot);
+        string savePath = Path.Combine(Application.persistentDataPath, saveName + extension.GetString());
 
         // 保存するディレクトリが存在しないなら、新規に作成する
         string saveDirectory = Path.GetDirectoryName(savePath) ?? "";
@@ -194,4 +181,40 @@ internal static class FileDownloader
             }
         }
     }
+
+    /// <summary>
+    /// 列挙型 -> ドット付きの拡張子文字列<br/>
+    /// Extension.PNG -> ".png"<br/>
+    /// Extension.MP4 -> ".mp4"
+    /// </summary>
+    private static string GetString(this Extension extension) => extension switch
+    {
+        Extension.JPG => ".jpg",
+        Extension.PNG => ".png",
+        Extension.MP4 => ".mp4",
+        Extension.MOV => ".mov",
+        Extension.MP3 => ".mp3",
+        Extension.WAV => ".wav",
+        Extension.TXT => ".txt",
+        Extension.JSON => ".json",
+        _ => throw new ArgumentOutOfRangeException(nameof(extension), extension, null)
+    };
+
+    /// <summary>
+    /// ドット付きの拡張子文字列 -> 列挙型<br/>
+    /// ".png" -> Extension.PNG<br/>
+    /// ".mp4" -> Extension.MP4
+    /// </summary>
+    private static Extension GetExtension(this string extensionStr) => extensionStr.ToLowerInvariant() switch
+    {
+        ".jpg" or ".jpeg" => Extension.JPG,
+        ".png" => Extension.PNG,
+        ".mp4" => Extension.MP4,
+        ".mov" => Extension.MOV,
+        ".mp3" => Extension.MP3,
+        ".wav" => Extension.WAV,
+        ".txt" => Extension.TXT,
+        ".json" => Extension.JSON,
+        _ => throw new ArgumentOutOfRangeException(nameof(extensionStr), extensionStr, null)
+    };
 }
