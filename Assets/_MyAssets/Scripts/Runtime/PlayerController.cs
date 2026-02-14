@@ -55,6 +55,7 @@ namespace MyScripts.Runtime
         private bool onInertiaJumpCt = false;
         private Vector3 previousFramePosition = Vector3.zero; // 直前フレームの位置を記録して、戻せるようにする
         private int jumpCountWhenHasSky = 0; // 空のアニマを取得している時、空中ジャンプ出来るので、二段ジャンプより上を防止する用
+        private bool isInputSpecifiedAngle = false; //入力方向と体のなす角が走行時の視野角に収まっているか
 
         // timeout deltatime
         // Awake で初期化
@@ -235,14 +236,6 @@ namespace MyScripts.Runtime
             // 陸のアニマを取得していないとダメ
             if (animalLeaveInvoker.PossessingCharacterType != CharacterType.Land) return;
 
-            Vector2 moveDirectionXZ = new Vector2(realHorizontalVelocity.x, realHorizontalVelocity.z).normalized;
-            {
-                Vector2 playerForwardXZ = new Vector2(transform.forward.x, transform.forward.z).normalized;
-                float threshold = Mathf.Cos(param.InertiaJumpDirectionAllowedAngle * 0.5f * Mathf.Deg2Rad);
-                // "前方"に向かって移動している必要がある
-                if (Vector2.Dot(playerForwardXZ, moveDirectionXZ) < threshold) return;
-            }
-
             // 水平方向にある程度の速度が必要
             if (realHorizontalVelocity.sqrMagnitude < param.InertiaJumpLimitSpeedSqr) return;
 
@@ -263,7 +256,7 @@ namespace MyScripts.Runtime
             // 処理を行える
 
             isDoingInertiaJump = true;
-
+            Vector2 moveDirectionXZ = new Vector2(realHorizontalVelocity.x, realHorizontalVelocity.z).normalized;
             Vector3 velocity = new(
                 moveDirectionXZ.x * param.InertiaJumpVelocity.x,
                 param.InertiaJumpVelocity.y,
@@ -320,15 +313,22 @@ namespace MyScripts.Runtime
         {
             // get input
             Vector2 input = InputManager.PlayerControl.Move;
+            Vector3 inputDirection = new Vector3(input.x, 0.0f, input.y).normalized;　// normalise input direction
             bool isSprintingInput = InputManager.PlayerControl.Sprint;
             // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             bool hasInput = input != Vector2.zero;
-            isSprinting = isSprintingInput && hasInput;
+            if(hasInput)
+            {
+                var result = GetMoveData(input);
+                isInputSpecifiedAngle = result.checkAngle;
+                inputDirection  = result.inputDir;
+            }
+            isSprinting = isSprintingInput && hasInput && isInputSpecifiedAngle; //ここに接地条件を入れてもよいかもしれない
 
             // set target speed based on move speed, sprint speed and if sprint is pressed
             // when player is possessing an anima, increase move speed accordingly
             float targetSpeed = param.MoveSpeed;
-            if (isSprintingInput)
+            if (isSprinting)
                 targetSpeed *= param.SprintSpeedMultiplier;
             // 特定のアニマを取得している場合、対応するエリア内で移動速度が速くなる
             if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Sea)
@@ -386,19 +386,6 @@ namespace MyScripts.Runtime
             {
                 speed = targetSpeed;
             }
-
-            // normalise input direction
-            Vector3 inputDirection = new Vector3(input.x, 0.0f, input.y).normalized;
-
-            // if there is a move input rotate player when the player is moving
-            if (hasInput)
-            {
-                // move
-                inputDirection = transform.right * input.x + transform.forward * input.y;
-            }
-
-            // normalise input direction again
-            inputDirection.Normalize();
 
             // when it is the timing, make move input insensitive
             if (param.MoveInputInsensitiveTiming == SPlayerControl.MoveInputInsensitiveTimingType.WhileInAir)
@@ -612,6 +599,19 @@ namespace MyScripts.Runtime
                 BorderLayer.WalkSound.Get(surface)
             );
         }
+
+        //入力方向と体のなす角が走行時の視野角に収まっているかの正誤、入力からワールドに合わせた移動方向のデータを受け取る
+        private (bool checkAngle,Vector3 inputDir) GetMoveData(Vector2 inputVec)
+        {
+            Vector3 moveDirection = transform.right * inputVec.x + transform.forward * inputVec.y;
+            Vector2 moveDirectionXZ = new Vector2(moveDirection.x, moveDirection.z).normalized;
+            Vector2 playerForwardXZ = new Vector2(transform.forward.x, transform.forward.z).normalized;
+            float threshold = Mathf.Cos(param.SprintDirectionAllowedAngle * 0.5f * Mathf.Deg2Rad);
+            // "前方"に向かって移動している必要がある,normalise input direction again
+            return (Vector2.Dot(playerForwardXZ, moveDirectionXZ) > threshold, moveDirection.normalized);
+        }
+
+
 
         private static bool IsInsideOfAnyBorder(IReadOnlyList<Border> borders, Vector3 position, byte targetLayer)
         {
