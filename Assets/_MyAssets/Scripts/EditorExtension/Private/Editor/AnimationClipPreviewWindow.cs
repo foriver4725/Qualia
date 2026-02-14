@@ -6,318 +6,294 @@ using UnityEngine.Playables;
 
 namespace MyScripts.EditorExtension.Private
 {
-    /// <summary>
-    /// AnimationClipをダブルクリックしたら別窓で再生をするためのエディタ拡張
-    /// </summary>
     internal sealed class AnimationClipPreviewWindow : EditorWindow
     {
-        private static readonly Vector2 size = new Vector2(640, 640);
+        private const float TopHeight = 72f;
 
-        #region Fields
+        private PreviewRenderUtility _pru;
 
-        private PreviewRenderUtility _previewRenderUtility;
-
-        /// <summary>
-        /// 再生用のGraph
-        /// </summary>
         private PlayableGraph _graph;
-
-        /// <summary>
-        /// 再生先のAnimator
-        /// </summary>
-        private static Animator _previewAnimator;
-        /// <summary>
-        /// 再生用GraphのOutput。Animatorと一対
-        /// </summary>
         private AnimationPlayableOutput _output;
+        private AnimationClipPlayable _playable;
 
-        /// <summary>
-        /// 再生したいAnimationClip
-        /// </summary>
-        private AnimationClip _previewAnimationClip;
-        private AnimationClipPlayable _animationClipPlayable;
+        private AnimationClip _clip;
+        private GameObject _prefab;
 
-        /// <summary>
-        /// 確認したいプレハブ
-        /// アセットのものだけでなく、シーンのものも対象にする。
-        /// 窓を閉じた後も継続したいのでstaticで
-        /// </summary>
-        private static GameObject _previewObject;
-        /// <summary>
-        /// 確認用のInstance
-        /// </summary>
-        private static GameObject _previewObjectInstance;
-        /// <summary>
-        /// 確認用のInstanceはどのObjectから作られたかのチェック用
-        /// </summary>
-        private static GameObject _instantiatedOriginalObject;
+        private GameObject _instance;
+        private GameObject _from;
+        private Animator _animator;
 
-        #endregion
+        private bool _playing;
+        private double _lastTime;
 
-        /// <summary>
-        /// AnimationClipを開いた時のコールバック
-        /// </summary>
         [OnOpenAsset(0)]
-        internal static bool OnOpen(int instanceID, int line)
+        internal static bool OnOpen(int id, int line)
         {
-            //AnimationClip以外は通常
-            if (EditorUtility.InstanceIDToObject(instanceID) is not AnimationClip animationClip)
-            {
-                return false;
-            }
-
-            Open(animationClip);
+            if (EditorUtility.InstanceIDToObject(id) is not AnimationClip clip) return false;
+            var w = GetWindow<AnimationClipPreviewWindow>("AnimationClip Preview");
+            w.minSize = new Vector2(640, 640);
+            w._clip = clip;
             return true;
         }
 
-        /// <summary>
-        /// メニューから開く場合
-        /// </summary>
         [MenuItem("Tools/ScreenPocket/AnimationClip Preview")]
         internal static void Open()
         {
-            Open(null);
-        }
-
-        /// <summary>
-        /// ダブルクリックから開く場合
-        /// </summary>
-        /// <param name="clip"></param>
-        private static void Open(AnimationClip clip)
-        {
             var w = GetWindow<AnimationClipPreviewWindow>("AnimationClip Preview");
             w.minSize = new Vector2(640, 640);
-            w.wantsMouseMove = true;
-            w._previewAnimationClip = clip;
         }
 
         private void OnEnable()
         {
-            if (_previewRenderUtility == null)
-            {
-                _previewRenderUtility = new PreviewRenderUtility();
+            EnsurePRU();
 
-                //ライトの向き設定
-                _previewRenderUtility.lights[0].transform.rotation = Quaternion.Euler(45f, 45f, 0f);
-            }
+            _playing = false;
+            _lastTime = EditorApplication.timeSinceStartup;
+
+            EditorApplication.update -= Tick;
+            EditorApplication.update += Tick;
         }
 
         private void OnDisable()
         {
-            if (_previewObjectInstance != null)
-            {
-                DestroyImmediate(_previewObjectInstance);
-                _previewObjectInstance = null;
-            }
-
-            if (_previewRenderUtility != null)
-            {
-                _previewRenderUtility.Cleanup();
-                _previewRenderUtility = null;
-            }
-
-            if (_graph.IsValid())
-            {
-                _graph.Destroy();
-            }
+            EditorApplication.update -= Tick;
+            ResetAll();
+            CleanupPRU();
         }
 
-        internal void OnGUI()
+        private void Tick()
         {
-            _previewAnimationClip = (AnimationClip)EditorGUILayout.ObjectField("AnimationClip", _previewAnimationClip, typeof(AnimationClip), false);
-            _previewObject = (GameObject)EditorGUILayout.ObjectField("Prefab", _previewObject, typeof(GameObject), true);
-            OnGuiAnimation();
+            if (!_playing) return;
+            if (!_graph.IsValid() || !_playable.IsValid()) { _playing = false; return; }
 
-            //プレハブの更新
-            UpdatePrefab();
+            var now = EditorApplication.timeSinceStartup;
+            var dt = now - _lastTime;
+            _lastTime = now;
 
-            var rect = new Rect(0, 72, size.x, size.y - 72);
+            if (dt <= 0 || dt > 0.2) dt = 1.0 / 60.0;
 
-            _previewRenderUtility.BeginPreview(rect, GUIStyle.none);
+            var dur = _playable.GetDuration();
+            if (dur > 0)
+            {
+                var remain = dur - _playable.GetTime();
+                if (remain > 0 && dt > remain) dt = remain;
+            }
 
-            //再生用のオブジェクトをprevewRenderUtilityに登録する
-            UpdateInstance(_previewRenderUtility);
+            _graph.Evaluate((float)dt);
 
-            //オブジェクトにの状況に応じてPlayableGraphを再構築する
-            UpdatePlayableGraph();
-
-            UpdateAnimationClipPlayable();
-
-            UpdateCamera(_previewRenderUtility.camera);
-
-            _previewRenderUtility.Render(true);//←URPならtrueが必要。BIRPならtrueを除去してください
-            _previewRenderUtility.EndAndDrawPreview(rect);
+            if (dur > 0 && _playable.GetTime() >= dur)
+            {
+                _playable.SetTime(dur);
+                Stop();
+                Eval0();
+            }
 
             Repaint();
         }
 
-        /// <summary>
-        /// Animation操作のGUI
-        /// </summary>
-        private void OnGuiAnimation()
+        private void OnGUI()
         {
-            if (!_animationClipPlayable.IsValid())
+            EnsurePRU();
+            if (_pru == null)
             {
+                EditorGUILayout.HelpBox("PreviewRenderUtility の初期化に失敗しました。", MessageType.Error);
                 return;
+            }
+
+            _clip = (AnimationClip)EditorGUILayout.ObjectField("AnimationClip", _clip, typeof(AnimationClip), false);
+
+            _prefab = (GameObject)EditorGUILayout.ObjectField("Prefab (Asset Only)", _prefab, typeof(GameObject), false);
+            if (_prefab != null && !PrefabUtility.IsPartOfPrefabAsset(_prefab)) _prefab = null;
+
+            if (_prefab == null)
+                EditorGUILayout.HelpBox("Prefab(Asset) を指定してください（シーン上オブジェクトは不可）。", MessageType.Info);
+            else if (_instance != null && _animator == null)
+                EditorGUILayout.HelpBox("Animator が見つかりません。このPrefabに Animator を追加してください。", MessageType.Warning);
+            else if (_clip == null)
+                EditorGUILayout.HelpBox("AnimationClip を指定してください。", MessageType.Info);
+
+            EnsureAll();
+
+            bool requestedDraw = DrawTransport();
+
+            var rect = new Rect(0, TopHeight, position.width, position.height - TopHeight);
+            if (rect.width <= 1f || rect.height <= 1f) return;
+
+            _pru.BeginPreview(rect, GUIStyle.none);
+            try
+            {
+                UpdateCamera(_pru.camera);
+                _pru.Render(); 
+            }
+            finally
+            {
+                _pru.EndAndDrawPreview(rect);
+            }
+
+            if (requestedDraw) Repaint();
+        }
+
+        
+
+        private void EnsureAll()
+        {
+            // Prefabなし → 全落とし
+            if (_prefab == null)
+            {
+                if (_instance != null) ResetAll();
+                return;
+            }
+
+            // Instance差し替え（または初回）
+            if (_instance == null || _from != _prefab)
+            {
+                ResetAll();
+
+                _instance = _pru.InstantiatePrefabInScene(_prefab);
+                if (_instance == null) return;
+
+                HideDontSaveRecursive(_instance);
+                ResetTransform(_instance.transform);
+
+                _animator = _instance.GetComponentInChildren<Animator>(true);
+                _from = _prefab;
+
+                Stop();
+            }
+
+            // Animator無し → Graph不要
+            if (_animator == null)
+            {
+                ResetGraphOnly();
+                return;
+            }
+
+            // Graph生成
+            if (!_graph.IsValid())
+            {
+                _graph = PlayableGraph.Create("Animation Preview Window Graph");
+                _graph.SetTimeUpdateMode(DirectorUpdateMode.Manual);
+                _output = AnimationPlayableOutput.Create(_graph, "Output", _animator);
+                _graph.Play();
+
+                Stop();
+                _lastTime = EditorApplication.timeSinceStartup;
+            }
+
+            // Clip未指定 → Output切る
+            if (_clip == null)
+            {
+                if (_output.IsOutputValid()) _output.SetSourcePlayable(Playable.Null);
+                Stop();
+                return;
+            }
+
+            // Playable生成/差し替え
+            if (_playable.IsValid() && _playable.GetAnimationClip() == _clip) return;
+
+            if (_output.IsOutputValid()) _output.SetSourcePlayable(Playable.Null);
+            if (_playable.IsValid()) _playable.Destroy();
+
+            _playable = AnimationClipPlayable.Create(_graph, _clip);
+            _playable.SetDuration(_clip.length);
+            _playable.SetTime(0);
+            _playable.SetSpeed(0);
+
+            _output.SetSourcePlayable(_playable);
+
+            Stop();
+            Eval0();
+        }
+
+        private bool DrawTransport()
+        {
+            if (!_playable.IsValid()) { _playing = false; return false; }
+
+            bool changed = false;
+
+            void Apply(System.Action act, bool play)
+            {
+                act?.Invoke();
+                _playing = play;
+                if (_playable.IsValid()) _playable.SetSpeed(play ? 1 : 0);
+                if (play) _lastTime = EditorApplication.timeSinceStartup;
+                if (_graph.IsValid()) _graph.Evaluate(0);
+                changed = true;
             }
 
             EditorGUILayout.BeginHorizontal();
+
             EditorGUI.BeginChangeCheck();
-            var time = EditorGUILayout.Slider("Time", (float)_animationClipPlayable.GetTime(), 0f, (float)_animationClipPlayable.GetDuration());
+            var t = EditorGUILayout.Slider("Time", (float)_playable.GetTime(), 0f, (float)_playable.GetDuration());
             if (EditorGUI.EndChangeCheck())
-            {
-                _animationClipPlayable.SetTime(time);
-            }
+                Apply(() => _playable.SetTime(t), false);
 
-            if (GUILayout.Button("|<<", GUILayout.Width(28)))
-            {
-                _animationClipPlayable.SetTime(0);
-            }
-            if (GUILayout.Button("||", GUILayout.Width(28)))
-            {
-                _animationClipPlayable.SetSpeed(0);
-            }
-            if (GUILayout.Button(">", GUILayout.Width(28)))
-            {
-                _animationClipPlayable.SetSpeed(1);
-            }
-            if (GUILayout.Button(">>|", GUILayout.Width(28)))
-            {
-                _animationClipPlayable.SetTime(_animationClipPlayable.GetDuration());
-            }
+            if (GUILayout.Button("|<<", GUILayout.Width(28))) Apply(() => _playable.SetTime(0), false);
+            if (GUILayout.Button("||", GUILayout.Width(28))) Apply(null, false);
+            if (GUILayout.Button(">", GUILayout.Width(28))) Apply(null, true);
+            if (GUILayout.Button(">>|", GUILayout.Width(28))) Apply(() => _playable.SetTime(_playable.GetDuration()), false);
+
             EditorGUILayout.EndHorizontal();
+            return changed;
         }
 
-        /// <summary>
-        /// 確認用のプレハブインスタンスを状況に応じて作り直す
-        /// </summary>
-        private static void UpdatePrefab()
+        private void Stop()
         {
-            //プレハブが切り替わったら
-            if (_previewObjectInstance != null && _instantiatedOriginalObject != _previewObject)
-            {
-                //今表示中のものは消す
-                DestroyImmediate(_previewObjectInstance);
-                _previewObjectInstance = null;
-                //チェック用も除去
-                _instantiatedOriginalObject = null;
-            }
-
-            if (_previewObjectInstance == null && _previewObject != null)
-            {
-                //_previewRenderUtility.InstantiatePrefabInScene()はアセット側のプレハブしか対象にしないので、普通のInstantiateで複製
-                _previewObjectInstance = Instantiate(_previewObject);
-
-                //無事にInstantiate出来たら、instantiateした元のプレハブを保持しておく
-                if (_previewObjectInstance != null)
-                {
-                    _instantiatedOriginalObject = _previewObject;
-                }
-            }
+            _playing = false;
+            if (_playable.IsValid()) _playable.SetSpeed(0);
         }
 
-        /// <summary>
-        /// プレビュー用のInstanceをPreviewRenderUtilityに登録する
-        /// </summary>
-        private static void UpdateInstance(PreviewRenderUtility utility)
+        private void Eval0()
         {
-            if (_previewObjectInstance == null)
-            {
-                return;
-            }
-
-            //Preview側のScene登録
-            utility.AddSingleGO(_previewObjectInstance);
-            //位置はまぁ原点で
-            _previewObjectInstance.transform.localPosition = Vector3.zero;
-            _previewObjectInstance.transform.localRotation = Quaternion.identity;
-            _previewObjectInstance.transform.localScale = Vector3.one;
+            if (_graph.IsValid()) _graph.Evaluate(0);
         }
 
-        /// <summary>
-        /// 状況に応じてPlayableGraphを組みなおす
-        /// </summary>
-        private void UpdatePlayableGraph()
+        private void ResetAll()
         {
-            if (_previewObjectInstance == null)
-            {
-                return;
-            }
-
-            //Animatorを探す。
-            //設定されたプレハブのRoot階層に無い可能性があるので子供も含めて探す(プレビュー用だし非アクティブまで探さなくても良い)
-            var animator = _previewObjectInstance.GetComponentInChildren<Animator>();
-
-            if (_previewAnimator == animator)
-            {
-                //変化なしなら抜ける
-                return;
-            }
-
-            //変化アリなら再生中のGraphは削除
-            if (_graph.IsValid())
-            {
-                _graph.Destroy();
-            }
-
-            _previewAnimator = animator;
-
-            //もしAnimatorが無いなら何もしない
-            if (_previewAnimator == null)
-            {
-                return;
-            }
-
-            //何か再生したいならGraphを構築
-            _graph = PlayableGraph.Create("Animation Preview Window Graph");
-            _output = AnimationPlayableOutput.Create(_graph, "Output", _previewAnimator);
-            //Outputに未接続だけどとりあえず再生(接続はこの次のUpdateAnimationClipPlayable()で行う)
-            _graph.Play();
+            if (_instance != null) { DestroyImmediate(_instance); _instance = null; }
+            _from = null;
+            _animator = null;
+            Stop();
+            ResetGraphOnly();
         }
 
-        /// <summary>
-        /// AnimationClipPlayableの更新
-        /// </summary>
-        private void UpdateAnimationClipPlayable()
+        private void ResetGraphOnly()
         {
-            if (!_graph.IsValid())
-            {
-                return;
-            }
-
-            //すでに再生中？
-            if (_animationClipPlayable.IsValid())
-            {
-                //同じなら抜ける
-                if (_animationClipPlayable.GetAnimationClip() == _previewAnimationClip)
-                {
-                    return;
-                }
-
-                //違うなら削除
-                _animationClipPlayable.Destroy();
-            }
-
-            //次再生したいアニメが空っぽなら抜ける
-            if (_previewAnimationClip == null)
-            {
-                return;
-            }
-
-            //Playableを作り直し
-            _animationClipPlayable = AnimationClipPlayable.Create(_graph, _previewAnimationClip);
-            _animationClipPlayable.SetDuration(_previewAnimationClip.length);
-            //Outputに接続
-            _output.SetSourcePlayable(_animationClipPlayable);
+            if (_output.IsOutputValid()) _output.SetSourcePlayable(Playable.Null);
+            if (_playable.IsValid()) _playable.Destroy();
+            if (_graph.IsValid()) _graph.Destroy();
         }
 
-        /// <summary>
-        /// カメラの更新
-        /// </summary>
-        /// <param name="camera"></param>
+        private void EnsurePRU()
+        {
+            if (_pru != null) return;
+            _pru = new PreviewRenderUtility();
+            _pru.lights[0].transform.rotation = Quaternion.Euler(45f, 45f, 0f);
+        }
+
+        private void CleanupPRU()
+        {
+            if (_pru == null) return;
+            _pru.Cleanup();
+            _pru = null;
+        }
+
+        private static void HideDontSaveRecursive(GameObject go)
+        {
+            go.hideFlags = HideFlags.HideAndDontSave;
+            foreach (var t in go.GetComponentsInChildren<Transform>(true))
+                t.gameObject.hideFlags = HideFlags.HideAndDontSave;
+        }
+
+        private static void ResetTransform(Transform t)
+        {
+            t.localPosition = Vector3.zero;
+            t.localRotation = Quaternion.identity;
+            t.localScale = Vector3.one;
+        }
+
         private static void UpdateCamera(Camera camera)
         {
-            //位置角度などは自由に調整してください。外部からいじれるとなおよい
             camera.farClipPlane = 100;
             camera.transform.position = new Vector3(0, 1f, 5f);
             camera.transform.rotation = Quaternion.Euler(0, 180, 0);

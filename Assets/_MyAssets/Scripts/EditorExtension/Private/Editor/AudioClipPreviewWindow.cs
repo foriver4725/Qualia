@@ -135,15 +135,23 @@ namespace MyScripts.EditorExtension.Private
         internal void OnGUI()
         {
             //ラベル幅を狭く
-            EditorGUIUtility.labelWidth = 60;
-            _previewAudioClip = (AudioClip)EditorGUILayout.ObjectField("AudioClip", _previewAudioClip, typeof(AudioClip), false);
-            //Clipの状況に応じてPlayableを作り直し
-            UpdateAudioClipPlayable();
-            //操作部
-            OnGuiAudioControl();
-
-            //ラベル幅を戻す
-            EditorGUIUtility.labelWidth = 0;
+            float prevLabelWidth = EditorGUIUtility.labelWidth;
+            try
+            {
+                //ラベル幅を狭く
+                EditorGUIUtility.labelWidth = 60;
+                _previewAudioClip = (AudioClip)EditorGUILayout.ObjectField("AudioClip", _previewAudioClip, typeof(AudioClip), false);
+                //Clipの状況に応じてPlayableを作り直し
+                UpdateAudioClipPlayable();
+                //操作部
+                OnGuiAudioControl();
+                
+            }
+            finally
+            {
+                // ラベル幅を元の値へ確実に戻す
+                EditorGUIUtility.labelWidth = prevLabelWidth;
+            }
             Repaint();
         }
 
@@ -170,6 +178,7 @@ namespace MyScripts.EditorExtension.Private
             //次再生したいアニメが空っぽなら抜ける
             if (_previewAudioClip == null)
             {
+                if (_output.IsOutputValid()) _output.SetSourcePlayable(Playable.Null);
                 return;
             }
 
