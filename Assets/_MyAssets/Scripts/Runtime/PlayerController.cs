@@ -55,7 +55,6 @@ namespace MyScripts.Runtime
         private bool onInertiaJumpCt = false;
         private Vector3 previousFramePosition = Vector3.zero; // 直前フレームの位置を記録して、戻せるようにする
         private int jumpCountWhenHasSky = 0; // 空のアニマを取得している時、空中ジャンプ出来るので、二段ジャンプより上を防止する用
-        private bool isInputSpecifiedAngle = false; //入力方向と体のなす角が走行時の視野角に収まっているか
 
         // timeout deltatime
         // Awake で初期化
@@ -314,6 +313,7 @@ namespace MyScripts.Runtime
             // get input
             Vector2 input = InputManager.PlayerControl.Move;
             Vector3 inputDirection = new Vector3(input.x, 0.0f, input.y).normalized;　// normalise input direction
+            bool isInputSpecifiedAngle = false; //入力方向と体のなす角が走行時の視野角に収まっているか
             bool isSprintingInput = InputManager.PlayerControl.Sprint;
             // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             bool hasInput = input != Vector2.zero;
