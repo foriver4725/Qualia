@@ -319,10 +319,10 @@ namespace MyScripts.Runtime
             bool hasInput = input != Vector2.zero;
             if(hasInput)
             {
-                var result = GetMoveData(input);
-                isInputSpecifiedAngle = result.checkAngle;
-                inputDirection  = result.inputDir;
+                inputDirection = transform.right * input.x + transform.forward * input.y;
+                isInputSpecifiedAngle = IsMovingForward(inputDirection);
             }
+            inputDirection.Normalize();
             isSprinting = isSprintingInput && hasInput && isInputSpecifiedAngle; //ここに接地条件を入れてもよいかもしれない
 
             // set target speed based on move speed, sprint speed and if sprint is pressed
@@ -601,14 +601,13 @@ namespace MyScripts.Runtime
         }
 
         //入力方向と体のなす角が走行時の視野角に収まっているかの正誤、入力からワールドに合わせた移動方向のデータを受け取る
-        private (bool checkAngle,Vector3 inputDir) GetMoveData(Vector2 inputVec)
+        private bool IsMovingForward(Vector3 inputVec)
         {
-            Vector3 moveDirection = transform.right * inputVec.x + transform.forward * inputVec.y;
-            Vector2 moveDirectionXZ = new Vector2(moveDirection.x, moveDirection.z).normalized;
+            Vector2 moveDirectionXZ = new Vector2(inputVec.x, inputVec.z).normalized;
             Vector2 playerForwardXZ = new Vector2(transform.forward.x, transform.forward.z).normalized;
             float threshold = Mathf.Cos(param.SprintDirectionAllowedAngle * 0.5f * Mathf.Deg2Rad);
             // "前方"に向かって移動している必要がある,normalise input direction again
-            return (Vector2.Dot(playerForwardXZ, moveDirectionXZ) > threshold, moveDirection.normalized);
+            return (Vector2.Dot(playerForwardXZ, moveDirectionXZ) > threshold);
         }
 
 

@@ -13,7 +13,6 @@
 
         [Header("Move")]
         [SerializeField] private float moveSpeed = 4.0f;
-        [SerializeField] private float sprintSpeedMultiplier = 1.5f;
         [SerializeField] private float moveSpeedMultiplierWhenHasLand = 1.5f;
         [SerializeField] private float moveSpeedMultiplierWhenHasSea = 3.0f;
         [SerializeField] private float moveAcceleration = 10.0f;
@@ -25,7 +24,6 @@
         private MoveInputInsensitiveTimingType moveInputInsensitiveTiming = MoveInputInsensitiveTimingType.Never;
         [SerializeField, Tooltip("移動入力を鈍感にするとき,元の入力値の何倍にするか")] private float moveInputInsensitiveRate = 0.5f;
         internal float MoveSpeed => moveSpeed;
-        internal float SprintSpeedMultiplier => sprintSpeedMultiplier;
         internal float MoveSpeedMultiplierWhenHasLand => moveSpeedMultiplierWhenHasLand;
         internal float MoveSpeedMultiplierWhenHasSea => moveSpeedMultiplierWhenHasSea;
         internal float MoveAcceleration => moveAcceleration;
@@ -36,7 +34,10 @@
 
         [Space(10)]
         [Header("Sprint")]
+        [SerializeField] private float sprintSpeedMultiplier = 1.5f;
         [SerializeField, Tooltip("前方に対する視野角と同じ意味の開き角。この角度の範囲内の移動方向なら走行を許可(度)")] private float sprintDirectionAllowedAngle = 120.0f;
+        internal float SprintSpeedMultiplier => sprintSpeedMultiplier;
+
         internal float SprintDirectionAllowedAngle => sprintDirectionAllowedAngle;
 
         [Space(10)]
