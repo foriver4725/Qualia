@@ -230,8 +230,8 @@ namespace MyScripts.Runtime
 
         private static string GetName(CharacterType type) => type switch
         {
-            CharacterType.Land => "陸",
-            CharacterType.Sea => "海",
+            CharacterType.Land => "草",
+            CharacterType.Sea => "水",
             CharacterType.Sky => "空",
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
