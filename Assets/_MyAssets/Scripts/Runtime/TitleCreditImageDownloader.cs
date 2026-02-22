@@ -18,15 +18,10 @@ namespace MyScripts.Runtime
         {
             ct.ThrowIfCancellationRequested();
 
+            "タイトルクレジット画像ダウンロード中...".Print();
+
             string url = cloudFileUrl.Get(SCloudFileUrl.FileType.Image_Credit);
-            string saveName = "TitleCreditTexture";
-
-            "タイトルクレジット画像をダウンロード中...".Print();
-
-            (bool success, string savePath) = await FileDownloader.DownloadAsync(
-                url, saveName, FileDownloader.Extension.PNG, ct);
-            ct.ThrowIfCancellationRequested();
-
+            (bool success, string savePath) = await url.DownloadFileAsync(ct);
             if (!success)
             {
                 "タイトルクレジット画像のダウンロードに失敗しました。".Print(LogSettings.Error);
@@ -38,7 +33,6 @@ namespace MyScripts.Runtime
 
             // ローカルに保存された画像ファイルをテクスチャとして読み込む
             byte[] imageData = await File.ReadAllBytesAsync(savePath, ct);
-            ct.ThrowIfCancellationRequested();
             Texture2D texture = new(2, 2); // 空のテクスチャを作成 (サイズは後で自動調整されるので適当で良い)
             if (!texture.LoadImage(imageData))
             {
