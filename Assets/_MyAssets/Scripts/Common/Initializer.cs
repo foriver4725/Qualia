@@ -5,10 +5,6 @@ internal static class Initializer
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
     private static void Init()
     {
-        Screen.SetResolution(1920, 1080, true);
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 60;
-
         ConnectSteamAsync().Forget();
     }
 
@@ -19,5 +15,7 @@ internal static class Initializer
         {
             await UniTask.DelayFrame(16);
         }
+
+        "Steam API Connected".Print();
     }
 }
