@@ -67,7 +67,7 @@ namespace MyScripts.Runtime
             "カットシーンのダウンロード中...".Print();
 
             string url = cloudFileUrl.Get(type);
-            (bool success, string savePath) = await url.DownloadFileAsync(ct);
+            (bool success, string savePath) = await DownloadManager.Instance.DownloadFileAsync(url, ct);
             if (!success)
             {
                 "カットシーンのダウンロードに失敗したため、再生を中止します。".Print(LogSettings.Error);

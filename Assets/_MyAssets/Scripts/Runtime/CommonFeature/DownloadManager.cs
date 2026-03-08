@@ -13,16 +13,22 @@
             downloadingText.gameObject.SetActive(false);
         }
 
-        internal async UniTask DownloadFileAsync(string url, Ct ct)
+        // TODO: 複数ファイルの同時ダウンロードにも対応したい
+        internal async UniTask<(bool Success, string Path)> DownloadFileAsync(string url, Ct ct)
         {
             ct.ThrowIfCancellationRequested();
 
-            if (OnDownload) return;
+            if (OnDownload)
+            {
+                "既にダウンロード中です".Print(LogSettings.Warning);
+                return (false, "");
+            }
+
             OnDownload = true;
 
             try
             {
-                await url.DownloadFileAsync(
+                return await url.DownloadFileAsync(
                     ct,
                     beforeDownloadBegin: () =>
                     {
