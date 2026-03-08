@@ -159,20 +159,20 @@ internal static class FileDownloader
         {
             // 200番台以外の失敗ステータスとかコネクションエラーなど
             $"UnityWebRequestException occurred: {e}".Print(LogSettings.Error);
-            afterDownloadEnd?.Invoke(DownloadResult.WebRequestFailed);
+            result = DownloadResult.WebRequestFailed;
             return (false, "");
         }
         catch (TimeoutException e)
         {
             // タイムアウト. ダイアログ表示など
             $"TimeoutException occurred: {e}".Print(LogSettings.Error);
-            afterDownloadEnd?.Invoke(DownloadResult.Timeout);
+            result = DownloadResult.Timeout;
             return (false, "");
         }
         catch (OperationCanceledException e)
         {
             $"Download was canceled: {e}".Print(LogSettings.Warning);
-            afterDownloadEnd?.Invoke(DownloadResult.Canceled);
+            result = DownloadResult.Canceled;
             return (false, "");
         }
         finally
