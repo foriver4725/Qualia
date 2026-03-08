@@ -21,7 +21,7 @@ namespace MyScripts.Runtime
             "タイトルクレジット画像ダウンロード中...".Print();
 
             string url = cloudFileUrl.Get(SCloudFileUrl.FileType.Image_Credit);
-            (bool success, string savePath) = await url.DownloadFileAsync(ct);
+            (bool success, string savePath) = await DownloadManager.Instance.DownloadFileAsync(url, false, ct);
             if (!success)
             {
                 "タイトルクレジット画像のダウンロードに失敗しました。".Print(LogSettings.Error);
