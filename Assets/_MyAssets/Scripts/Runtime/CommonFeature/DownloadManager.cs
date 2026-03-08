@@ -14,7 +14,7 @@
         }
 
         // TODO: 複数ファイルの同時ダウンロードにも対応したい
-        internal async UniTask<(bool Success, string Path)> DownloadFileAsync(string url, Ct ct)
+        internal async UniTask<(bool Success, string Path)> DownloadFileAsync(string url, bool displayProgress, Ct ct)
         {
             ct.ThrowIfCancellationRequested();
 
@@ -28,34 +28,41 @@
 
             try
             {
-                return await url.DownloadFileAsync(
-                    ct,
-                    beforeDownloadBegin: () =>
-                    {
-                        downloadingLabel.gameObject.SetActive(true);
-                        downloadingText.gameObject.SetActive(true);
-                    },
-                    onDownloadingAsync: async ct =>
-                    {
-                        while (!ct.IsCancellationRequested)
+                if (displayProgress)
+                {
+                    return await url.DownloadFileAsync(
+                        ct,
+                        beforeDownloadBegin: () =>
                         {
-                            downloadingLabel.text = "ダウンロード中";
-                            await 0.2f.SecAwait(ct: ct);
-                            downloadingLabel.text = "ダウンロード中.";
-                            await 0.2f.SecAwait(ct: ct);
-                            downloadingLabel.text = "ダウンロード中..";
-                            await 0.2f.SecAwait(ct: ct);
-                            downloadingLabel.text = "ダウンロード中...";
-                            await 0.2f.SecAwait(ct: ct);
+                            downloadingLabel.gameObject.SetActive(true);
+                            downloadingText.gameObject.SetActive(true);
+                        },
+                        onDownloadingAsync: async ct =>
+                        {
+                            while (!ct.IsCancellationRequested)
+                            {
+                                downloadingLabel.text = "ダウンロード中";
+                                await 0.2f.SecAwait(ct: ct);
+                                downloadingLabel.text = "ダウンロード中.";
+                                await 0.2f.SecAwait(ct: ct);
+                                downloadingLabel.text = "ダウンロード中..";
+                                await 0.2f.SecAwait(ct: ct);
+                                downloadingLabel.text = "ダウンロード中...";
+                                await 0.2f.SecAwait(ct: ct);
+                            }
+                        },
+                        onDownloadProgressChanged: p => downloadingText.SetTextFormat("{0:F2}%", p * 100.0f),
+                        afterDownloadEnd: _ =>
+                        {
+                            downloadingLabel.gameObject.SetActive(false);
+                            downloadingText.gameObject.SetActive(false);
                         }
-                    },
-                    onDownloadProgressChanged: p => downloadingText.SetTextFormat("{0:F2}%", p * 100.0f),
-                    afterDownloadEnd: _ =>
-                    {
-                        downloadingLabel.gameObject.SetActive(false);
-                        downloadingText.gameObject.SetActive(false);
-                    }
-                );
+                    );
+                }
+                else
+                {
+                    return await url.DownloadFileAsync(ct);
+                }
             }
             finally
             {
