@@ -185,6 +185,7 @@ internal static class FileDownloader
     /// Extension.PNG -> ".png"<br/>
     /// Extension.MP4 -> ".mp4"
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static string GetString(this Extension extension) => extension switch
     {
         Extension.JPG => ".jpg",
@@ -203,6 +204,7 @@ internal static class FileDownloader
     /// ".png" -> Extension.PNG<br/>
     /// ".mp4" -> Extension.MP4
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static Extension GetExtension(this string extensionStr) => extensionStr.ToLowerInvariant() switch
     {
         ".jpg" or ".jpeg" => Extension.JPG,
