@@ -43,10 +43,10 @@ namespace MyScripts.EditorExtension.Private
         /// ダブルクリックのコールバック
         /// </summary>
         [OnOpenAsset(0)]
-        internal static bool OnOpen(int instanceID, int line)
+        internal static bool OnOpen(int entityId, int line)
         {
             //AudioClip以外は通常
-            if (EditorUtility.EntityIdToObject(instanceID) is not AudioClip audioClip)
+            if (EditorUtility.EntityIdToObject(entityId) is not AudioClip audioClip)
             {
                 return false;
             }

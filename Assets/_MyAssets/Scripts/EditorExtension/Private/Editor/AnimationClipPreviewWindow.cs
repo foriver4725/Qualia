@@ -27,9 +27,9 @@ namespace MyScripts.EditorExtension.Private
         private double _lastTime;
 
         [OnOpenAsset(0)]
-        internal static bool OnOpen(int id, int line)
+        internal static bool OnOpen(int entityId, int line)
         {
-            if (EditorUtility.EntityIdToObject(id) is not AnimationClip clip) return false;
+            if (EditorUtility.EntityIdToObject(entityId) is not AnimationClip clip) return false;
             var w = GetWindow<AnimationClipPreviewWindow>("AnimationClip Preview");
             w.minSize = new Vector2(640, 640);
             w._clip = clip;
