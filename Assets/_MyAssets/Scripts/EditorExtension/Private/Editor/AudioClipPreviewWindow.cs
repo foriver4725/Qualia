@@ -46,7 +46,7 @@ namespace MyScripts.EditorExtension.Private
         internal static bool OnOpen(int instanceID, int line)
         {
             //AudioClip以外は通常
-            if (EditorUtility.InstanceIDToObject(instanceID) is not AudioClip audioClip)
+            if (EditorUtility.EntityIdToObject(instanceID) is not AudioClip audioClip)
             {
                 return false;
             }

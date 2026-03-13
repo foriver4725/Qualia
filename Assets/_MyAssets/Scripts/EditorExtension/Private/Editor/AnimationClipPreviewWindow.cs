@@ -29,7 +29,7 @@ namespace MyScripts.EditorExtension.Private
         [OnOpenAsset(0)]
         internal static bool OnOpen(int id, int line)
         {
-            if (EditorUtility.InstanceIDToObject(id) is not AnimationClip clip) return false;
+            if (EditorUtility.EntityIdToObject(id) is not AnimationClip clip) return false;
             var w = GetWindow<AnimationClipPreviewWindow>("AnimationClip Preview");
             w.minSize = new Vector2(640, 640);
             w._clip = clip;
