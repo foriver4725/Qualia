@@ -3,11 +3,13 @@
 namespace MyScripts.Runtime
 {
     /// <summary>
-    /// 初めてゲームを開始した際に、最初に流れるイントロ映像を再生するクラス
+    /// 初めてゲームを開始した際に、最初に流れるイントロ画像シーケンスを再生するクラス
     /// </summary>
     internal sealed class IntroPlayer : MonoBehaviour
     {
+        [SerializeField] private Sprite[] sequenceSprites;
         [SerializeField, Range(0.0f, 10.0f)] private float durationUntilPlay = 0.5f;
+        [SerializeField] private ImageSequencePlayer.TransitDurations transitDurations;
         [SerializeField] private PauseInvoker pauseInvoker;
 
         // 他の初期化後に実行する
@@ -22,7 +24,7 @@ namespace MyScripts.Runtime
             // ポーズでなくなるまで待機
             await UniTask.WaitUntil(() => pauseInvoker.IsPaused == false, cancellationToken: ct);
 
-            await CutScenePlayer.Instance.PlayAsync(SCloudFileUrl.FileType.Movie_Intro, ct);
+            await ImageSequencePlayer.Instance.PlayAsync(sequenceSprites, transitDurations, ct);
         }
     }
 }

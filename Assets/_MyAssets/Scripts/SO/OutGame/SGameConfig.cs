@@ -8,8 +8,5 @@
 
         [SerializeField] private bool doesAlwaysShowGamepadButtonFrame = false;
         internal bool DoesAlwaysShowGamepadButtonFrame => doesAlwaysShowGamepadButtonFrame;
-
-        [SerializeField] private bool doesPlayIntroCutScene = true;
-        internal bool DoesPlayIntroCutScene => doesPlayIntroCutScene;
     }
 }
