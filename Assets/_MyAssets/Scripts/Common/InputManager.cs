@@ -22,10 +22,71 @@ namespace MyScripts.Common
             _ => InputSystem.devices[^1] switch
             {
                 Keyboard or Mouse => Device.KeyboardAndMouse,
-                Gamepad => Device.Gamepad,
-                _ => Device.Unknown,
+                Gamepad           => Device.Gamepad,
+                _                 => Device.Unknown,
             }
         };
+
+        /// <summary>
+        /// Input Actions で管理されている入力によらず現在の入力値を参照して、<br/>
+        /// 何らかのボタン系統入力が押された瞬間であるかを判定する.<br/>
+        /// それっぽくボタン系統に入りそうな入力を順に調べていく(ヒューリスティックなロジック).<br/>
+        /// </summary>
+        internal static bool CheckForAnyRawInputWasPressedThisFrame()
+        {
+            Device currentDevice = GetCurrentDevice();
+
+            // 入力デバイスがない場合は、入力があったとみなさない
+            if (currentDevice == Device.Unknown)
+            {
+                return false;
+            }
+
+            if (currentDevice == Device.KeyboardAndMouse)
+            {
+                Keyboard currentKeyboard = Keyboard.current;
+                if (currentKeyboard == null) return false;
+                // キーの精査はせず、これで簡易に判定
+                if (currentKeyboard.anyKey.wasPressedThisFrame) return true;
+
+                Mouse currentMouse = Mouse.current;
+                if (currentMouse == null) return false;
+                // 左・右・中ボタン
+                if (currentMouse.leftButton.wasPressedThisFrame) return true;
+                if (currentMouse.rightButton.wasPressedThisFrame) return true;
+                if (currentMouse.middleButton.wasPressedThisFrame) return true;
+
+                return false;
+            }
+
+            if (currentDevice == Device.Gamepad)
+            {
+                Gamepad currentGamepad = Gamepad.current;
+                if (currentGamepad == null) return false;
+                // 基本の4つボタン
+                if (currentGamepad.buttonNorth.wasPressedThisFrame) return true;
+                if (currentGamepad.buttonWest.wasPressedThisFrame) return true;
+                if (currentGamepad.buttonSouth.wasPressedThisFrame) return true;
+                if (currentGamepad.buttonEast.wasPressedThisFrame) return true;
+                // D-Pad
+                if (currentGamepad.dpad.up.wasPressedThisFrame) return true;
+                if (currentGamepad.dpad.left.wasPressedThisFrame) return true;
+                if (currentGamepad.dpad.down.wasPressedThisFrame) return true;
+                if (currentGamepad.dpad.right.wasPressedThisFrame) return true;
+                // スティック押し込み
+                if (currentGamepad.leftStickButton.wasPressedThisFrame) return true;
+                if (currentGamepad.rightStickButton.wasPressedThisFrame) return true;
+                // ショルダー・トリガー
+                if (currentGamepad.leftShoulder.wasPressedThisFrame) return true;
+                if (currentGamepad.rightShoulder.wasPressedThisFrame) return true;
+                if (currentGamepad.leftTrigger.wasPressedThisFrame) return true;
+                if (currentGamepad.rightTrigger.wasPressedThisFrame) return true;
+
+                return false;
+            }
+
+            return false;
+        }
 
         internal static void EnableAllInputs()
         {
@@ -109,6 +170,7 @@ namespace MyScripts.Common
         internal static class InGame
         {
             internal static bool Enabled { get; set; } = true;
+
             // Escape は特殊な入力のため、個別に管理する (全体の Enabled に依存しない)
             internal static bool EscapeEnabled { get; set; } = true;
 
@@ -128,7 +190,8 @@ namespace MyScripts.Common
             internal static bool Cancel => (Enabled && cancelDisableUntilNextFrameInfo.IsEnabled) ? cancel.Bool : false;
 
             // InGame <-> OutGame の橋渡しをするので、Enabled とは独立している
-            internal static bool Escape => (EscapeEnabled && escapeDisableUntilNextFrameInfo.IsEnabled) ? escape.Bool : false;
+            internal static bool Escape =>
+                (EscapeEnabled && escapeDisableUntilNextFrameInfo.IsEnabled) ? escape.Bool : false;
 
             internal static void Bind(MyActions.InGameActions actions)
             {
@@ -151,9 +214,16 @@ namespace MyScripts.Common
 
             internal static void MakeSubmitInputDisabledUntilNextFrame() => submitDisableUntilNextFrameInfo.Invoke();
             internal static void MakeCancelInputDisabledUntilNextFrame() => cancelDisableUntilNextFrameInfo.Invoke();
-            internal static void MakeMoveLeftInputDisabledUntilNextFrame() => moveLeftDisableUntilNextFrameInfo.Invoke();
-            internal static void MakeMoveRightInputDisabledUntilNextFrame() => moveRightDisableUntilNextFrameInfo.Invoke();
-            internal static void MakeMoveDownInputDisabledUntilNextFrame() => moveDownDisableUntilNextFrameInfo.Invoke();
+
+            internal static void MakeMoveLeftInputDisabledUntilNextFrame() =>
+                moveLeftDisableUntilNextFrameInfo.Invoke();
+
+            internal static void MakeMoveRightInputDisabledUntilNextFrame() =>
+                moveRightDisableUntilNextFrameInfo.Invoke();
+
+            internal static void MakeMoveDownInputDisabledUntilNextFrame() =>
+                moveDownDisableUntilNextFrameInfo.Invoke();
+
             internal static void MakeMoveUpInputDisabledUntilNextFrame() => moveUpDisableUntilNextFrameInfo.Invoke();
 
             private static InputInfo submit;
@@ -165,9 +235,16 @@ namespace MyScripts.Common
 
             internal static bool Submit => (Enabled && submitDisableUntilNextFrameInfo.IsEnabled) ? submit.Bool : false;
             internal static bool Cancel => (Enabled && cancelDisableUntilNextFrameInfo.IsEnabled) ? cancel.Bool : false;
-            internal static bool MoveLeft => (Enabled && moveLeftDisableUntilNextFrameInfo.IsEnabled) ? moveLeft.Bool : false;
-            internal static bool MoveRight => (Enabled && moveRightDisableUntilNextFrameInfo.IsEnabled) ? moveRight.Bool : false;
-            internal static bool MoveDown => (Enabled && moveDownDisableUntilNextFrameInfo.IsEnabled) ? moveDown.Bool : false;
+
+            internal static bool MoveLeft =>
+                (Enabled && moveLeftDisableUntilNextFrameInfo.IsEnabled) ? moveLeft.Bool : false;
+
+            internal static bool MoveRight =>
+                (Enabled && moveRightDisableUntilNextFrameInfo.IsEnabled) ? moveRight.Bool : false;
+
+            internal static bool MoveDown =>
+                (Enabled && moveDownDisableUntilNextFrameInfo.IsEnabled) ? moveDown.Bool : false;
+
             internal static bool MoveUp => (Enabled && moveUpDisableUntilNextFrameInfo.IsEnabled) ? moveUp.Bool : false;
 
             internal static void Bind(MyActions.OutGameActions actions)
@@ -186,25 +263,53 @@ namespace MyScripts.Common
         {
             internal static bool Enabled { get; set; } = true;
 
-            private static readonly MakeClickInputDisabledUntilNextFrameInfo fastenMoveSpeedDisableUntilNextFrameInfo = new();
-            private static readonly MakeClickInputDisabledUntilNextFrameInfo setGraphicQualityLowDisableUntilNextFrameInfo = new();
-            private static readonly MakeClickInputDisabledUntilNextFrameInfo setGraphicQualityMediumDisableUntilNextFrameInfo = new();
-            private static readonly MakeClickInputDisabledUntilNextFrameInfo setGraphicQualityHighDisableUntilNextFrameInfo = new();
+            private static readonly MakeClickInputDisabledUntilNextFrameInfo fastenMoveSpeedDisableUntilNextFrameInfo =
+                new();
 
-            internal static void MakeFastenMoveSpeedInputDisabledUntilNextFrame() => fastenMoveSpeedDisableUntilNextFrameInfo.Invoke();
-            internal static void MakeSetGraphicQualityLowInputDisabledUntilNextFrame() => setGraphicQualityLowDisableUntilNextFrameInfo.Invoke();
-            internal static void MakeSetGraphicQualityMediumInputDisabledUntilNextFrame() => setGraphicQualityMediumDisableUntilNextFrameInfo.Invoke();
-            internal static void MakeSetGraphicQualityHighInputDisabledUntilNextFrame() => setGraphicQualityHighDisableUntilNextFrameInfo.Invoke();
+            private static readonly MakeClickInputDisabledUntilNextFrameInfo
+                setGraphicQualityLowDisableUntilNextFrameInfo = new();
+
+            private static readonly MakeClickInputDisabledUntilNextFrameInfo
+                setGraphicQualityMediumDisableUntilNextFrameInfo = new();
+
+            private static readonly MakeClickInputDisabledUntilNextFrameInfo
+                setGraphicQualityHighDisableUntilNextFrameInfo = new();
+
+            internal static void MakeFastenMoveSpeedInputDisabledUntilNextFrame() =>
+                fastenMoveSpeedDisableUntilNextFrameInfo.Invoke();
+
+            internal static void MakeSetGraphicQualityLowInputDisabledUntilNextFrame() =>
+                setGraphicQualityLowDisableUntilNextFrameInfo.Invoke();
+
+            internal static void MakeSetGraphicQualityMediumInputDisabledUntilNextFrame() =>
+                setGraphicQualityMediumDisableUntilNextFrameInfo.Invoke();
+
+            internal static void MakeSetGraphicQualityHighInputDisabledUntilNextFrame() =>
+                setGraphicQualityHighDisableUntilNextFrameInfo.Invoke();
 
             private static InputInfo fastenMoveSpeed;
             private static InputInfo setGraphicQualityLow;
             private static InputInfo setGraphicQualityMedium;
             private static InputInfo setGraphicQualityHigh;
 
-            internal static bool FastenMoveSpeed => (Enabled && fastenMoveSpeedDisableUntilNextFrameInfo.IsEnabled) ? fastenMoveSpeed.Bool : false;
-            internal static bool SetGraphicQualityLow => (Enabled && setGraphicQualityLowDisableUntilNextFrameInfo.IsEnabled) ? setGraphicQualityLow.Bool : false;
-            internal static bool SetGraphicQualityMedium => (Enabled && setGraphicQualityMediumDisableUntilNextFrameInfo.IsEnabled) ? setGraphicQualityMedium.Bool : false;
-            internal static bool SetGraphicQualityHigh => (Enabled && setGraphicQualityHighDisableUntilNextFrameInfo.IsEnabled) ? setGraphicQualityHigh.Bool : false;
+            internal static bool FastenMoveSpeed => (Enabled && fastenMoveSpeedDisableUntilNextFrameInfo.IsEnabled)
+                ? fastenMoveSpeed.Bool
+                : false;
+
+            internal static bool SetGraphicQualityLow =>
+                (Enabled && setGraphicQualityLowDisableUntilNextFrameInfo.IsEnabled)
+                    ? setGraphicQualityLow.Bool
+                    : false;
+
+            internal static bool SetGraphicQualityMedium =>
+                (Enabled && setGraphicQualityMediumDisableUntilNextFrameInfo.IsEnabled)
+                    ? setGraphicQualityMedium.Bool
+                    : false;
+
+            internal static bool SetGraphicQualityHigh =>
+                (Enabled && setGraphicQualityHighDisableUntilNextFrameInfo.IsEnabled)
+                    ? setGraphicQualityHigh.Bool
+                    : false;
 
             internal static void Bind(MyActions.DebugActions actions)
             {

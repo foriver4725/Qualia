@@ -9,7 +9,7 @@ namespace MyScripts.Runtime
     {
         [SerializeField] private Sprite[] sequenceSprites;
         [SerializeField, Range(0.0f, 10.0f)] private float durationUntilPlay = 0.5f;
-        [SerializeField] private ImageSequencePlayer.TransitDurations transitDurations;
+        [SerializeField] private ImageSequencePlayerPlayOptions playOptions;
         [SerializeField] private PauseInvoker pauseInvoker;
 
         // 他の初期化後に実行する
@@ -22,9 +22,10 @@ namespace MyScripts.Runtime
 
             await durationUntilPlay.SecAwait(ct: ct);
             // ポーズでなくなるまで待機
-            await UniTask.WaitUntil(() => pauseInvoker.IsPaused == false, cancellationToken: ct);
+            await UniTask.WaitUntil(pauseInvoker,
+                static pauseInvoker => !pauseInvoker.IsPaused, cancellationToken: ct);
 
-            await ImageSequencePlayer.Instance.PlayAsync(sequenceSprites, transitDurations, ct);
+            await ImageSequencePlayer.Instance.PlayAsync(sequenceSprites, playOptions, ct);
         }
     }
 }

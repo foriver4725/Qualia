@@ -6812,10 +6812,13 @@ MonoBehaviour:
   - {fileID: 21300000, guid: fc0394e59f2de0740b7ca7bf5557f0fa, type: 3}
   - {fileID: 21300000, guid: 78ad3802a0854514e98974a55583e5a6, type: 3}
   durationUntilPlay: 0.5
-  transitDurations:
-    bgFadeDuration: 0.5
-    autoStepDuration: 5
-    stepFadeDuration: 0.5
+  playOptions:
+    isAutoStepEnabled: 1
+    isManualSkipEnabled: 1
+    autoStepDurationSeconds: 10
+    manualSkipInputCheckWay: 0
+    bgFadeDurationSeconds: 0.5
+    stepFadeDurationSeconds: 0.5
   pauseInvoker: {fileID: 196192313}
 --- !u!1001 &672265450
 PrefabInstance:
@@ -18470,6 +18473,7 @@ MonoBehaviour:
   bg: {fileID: 8949809241396944116}
   targetImageFront: {fileID: 549236258278958476}
   targetImageBack: {fileID: 1976381389}
+  skipText: {fileID: 549236258278958477}
 --- !u!1001 &2067324485
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19636,6 +19640,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!114 &549236258278958477 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1745476025443204593, guid: 14292838921a3534fb676bbe0e242349, type: 3}
+  m_PrefabInstance: {fileID: 549236258278958475}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1003479067552000086
 PrefabInstance:
   m_ObjectHideFlags: 0
