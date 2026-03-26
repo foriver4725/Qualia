@@ -348,6 +348,10 @@ namespace MyScripts.Runtime
                     targetSpeed *= param.MoveSpeedMultiplierWhenHasLand;
                 }
             }
+            else if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Sky)
+            {
+                if (jumpCountWhenHasSky > 0) targetSpeed *= param.MoveSpeedMultiplierWhenHasSkyAndInTheAir;
+            }
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             // for debug, make the player move faster while has the input
