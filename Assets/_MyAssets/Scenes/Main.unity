@@ -6818,7 +6818,7 @@ MonoBehaviour:
     autoStepDurationSeconds: 10
     manualSkipInputCheckWay: 0
     bgFadeDurationSeconds: 0.5
-    stepFadeDurationSeconds: 0.5
+    stepFadeDurationSeconds: 1
   pauseInvoker: {fileID: 196192313}
 --- !u!1001 &672265450
 PrefabInstance:
