@@ -27,6 +27,24 @@ namespace MyScripts.Common
             }
         };
 
+        // 現在接続されているデバイスを全て返す
+        internal static void GetCurrentDevices(ISet<Device> outDevices)
+        {
+            outDevices.Clear();
+
+            foreach (InputDevice device in InputSystem.devices)
+            {
+                if (device is Keyboard or Mouse)
+                {
+                    _ = outDevices.Add(Device.KeyboardAndMouse);
+                }
+                else if (device is Gamepad)
+                {
+                    _ = outDevices.Add(Device.Gamepad);
+                }
+            }
+        }
+
         /// <summary>
         /// Input Actions で管理されている入力によらず現在の入力値を参照して、<br/>
         /// 何らかのボタン系統入力が押された瞬間であるかを判定する.<br/>
@@ -34,55 +52,54 @@ namespace MyScripts.Common
         /// </summary>
         internal static bool CheckForAnyRawInputWasPressedThisFrame()
         {
-            Device currentDevice = GetCurrentDevice();
+            // クラスが大きいので、メソッド内のスコープに変数を閉じ込めておきたい
+            // GC.Alloc が発生するけど妥協する
+            HashSet<Device> currentDevices = new(capacity: 4);
+            GetCurrentDevices(currentDevices);
 
-            // 入力デバイスがない場合は、入力があったとみなさない
-            if (currentDevice == Device.Unknown)
-            {
-                return false;
-            }
-
-            if (currentDevice == Device.KeyboardAndMouse)
+            if (currentDevices.Contains(Device.KeyboardAndMouse))
             {
                 Keyboard currentKeyboard = Keyboard.current;
-                if (currentKeyboard == null) return false;
-                // キーの精査はせず、これで簡易に判定
-                if (currentKeyboard.anyKey.wasPressedThisFrame) return true;
+                if (currentKeyboard != null)
+                {
+                    // キーの精査はせず、これで簡易に判定
+                    if (currentKeyboard.anyKey.wasPressedThisFrame) return true;
+                }
 
                 Mouse currentMouse = Mouse.current;
-                if (currentMouse == null) return false;
-                // 左・右・中ボタン
-                if (currentMouse.leftButton.wasPressedThisFrame) return true;
-                if (currentMouse.rightButton.wasPressedThisFrame) return true;
-                if (currentMouse.middleButton.wasPressedThisFrame) return true;
-
-                return false;
+                if (currentMouse != null)
+                {
+                    // 左・右・中ボタン
+                    if (currentMouse.leftButton.wasPressedThisFrame) return true;
+                    if (currentMouse.rightButton.wasPressedThisFrame) return true;
+                    if (currentMouse.middleButton.wasPressedThisFrame) return true;
+                }
             }
 
-            if (currentDevice == Device.Gamepad)
+            if (currentDevices.Contains(Device.Gamepad))
             {
                 Gamepad currentGamepad = Gamepad.current;
-                if (currentGamepad == null) return false;
-                // 基本の4つボタン
-                if (currentGamepad.buttonNorth.wasPressedThisFrame) return true;
-                if (currentGamepad.buttonWest.wasPressedThisFrame) return true;
-                if (currentGamepad.buttonSouth.wasPressedThisFrame) return true;
-                if (currentGamepad.buttonEast.wasPressedThisFrame) return true;
-                // D-Pad
-                if (currentGamepad.dpad.up.wasPressedThisFrame) return true;
-                if (currentGamepad.dpad.left.wasPressedThisFrame) return true;
-                if (currentGamepad.dpad.down.wasPressedThisFrame) return true;
-                if (currentGamepad.dpad.right.wasPressedThisFrame) return true;
-                // スティック押し込み
-                if (currentGamepad.leftStickButton.wasPressedThisFrame) return true;
-                if (currentGamepad.rightStickButton.wasPressedThisFrame) return true;
-                // ショルダー・トリガー
-                if (currentGamepad.leftShoulder.wasPressedThisFrame) return true;
-                if (currentGamepad.rightShoulder.wasPressedThisFrame) return true;
-                if (currentGamepad.leftTrigger.wasPressedThisFrame) return true;
-                if (currentGamepad.rightTrigger.wasPressedThisFrame) return true;
-
-                return false;
+                if (currentGamepad != null)
+                {
+                    // 基本の4つボタン
+                    if (currentGamepad.buttonNorth.wasPressedThisFrame) return true;
+                    if (currentGamepad.buttonWest.wasPressedThisFrame) return true;
+                    if (currentGamepad.buttonSouth.wasPressedThisFrame) return true;
+                    if (currentGamepad.buttonEast.wasPressedThisFrame) return true;
+                    // D-Pad
+                    if (currentGamepad.dpad.up.wasPressedThisFrame) return true;
+                    if (currentGamepad.dpad.left.wasPressedThisFrame) return true;
+                    if (currentGamepad.dpad.down.wasPressedThisFrame) return true;
+                    if (currentGamepad.dpad.right.wasPressedThisFrame) return true;
+                    // スティック押し込み
+                    if (currentGamepad.leftStickButton.wasPressedThisFrame) return true;
+                    if (currentGamepad.rightStickButton.wasPressedThisFrame) return true;
+                    // ショルダー・トリガー
+                    if (currentGamepad.leftShoulder.wasPressedThisFrame) return true;
+                    if (currentGamepad.rightShoulder.wasPressedThisFrame) return true;
+                    if (currentGamepad.leftTrigger.wasPressedThisFrame) return true;
+                    if (currentGamepad.rightTrigger.wasPressedThisFrame) return true;
+                }
             }
 
             return false;

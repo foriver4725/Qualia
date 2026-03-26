@@ -154,7 +154,7 @@
 
             SetAlpha(bg, 0.0f);
             bg.enabled = true;
-            await FadeAsync(bg, bgAlphaMax, bgFadeDuration, destroyCancellationToken);
+            await FadeAsync(bg, bgAlphaMax, bgFadeDuration, ct);
         }
 
         private async UniTaskVoid OnEndPlayAsync(TimeSpan bgFadeDuration, Ct ct)
@@ -162,7 +162,7 @@
             InputManager.EnableAllInputs();
 
             SetAlpha(bg, bgAlphaMax);
-            await FadeAsync(bg, 0.0f, bgFadeDuration, destroyCancellationToken);
+            await FadeAsync(bg, 0.0f, bgFadeDuration, ct);
             bg.enabled = false;
         }
 
