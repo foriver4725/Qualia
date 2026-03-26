@@ -15,7 +15,7 @@
         [SerializeField] private float moveSpeed = 4.0f;
         [SerializeField] private float moveSpeedMultiplierWhenHasLand = 1.5f;
         [SerializeField] private float moveSpeedMultiplierWhenHasSea = 3.0f;
-        [SerializeField] private float moveSpeedMultiplierWhenHasSky = 2.0f;
+        [SerializeField] private float moveSpeedMultiplierWhenHasSkyAndInTheAir = 2.0f;
         [SerializeField] private float moveAcceleration = 10.0f;
         [SerializeField, Tooltip("入力によらない水平移動速度の,地上での減衰係数 (空気抵抗に相当)")]
         private float nativeHorizontalVelocityAttenuationRateOnGround = 0.50f;
@@ -27,7 +27,7 @@
         internal float MoveSpeed => moveSpeed;
         internal float MoveSpeedMultiplierWhenHasLand => moveSpeedMultiplierWhenHasLand;
         internal float MoveSpeedMultiplierWhenHasSea => moveSpeedMultiplierWhenHasSea;
-        internal float MoveSpeedMultiplierWhenHasSky => moveSpeedMultiplierWhenHasSky;
+        internal float MoveSpeedMultiplierWhenHasSkyAndInTheAir => moveSpeedMultiplierWhenHasSkyAndInTheAir;
         internal float MoveAcceleration => moveAcceleration;
         internal float NativeHorizontalVelocityAttenuationRateOnGround => nativeHorizontalVelocityAttenuationRateOnGround;
         internal float NativeHorizontalVelocityAttenuationRateInAir => nativeHorizontalVelocityAttenuationRateInAir;
