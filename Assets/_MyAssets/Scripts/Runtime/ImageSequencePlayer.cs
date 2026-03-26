@@ -5,6 +5,7 @@
         [SerializeField] private Image bg;
         [SerializeField] private Image targetImageFront;
         [SerializeField] private Image targetImageBack;
+        [SerializeField] private Image progressBarFillImage;
         [SerializeField] private TextMeshProUGUI skipText;
 
         internal bool IsPlaying { get; private set; } = false;
@@ -31,6 +32,9 @@
             bgAlphaMax = bg.color.a;
             SetAlpha(bg, 0.0f);
             bg.enabled = false;
+
+            progressBarFillImage.fillAmount = 0.0f;
+            progressBarFillImage.enabled = false;
 
             skipText.enabled = false;
         }
@@ -79,9 +83,14 @@
                 targetImageBack.enabled = true;
                 targetImageBack.sprite = null;
 
+                progressBarFillImage.fillAmount = 0.0f;
+                progressBarFillImage.enabled = true;
+
                 for (int i = 0; i < sequence.Count; i++)
                 {
                     Sprite sprite = sequence[i];
+
+                    progressBarFillImage.fillAmount = (float)i / sequence.Count;
 
                     bool isUsingFront = ((i & 1) == 0);
                     Image usingImage = isUsingFront ? targetImageFront : targetImageBack;
@@ -97,19 +106,27 @@
                     {
                         imageFlipWaitTasks.Clear();
 
+                        // どちらかが完了するまで待機し、完了した時点でもう一方のタスク含め、全部キャンセルする
+                        using Cts linkedCts = Cts.CreateLinkedTokenSource(ct);
+
                         if (playOptions.IsAutoStepEnabled)
                         {
-                            float waitSeconds = (float)playOptions.AutoStepDuration.TotalSeconds;
-                            imageFlipWaitTasks.Add(waitSeconds.SecAwait(ct: ct));
+                            imageFlipWaitTasks.Add(UniTask.WhenAll(
+                                playOptions.AutoStepDuration.Await(ct: linkedCts.Token),
+                                ChangeFillAmountAsync(progressBarFillImage, (float)(i + 1) / sequence.Count,
+                                    playOptions.AutoStepDuration, linkedCts.Token)
+                            ));
                         }
 
                         if (playOptions.IsManualSkipEnabled)
                         {
                             imageFlipWaitTasks.Add(UniTask.WaitUntil(playOptions.ManualSkipInputChecker,
-                                static inputChecker => inputChecker(), cancellationToken: ct));
+                                static inputChecker => inputChecker(), cancellationToken: linkedCts.Token));
                         }
 
                         await UniTask.WhenAny(imageFlipWaitTasks);
+
+                        linkedCts.Cancel();
                     }
                 }
 
@@ -120,6 +137,9 @@
                 SetAlpha(targetImageBack, 0.0f);
                 targetImageBack.enabled = false;
                 targetImageBack.sprite = null;
+
+                progressBarFillImage.fillAmount = 0.0f;
+                progressBarFillImage.enabled = false;
             }
 
             OnEndPlayAsync(playOptions.BgFadeDuration, ct).Forget();
@@ -146,12 +166,22 @@
             bg.enabled = false;
         }
 
-        // 重複実行はバグると思う
         private static async UniTask FadeAsync(Image image, float targetAlpha, TimeSpan duration, Ct ct)
             => await LMotion.Create(image.color.a, targetAlpha, (float)duration.TotalSeconds)
                 .WithEase(Ease.OutQuad)
                 .Bind(alpha => SetAlpha(image, alpha))
                 .ToUniTask(cancellationToken: ct);
+
+        private static async UniTask ChangeFillAmountAsync(
+            Image image, float targetFillAmount, TimeSpan duration, Ct ct)
+        {
+            targetFillAmount = Mathf.Clamp01(targetFillAmount);
+
+            await LMotion.Create(image.fillAmount, targetFillAmount, (float)duration.TotalSeconds)
+                .WithEase(Ease.Linear)
+                .Bind(fillAmount => image.fillAmount = fillAmount)
+                .ToUniTask(cancellationToken: ct);
+        }
 
         private static void SetAlpha(Image image, float alpha)
         {
