@@ -28,7 +28,7 @@ MonoBehaviour:
   jumpHeight: 5
   jumpHeightWhenHasSkyAndInTheAir: 30
   ownGravity: -15
-  ownGravityWhenHasSkyAndIsFalling: -1
+  ownGravityWhenHasSkyAndIsFalling: -0.6
   inertiaJumpVelocity: {x: 30, y: 15, z: 30}
   inertiaJumpLimitSpeedSqr: 100
   inertiaJumpCoolTime: 0.1
