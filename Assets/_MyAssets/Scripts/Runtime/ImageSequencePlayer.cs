@@ -174,14 +174,10 @@
 
         private static async UniTask ChangeFillAmountAsync(
             Image image, float targetFillAmount, TimeSpan duration, Ct ct)
-        {
-            targetFillAmount = Mathf.Clamp01(targetFillAmount);
-
-            await LMotion.Create(image.fillAmount, targetFillAmount, (float)duration.TotalSeconds)
+            => await LMotion.Create(image.fillAmount, targetFillAmount, (float)duration.TotalSeconds)
                 .WithEase(Ease.Linear)
                 .Bind(fillAmount => image.fillAmount = fillAmount)
                 .ToUniTask(cancellationToken: ct);
-        }
 
         private static void SetAlpha(Image image, float alpha)
         {
