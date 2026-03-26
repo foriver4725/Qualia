@@ -68,12 +68,8 @@
             "再生を開始しました。".Print();
 
             // 2つのImageを交互にフェードイン・アウトさせて、滑らかなトランジションを実現する
-
             {
-                // スキップテキストをオン/オフ
-                skipText.enabled = playOptions.IsManualSkipEnabled;
-
-                // 再生中、ずっとアクティブにしておく
+                // 再生中は、ずっとコンポーネントを有効にしておく
 
                 SetAlpha(targetImageFront, 0.0f);
                 targetImageFront.enabled = true;
@@ -85,6 +81,8 @@
 
                 progressBarFillImage.fillAmount = 0.0f;
                 progressBarFillImage.enabled = true;
+
+                skipText.enabled = playOptions.IsManualSkipEnabled;
 
                 for (int i = 0; i < sequence.Count; i++)
                 {
@@ -140,6 +138,8 @@
 
                 progressBarFillImage.fillAmount = 0.0f;
                 progressBarFillImage.enabled = false;
+
+                skipText.enabled = false;
             }
 
             OnEndPlayAsync(playOptions.BgFadeDuration, ct).Forget();
