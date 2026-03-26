@@ -8,12 +8,10 @@ namespace MyScripts.Runtime
         [SerializeField] private Image bg;
         [SerializeField] private RawImage rawImage;
         [SerializeField] private VideoPlayer videoPlayer;
-        [SerializeField] private SCloudFileUrl cloudFileUrl;
-        [SerializeField] private SGameConfig gameConfig;
 
         private bool isPlaying = false;
         // 最後に再生したカットシーン種別 (再生終了後も保持)
-        private SCloudFileUrl.FileType currentPlayingType; // 動画のみが入る想定
+        private string currentPlayingId; // 動画のみが入る想定
 
         // Awake で初期化
         private float bgAlphaMax;
@@ -41,32 +39,24 @@ namespace MyScripts.Runtime
             videoPlayer.loopPointReached -= OnLoopPointReached;
         }
 
-        public async UniTask PlayAsync(SCloudFileUrl.FileType type, Ct ct)
+        public async UniTask PlayAsync(string id, Ct ct)
         {
             ct.ThrowIfCancellationRequested();
 
             if (isPlaying)
             {
-                $"既に{currentPlayingType}のカットシーンが再生中です。".Print(LogSettings.Warning);
+                $"既に{currentPlayingId}のカットシーンが再生中です。".Print(LogSettings.Warning);
                 return;
             }
-
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-            if (!gameConfig.DoesPlayIntroCutScene && type == SCloudFileUrl.FileType.Movie_Intro)
-            {
-                "イントロカットシーンの再生は設定で無効化されています。".Print(LogSettings.Warning);
-                return;
-            }
-#endif
 
             // 状態を更新
             isPlaying = true;
-            currentPlayingType = type; // 元に戻すことはない
+            currentPlayingId = id; // 元に戻すことはない
             OnBeginPlay();
 
             "カットシーンのダウンロード中...".Print();
 
-            string url = cloudFileUrl.Get(type);
+            string url = id;
             (bool success, string savePath) = await DownloadManager.Instance.DownloadFileAsync(url, true, ct);
             if (!success)
             {
