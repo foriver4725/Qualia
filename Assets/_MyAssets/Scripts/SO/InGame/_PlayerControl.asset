@@ -13,20 +13,22 @@ MonoBehaviour:
   m_Name: _PlayerControl
   m_EditorClassIdentifier: 
   moveSpeed: 6
-  sprintSpeedMultiplier: 2
   moveSpeedMultiplierWhenHasLand: 1.5
   moveSpeedMultiplierWhenHasSea: 3
+  moveSpeedMultiplierWhenHasSky: 2
   moveAcceleration: 10
   nativeHorizontalVelocityAttenuationRateOnGround: 0.5
   nativeHorizontalVelocityAttenuationRateInAir: 0.02
   moveInputInsensitiveTiming: 2
   moveInputInsensitiveRate: 0.2
+  sprintSpeedMultiplier: 2
+  sprintDirectionAllowedAngle: 120
   rotationSpeed: 1
   cameraPitchRange: {x: -90, y: 90}
   jumpHeight: 5
   jumpHeightWhenHasSkyAndInTheAir: 30
   ownGravity: -15
-  ownGravityWhenHasSkyAndIsFalling: -1
+  ownGravityWhenHasSkyAndIsFalling: -0.6
   inertiaJumpVelocity: {x: 30, y: 15, z: 30}
   inertiaJumpLimitSpeedSqr: 100
   inertiaJumpCoolTime: 0.1
