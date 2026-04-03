@@ -36,14 +36,42 @@
                 int count = param.GetCount(group);
                 Transform parent = GetParent(group);
 
+                // 座標を生成
                 Vector3[] positions = new Vector3[count];
-                if (group == Group.SOS_Land) CreateInstancePositions_SOS_Land(positions);
-                else if (group == Group.SOS_Sea) CreateInstancePositions_SOS_Sea(positions);
-                else if (group == Group.SOS_Sky) CreateInstancePositions_SOS_Sky(positions, treeInfos);
-                else if (group == Group.Anima_Land) CreateInstancePositions_Anima_Land(positions, sosLandPositions);
-                else if (group == Group.Anima_Sea) CreateInstancePositions_Anima_Sea(positions, sosSeaPositions);
-                else if (group == Group.Anima_Sky) CreateInstancePositions_Anima_Sky(positions);
-                else throw new ArgumentOutOfRangeException(nameof(group), group, null);
+                for (int j = 0; j < count; i++)
+                {
+                    // 上限に達するまで、配置できる座標を探し続ける
+                    int attemptIndex = 0;
+                    while (attemptIndex < param.PositionCreateMaxAttempts)
+                    {
+                        ReadOnlySpan<Vector3> createdPositions = positions.AsSpan(0, j);
+
+                        Vector3 newPosition;
+                        bool success = group switch
+                        {
+                            Group.SOS_Land => CreateNewPosition_SOS_Land(createdPositions, out newPosition),
+                            Group.SOS_Sea  => CreateNewPosition_SOS_Sea(createdPositions, out newPosition),
+                            Group.SOS_Sky  => CreateNewPosition_SOS_Sky(out newPosition, treeInfos[j]),
+                            Group.Anima_Land => CreateNewPosition_Anima_Land(createdPositions, out newPosition,
+                                sosLandPositions),
+                            Group.Anima_Sea => CreateNewPosition_Anima_Sea(createdPositions, out newPosition,
+                                sosSeaPositions),
+                            Group.Anima_Sky => CreateNewPosition_Anima_Sky(createdPositions, out newPosition),
+                            _               => throw new ArgumentOutOfRangeException(nameof(group), group, null),
+                        };
+
+                        if (!success)
+                        {
+                            attemptIndex++;
+                            continue;
+                        }
+                        else
+                        {
+                            positions[j] = newPosition;
+                            break;
+                        }
+                    }
+                }
 
                 foreach (Vector3 position in positions)
                 {
@@ -117,7 +145,8 @@
             return outInfoIndex;
         }
 
-        private static void CreateInstancePositions_SOS_Land(Span<Vector3> outPositions)
+        private static bool CreateNewPosition_SOS_Land(
+            ReadOnlySpan<Vector3> createdPositions, out Vector3 outPosition)
         {
             const float CenterX = -500f;
             const float CenterZ = 350f;
@@ -125,109 +154,84 @@
             const float MinDistance = 20.0f;      // 他のオブジェクトと、最低どれ以上話すか (m. XZ平面距離)
             const float HeightAboveGround = 0.1f; // 地表からどのくらい上に配置するか (m)
 
-            // 失敗した場合は Vector3.zero にするため、あらかじめ埋めておく
-            outPositions.Fill(Vector3.zero);
+            outPosition = Vector3.zero;
 
-            for (int i = 0; i < outPositions.Length; i++)
+            // ランダムな位置を計算 (X, Z)
+            // 極座標系でランダムに選ぶ
+            float r = Random.Range(0f, MaxRange);
+            float theta = Random.Range(0f, Mathf.PI * 2f);
+            float x = CenterX + r * Mathf.Cos(theta);
+            float z = CenterZ + r * Mathf.Sin(theta);
+
+            // 既に配置されたオブジェクトとの距離をチェック
+            foreach (var pos in createdPositions)
             {
-                // ランダムな位置を計算 (X, Z)
-                // 極座標系でランダムに選ぶ
-                float r = Random.Range(0f, MaxRange);
-                float theta = Random.Range(0f, Mathf.PI * 2f);
-                float x = CenterX + r * Mathf.Cos(theta);
-                float z = CenterZ + r * Mathf.Sin(theta);
-
-                // 既に配置されたオブジェクトとの距離をチェック
+                float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
+                if (distanceSq < MinDistance * MinDistance)
                 {
-                    bool tooClose = false;
-                    foreach (var pos in outPositions)
-                    {
-                        // 未使用の要素に到達したら終了
-                        if (pos == Vector3.zero)
-                            break;
-
-                        float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
-                        if (distanceSq < MinDistance * MinDistance)
-                        {
-                            tooClose = true;
-                            break;
-                        }
-                    }
-
-                    if (tooClose)
-                        continue; // 近すぎるなら再試行
+                    return false; // 近すぎる
                 }
-
-                // 地表のY座標を算出
-                // レイを打つ
-                Ray ray = new Ray(new Vector3(x, 1000f, z), Vector3.down);
-                if (!Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity))
-                    continue; // 地表が見つからなかった場合は再試行
-
-                // 水上には配置できない
-                string hitObjectName = hitInfo.collider.gameObject.name;
-                if (hitObjectName == "WaterPlane")
-                    continue; // 再試行
-
-                // 配置成功
-                Vector3 position = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
-                outPositions[i] = position;
             }
+
+            // 地表のY座標を算出
+            // 無限長のレイを打つ
+            if (!Physics.Raycast(new Vector3(x, 1000f, z), Vector3.down, out RaycastHit hitInfo))
+                return false; // 地表が見つからなかった
+
+            // 水上には配置できない
+            string hitObjectName = hitInfo.collider.gameObject.name;
+            if (hitObjectName == "WaterPlane")
+                return false;
+
+            // 配置成功
+            outPosition = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
+            return false;
         }
 
-        private static void CreateInstancePositions_SOS_Sea(Span<Vector3> outPositions)
+        private static bool CreateNewPosition_SOS_Sea(
+            ReadOnlySpan<Vector3> createdPositions, out Vector3 outPosition)
         {
             const float CenterX = -500f;
             const float CenterZ = 350f;
             const float MaxRange = 600.0f;
             const float HeightAboveGround = 0.1f; // 地表からどのくらい上に配置するか (m)
 
-            for (int i = 0; i < outPositions.Length; i++)
-            {
-                // ランダムな位置を計算 (X, Z)
-                // 極座標系でランダムに選ぶ
-                float r = Random.Range(0f, MaxRange);
-                float theta = Random.Range(0f, Mathf.PI * 2f);
-                float x = CenterX + r * Mathf.Cos(theta);
-                float z = CenterZ + r * Mathf.Sin(theta);
+            outPosition = Vector3.zero;
 
-                // 地表のY座標を算出
-                // レイを打つ
-                Ray ray = new Ray(new Vector3(x, 1000f, z), Vector3.down);
-                if (!Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity))
-                    continue; // 地表が見つからなかった場合は再試行
+            // ランダムな位置を計算 (X, Z)
+            // 極座標系でランダムに選ぶ
+            float r = Random.Range(0f, MaxRange);
+            float theta = Random.Range(0f, Mathf.PI * 2f);
+            float x = CenterX + r * Mathf.Cos(theta);
+            float z = CenterZ + r * Mathf.Sin(theta);
 
-                // 水上にしか配置できない
-                string hitObjectName = hitInfo.collider.gameObject.name;
-                if (hitObjectName != "WaterPlane")
-                    continue; // 再試行
+            // 地表のY座標を算出
+            // 無限長のレイを打つ
+            if (!Physics.Raycast(new Vector3(x, 1000f, z), Vector3.down, out RaycastHit hitInfo))
+                return false; // 地表が見つからなかった
 
-                // 配置成功
-                Vector3 position = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
-                outPositions[i] = position;
-            }
+            // 水上にしか配置できない
+            string hitObjectName = hitInfo.collider.gameObject.name;
+            if (hitObjectName != "WaterPlane")
+                return false;
+
+            // 配置成功
+            outPosition = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
+            return true;
         }
 
-        private static void CreateInstancePositions_SOS_Sky(Span<Vector3> outPositions,
-            ReadOnlySpan<TerrainTreeInfo> treeInfos)
+        private static bool CreateNewPosition_SOS_Sky(
+            out Vector3 outPosition,
+            TerrainTreeInfo treeInfo)
         {
-            for (int i = 0; i < outPositions.Length; i++)
-            {
-                // テラインに存在するツリーの個数を超えてしまう
-                if (i >= treeInfos.Length)
-                    return; // 多すぎるので、ここで終わり
-
-                // ランダムに、木の上の方に配置
-                TerrainTreeInfo treeInfo = treeInfos[i];
-                float height = Random.Range(treeInfo.Height * 0.5f, treeInfo.Height * 0.95f);
-                Vector3 position = treeInfo.Position + Vector3.up * height;
-
-                // 配置成功
-                outPositions[i] = position;
-            }
+            // ランダムに、木の上の方に配置
+            float height = Random.Range(treeInfo.Height * 0.5f, treeInfo.Height * 0.95f);
+            outPosition = treeInfo.Position + Vector3.up * height;
+            return true;
         }
 
-        private static void CreateInstancePositions_Anima_Land(Span<Vector3> outPositions,
+        private static bool CreateNewPosition_Anima_Land(
+            ReadOnlySpan<Vector3> createdPositions, out Vector3 outPosition,
             Span<Vector3> sosLandPositions)
         {
             const float CenterX = -500f;
@@ -239,94 +243,71 @@
             const float HeightAboveGround = 0.1f;         // 地表からどのくらい上に配置するか (m)
             const float WaterPlacementProbability = 0.1f; // 水上に配置する確率
 
-            for (int i = 0; i < outPositions.Length; i++)
+            outPosition = Vector3.zero;
+
+            // ランダムな位置を計算 (X, Z)
+            // 極座標系でランダムに選ぶ
+            float r = Random.Range(0f, MaxRange);
+            float theta = Random.Range(0f, Mathf.PI * 2f);
+            float x = CenterX + r * Mathf.Cos(theta);
+            float z = CenterZ + r * Mathf.Sin(theta);
+
+            // 既に配置されたオブジェクトとの距離をチェック
+            foreach (var pos in createdPositions)
             {
-                // ランダムな位置を計算 (X, Z)
-                // 極座標系でランダムに選ぶ
-                float r = Random.Range(0f, MaxRange);
-                float theta = Random.Range(0f, Mathf.PI * 2f);
-                float x = CenterX + r * Mathf.Cos(theta);
-                float z = CenterZ + r * Mathf.Sin(theta);
-
-                // 既に配置されたオブジェクトとの距離をチェック
+                float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
+                if (distanceSq < MinDistance * MinDistance)
                 {
-                    bool tooClose = false;
-                    foreach (var pos in outPositions)
-                    {
-                        if (pos == Vector3.zero)
-                            break; // 未使用の要素に到達したら終了
-
-                        float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
-                        if (distanceSq < MinDistance * MinDistance)
-                        {
-                            tooClose = true;
-                            break;
-                        }
-                    }
-
-                    if (tooClose)
-                        continue; // 近すぎるなら再試行
+                    return false; // 近すぎる
                 }
-
-                // 対応するSOSオブジェクトとの距離をチェック
-                {
-                    bool tooCloseToSOS = false;
-                    foreach (var pos in sosLandPositions)
-                    {
-                        if (pos == Vector3.zero)
-                            break; // 未使用の要素に到達したら終了
-
-                        float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
-                        if (distanceSq < MinDistanceToSOS * MinDistanceToSOS)
-                        {
-                            tooCloseToSOS = true;
-                            break;
-                        }
-                    }
-
-                    if (tooCloseToSOS)
-                        continue; // 近すぎるなら再試行
-                }
-                {
-                    bool tooFarFromSOS = true;
-                    foreach (var pos in sosLandPositions)
-                    {
-                        if (pos == Vector3.zero)
-                            break; // 未使用の要素に到達したら終了
-
-                        float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
-                        if (distanceSq <= MaxDistanceToSOS * MaxDistanceToSOS)
-                        {
-                            tooFarFromSOS = false;
-                            break;
-                        }
-                    }
-
-                    if (tooFarFromSOS)
-                        continue; // 離れすぎているなら再試行
-                }
-
-                // 地表のY座標を算出
-                // レイを打つ
-                Ray ray = new Ray(new Vector3(x, 1000f, z), Vector3.down);
-                if (!Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity))
-                    continue; // 地表が見つからなかった場合は再試行
-
-                // 水上には、滅多に配置できない
-                string hitObjectName = hitInfo.collider.gameObject.name;
-                if (hitObjectName == "WaterPlane")
-                {
-                    if (Random.value > WaterPlacementProbability)
-                        continue; // 再試行
-                }
-
-                // 配置成功
-                Vector3 position = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
-                outPositions[i] = position;
             }
+
+            // 対応するSOSオブジェクトとの距離をチェック
+            foreach (var pos in sosLandPositions)
+            {
+                float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
+                if (distanceSq < MinDistanceToSOS * MinDistanceToSOS)
+                {
+                    return false; // 近すぎる
+                }
+            }
+
+            {
+                bool tooFarFromSOS = true;
+                foreach (var pos in sosLandPositions)
+                {
+                    float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
+                    if (distanceSq <= MaxDistanceToSOS * MaxDistanceToSOS)
+                    {
+                        tooFarFromSOS = false;
+                        break;
+                    }
+                }
+
+                if (tooFarFromSOS)
+                    return false; // 離れすぎている
+            }
+
+            // 地表のY座標を算出
+            // 無限長のレイを打つ
+            if (!Physics.Raycast(new Vector3(x, 1000f, z), Vector3.down, out RaycastHit hitInfo))
+                return false; // 地表が見つからなかった
+
+            // 水上には、滅多に配置できない
+            string hitObjectName = hitInfo.collider.gameObject.name;
+            if (hitObjectName == "WaterPlane")
+            {
+                if (Random.value > WaterPlacementProbability)
+                    return false;
+            }
+
+            // 配置成功
+            outPosition = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
+            return true;
         }
 
-        private static void CreateInstancePositions_Anima_Sea(Span<Vector3> outPositions,
+        private static bool CreateNewPosition_Anima_Sea(
+            ReadOnlySpan<Vector3> createdPositions, out Vector3 outPosition,
             Span<Vector3> sosSeaPositions)
         {
             const float CenterX = -500f;
@@ -338,94 +319,71 @@
             const float HeightAboveGround = 0.1f;        // 地表からどのくらい上に配置するか (m)
             const float LandPlacementProbability = 0.5f; // 水上以外の場所に配置する確率
 
-            for (int i = 0; i < outPositions.Length; i++)
+            outPosition = Vector3.zero;
+
+            // ランダムな位置を計算 (X, Z)
+            // 極座標系でランダムに選ぶ
+            float r = Random.Range(0f, MaxRange);
+            float theta = Random.Range(0f, Mathf.PI * 2f);
+            float x = CenterX + r * Mathf.Cos(theta);
+            float z = CenterZ + r * Mathf.Sin(theta);
+
+            // 既に配置されたオブジェクトとの距離をチェック
+            foreach (var pos in createdPositions)
             {
-                // ランダムな位置を計算 (X, Z)
-                // 極座標系でランダムに選ぶ
-                float r = Random.Range(0f, MaxRange);
-                float theta = Random.Range(0f, Mathf.PI * 2f);
-                float x = CenterX + r * Mathf.Cos(theta);
-                float z = CenterZ + r * Mathf.Sin(theta);
-
-                // 地表のY座標を算出
-                // レイを打つ
-                Ray ray = new Ray(new Vector3(x, 1000f, z), Vector3.down);
-                if (!Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity))
-                    continue; // 地表が見つからなかった場合は再試行
-
-                // 既に配置されたオブジェクトとの距離をチェック
+                float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
+                if (distanceSq < MinDistance * MinDistance)
                 {
-                    bool tooClose = false;
-                    foreach (var pos in outPositions)
-                    {
-                        if (pos == Vector3.zero)
-                            break; // 未使用の要素に到達したら終了
-
-                        float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
-                        if (distanceSq < MinDistance * MinDistance)
-                        {
-                            tooClose = true;
-                            break;
-                        }
-                    }
-
-                    if (tooClose)
-                        continue; // 近すぎるなら再試行
+                    return false; // 近すぎる
                 }
-
-                // 対応するSOSオブジェクトとの距離をチェック
-                {
-                    bool tooCloseToSOS = false;
-                    foreach (var pos in sosSeaPositions)
-                    {
-                        if (pos == Vector3.zero)
-                            break; // 未使用の要素に到達したら終了
-
-                        float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
-                        if (distanceSq < MinDistanceToSOS * MinDistanceToSOS)
-                        {
-                            tooCloseToSOS = true;
-                            break;
-                        }
-                    }
-
-                    if (tooCloseToSOS)
-                        continue; // 近すぎるなら再試行
-                }
-                {
-                    bool tooFarFromSOS = true;
-                    foreach (var pos in sosSeaPositions)
-                    {
-                        if (pos == Vector3.zero)
-                            break; // 未使用の要素に到達したら終了
-
-                        float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
-                        if (distanceSq <= MaxDistanceToSOS * MaxDistanceToSOS)
-                        {
-                            tooFarFromSOS = false;
-                            break;
-                        }
-                    }
-
-                    if (tooFarFromSOS)
-                        continue; // 離れすぎているなら再試行
-                }
-
-                // 水上以外には、それほど配置できない
-                string hitObjectName = hitInfo.collider.gameObject.name;
-                if (hitObjectName != "WaterPlane")
-                {
-                    if (Random.value > LandPlacementProbability)
-                        continue; // 再試行
-                }
-
-                // 配置成功
-                Vector3 position = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
-                outPositions[i] = position;
             }
+
+            // 対応するSOSオブジェクトとの距離をチェック
+            foreach (var pos in sosSeaPositions)
+            {
+                float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
+                if (distanceSq < MinDistanceToSOS * MinDistanceToSOS)
+                {
+                    return false; // 近すぎる
+                }
+            }
+
+            {
+                bool tooFarFromSOS = true;
+                foreach (var pos in sosSeaPositions)
+                {
+                    float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
+                    if (distanceSq <= MaxDistanceToSOS * MaxDistanceToSOS)
+                    {
+                        tooFarFromSOS = false;
+                        break;
+                    }
+                }
+
+                if (tooFarFromSOS)
+                    return false; // 離れすぎている
+            }
+
+            // 地表のY座標を算出
+            // 無限長のレイを打つ
+            if (!Physics.Raycast(new Vector3(x, 1000f, z), Vector3.down, out RaycastHit hitInfo))
+                return false; // 地表が見つからなかった
+
+            // 水上以外には、それほど配置できない
+            string hitObjectName = hitInfo.collider.gameObject.name;
+            if (hitObjectName != "WaterPlane")
+            {
+                if (Random.value > LandPlacementProbability)
+                    return false;
+            }
+
+            // 配置成功
+            outPosition = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
+            return true;
         }
 
-        private static void CreateInstancePositions_Anima_Sky(Span<Vector3> outPositions)
+        private static bool CreateNewPosition_Anima_Sky(
+            ReadOnlySpan<Vector3> createdPositions, out Vector3 outPosition)
         {
             // 場所を問わず、まばらに配置する
 
@@ -435,45 +393,33 @@
             const float MinDistance = 40.0f;      // 他のオブジェクトと、最低どれ以上話すか (m. XZ平面距離)
             const float HeightAboveGround = 0.1f; // 地表からどのくらい上に配置するか (m)
 
-            for (int i = 0; i < outPositions.Length; i++)
+            outPosition = Vector3.zero;
+
+            // ランダムな位置を計算 (X, Z)
+            // 極座標系でランダムに選ぶ
+            float r = Random.Range(0f, MaxRange);
+            float theta = Random.Range(0f, Mathf.PI * 2f);
+            float x = CenterX + r * Mathf.Cos(theta);
+            float z = CenterZ + r * Mathf.Sin(theta);
+
+            // 既に配置されたオブジェクトとの距離をチェック
+            foreach (var pos in createdPositions)
             {
-                // ランダムな位置を計算 (X, Z)
-                // 極座標系でランダムに選ぶ
-                float r = Random.Range(0f, MaxRange);
-                float theta = Random.Range(0f, Mathf.PI * 2f);
-                float x = CenterX + r * Mathf.Cos(theta);
-                float z = CenterZ + r * Mathf.Sin(theta);
-
-                // 既に配置されたオブジェクトとの距離をチェック
+                float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
+                if (distanceSq < MinDistance * MinDistance)
                 {
-                    bool tooClose = false;
-                    foreach (var pos in outPositions)
-                    {
-                        if (pos == Vector3.zero)
-                            break; // 未使用の要素に到達したら終了
-
-                        float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
-                        if (distanceSq < MinDistance * MinDistance)
-                        {
-                            tooClose = true;
-                            break;
-                        }
-                    }
-
-                    if (tooClose)
-                        continue; // 近すぎるなら再試行
+                    return false; // 近すぎる
                 }
-
-                // 地表のY座標を算出
-                // レイを打つ
-                Ray ray = new Ray(new Vector3(x, 1000f, z), Vector3.down);
-                if (!Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity))
-                    continue; // 地表が見つからなかった場合は再試行
-
-                // 配置成功
-                Vector3 position = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
-                outPositions[i] = position;
             }
+
+            // 地表のY座標を算出
+            // 無限長のレイを打つ
+            if (!Physics.Raycast(new Vector3(x, 1000f, z), Vector3.down, out RaycastHit hitInfo))
+                return false; // 地表が見つからなかった
+
+            // 配置成功
+            outPosition = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
+            return true;
         }
     }
 }
