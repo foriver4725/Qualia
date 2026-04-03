@@ -66,7 +66,7 @@
 
         [SerializeField] private FixedPositionCreateSettings fixedPositionCreate;
         internal FixedPositionCreateSettings FixedPositionCreate => fixedPositionCreate;
-        // formatter:on
+        // @formatter:on
 
         internal GameObject GetPrefab(Group group) => group switch
         {
