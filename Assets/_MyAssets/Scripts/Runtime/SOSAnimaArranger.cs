@@ -16,6 +16,13 @@ namespace MyScripts.Runtime
             internal readonly float Height { get; init; }
         }
 
+        // クラスのインスタンス化時に処理できないので、プロパティで代用
+        // 他のクラスが Awake などで先に処理を始めても、確実に値がセットされるようにする
+        private static int _groundLayer = -1;
+
+        private static int GroundLayer =>
+            (_groundLayer != -1) ? _groundLayer : (_groundLayer = LayerMask.GetMask("Default"));
+
         internal void ArrangeRandomly(int randomSeed)
         {
             // 乱数シードを設定
@@ -410,8 +417,9 @@ namespace MyScripts.Runtime
         /// </summary>
         private static bool DoesGroundExistBelow(Vector2 positionXZ, out RaycastHit rayCastHitInfo)
         {
-            Vector3 origin = positionXZ.ToVector3(y: 1000.0f);                // 十分高い位置から
-            return Physics.Raycast(origin, Vector3.down, out rayCastHitInfo); // 真下に無限長
+            // 十分高い位置から、真下に向かって無限長のレイを飛ばす
+            Ray ray = new Ray(positionXZ.ToVector3(y: 1000.0f), Vector3.down);
+            return Physics.Raycast(ray, out rayCastHitInfo, float.PositiveInfinity, GroundLayer);
         }
     }
 }
