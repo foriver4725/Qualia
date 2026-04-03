@@ -31,6 +31,7 @@
         [SerializeField, Range(0, 1000)] private int animaSeaCount = 100;
         [SerializeField, Range(0, 1000)] private int animaSkyCount = 100;
 
+        [Header("Arrangement Settings")]
         [SerializeField, Range(0, 1000), Tooltip("1つの配置につき、配置場所を最大何回探索するか")]
         private int positionCreateMaxAttempts = 100;
         [SerializeField] private Vector2 positionCreateCenter = new Vector2(-500f, 350f);

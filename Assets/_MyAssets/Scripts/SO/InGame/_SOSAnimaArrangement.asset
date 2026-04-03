@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baf33e504a4944c2a753c290fac78f48, type: 3}
+  m_Name: _SOSAnimaArrangement
+  m_EditorClassIdentifier: MyScripts::MyScripts.SO.SSOSAnimaArrangement
+  sosLandPrefab: {fileID: 1603259194534270605, guid: 6dc0ee221ebd95f48b23366aa199bd5b, type: 3}
+  sosSeaPrefab: {fileID: 4988262158742212757, guid: 5360be36be2ef894da4779b91163f7ca, type: 3}
+  sosSkyPrefab: {fileID: 5731226785723046426, guid: f809307ebad753a4bbea6664d89dc69b, type: 3}
+  animaLandPrefab: {fileID: 8578134028366970569, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
+  animaSeaPrefab: {fileID: 7245798877572402704, guid: aeb96043e18df644db526e8938a536ab, type: 3}
+  animaSkyPrefab: {fileID: 1787280822401375338, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
+  sosLandCount: 70
+  sosSeaCount: 20
+  sosSkyCount: 10
+  animaLandCount: 60
+  animaSeaCount: 15
+  animaSkyCount: 15
+  positionCreateMaxAttempts: 100
+  positionCreateCenter: {x: -500, y: 350}
+  positionCreateMaxRange: 600
