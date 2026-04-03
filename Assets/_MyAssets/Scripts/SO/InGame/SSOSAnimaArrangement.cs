@@ -15,6 +15,7 @@
             Count,
         }
 
+        // @formatter:off
         [Header("Prefabs")]
         [SerializeField] private GameObject sosLandPrefab;
         [SerializeField] private GameObject sosSeaPrefab;
@@ -31,16 +32,41 @@
         [SerializeField, Range(0, 1000)] private int animaSeaCount = 100;
         [SerializeField, Range(0, 1000)] private int animaSkyCount = 100;
 
-        [Header("Arrangement Settings")]
-        [SerializeField, Range(0, 1000), Tooltip("1つの配置につき、配置場所を最大何回探索するか")]
-        private int maxAttempts = 100;
-        [SerializeField] private Vector2 center = new Vector2(-500f, 350f);
-        [SerializeField, Range(0.0f, 1000.0f)] private float maxRange = 600.0f;
-        [SerializeField, Range(0.0f, 5.0f)] private float heightAboveGround = 0.1f;
-        internal int MaxAttempts => maxAttempts;
-        internal  Vector2 Center => center;
-        internal float MaxRange => maxRange;
-        internal float HeightAboveGround => heightAboveGround;
+        [Serializable]
+        internal sealed class PositionCreateSettings
+        {
+            [SerializeField, Range(0, 1000), Tooltip("1つの配置につき、配置場所を最大何回探索するか")]
+            private int maxAttempts = 100;
+            [SerializeField] private Vector2 center = new Vector2(-500f, 350f);
+            [SerializeField, Range(0.0f, 1000.0f)] private float maxRange = 600.0f;
+            [SerializeField, Range(0.0f, 5.0f)] private float heightAboveGround = 0.1f;
+        
+            internal int MaxAttempts => maxAttempts;
+            internal Vector2 Center => center;
+            internal float MaxRange => maxRange;
+            internal float HeightAboveGround => heightAboveGround;
+        }
+
+        [SerializeField] private PositionCreateSettings positionCreate;
+        internal PositionCreateSettings PositionCreate => positionCreate;
+
+        [Serializable]
+        internal sealed class FixedPositionCreateSettings
+        {
+            [SerializeField, MinMaxRange(0.0f, 20.0f), Tooltip("プレイヤーから 〇[m] 離す")]
+            private Vector2 distanceRangeFromPlayer = new(3.0f, 10.0f);
+            [SerializeField, MinMaxRange(-30.0f, 30.0f), Tooltip("プレイヤーの正面方向から 〇[度] ずらす")]
+            private Vector2 angleErrorRangeFromPlayerForward = new(-30.0f, 30.0f);
+
+            internal float DistanceFromPlayerMin => distanceRangeFromPlayer.x;
+            internal float DistanceFromPlayerMax => distanceRangeFromPlayer.y;
+            internal float AngleErrorFromPlayerForwardMin => angleErrorRangeFromPlayerForward.x;
+            internal float AngleErrorFromPlayerForwardMax => angleErrorRangeFromPlayerForward.y;
+        }
+
+        [SerializeField] private FixedPositionCreateSettings fixedPositionCreate;
+        internal FixedPositionCreateSettings FixedPositionCreate => fixedPositionCreate;
+        // formatter:on
 
         internal GameObject GetPrefab(Group group) => group switch
         {

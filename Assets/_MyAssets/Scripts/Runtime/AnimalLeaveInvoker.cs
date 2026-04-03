@@ -9,14 +9,17 @@ namespace MyScripts.Runtime
         [SerializeField] private Image displayImage;
         [SerializeField] private SAnima sAnima;
         [SerializeField] private SOSSoundPlayer soundPlayer;
-        [SerializeField] private SOSSign[] landSOSSigns; // 陸のアニマは陸のSOSサインを表示させるので、ここで参照を設定する
 
+        // 陸のアニマは陸のSOSサインを表示させるので、参照が必要
+        private readonly HashSet<SOSSign> landSOSSigns = new(capacity: 1024);
         private Character possessingCharacter = null;
 
         // 現在憑依中かどうか
         internal bool IsPossessing => possessingCharacter != null;
+
         // 憑依中のキャラクターの種類 (憑依していないなら None)
-        internal CharacterType PossessingCharacterType => (possessingCharacter != null) ? possessingCharacter.CharacterType : CharacterType.None;
+        internal CharacterType PossessingCharacterType =>
+            (possessingCharacter != null) ? possessingCharacter.CharacterType : CharacterType.None;
 
         // 初めて取得したタイミングで true になり、以降二度と false にならない
         // 一回だけログで知らせるために使う
@@ -33,6 +36,10 @@ namespace MyScripts.Runtime
             SetDisplayImageFillAmount(0.0f);
         }
 
+        // SOSサインの生成タイミングがゲーム開始直後なので、それが終わったら生成されたSOSから自身を追加してもらう
+        //! なるべく速く実行し終わること!!
+        internal void AddLandSOSSign(SOSSign sosSign) => _ = landSOSSigns.Add(sosSign);
+
         // アニマを取得する
         // アニマを見えなくする (当たり判定も無効化)
         //! PossessCharacter_ShowLogIfFirstTime() のなるべく直前で呼び出すこと!! (引数は同じにする)
@@ -43,6 +50,7 @@ namespace MyScripts.Runtime
                 "すでに憑依中のアニマがあります。".Print(LogSettings.Error);
                 return;
             }
+
             if (possessingCharacter == character)
             {
                 "すでに憑依中のアニマを記録しようとしました。".Print(LogSettings.Error);
@@ -85,9 +93,9 @@ namespace MyScripts.Runtime
             LogManager2.Instance.ShowAutomatically(foundFirstTimeType switch
             {
                 CharacterType.Land => "陸の移動速度が向上し、一部のSOSの位置が可視化された！",
-                CharacterType.Sea => "水上の移動速度が大幅に向上した！",
-                CharacterType.Sky => "空中で再度ジャンプすると大ジャンプし、落下時に滑空するようになった！",
-                _ => ""
+                CharacterType.Sea  => "水上の移動速度が大幅に向上した！",
+                CharacterType.Sky  => "空中で再度ジャンプすると大ジャンプし、落下時に滑空するようになった！",
+                _                  => ""
             });
         }
 
@@ -121,7 +129,8 @@ namespace MyScripts.Runtime
             displayImageBg.fillAmount = amount;
         }
 
-        private static void UpdateDisplayImage(Image image, Image bg, Image bgBack, Character possessingCharacter, SAnima sAnima)
+        private static void UpdateDisplayImage(Image image, Image bg, Image bgBack, Character possessingCharacter,
+            SAnima sAnima)
         {
             if (possessingCharacter)
             {
@@ -137,9 +146,9 @@ namespace MyScripts.Runtime
                 image.sprite = possessingCharacter.CharacterType switch
                 {
                     CharacterType.Land => sAnima.LandIcon,
-                    CharacterType.Sea => sAnima.SeaIcon,
-                    CharacterType.Sky => sAnima.SkyIcon,
-                    _ => null
+                    CharacterType.Sea  => sAnima.SeaIcon,
+                    CharacterType.Sky  => sAnima.SkyIcon,
+                    _                  => null
                 };
             }
             else

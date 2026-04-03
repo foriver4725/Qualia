@@ -16,6 +16,16 @@
             if (characterType is CharacterType.None)
                 return;
 
+            // 必要なコンポーネントを動的に取得する
+            SOSSignDynamicComponents dynamicComponents = SOSSignDynamicComponents.Instance;
+            AnimalLeaveInvoker animalLeaveInvoker = dynamicComponents.AnimalLeaveInvoker;
+
+            // 自身の参照を登録する
+            if (characterType is CharacterType.Land)
+            {
+                animalLeaveInvoker.AddLandSOSSign(this);
+            }
+
             // 自身の子供の中からランダムなオブジェクトを選択して、
             // それのみ有効化・他は全部無効化する
             {
@@ -48,23 +58,23 @@
                 switch (characterType)
                 {
                     case CharacterType.Land:
-                        {
-                            smokeParticle.gameObject.SetActive(false);
-                            var main = smokeParticle.main;
-                            main.startLifetime = new(1.0f, 2.0f);
-                        }
+                    {
+                        smokeParticle.gameObject.SetActive(false);
+                        var main = smokeParticle.main;
+                        main.startLifetime = new(1.0f, 2.0f);
+                    }
                         break;
                     case CharacterType.Sea:
-                        {
-                            smokeParticle.gameObject.SetActive(false);
-                        }
+                    {
+                        smokeParticle.gameObject.SetActive(false);
+                    }
                         break;
                     case CharacterType.Sky:
-                        {
-                            smokeParticle.gameObject.SetActive(true);
-                            var main = smokeParticle.main;
-                            main.startLifetime = new(3.0f, 4.0f);
-                        }
+                    {
+                        smokeParticle.gameObject.SetActive(true);
+                        var main = smokeParticle.main;
+                        main.startLifetime = new(3.0f, 4.0f);
+                    }
                         break;
                     default:
                         break;
