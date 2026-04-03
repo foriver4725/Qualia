@@ -33,12 +33,14 @@
 
         [Header("Arrangement Settings")]
         [SerializeField, Range(0, 1000), Tooltip("1つの配置につき、配置場所を最大何回探索するか")]
-        private int positionCreateMaxAttempts = 100;
-        [SerializeField] private Vector2 positionCreateCenter = new Vector2(-500f, 350f);
-        [SerializeField, Range(0.0f, 1000.0f)] private float positionCreateMaxRange = 600.0f;
-        internal int PositionCreateMaxAttempts => positionCreateMaxAttempts;
-        internal  Vector2 PositionCreateCenter => positionCreateCenter;
-        internal float PositionCreateMaxRange => positionCreateMaxRange;
+        private int maxAttempts = 100;
+        [SerializeField] private Vector2 center = new Vector2(-500f, 350f);
+        [SerializeField, Range(0.0f, 1000.0f)] private float maxRange = 600.0f;
+        [SerializeField, Range(0.0f, 5.0f)] private float heightAboveGround = 0.1f;
+        internal int MaxAttempts => maxAttempts;
+        internal  Vector2 Center => center;
+        internal float MaxRange => maxRange;
+        internal float HeightAboveGround => heightAboveGround;
 
         internal GameObject GetPrefab(Group group) => group switch
         {

@@ -36,42 +36,8 @@
                 int count = param.GetCount(group);
                 Transform parent = GetParent(group);
 
-                // 座標を生成
                 Vector3[] positions = new Vector3[count];
-                for (int j = 0; j < count; i++)
-                {
-                    // 上限に達するまで、配置できる座標を探し続ける
-                    int attemptIndex = 0;
-                    while (attemptIndex < param.PositionCreateMaxAttempts)
-                    {
-                        ReadOnlySpan<Vector3> createdPositions = positions.AsSpan(0, j);
-
-                        Vector3 newPosition;
-                        bool success = group switch
-                        {
-                            Group.SOS_Land => TryCreateNewPosition_SOS_Land(createdPositions, out newPosition, param),
-                            Group.SOS_Sea  => TryCreateNewPosition_SOS_Sea(out newPosition, param),
-                            Group.SOS_Sky  => TryCreateNewPosition_SOS_Sky(out newPosition, treeInfos[j]),
-                            Group.Anima_Land => TryCreateNewPosition_Anima_Land(createdPositions, out newPosition,
-                                param, sosLandPositions),
-                            Group.Anima_Sea => TryCreateNewPosition_Anima_Sea(createdPositions, out newPosition,
-                                param, sosSeaPositions),
-                            Group.Anima_Sky => TryCreateNewPosition_Anima_Sky(createdPositions, out newPosition, param),
-                            _               => throw new ArgumentOutOfRangeException(nameof(group), group, null),
-                        };
-
-                        if (!success)
-                        {
-                            attemptIndex++;
-                            continue;
-                        }
-                        else
-                        {
-                            positions[j] = newPosition;
-                            break;
-                        }
-                    }
-                }
+                CreatePositions(group, positions, param, treeInfos, sosLandPositions, sosSeaPositions);
 
                 foreach (Vector3 position in positions)
                 {
@@ -81,6 +47,52 @@
                 // 座標をメモっておいて、この後の配置で活用してもらう
                 if (group == Group.SOS_Land) sosLandPositions = positions;
                 else if (group == Group.SOS_Sea) sosSeaPositions = positions;
+            }
+        }
+
+        private static void CreatePositions(
+            Group group, Span<Vector3> outPositions,
+            SSOSAnimaArrangement param,
+            ReadOnlySpan<TerrainTreeInfo> treeInfos = default, // グループによって使われるなら、明示的に指定しておくこと
+            Span<Vector3> sosLandPositions = default,          // グループによって使われるなら、明示的に指定しておくこと
+            Span<Vector3> sosSeaPositions = default            // グループによって使われるなら、明示的に指定しておくこと
+        )
+        {
+            outPositions.Fill(Vector3.zero);
+
+            for (int i = 0; i < outPositions.Length; i++)
+            {
+                // 上限に達するまで、配置できる座標を探し続ける
+                int attemptIndex = 0;
+                while (attemptIndex < param.MaxAttempts)
+                {
+                    ReadOnlySpan<Vector3> createdPositions = outPositions[0..i];
+
+                    Vector3 newPosition;
+                    bool success = group switch
+                    {
+                        Group.SOS_Land => TryCreateNewPosition_SOS_Land(createdPositions, out newPosition, param),
+                        Group.SOS_Sea  => TryCreateNewPosition_SOS_Sea(out newPosition, param),
+                        Group.SOS_Sky  => TryCreateNewPosition_SOS_Sky(out newPosition, treeInfos[i]),
+                        Group.Anima_Land => TryCreateNewPosition_Anima_Land(createdPositions, out newPosition,
+                            param, sosLandPositions),
+                        Group.Anima_Sea => TryCreateNewPosition_Anima_Sea(createdPositions, out newPosition,
+                            param, sosSeaPositions),
+                        Group.Anima_Sky => TryCreateNewPosition_Anima_Sky(createdPositions, out newPosition, param),
+                        _               => throw new ArgumentOutOfRangeException(nameof(group), group, null),
+                    };
+
+                    if (!success)
+                    {
+                        attemptIndex++;
+                        continue;
+                    }
+                    else
+                    {
+                        outPositions[i] = newPosition;
+                        break;
+                    }
+                }
             }
         }
 
@@ -107,22 +119,8 @@
                 {
                     TreeInstance treeInstance = terrainData.GetTreeInstance(i);
                     string prefabName = terrainData.treePrototypes[treeInstance.prototypeIndex].prefab.name;
-
-                    // プレハブの名前を見て、木でないならスキップ
-                    {
-                        bool isNotTree = true;
-                        foreach (string treeName in SSOSAnimaArrangement.TreeNameHeightMap.Keys)
-                        {
-                            if (prefabName == treeName)
-                            {
-                                isNotTree = false;
-                                break;
-                            }
-                        }
-
-                        if (isNotTree)
-                            continue;
-                    }
+                    if (!IsTreePrefab(prefabName))
+                        continue;
 
                     Vector3 localXZ = new Vector3(
                         treeInstance.position.x * terrainData.size.x,
@@ -143,14 +141,26 @@
             }
 
             return outInfoIndex;
+
+            static bool IsTreePrefab(string prefabName)
+            {
+                foreach (string treeName in SSOSAnimaArrangement.TreeNameHeightMap.Keys)
+                {
+                    if (prefabName == treeName)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
         }
 
         private static bool TryCreateNewPosition_SOS_Land(
             ReadOnlySpan<Vector3> createdPositions, out Vector3 outPosition,
             SSOSAnimaArrangement param)
         {
-            const float MinDistance = 20.0f;      // 他のオブジェクトと、最低どれ以上話すか (m. XZ平面距離)
-            const float HeightAboveGround = 0.1f; // 地表からどのくらい上に配置するか (m)
+            const float MinDistance = 20.0f; // 他のオブジェクトと、最低どれ以上話すか (m. XZ平面距離)
 
             outPosition = Vector3.zero;
 
@@ -166,7 +176,7 @@
             if (IsWaterPlaneObject(hitInfo.collider.gameObject))
                 return false;
 
-            outPosition = new Vector3(position.x, hitInfo.point.y + HeightAboveGround, position.y);
+            outPosition = position.ToVector3(y: hitInfo.point.y + param.HeightAboveGround);
             return false;
         }
 
@@ -174,8 +184,6 @@
             out Vector3 outPosition,
             SSOSAnimaArrangement param)
         {
-            const float HeightAboveGround = 0.1f; // 地表からどのくらい上に配置するか (m)
-
             outPosition = Vector3.zero;
 
             Vector2 position = CreateCandidatePositionRandomly(param);
@@ -187,7 +195,7 @@
             if (!IsWaterPlaneObject(hitInfo.collider.gameObject))
                 return false;
 
-            outPosition = new Vector3(position.x, hitInfo.point.y + HeightAboveGround, position.y);
+            outPosition = position.ToVector3(y: hitInfo.point.y + param.HeightAboveGround);
             return true;
         }
 
@@ -208,7 +216,6 @@
             const float MinDistance = 30.0f;              // 他のオブジェクトと、最低どれ以上話すか (m. XZ平面距離)
             const float MinDistanceToSOS = 5.0f;          // SOSオブジェクトとは、最低どれくらい離すか (m. XZ平面距離)
             const float MaxDistanceToSOS = 50.0f;         // SOSオブジェクトとは、最大どれくらい離すか (m. XZ平面距離)
-            const float HeightAboveGround = 0.1f;         // 地表からどのくらい上に配置するか (m)
             const float WaterPlacementProbability = 0.1f; // 水上に配置する確率
 
             outPosition = Vector3.zero;
@@ -221,21 +228,8 @@
             if (IsCloseToAnyPositionXZ(position, sosLandPositions, MinDistanceToSOS))
                 return false;
 
-            {
-                bool tooFarFromSOS = true;
-                foreach (var pos in sosLandPositions)
-                {
-                    float distanceSq = new Vector2(position.x - pos.x, position.y - pos.z).sqrMagnitude;
-                    if (distanceSq <= MaxDistanceToSOS * MaxDistanceToSOS)
-                    {
-                        tooFarFromSOS = false;
-                        break;
-                    }
-                }
-
-                if (tooFarFromSOS)
-                    return false; // 離れすぎている
-            }
+            if (!IsCloseToAnyPositionXZ(position, sosLandPositions, MaxDistanceToSOS))
+                return false;
 
             if (!DoesGroundExistBelow(position, out RaycastHit hitInfo))
                 return false;
@@ -244,7 +238,7 @@
             if (IsWaterPlaneObject(hitInfo.collider.gameObject) && Random.value > WaterPlacementProbability)
                 return false;
 
-            outPosition = new Vector3(position.x, hitInfo.point.y + HeightAboveGround, position.y);
+            outPosition = position.ToVector3(y: hitInfo.point.y + param.HeightAboveGround);
             return true;
         }
 
@@ -255,7 +249,6 @@
             const float MinDistance = 20.0f;             // 他のオブジェクトと、最低どれ以上話すか (m. XZ平面距離)
             const float MinDistanceToSOS = 5.0f;         // SOSオブジェクトとは、最低どれくらい離すか (m. XZ平面距離)
             const float MaxDistanceToSOS = 150.0f;       // SOSオブジェクトとは、最大どれくらい離すか (m. XZ平面距離)
-            const float HeightAboveGround = 0.1f;        // 地表からどのくらい上に配置するか (m)
             const float LandPlacementProbability = 0.5f; // 水上以外の場所に配置する確率
 
             outPosition = Vector3.zero;
@@ -268,21 +261,8 @@
             if (IsCloseToAnyPositionXZ(position, sosSeaPositions, MinDistanceToSOS))
                 return false;
 
-            {
-                bool tooFarFromSOS = true;
-                foreach (var pos in sosSeaPositions)
-                {
-                    float distanceSq = new Vector2(position.x - pos.x, position.y - pos.z).sqrMagnitude;
-                    if (distanceSq <= MaxDistanceToSOS * MaxDistanceToSOS)
-                    {
-                        tooFarFromSOS = false;
-                        break;
-                    }
-                }
-
-                if (tooFarFromSOS)
-                    return false; // 離れすぎている
-            }
+            if (!IsCloseToAnyPositionXZ(position, sosSeaPositions, MaxDistanceToSOS))
+                return false;
 
             if (!DoesGroundExistBelow(position, out RaycastHit hitInfo))
                 return false;
@@ -291,7 +271,7 @@
             if (!IsWaterPlaneObject(hitInfo.collider.gameObject) && Random.value > LandPlacementProbability)
                 return false;
 
-            outPosition = new Vector3(position.x, hitInfo.point.y + HeightAboveGround, position.y);
+            outPosition = position.ToVector3(y: hitInfo.point.y + param.HeightAboveGround);
             return true;
         }
 
@@ -301,8 +281,7 @@
         {
             // 場所を問わず、まばらに配置する
 
-            const float MinDistance = 40.0f;      // 他のオブジェクトと、最低どれ以上話すか (m. XZ平面距離)
-            const float HeightAboveGround = 0.1f; // 地表からどのくらい上に配置するか (m)
+            const float MinDistance = 40.0f; // 他のオブジェクトと、最低どれ以上話すか (m. XZ平面距離)
 
             outPosition = Vector3.zero;
 
@@ -314,7 +293,7 @@
             if (!DoesGroundExistBelow(position, out RaycastHit hitInfo))
                 return false;
 
-            outPosition = new Vector3(position.x, hitInfo.point.y + HeightAboveGround, position.y);
+            outPosition = position.ToVector3(y: hitInfo.point.y + param.HeightAboveGround);
             return true;
         }
 
@@ -324,8 +303,8 @@
         // 候補座標をランダムに作成する
         private static Vector2 CreateCandidatePositionRandomly(SSOSAnimaArrangement param)
         {
-            float range = Random.Range(0f, param.PositionCreateMaxRange);
-            return range * Random.onUnitCircle + param.PositionCreateCenter;
+            float range = Random.Range(0f, param.MaxRange);
+            return range * Random.onUnitCircle + param.Center;
         }
 
         /// <summary>
@@ -355,8 +334,18 @@
         /// </summary>
         private static bool DoesGroundExistBelow(Vector2 positionXZ, out RaycastHit rayCastHitInfo)
         {
-            Vector3 origin = new Vector3(positionXZ.x, 1000f, positionXZ.y);                          // 十分高い位置から
-            return Physics.Raycast(origin, Vector3.down, out rayCastHitInfo, float.PositiveInfinity); // 真下に無限長
+            Vector3 origin = positionXZ.ToVector3(y: 1000.0f);                // 十分高い位置から
+            return Physics.Raycast(origin, Vector3.down, out rayCastHitInfo); // 真下に無限長
         }
+    }
+
+    file static class Utils
+    {
+        /// <summary>
+        /// XZ平面の座標 -> XYZ空間の座標 に変換する
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector3 ToVector3(this Vector2 vectorXZ, float y)
+            => new(vectorXZ.x, y, vectorXZ.y);
     }
 }
