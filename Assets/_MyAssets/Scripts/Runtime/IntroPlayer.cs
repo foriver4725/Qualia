@@ -1,4 +1,4 @@
-﻿using MyScripts.Runtime.UI.Main;
+﻿using MyScripts.Common.SaveSystem;
 
 namespace MyScripts.Runtime
 {
@@ -17,7 +17,7 @@ namespace MyScripts.Runtime
 
         private async UniTaskVoid ImplAsync(Ct ct)
         {
-            if (!PlayInfo.IsFirstPlay)
+            if (!Variables.IsFirstPlay)
                 return;
 
             await durationUntilPlay.SecAwait(ct: ct);

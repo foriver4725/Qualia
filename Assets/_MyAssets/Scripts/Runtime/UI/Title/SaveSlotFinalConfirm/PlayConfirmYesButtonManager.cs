@@ -32,11 +32,19 @@ namespace MyScripts.Runtime.UI.Title
                 // 最初からなので、セーブデータリセット
                 if (PlayOptions.IsNewGame)
                 {
-                    SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex] = SaveLoadInvoker.CreateDefaultSingleData();
+                    SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex] = SingleData.CreateDefault();
                 }
 
                 // 初プレイか判定する
-                PlayInfo.IsFirstPlay = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].IsValid == false;
+                Variables.IsFirstPlay = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].IsValid == false;
+
+                // 初プレイならば、乱数のシード値を新規作成する
+                // ここでのみ書き込みする想定
+                if (Variables.IsFirstPlay)
+                {
+                    SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].SOSAnimaArrangementSeed
+                        = Random.Range(int.MinValue, int.MaxValue);
+                }
 
                 // セーブデータがリセットされようとされまいと、
                 // 最終的にこのセーブスロットは「セーブデータが入っている」状態となる

@@ -21,21 +21,24 @@ namespace MyScripts.Runtime
         [SerializeField] private CharacterType characterType = CharacterType.Land;
         [SerializeField] private MeshRenderer container;
         [SerializeField] private SpriteRenderer icon;
+
         [Space(10)]
         [SerializeField] private new Transform transform;
+
         [SerializeField] private new Collider collider;
+
         [Space(10)]
         [SerializeField] private SAnima sAnima;
+
         [SerializeField] private Material landMaterial;
         [SerializeField] private Material seaMaterial;
         [SerializeField] private Material skyMaterial;
-        [Space(10)]
-        [SerializeField] private PlayerController pc;
-        [SerializeField] private Camera playerCamera;
-        [SerializeField] private AnimalLeaveInvoker animalLeaveInvoker;
-        [SerializeField] private SOSSoundPlayer soundPlayer;
+
+        // Awake で初期化される
+        private Camera playerCamera = null;
 
         // 外部公開プロパティ
+
         #region Public Properties
 
         internal Transform Transform => transform;
@@ -64,6 +67,13 @@ namespace MyScripts.Runtime
 
         private void Awake()
         {
+            // 必要なコンポーネントを動的に取得する
+            AnimaDynamicComponents dynamicComponents = AnimaDynamicComponents.Instance;
+            playerCamera = dynamicComponents.PlayerCamera;
+            PlayerController pc = dynamicComponents.Pc;
+            AnimalLeaveInvoker animalLeaveInvoker = dynamicComponents.AnimalLeaveInvoker;
+            SOSSoundPlayer soundPlayer = dynamicComponents.SoundPlayer;
+
             UpdateModel(characterType);
 
             // 憑依
@@ -86,7 +96,8 @@ namespace MyScripts.Runtime
                     {
                         LogManager.Instance.ShowManually("インタラクトで取得する");
 
-                        if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider, ct) == true)
+                        if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider, ct) ==
+                            true)
                         {
                             // 取得処理
                             {
@@ -102,31 +113,33 @@ namespace MyScripts.Runtime
                             }
 
                             LogManager.Instance.ShowManually(string.Empty);
-                            LogManager.Instance.ShowAutomatically(ZString.Format("{0} のアニマを取得した", GetName(param.This.characterType)));
+                            LogManager.Instance.ShowAutomatically(ZString.Format("{0} のアニマを取得した",
+                                GetName(param.This.characterType)));
 
                             // 一定時間経過後に、解除するようにする
                             UniTask.Void(async ct =>
-                            {
-                                // 重複して取得はしないので、FillAmount の変更が競合することはない想定
-                                param.PossessInvoker.SetDisplayImageFillAmount(1.0f);
                                 {
-                                    float t = param.This.sAnima.PossessDuration;
-                                    while (t > 0.0f)
+                                    // 重複して取得はしないので、FillAmount の変更が競合することはない想定
+                                    param.PossessInvoker.SetDisplayImageFillAmount(1.0f);
                                     {
-                                        await UniTask.NextFrame(cancellationToken: ct);
-                                        t -= Time.deltaTime;
+                                        float t = param.This.sAnima.PossessDuration;
+                                        while (t > 0.0f)
+                                        {
+                                            await UniTask.NextFrame(cancellationToken: ct);
+                                            t -= Time.deltaTime;
 
-                                        param.PossessInvoker.SetDisplayImageFillAmount(t / param.This.sAnima.PossessDuration);
+                                            param.PossessInvoker.SetDisplayImageFillAmount(
+                                                t / param.This.sAnima.PossessDuration);
+                                        }
                                     }
-                                }
-                                param.PossessInvoker.SetDisplayImageFillAmount(0.0f);
+                                    param.PossessInvoker.SetDisplayImageFillAmount(0.0f);
 
-                                if (param.PossessInvoker.IsPossessing)
-                                    param.PossessInvoker.LeaveCharacter(param.PlayerController);
+                                    if (param.PossessInvoker.IsPossessing)
+                                        param.PossessInvoker.LeaveCharacter(param.PlayerController);
 
-                                LogManager2.Instance.ShowAutomatically("アニマの取得状態が解除された");
-                            },
-                            cancellationToken: ct);
+                                    LogManager2.Instance.ShowAutomatically("アニマの取得状態が解除された");
+                                },
+                                cancellationToken: ct);
 
                             // これは AnimalLeaveInvoker 側で再生する (離脱時のサウンド再生も、一緒のクラスで行いたいので)
                             // .// TODO: SOSサインのサウンドを使いまわす!
@@ -143,7 +156,8 @@ namespace MyScripts.Runtime
 
                         while (true)
                         {
-                            if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider, ct) == true)
+                            if (await WaitForClickOrExitAsync(param.SelfCollider, param.PlayerController.Collider,
+                                    ct) == true)
                             {
                                 // TODO: SOSサインのサウンドを使いまわす!
                                 param.SoundPlayer.LetPlay(SSOSSound.Situation.CouldNotRemove);
@@ -190,27 +204,29 @@ namespace MyScripts.Runtime
             container.material = type switch
             {
                 CharacterType.Land => landMaterial,
-                CharacterType.Sea => seaMaterial,
-                CharacterType.Sky => skyMaterial,
-                _ => null
+                CharacterType.Sea  => seaMaterial,
+                CharacterType.Sky  => skyMaterial,
+                _                  => null
             };
 
             icon.sprite = type switch
             {
                 CharacterType.Land => sAnima.LandIcon,
-                CharacterType.Sea => sAnima.SeaIcon,
-                CharacterType.Sky => sAnima.SkyIcon,
-                _ => null
+                CharacterType.Sea  => sAnima.SeaIcon,
+                CharacterType.Sky  => sAnima.SkyIcon,
+                _                  => null
             };
         }
 
         // Click したなら true を、 Exit したなら false を返す
         // 同フレームなら Exit を優先する
-        private static async UniTask<bool> WaitForClickOrExitAsync(Collider selfCollider, Collider playerCollider, Ct ct)
+        private static async UniTask<bool> WaitForClickOrExitAsync(Collider selfCollider, Collider playerCollider,
+            Ct ct)
         {
             int i = await UniTask.WhenAny(
                 // 同フレームなら Exit を優先するために、このタイミングで待つ
-                UniTask.WaitUntil(() => InputManager.InGame.Submit, timing: PlayerLoopTiming.LastUpdate, cancellationToken: ct),
+                UniTask.WaitUntil(() => InputManager.InGame.Submit, timing: PlayerLoopTiming.LastUpdate,
+                    cancellationToken: ct),
                 selfCollider.OnTriggerExitAsObservable()
                     .Where(otherCollider => ReferenceEquals(otherCollider, playerCollider))
                     .FirstAsync(cancellationToken: ct)
@@ -231,9 +247,9 @@ namespace MyScripts.Runtime
         private static string GetName(CharacterType type) => type switch
         {
             CharacterType.Land => "草",
-            CharacterType.Sea => "水",
-            CharacterType.Sky => "空",
-            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            CharacterType.Sea  => "水",
+            CharacterType.Sky  => "空",
+            _                  => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
     }
 }
