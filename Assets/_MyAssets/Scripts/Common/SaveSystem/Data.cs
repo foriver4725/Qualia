@@ -32,6 +32,11 @@ internal sealed class SingleData
     public Vector3 PlayerPosition;
     public Vector3 PlayerForward;
 
+    public static readonly Vector3 PlayerPositionDefault = new(-96, -21, 110);
+
+    public static readonly Vector3 PlayerForwardDefault
+        = new Vector3(-Mathf.Sin(30 * Mathf.Deg2Rad), 0, Mathf.Cos(30 * Mathf.Deg2Rad)).normalized;
+
     public static SingleData CreateDefault()
     {
         SingleData slot = new();
@@ -44,9 +49,8 @@ internal sealed class SingleData
         slot.HasFoundSOSSigns = new bool[Constants.SOSSignCount];
         slot.HasFoundSOSSigns.AsSpan().Fill(false);
         // 汚いけど、ここで初期位置を決め打ちしてしまう
-        slot.PlayerPosition = new Vector3(-96, -21, 110);
-        slot.PlayerForward =
-            new Vector3(-Mathf.Sin(30 * Mathf.Deg2Rad), 0, Mathf.Cos(30 * Mathf.Deg2Rad)).normalized;
+        slot.PlayerPosition = PlayerPositionDefault;
+        slot.PlayerForward = PlayerForwardDefault;
 
         return slot;
     }
