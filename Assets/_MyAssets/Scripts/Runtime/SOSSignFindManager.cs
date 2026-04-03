@@ -8,9 +8,11 @@ namespace MyScripts.Runtime
     {
         [Header("Self Components")]
         [SerializeField] private Transform root; // SOSサインの親オブジェクト
+
         [Space(10)]
         [Header("Outer Components")]
         [SerializeField] private Collider playerCapsuleCollider;
+
         [SerializeField] private AnimalLeaveInvoker animalLeaveInvoker;
         [SerializeField] private SOSSignRatioUIManager sosSignRatioUIManager;
         [SerializeField] private SOSSoundPlayer soundPlayer;
@@ -69,6 +71,9 @@ namespace MyScripts.Runtime
 
         private void Awake()
         {
+            // ここで一括生成する
+            SOSAnimaArranger.Instance.ArrangeRandomly(0x0);
+
             sosSignLogText = InGameSOHolder.Instance.SOSSignLogText;
 
             sosSignCountReal = root.childCount;
@@ -91,7 +96,8 @@ namespace MyScripts.Runtime
             // メソッドのコメントに従って、
             // - Awake() より後に呼び出す
             // - changeFillSmoothly は false にする
-            sosSignRatioUIManager.UpdateRatio(1.0f * removedSOSSignCount / Constants.SOSSignCount, changeFillSmoothly: false);
+            sosSignRatioUIManager.UpdateRatio(1.0f * removedSOSSignCount / Constants.SOSSignCount,
+                changeFillSmoothly: false);
         }
 
         // SOSサインを取得する
@@ -124,7 +130,8 @@ namespace MyScripts.Runtime
                                 selfCollider.gameObject.SetActive(false);
                                 {
                                     removedSOSSignCount++;
-                                    sosSignRatioUIManager.UpdateRatio(1.0f * removedSOSSignCount / Constants.SOSSignCount);
+                                    sosSignRatioUIManager.UpdateRatio(1.0f * removedSOSSignCount /
+                                                                      Constants.SOSSignCount);
 
                                     // このタイミングで、セーブデータに反映しておく
                                     SetMyPropertiesToData();
@@ -171,11 +178,13 @@ namespace MyScripts.Runtime
 
         // Click したなら true を、 Exit したなら false を返す
         // 同フレームなら Exit を優先する
-        private static async UniTask<bool> WaitForClickOrExitAsync(Collider selfCollider, Collider playerCollider, Ct ct)
+        private static async UniTask<bool> WaitForClickOrExitAsync(Collider selfCollider, Collider playerCollider,
+            Ct ct)
         {
             int i = await UniTask.WhenAny(
                 // 同フレームなら Exit を優先するために、このタイミングで待つ
-                UniTask.WaitUntil(() => InputManager.InGame.Submit, timing: PlayerLoopTiming.LastUpdate, cancellationToken: ct),
+                UniTask.WaitUntil(() => InputManager.InGame.Submit, timing: PlayerLoopTiming.LastUpdate,
+                    cancellationToken: ct),
                 selfCollider.OnTriggerExitAsObservable()
                     .Where(otherCollider => ReferenceEquals(otherCollider, playerCollider))
                     .FirstAsync(cancellationToken: ct)

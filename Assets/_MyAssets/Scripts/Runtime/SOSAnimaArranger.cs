@@ -84,6 +84,9 @@
 
                     if (!success)
                     {
+                        $"{group} の配置場所の探索に失敗 (インデックス {i}、試行回数 {attemptIndex + 1}/{param.MaxAttempts})"
+                            .Print(LogSettings.Warning);
+
                         attemptIndex++;
                         continue;
                     }
@@ -177,7 +180,7 @@
                 return false;
 
             outPosition = position.ToVector3(y: hitInfo.point.y + param.HeightAboveGround);
-            return false;
+            return true;
         }
 
         private static bool TryCreateNewPosition_SOS_Sea(
@@ -337,15 +340,5 @@
             Vector3 origin = positionXZ.ToVector3(y: 1000.0f);                // 十分高い位置から
             return Physics.Raycast(origin, Vector3.down, out rayCastHitInfo); // 真下に無限長
         }
-    }
-
-    file static class Utils
-    {
-        /// <summary>
-        /// XZ平面の座標 -> XYZ空間の座標 に変換する
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static Vector3 ToVector3(this Vector2 vectorXZ, float y)
-            => new(vectorXZ.x, y, vectorXZ.y);
     }
 }
