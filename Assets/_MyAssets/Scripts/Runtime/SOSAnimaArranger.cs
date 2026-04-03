@@ -49,14 +49,14 @@
                         Vector3 newPosition;
                         bool success = group switch
                         {
-                            Group.SOS_Land => CreateNewPosition_SOS_Land(createdPositions, out newPosition),
-                            Group.SOS_Sea  => CreateNewPosition_SOS_Sea(createdPositions, out newPosition),
-                            Group.SOS_Sky  => CreateNewPosition_SOS_Sky(out newPosition, treeInfos[j]),
-                            Group.Anima_Land => CreateNewPosition_Anima_Land(createdPositions, out newPosition,
-                                sosLandPositions),
-                            Group.Anima_Sea => CreateNewPosition_Anima_Sea(createdPositions, out newPosition,
-                                sosSeaPositions),
-                            Group.Anima_Sky => CreateNewPosition_Anima_Sky(createdPositions, out newPosition),
+                            Group.SOS_Land => TryCreateNewPosition_SOS_Land(createdPositions, out newPosition, param),
+                            Group.SOS_Sea  => TryCreateNewPosition_SOS_Sea(out newPosition, param),
+                            Group.SOS_Sky  => TryCreateNewPosition_SOS_Sky(out newPosition, treeInfos[j]),
+                            Group.Anima_Land => TryCreateNewPosition_Anima_Land(createdPositions, out newPosition,
+                                param, sosLandPositions),
+                            Group.Anima_Sea => TryCreateNewPosition_Anima_Sea(createdPositions, out newPosition,
+                                param, sosSeaPositions),
+                            Group.Anima_Sky => TryCreateNewPosition_Anima_Sky(createdPositions, out newPosition, param),
                             _               => throw new ArgumentOutOfRangeException(nameof(group), group, null),
                         };
 
@@ -145,82 +145,53 @@
             return outInfoIndex;
         }
 
-        private static bool CreateNewPosition_SOS_Land(
-            ReadOnlySpan<Vector3> createdPositions, out Vector3 outPosition)
+        private static bool TryCreateNewPosition_SOS_Land(
+            ReadOnlySpan<Vector3> createdPositions, out Vector3 outPosition,
+            SSOSAnimaArrangement param)
         {
-            const float CenterX = -500f;
-            const float CenterZ = 350f;
-            const float MaxRange = 600.0f;
             const float MinDistance = 20.0f;      // 他のオブジェクトと、最低どれ以上話すか (m. XZ平面距離)
             const float HeightAboveGround = 0.1f; // 地表からどのくらい上に配置するか (m)
 
             outPosition = Vector3.zero;
 
-            // ランダムな位置を計算 (X, Z)
-            // 極座標系でランダムに選ぶ
-            float r = Random.Range(0f, MaxRange);
-            float theta = Random.Range(0f, Mathf.PI * 2f);
-            float x = CenterX + r * Mathf.Cos(theta);
-            float z = CenterZ + r * Mathf.Sin(theta);
+            Vector2 position = CreateCandidatePositionRandomly(param);
 
-            // 既に配置されたオブジェクトとの距離をチェック
-            foreach (var pos in createdPositions)
-            {
-                float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
-                if (distanceSq < MinDistance * MinDistance)
-                {
-                    return false; // 近すぎる
-                }
-            }
-
-            // 地表のY座標を算出
-            // 無限長のレイを打つ
-            if (!Physics.Raycast(new Vector3(x, 1000f, z), Vector3.down, out RaycastHit hitInfo))
-                return false; // 地表が見つからなかった
-
-            // 水上には配置できない
-            string hitObjectName = hitInfo.collider.gameObject.name;
-            if (hitObjectName == "WaterPlane")
+            if (IsCloseToAnyPositionXZ(position, createdPositions, MinDistance))
                 return false;
 
-            // 配置成功
-            outPosition = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
+            if (!DoesGroundExistBelow(position, out RaycastHit hitInfo))
+                return false;
+
+            // 水上には配置できない
+            if (IsWaterPlaneObject(hitInfo.collider.gameObject))
+                return false;
+
+            outPosition = new Vector3(position.x, hitInfo.point.y + HeightAboveGround, position.y);
             return false;
         }
 
-        private static bool CreateNewPosition_SOS_Sea(
-            ReadOnlySpan<Vector3> createdPositions, out Vector3 outPosition)
+        private static bool TryCreateNewPosition_SOS_Sea(
+            out Vector3 outPosition,
+            SSOSAnimaArrangement param)
         {
-            const float CenterX = -500f;
-            const float CenterZ = 350f;
-            const float MaxRange = 600.0f;
             const float HeightAboveGround = 0.1f; // 地表からどのくらい上に配置するか (m)
 
             outPosition = Vector3.zero;
 
-            // ランダムな位置を計算 (X, Z)
-            // 極座標系でランダムに選ぶ
-            float r = Random.Range(0f, MaxRange);
-            float theta = Random.Range(0f, Mathf.PI * 2f);
-            float x = CenterX + r * Mathf.Cos(theta);
-            float z = CenterZ + r * Mathf.Sin(theta);
+            Vector2 position = CreateCandidatePositionRandomly(param);
 
-            // 地表のY座標を算出
-            // 無限長のレイを打つ
-            if (!Physics.Raycast(new Vector3(x, 1000f, z), Vector3.down, out RaycastHit hitInfo))
-                return false; // 地表が見つからなかった
-
-            // 水上にしか配置できない
-            string hitObjectName = hitInfo.collider.gameObject.name;
-            if (hitObjectName != "WaterPlane")
+            if (!DoesGroundExistBelow(position, out RaycastHit hitInfo))
                 return false;
 
-            // 配置成功
-            outPosition = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
+            // 水上にしか配置できない
+            if (!IsWaterPlaneObject(hitInfo.collider.gameObject))
+                return false;
+
+            outPosition = new Vector3(position.x, hitInfo.point.y + HeightAboveGround, position.y);
             return true;
         }
 
-        private static bool CreateNewPosition_SOS_Sky(
+        private static bool TryCreateNewPosition_SOS_Sky(
             out Vector3 outPosition,
             TerrainTreeInfo treeInfo)
         {
@@ -230,13 +201,10 @@
             return true;
         }
 
-        private static bool CreateNewPosition_Anima_Land(
+        private static bool TryCreateNewPosition_Anima_Land(
             ReadOnlySpan<Vector3> createdPositions, out Vector3 outPosition,
-            Span<Vector3> sosLandPositions)
+            SSOSAnimaArrangement param, Span<Vector3> sosLandPositions)
         {
-            const float CenterX = -500f;
-            const float CenterZ = 350f;
-            const float MaxRange = 600.0f;
             const float MinDistance = 30.0f;              // 他のオブジェクトと、最低どれ以上話すか (m. XZ平面距離)
             const float MinDistanceToSOS = 5.0f;          // SOSオブジェクトとは、最低どれくらい離すか (m. XZ平面距離)
             const float MaxDistanceToSOS = 50.0f;         // SOSオブジェクトとは、最大どれくらい離すか (m. XZ平面距離)
@@ -245,38 +213,19 @@
 
             outPosition = Vector3.zero;
 
-            // ランダムな位置を計算 (X, Z)
-            // 極座標系でランダムに選ぶ
-            float r = Random.Range(0f, MaxRange);
-            float theta = Random.Range(0f, Mathf.PI * 2f);
-            float x = CenterX + r * Mathf.Cos(theta);
-            float z = CenterZ + r * Mathf.Sin(theta);
+            Vector2 position = CreateCandidatePositionRandomly(param);
 
-            // 既に配置されたオブジェクトとの距離をチェック
-            foreach (var pos in createdPositions)
-            {
-                float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
-                if (distanceSq < MinDistance * MinDistance)
-                {
-                    return false; // 近すぎる
-                }
-            }
+            if (IsCloseToAnyPositionXZ(position, createdPositions, MinDistance))
+                return false;
 
-            // 対応するSOSオブジェクトとの距離をチェック
-            foreach (var pos in sosLandPositions)
-            {
-                float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
-                if (distanceSq < MinDistanceToSOS * MinDistanceToSOS)
-                {
-                    return false; // 近すぎる
-                }
-            }
+            if (IsCloseToAnyPositionXZ(position, sosLandPositions, MinDistanceToSOS))
+                return false;
 
             {
                 bool tooFarFromSOS = true;
                 foreach (var pos in sosLandPositions)
                 {
-                    float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
+                    float distanceSq = new Vector2(position.x - pos.x, position.y - pos.z).sqrMagnitude;
                     if (distanceSq <= MaxDistanceToSOS * MaxDistanceToSOS)
                     {
                         tooFarFromSOS = false;
@@ -288,31 +237,21 @@
                     return false; // 離れすぎている
             }
 
-            // 地表のY座標を算出
-            // 無限長のレイを打つ
-            if (!Physics.Raycast(new Vector3(x, 1000f, z), Vector3.down, out RaycastHit hitInfo))
-                return false; // 地表が見つからなかった
+            if (!DoesGroundExistBelow(position, out RaycastHit hitInfo))
+                return false;
 
             // 水上には、滅多に配置できない
-            string hitObjectName = hitInfo.collider.gameObject.name;
-            if (hitObjectName == "WaterPlane")
-            {
-                if (Random.value > WaterPlacementProbability)
-                    return false;
-            }
+            if (IsWaterPlaneObject(hitInfo.collider.gameObject) && Random.value > WaterPlacementProbability)
+                return false;
 
-            // 配置成功
-            outPosition = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
+            outPosition = new Vector3(position.x, hitInfo.point.y + HeightAboveGround, position.y);
             return true;
         }
 
-        private static bool CreateNewPosition_Anima_Sea(
+        private static bool TryCreateNewPosition_Anima_Sea(
             ReadOnlySpan<Vector3> createdPositions, out Vector3 outPosition,
-            Span<Vector3> sosSeaPositions)
+            SSOSAnimaArrangement param, Span<Vector3> sosSeaPositions)
         {
-            const float CenterX = -500f;
-            const float CenterZ = 350f;
-            const float MaxRange = 600.0f;
             const float MinDistance = 20.0f;             // 他のオブジェクトと、最低どれ以上話すか (m. XZ平面距離)
             const float MinDistanceToSOS = 5.0f;         // SOSオブジェクトとは、最低どれくらい離すか (m. XZ平面距離)
             const float MaxDistanceToSOS = 150.0f;       // SOSオブジェクトとは、最大どれくらい離すか (m. XZ平面距離)
@@ -321,38 +260,19 @@
 
             outPosition = Vector3.zero;
 
-            // ランダムな位置を計算 (X, Z)
-            // 極座標系でランダムに選ぶ
-            float r = Random.Range(0f, MaxRange);
-            float theta = Random.Range(0f, Mathf.PI * 2f);
-            float x = CenterX + r * Mathf.Cos(theta);
-            float z = CenterZ + r * Mathf.Sin(theta);
+            Vector2 position = CreateCandidatePositionRandomly(param);
 
-            // 既に配置されたオブジェクトとの距離をチェック
-            foreach (var pos in createdPositions)
-            {
-                float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
-                if (distanceSq < MinDistance * MinDistance)
-                {
-                    return false; // 近すぎる
-                }
-            }
+            if (IsCloseToAnyPositionXZ(position, createdPositions, MinDistance))
+                return false;
 
-            // 対応するSOSオブジェクトとの距離をチェック
-            foreach (var pos in sosSeaPositions)
-            {
-                float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
-                if (distanceSq < MinDistanceToSOS * MinDistanceToSOS)
-                {
-                    return false; // 近すぎる
-                }
-            }
+            if (IsCloseToAnyPositionXZ(position, sosSeaPositions, MinDistanceToSOS))
+                return false;
 
             {
                 bool tooFarFromSOS = true;
                 foreach (var pos in sosSeaPositions)
                 {
-                    float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
+                    float distanceSq = new Vector2(position.x - pos.x, position.y - pos.z).sqrMagnitude;
                     if (distanceSq <= MaxDistanceToSOS * MaxDistanceToSOS)
                     {
                         tooFarFromSOS = false;
@@ -364,62 +284,79 @@
                     return false; // 離れすぎている
             }
 
-            // 地表のY座標を算出
-            // 無限長のレイを打つ
-            if (!Physics.Raycast(new Vector3(x, 1000f, z), Vector3.down, out RaycastHit hitInfo))
-                return false; // 地表が見つからなかった
+            if (!DoesGroundExistBelow(position, out RaycastHit hitInfo))
+                return false;
 
-            // 水上以外には、それほど配置できない
-            string hitObjectName = hitInfo.collider.gameObject.name;
-            if (hitObjectName != "WaterPlane")
-            {
-                if (Random.value > LandPlacementProbability)
-                    return false;
-            }
+            // 水上以外には、滅多に配置できない
+            if (!IsWaterPlaneObject(hitInfo.collider.gameObject) && Random.value > LandPlacementProbability)
+                return false;
 
-            // 配置成功
-            outPosition = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
+            outPosition = new Vector3(position.x, hitInfo.point.y + HeightAboveGround, position.y);
             return true;
         }
 
-        private static bool CreateNewPosition_Anima_Sky(
-            ReadOnlySpan<Vector3> createdPositions, out Vector3 outPosition)
+        private static bool TryCreateNewPosition_Anima_Sky(
+            ReadOnlySpan<Vector3> createdPositions, out Vector3 outPosition,
+            SSOSAnimaArrangement param)
         {
             // 場所を問わず、まばらに配置する
 
-            const float CenterX = -500f;
-            const float CenterZ = 350f;
-            const float MaxRange = 600.0f;
             const float MinDistance = 40.0f;      // 他のオブジェクトと、最低どれ以上話すか (m. XZ平面距離)
             const float HeightAboveGround = 0.1f; // 地表からどのくらい上に配置するか (m)
 
             outPosition = Vector3.zero;
 
-            // ランダムな位置を計算 (X, Z)
-            // 極座標系でランダムに選ぶ
-            float r = Random.Range(0f, MaxRange);
-            float theta = Random.Range(0f, Mathf.PI * 2f);
-            float x = CenterX + r * Mathf.Cos(theta);
-            float z = CenterZ + r * Mathf.Sin(theta);
+            Vector2 position = CreateCandidatePositionRandomly(param);
 
-            // 既に配置されたオブジェクトとの距離をチェック
-            foreach (var pos in createdPositions)
+            if (IsCloseToAnyPositionXZ(position, createdPositions, MinDistance))
+                return false;
+
+            if (!DoesGroundExistBelow(position, out RaycastHit hitInfo))
+                return false;
+
+            outPosition = new Vector3(position.x, hitInfo.point.y + HeightAboveGround, position.y);
+            return true;
+        }
+
+        // 水面のオブジェクトかどうか判定する
+        private static bool IsWaterPlaneObject(GameObject go) => go.name == "WaterPlane";
+
+        // 候補座標をランダムに作成する
+        private static Vector2 CreateCandidatePositionRandomly(SSOSAnimaArrangement param)
+        {
+            float range = Random.Range(0f, param.PositionCreateMaxRange);
+            return range * Random.onUnitCircle + param.PositionCreateCenter;
+        }
+
+        /// <summary>
+        /// 判定する座標について、与えられた座標群の中でXZ平面の距離が境界値以下のものがあるか調べる<br/>
+        /// ( = 近すぎるものがあるかどうか)<br/>
+        /// </summary>
+        private static bool IsCloseToAnyPositionXZ(
+            Vector2 targetPosition, ReadOnlySpan<Vector3> positions,
+            float thresholdDistance)
+        {
+            foreach (var position in positions)
             {
-                float distanceSq = new Vector2(x - pos.x, z - pos.z).sqrMagnitude;
-                if (distanceSq < MinDistance * MinDistance)
+                Vector2 diffXZ = new Vector2(position.x, position.z) - targetPosition;
+                float distanceSq = diffXZ.sqrMagnitude;
+
+                if (distanceSq < thresholdDistance * thresholdDistance)
                 {
-                    return false; // 近すぎる
+                    return true;
                 }
             }
 
-            // 地表のY座標を算出
-            // 無限長のレイを打つ
-            if (!Physics.Raycast(new Vector3(x, 1000f, z), Vector3.down, out RaycastHit hitInfo))
-                return false; // 地表が見つからなかった
+            return false;
+        }
 
-            // 配置成功
-            outPosition = new Vector3(x, hitInfo.point.y + HeightAboveGround, z);
-            return true;
+        /// <summary>
+        /// 地表が存在する座標かどうか、レイキャストを使って判定する
+        /// </summary>
+        private static bool DoesGroundExistBelow(Vector2 positionXZ, out RaycastHit rayCastHitInfo)
+        {
+            Vector3 origin = new Vector3(positionXZ.x, 1000f, positionXZ.y);                          // 十分高い位置から
+            return Physics.Raycast(origin, Vector3.down, out rayCastHitInfo, float.PositiveInfinity); // 真下に無限長
         }
     }
 }
