@@ -37,7 +37,7 @@
         [Space(10)]
         [Header("Sprint")]
         [SerializeField] private float sprintSpeedMultiplier = 1.5f;
-        [SerializeField, Tooltip("前方に対する視野角と同じ意味の開き角。この角度の範囲内の移動方向なら走行を許可(度)")] private float sprintDirectionAllowedAngle = 120.0f;
+        [SerializeField, Tooltip("前方に対する視野角と同じ意味の開き角. この角度の範囲内の移動方向なら走行を許可 [度]")] private float sprintDirectionAllowedAngle = 120.0f;
         internal float SprintSpeedMultiplier => sprintSpeedMultiplier;
 
         internal float SprintDirectionAllowedAngle => sprintDirectionAllowedAngle;
