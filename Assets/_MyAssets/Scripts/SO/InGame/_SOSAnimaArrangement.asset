@@ -24,6 +24,7 @@ MonoBehaviour:
   animaLandCount: 60
   animaSeaCount: 15
   animaSkyCount: 15
-  positionCreateMaxAttempts: 100
-  positionCreateCenter: {x: -500, y: 350}
-  positionCreateMaxRange: 600
+  maxAttempts: 100
+  center: {x: -500, y: 350}
+  maxRange: 600
+  heightAboveGround: 0.1

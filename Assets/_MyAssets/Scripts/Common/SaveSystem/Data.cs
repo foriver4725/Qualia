@@ -10,7 +10,10 @@ internal sealed class Data
         Data data = new();
 
         data.Slots = new SingleData[Constants.SlotCount];
-        Array.Fill(data.Slots, SingleData.CreateDefault());
+        for (int i = 0; i < data.Slots.Length; i++)
+        {
+            data.Slots[i] = SingleData.CreateDefault();
+        }
 
         return data;
     }
