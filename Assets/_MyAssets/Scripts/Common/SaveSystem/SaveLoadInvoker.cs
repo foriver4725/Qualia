@@ -4,46 +4,6 @@ namespace MyScripts.Common.SaveSystem;
 
 internal static class SaveLoadInvoker
 {
-    internal static SingleData CreateDefaultSingleData()
-    {
-        SingleData slot = new();
-
-        // 初期値を代入
-        {
-            slot.IsValid = false;
-
-            slot.HasObtainedAnima = false;
-
-            slot.SetLastSavedAt(DateTime.MinValue);
-            slot.LastScreenshotSavedPath = "";
-
-            slot.HasFoundSOSSigns = new bool[Constants.SOSSignCount];
-            slot.HasFoundSOSSigns.AsSpan().Fill(false);
-
-            // 汚いけど、ここで初期位置を決め打ちしてしまう
-            slot.PlayerPosition = new Vector3(-96, -21, 110);
-            slot.PlayerForward = new Vector3(-Mathf.Sin(30 * Mathf.Deg2Rad), 0, Mathf.Cos(30 * Mathf.Deg2Rad)).normalized;
-        }
-
-        return slot;
-    }
-
-    internal static Data CreateDefaultData()
-    {
-        Data data = new();
-
-        // 初期値を代入
-        {
-            data.Slots = new SingleData[Constants.SlotCount];
-            for (int i = 0; i < Constants.SlotCount; i++)
-            {
-                data.Slots[i] = CreateDefaultSingleData();
-            }
-        }
-
-        return data;
-    }
-
     /// <summary>
     /// <para>セーブ</para>
     /// <para>上書き保存, UTF8 (BOMなし)</para>
@@ -94,7 +54,7 @@ internal static class SaveLoadInvoker
             string saveDirectoryPath = Steam.CloudSavePathProvider.CreateDirectoryPath(Application.persistentDataPath);
             if (!Directory.Exists(saveDirectoryPath))
             {
-                data = CreateDefaultData();
+                data = Data.CreateDefault();
                 $"[{nameof(SaveLoadInvoker)}] No directory found. Created new data object.".Print();
                 return;
             }
@@ -102,7 +62,7 @@ internal static class SaveLoadInvoker
             string saveFilePath = Path.Combine(saveDirectoryPath, Constants.SaveFileName);
             if (!File.Exists(saveFilePath))
             {
-                data = CreateDefaultData();
+                data = Data.CreateDefault();
                 $"[{nameof(SaveLoadInvoker)}] No file found. Created new data object.".Print();
                 return;
             }
@@ -120,7 +80,7 @@ internal static class SaveLoadInvoker
         }
         catch (Exception e)
         {
-            data = CreateDefaultData();
+            data = Data.CreateDefault();
             $"[{nameof(SaveLoadInvoker)}] Load failed: {e}. Created new data object.".Print(LogSettings.Error);
             return;
         }

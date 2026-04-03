@@ -2328,6 +2328,7 @@ MonoBehaviour:
   animalLeaveInvoker: {fileID: 817192304}
   sosSignRatioUIManager: {fileID: 885902798}
   soundPlayer: {fileID: 195949041}
+  sosAnimaArrangementSeedLabel: {fileID: 1661366117749799019}
 --- !u!1 &670357120
 GameObject:
   m_ObjectHideFlags: 0
@@ -6081,6 +6082,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f998b55ec8477ad409374cc160df4a9e, type: 3}
+--- !u!114 &1661366117749799019 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9041904875070621473, guid: f998b55ec8477ad409374cc160df4a9e, type: 3}
+  m_PrefabInstance: {fileID: 1661366117749799018}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2390642557826304883
 PrefabInstance:
   m_ObjectHideFlags: 0

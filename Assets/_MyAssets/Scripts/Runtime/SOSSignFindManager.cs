@@ -16,6 +16,7 @@ namespace MyScripts.Runtime
         [SerializeField] private AnimalLeaveInvoker animalLeaveInvoker;
         [SerializeField] private SOSSignRatioUIManager sosSignRatioUIManager;
         [SerializeField] private SOSSoundPlayer soundPlayer;
+        [SerializeField] private TextMeshProUGUI sosAnimaArrangementSeedLabel;
 
         // Awake で初期化
         private SSOSSignLogText sosSignLogText;
@@ -72,7 +73,9 @@ namespace MyScripts.Runtime
         private void Awake()
         {
             // ここで一括生成する
-            SOSAnimaArranger.Instance.ArrangeRandomly(0x0);
+            int seed = SaveLoadManager.Data.Slots[Variables.CurrentSlotIndex].SOSAnimaArrangementSeed;
+            sosAnimaArrangementSeedLabel.text = seed.ToString();
+            SOSAnimaArranger.Instance.ArrangeRandomly(seed);
 
             sosSignLogText = InGameSOHolder.Instance.SOSSignLogText;
 
