@@ -6172,6 +6172,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8645547747250865677, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
+      propertyPath: rainMaker
+      value: 
+      objectReference: {fileID: 2038202300}
+    - target: {fileID: 8645547747250865677, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
       propertyPath: soundPlayer
       value: 
       objectReference: {fileID: 634230341}

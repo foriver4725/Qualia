@@ -34,6 +34,8 @@ namespace MyScripts.Runtime
         [Header("Walk Sound")]
         [SerializeField] private WalkSoundPlayer walkSoundPlayer;
         [SerializeField] private WalkSoundBorderRoots walkSoundBorderRoots;
+        [Header("Environment")]
+        [SerializeField] private RainMaker rainMaker;
 
         // cinemachine
         private float cinemachineTargetPitch;
@@ -55,6 +57,9 @@ namespace MyScripts.Runtime
         private bool onInertiaJumpCt = false;
         private Vector3 previousFramePosition = Vector3.zero; // 直前フレームの位置を記録して、戻せるようにする
         private int jumpCountWhenHasSky = 0; // 空のアニマを取得している時、空中ジャンプ出来るので、二段ジャンプより上を防止する用
+
+        // environment
+        private bool isRainingNow => rainMaker.isRaining;
 
         // timeout deltatime
         // Awake で初期化
