@@ -90,7 +90,7 @@ namespace MyScripts.Runtime
                     )
                 )
                 .Where(static param => ReferenceEquals(param.OtherCollider, param.PlayerController.Collider))
-                .SubscribeAwait(static async (param, ct) =>
+                .Subscribe(static param =>
                 {
                     // 接触したら即取得。同種別スロットが取得済みなら PossessCharacter 内で上書き解放されるため
                     // ここでは事前解放不要（PossessCharacter が LeaveCharacterInternal を呼ぶ）
@@ -108,9 +108,10 @@ namespace MyScripts.Runtime
                         GetName(param.This.characterType)));
 
                     // タイマーは AnimalLeaveInvoker 側でスロットごとに管理してリセットする
-                    var token = param.PossessInvoker.ResetPossessTimer(ct, param.This.characterType);
+                    var token = param.PossessInvoker.ResetPossessTimer(
+                        param.This.destroyCancellationToken, param.This.characterType);
 
-                    UniTask.Void(async token =>
+                    UniTask.Void(async ct =>
                         {
                             var type = param.This.characterType;
                             param.PossessInvoker.SetDisplayImageFillAmount(type, 1.0f);
@@ -120,7 +121,7 @@ namespace MyScripts.Runtime
 
                             while (t > 0.0f)
                             {
-                                await UniTask.NextFrame(cancellationToken: token);
+                                await UniTask.NextFrame(cancellationToken: ct);
                                 t -= Time.deltaTime;
                                 param.PossessInvoker.SetDisplayImageFillAmount(type, t / duration);
                             }
