@@ -111,7 +111,7 @@ namespace MyScripts.Runtime
                     var token = param.PossessInvoker.ResetPossessTimer(
                         param.This.destroyCancellationToken, param.This.characterType);
 
-                    UniTask.Void(async token =>
+                    UniTask.Void(async ct =>
                         {
                             var type = param.This.characterType;
                             param.PossessInvoker.SetDisplayImageFillAmount(type, 1.0f);
@@ -121,7 +121,7 @@ namespace MyScripts.Runtime
 
                             while (t > 0.0f)
                             {
-                                await UniTask.NextFrame(cancellationToken: token);
+                                await UniTask.NextFrame(cancellationToken: ct);
                                 t -= Time.deltaTime;
                                 param.PossessInvoker.SetDisplayImageFillAmount(type, t / duration);
                             }
