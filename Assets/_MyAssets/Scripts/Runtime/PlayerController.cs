@@ -325,18 +325,18 @@ namespace MyScripts.Runtime
             inputDirection.Normalize();
             isSprinting = isSprintingInput && hasInput && isInputSpecifiedAngle; //ここに接地条件を入れてもよいかもしれない
 
-            // set target speed based on move speed, sprint speed and if sprint is pressed
+            // set target speed based on move speed, and sprint speed if sprint is pressed
             // when player is possessing an anima, increase move speed accordingly
             float targetSpeed = param.MoveSpeed;
             if (isSprinting)
-                targetSpeed *= param.SprintSpeedMultiplier;
+                targetSpeed += param.SprintSpeedIncrease;
             // 特定のアニマを取得している場合、対応するエリア内で移動速度が速くなる
             if (animalLeaveInvoker.IsPossessingType(CharacterType.Sea))
             {
                 if ((isGrounded && IsInsideOfArea(SWalkSound.Surface.Water, controller.transform.position)) ||
                     (!isGrounded && IsInsideOfArea(SWalkSound.Surface.Water, becameGroundedPosition)))
                 {
-                    targetSpeed *= param.MoveSpeedMultiplierWhenHasSea;
+                    targetSpeed += param.MoveSpeedIncreaseWhenHasSea;
                 }
             }
             if (animalLeaveInvoker.IsPossessingType(CharacterType.Land))
@@ -345,12 +345,12 @@ namespace MyScripts.Runtime
                 if ((isGrounded && !IsInsideOfArea(SWalkSound.Surface.Water, controller.transform.position)) ||
                     (!isGrounded && !IsInsideOfArea(SWalkSound.Surface.Water, becameGroundedPosition)))
                 {
-                    targetSpeed *= param.MoveSpeedMultiplierWhenHasLand;
+                    targetSpeed += param.MoveSpeedIncreaseWhenHasLand;
                 }
             }
             if (animalLeaveInvoker.IsPossessingType(CharacterType.Sky))
             {
-                if (jumpCountWhenHasSky > 0) targetSpeed *= param.MoveSpeedMultiplierWhenHasSkyAndInTheAir;
+                if (jumpCountWhenHasSky > 0) targetSpeed += param.MoveSpeedIncreaseWhenHasSkyAndInTheAir;
             }
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
