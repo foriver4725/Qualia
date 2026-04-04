@@ -108,7 +108,8 @@ namespace MyScripts.Runtime
                         GetName(param.This.characterType)));
 
                     // タイマーは AnimalLeaveInvoker 側でスロットごとに管理してリセットする
-                    var token = param.PossessInvoker.ResetPossessTimer(param.This.characterType);
+                    var token = param.PossessInvoker.ResetPossessTimer(
+                        param.This.destroyCancellationToken, param.This.characterType);
 
                     UniTask.Void(async token =>
                         {

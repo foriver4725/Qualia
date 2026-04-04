@@ -68,11 +68,11 @@ namespace MyScripts.Runtime
 
         // 指定スロットのタイマーをリセットし、タイマー用のトークンを返す
         // 取得（上書き）するたびに必ず呼ぶ
-        internal Ct ResetPossessTimer(CharacterType type)
+        internal Ct ResetPossessTimer(Ct ownerCt, CharacterType type)
         {
             possessTimerCtses[type]?.Cancel();
             possessTimerCtses[type]?.Dispose();
-            possessTimerCtses[type] = new Cts();
+            possessTimerCtses[type] = Cts.CreateLinkedTokenSource(ownerCt);
             return possessTimerCtses[type].Token;
         }
 
