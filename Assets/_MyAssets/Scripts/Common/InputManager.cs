@@ -15,17 +15,20 @@ namespace MyScripts.Common
         }
 
         // 現在使っているデバイスを返す
-        // 判定は単純で、最後に接続されたデバイスを返す
-        internal static Device GetCurrentDevice() => InputSystem.devices switch
+        // 判定は単純で、列挙済みデバイスを末尾から見て Keyboard/Mouse/Gamepad に該当するものを返す
+        internal static Device GetCurrentDevice()
         {
-            [] => Device.Unknown,
-            _ => InputSystem.devices[^1] switch
+            for (int i = InputSystem.devices.Count - 1; i >= 0; i--)
             {
-                Keyboard or Mouse => Device.KeyboardAndMouse,
-                Gamepad           => Device.Gamepad,
-                _                 => Device.Unknown,
+                InputDevice device = InputSystem.devices[i];
+
+                // 関係ない他のデバイスは無視する
+                if (device is Keyboard or Mouse) return Device.KeyboardAndMouse;
+                if (device is Gamepad) return Device.Gamepad;
             }
-        };
+
+            return Device.Unknown;
+        }
 
         /// <summary>
         /// Input Actions で管理されている入力によらず現在の入力値を参照して、<br/>
