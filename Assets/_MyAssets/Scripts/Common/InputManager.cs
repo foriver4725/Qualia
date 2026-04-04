@@ -15,7 +15,7 @@ namespace MyScripts.Common
         }
 
         // 現在使っているデバイスを返す
-        // 判定は単純で、最後に接続されたデバイスを返す
+        // 判定は単純で、列挙済みデバイスを末尾から見て Keyboard/Mouse/Gamepad に該当するものを返す
         internal static Device GetCurrentDevice()
         {
             for (int i = InputSystem.devices.Count - 1; i >= 0; i--)
