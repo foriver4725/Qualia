@@ -111,21 +111,14 @@ namespace MyScripts.Runtime
         //! PossessCharacter() のなるべく直後で呼び出すこと!! (引数は同じにする)
         internal void PossessCharacter_ShowLogIfFirstTime(Character character)
         {
-            CharacterType foundFirstTimeType = CharacterType.None;
+            var type = character.CharacterType;
 
-            foreach (CharacterType type in hasPossessedForTheFirstTimeTable.Keys)
-            {
-                if (type == CharacterType.None) continue;
-                if (type != character.CharacterType) continue;
-                if (hasPossessedForTheFirstTimeTable[type]) break;
+            // 既に取得済みなら何もしない（上書き・タイマーリセット時の重複呼び出しに対して安全）
+            if (hasPossessedForTheFirstTimeTable[type]) return;
 
-                foundFirstTimeType = type;
-                break;
-            }
+            hasPossessedForTheFirstTimeTable[type] = true;
 
-            hasPossessedForTheFirstTimeTable[foundFirstTimeType] = true;
-
-            LogManager2.Instance.ShowAutomatically(foundFirstTimeType switch
+            LogManager2.Instance.ShowAutomatically(type switch
             {
                 CharacterType.Land => "陸の移動速度が向上し、一部のSOSの位置が可視化された！",
                 CharacterType.Sea  => "水上の移動速度が大幅に向上した！",
@@ -145,6 +138,11 @@ namespace MyScripts.Runtime
             }
 
             LeaveCharacterInternal(type);
+
+            // タイマー満了時など、CTS が残っている場合は解放する
+            possessTimerCtses[type]?.Cancel();
+            possessTimerCtses[type]?.Dispose();
+            possessTimerCtses[type] = null;
 
             // displayOrder から削除することで残りがシフトされる
             displayOrder.Remove(type);
