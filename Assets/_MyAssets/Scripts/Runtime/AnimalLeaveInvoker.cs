@@ -18,16 +18,16 @@ namespace MyScripts.Runtime
         private readonly Dictionary<CharacterType, Character> possessingCharacters = new()
         {
             { CharacterType.Land, null },
-            { CharacterType.Sea,  null },
-            { CharacterType.Sky,  null },
+            { CharacterType.Sea, null },
+            { CharacterType.Sky, null },
         };
 
         // スロットごとのタイマー CTS（種別キー）
         private readonly Dictionary<CharacterType, CancellationTokenSource> possessTimerCtses = new()
         {
             { CharacterType.Land, null },
-            { CharacterType.Sea,  null },
-            { CharacterType.Sky,  null },
+            { CharacterType.Sea, null },
+            { CharacterType.Sky, null },
         };
 
         // 初めて取得したタイミングで true になり、以降二度と false にならない
@@ -57,7 +57,8 @@ namespace MyScripts.Runtime
             get
             {
                 foreach (var c in possessingCharacters.Values)
-                    if (c != null) return true;
+                    if (c != null)
+                        return true;
                 return false;
             }
         }
@@ -67,11 +68,11 @@ namespace MyScripts.Runtime
 
         // 指定スロットのタイマーをリセットし、タイマー用のトークンを返す
         // 取得（上書き）するたびに必ず呼ぶ
-        internal CancellationToken ResetPossessTimer(CancellationToken ownerCt, CharacterType type)
+        internal Ct ResetPossessTimer(CharacterType type)
         {
             possessTimerCtses[type]?.Cancel();
             possessTimerCtses[type]?.Dispose();
-            possessTimerCtses[type] = CancellationTokenSource.CreateLinkedTokenSource(ownerCt);
+            possessTimerCtses[type] = new Cts();
             return possessTimerCtses[type].Token;
         }
 
