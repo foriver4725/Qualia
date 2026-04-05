@@ -4,7 +4,6 @@
 
 ### ○ [Steamページ](https://store.steampowered.com/app/4333730/Qualial_Nature/)
 ### ○ [Wiki はここから](https://github.com/foriver4725/Qualia/wiki)
-### ○ [クラウドに挙げているファイルのレポジトリ](https://github.com/foriver4725/Qualia-CloudFiles)
 
 ---
 
