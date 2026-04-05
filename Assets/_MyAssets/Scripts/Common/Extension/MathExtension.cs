@@ -51,4 +51,11 @@ internal static class MathExtension
         float cross = lhs.Cross(rhs);
         return cross * cross;
     }
+
+    /// <summary>
+    /// XZ平面の座標 -> XYZ空間の座標 に変換する
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal static Vector3 ToVector3(this Vector2 vectorXZ, float y)
+        => new(vectorXZ.x, y, vectorXZ.y);
 }

@@ -233,7 +233,7 @@ namespace MyScripts.Runtime
         private void DoInertiaJumpIfTheTiming()
         {
             // 陸のアニマを取得していないとダメ
-            if (animalLeaveInvoker.PossessingCharacterType != CharacterType.Land) return;
+            if (!animalLeaveInvoker.IsPossessingType(CharacterType.Land)) return;
 
             // 水平方向にある程度の速度が必要
             if (realHorizontalVelocity.sqrMagnitude < param.InertiaJumpLimitSpeedSqr) return;
@@ -325,32 +325,32 @@ namespace MyScripts.Runtime
             inputDirection.Normalize();
             isSprinting = isSprintingInput && hasInput && isInputSpecifiedAngle; //ここに接地条件を入れてもよいかもしれない
 
-            // set target speed based on move speed, sprint speed and if sprint is pressed
+            // set target speed based on move speed, and sprint speed if sprint is pressed
             // when player is possessing an anima, increase move speed accordingly
             float targetSpeed = param.MoveSpeed;
             if (isSprinting)
-                targetSpeed *= param.SprintSpeedMultiplier;
+                targetSpeed += param.SprintSpeedIncrease;
             // 特定のアニマを取得している場合、対応するエリア内で移動速度が速くなる
-            if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Sea)
+            if (animalLeaveInvoker.IsPossessingType(CharacterType.Sea))
             {
                 if ((isGrounded && IsInsideOfArea(SWalkSound.Surface.Water, controller.transform.position)) ||
                     (!isGrounded && IsInsideOfArea(SWalkSound.Surface.Water, becameGroundedPosition)))
                 {
-                    targetSpeed *= param.MoveSpeedMultiplierWhenHasSea;
+                    targetSpeed += param.MoveSpeedIncreaseWhenHasSea;
                 }
             }
-            else if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Land)
+            if (animalLeaveInvoker.IsPossessingType(CharacterType.Land))
             {
                 // Water 以外の場所を陸上とみなす
                 if ((isGrounded && !IsInsideOfArea(SWalkSound.Surface.Water, controller.transform.position)) ||
                     (!isGrounded && !IsInsideOfArea(SWalkSound.Surface.Water, becameGroundedPosition)))
                 {
-                    targetSpeed *= param.MoveSpeedMultiplierWhenHasLand;
+                    targetSpeed += param.MoveSpeedIncreaseWhenHasLand;
                 }
             }
-            else if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Sky)
+            if (animalLeaveInvoker.IsPossessingType(CharacterType.Sky))
             {
-                if (jumpCountWhenHasSky > 0) targetSpeed *= param.MoveSpeedMultiplierWhenHasSkyAndInTheAir;
+                if (jumpCountWhenHasSky > 0) targetSpeed += param.MoveSpeedIncreaseWhenHasSkyAndInTheAir;
             }
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
@@ -463,7 +463,7 @@ namespace MyScripts.Runtime
             // 空中ジャンプ (空のアニマを取得している時)
             // 通常のジャンプとほぼ同じロジック、ただしジャンプ力がめっちゃ強い
             // 今たまたまロジックが共通しているだけなので、一緒の関数にまとめたりなどはしない
-            else if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Sky)
+            else if (animalLeaveInvoker.IsPossessingType(CharacterType.Sky))
             {
                 // 既にジャンプ済みでないか?
                 if (jumpCountWhenHasSky <= 0)
@@ -521,7 +521,7 @@ namespace MyScripts.Runtime
             {
                 // adjust gravity when possessing an anima
                 float ownGravity = param.OwnGravity;
-                if (animalLeaveInvoker.PossessingCharacterType == CharacterType.Sky)
+                if (animalLeaveInvoker.IsPossessingType(CharacterType.Sky))
                 {
                     // 下向きに落下しているなら
                     if (verticalVelocity < 0.0f)
