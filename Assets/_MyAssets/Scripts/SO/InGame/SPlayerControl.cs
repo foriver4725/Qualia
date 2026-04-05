@@ -15,6 +15,7 @@
         [SerializeField] private float moveSpeed = 4.0f;
         [SerializeField] private float moveSpeedMultiplierWhenHasLand = 1.5f;
         [SerializeField] private float moveSpeedMultiplierWhenHasSea = 3.0f;
+        [SerializeField] private float moveSpeedMultiplierWhenHasSeaAndInTheRain = 2.5f;
         [SerializeField] private float moveSpeedMultiplierWhenHasSkyAndInTheAir = 2.0f;
         [SerializeField] private float moveAcceleration = 10.0f;
         [SerializeField, Tooltip("入力によらない水平移動速度の,地上での減衰係数 (空気抵抗に相当)")]
@@ -24,15 +25,18 @@
         [SerializeField, Tooltip("移動入力を鈍感にするタイミング")]
         private MoveInputInsensitiveTimingType moveInputInsensitiveTiming = MoveInputInsensitiveTimingType.Never;
         [SerializeField, Tooltip("移動入力を鈍感にするとき,元の入力値の何倍にするか")] private float moveInputInsensitiveRate = 0.5f;
+        [SerializeField, Tooltip("水のアニマ取得時に雨と水辺の速度倍率を併用するか") ] private bool moveSpeed​​MultiplierOverlapWhenHasSea;
         internal float MoveSpeed => moveSpeed;
         internal float MoveSpeedMultiplierWhenHasLand => moveSpeedMultiplierWhenHasLand;
         internal float MoveSpeedMultiplierWhenHasSea => moveSpeedMultiplierWhenHasSea;
+        internal float MoveSpeedMultiplierWhenHasSeaAndInTheRain => moveSpeedMultiplierWhenHasSeaAndInTheRain;
         internal float MoveSpeedMultiplierWhenHasSkyAndInTheAir => moveSpeedMultiplierWhenHasSkyAndInTheAir;
         internal float MoveAcceleration => moveAcceleration;
         internal float NativeHorizontalVelocityAttenuationRateOnGround => nativeHorizontalVelocityAttenuationRateOnGround;
         internal float NativeHorizontalVelocityAttenuationRateInAir => nativeHorizontalVelocityAttenuationRateInAir;
         internal MoveInputInsensitiveTimingType MoveInputInsensitiveTiming => moveInputInsensitiveTiming;
         internal float MoveInputInsensitiveRate => moveInputInsensitiveRate;
+        internal bool MoveSpeed​​MultiplierOverlapWhenHasSea => moveSpeed​​MultiplierOverlapWhenHasSea;
 
         [Space(10)]
         [Header("Sprint")]

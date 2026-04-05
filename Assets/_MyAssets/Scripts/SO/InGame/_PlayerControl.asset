@@ -15,12 +15,14 @@ MonoBehaviour:
   moveSpeed: 6
   moveSpeedMultiplierWhenHasLand: 1.5
   moveSpeedMultiplierWhenHasSea: 3
-  moveSpeedMultiplierWhenHasSky: 2
+  moveSpeedMultiplierWhenHasSeaAndInTheRain: 2.5
+  moveSpeedMultiplierWhenHasSkyAndInTheAir: 2
   moveAcceleration: 10
   nativeHorizontalVelocityAttenuationRateOnGround: 0.5
   nativeHorizontalVelocityAttenuationRateInAir: 0.02
   moveInputInsensitiveTiming: 2
   moveInputInsensitiveRate: 0.2
+  moveSpeedMultiplierOverlapWhenHasSea: 1
   sprintSpeedMultiplier: 2
   sprintDirectionAllowedAngle: 120
   rotationSpeed: 1
