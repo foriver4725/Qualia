@@ -25,6 +25,8 @@ namespace MyScripts.Runtime
             await UniTask.WaitUntil(pauseInvoker,
                 static pauseInvoker => !pauseInvoker.IsPaused, cancellationToken: ct);
 
+            // まず動画を再生し、終了後にチュートリアルシーケンスを再生
+            await CutScenePlayer.Instance.PlayAsync(ct);
             await ImageSequencePlayer.Instance.PlayAsync(sequenceSprites, playOptions, ct);
         }
     }
