@@ -12,11 +12,11 @@
         }
 
         [Header("Move")]
-        [SerializeField] private float moveSpeed = 4.0f;
-        [SerializeField] private float moveSpeedMultiplierWhenHasLand = 1.5f;
-        [SerializeField] private float moveSpeedMultiplierWhenHasSea = 3.0f;
-        [SerializeField] private float moveSpeedMultiplierWhenHasSeaAndInTheRain = 2.5f;
-        [SerializeField] private float moveSpeedMultiplierWhenHasSkyAndInTheAir = 2.0f;
+        [SerializeField] private float moveSpeed = 6.0f;
+        [SerializeField] private float moveSpeedIncreaseWhenHasLand = 3.0f;
+        [SerializeField] private float moveSpeedIncreaseWhenHasSea = 12.0f;
+        [SerializeField] private float moveSpeedIncreaseWhenHasSeaAndInTheRain = 10.0f;
+        [SerializeField] private float moveSpeedIncreaseWhenHasSkyAndInTheAir = 6.0f;
         [SerializeField] private float moveAcceleration = 10.0f;
         [SerializeField, Tooltip("入力によらない水平移動速度の,地上での減衰係数 (空気抵抗に相当)")]
         private float nativeHorizontalVelocityAttenuationRateOnGround = 0.50f;
@@ -27,10 +27,10 @@
         [SerializeField, Tooltip("移動入力を鈍感にするとき,元の入力値の何倍にするか")] private float moveInputInsensitiveRate = 0.5f;
         [SerializeField, Tooltip("水のアニマ取得時に雨と水辺の速度倍率を併用するか") ] private bool moveSpeed​​MultiplierOverlapWhenHasSea;
         internal float MoveSpeed => moveSpeed;
-        internal float MoveSpeedMultiplierWhenHasLand => moveSpeedMultiplierWhenHasLand;
-        internal float MoveSpeedMultiplierWhenHasSea => moveSpeedMultiplierWhenHasSea;
-        internal float MoveSpeedMultiplierWhenHasSeaAndInTheRain => moveSpeedMultiplierWhenHasSeaAndInTheRain;
-        internal float MoveSpeedMultiplierWhenHasSkyAndInTheAir => moveSpeedMultiplierWhenHasSkyAndInTheAir;
+        internal float MoveSpeedIncreaseWhenHasLand => moveSpeedIncreaseWhenHasLand;
+        internal float MoveSpeedIncreaseWhenHasSea => moveSpeedIncreaseWhenHasSea;
+        internal float MoveSpeedIncreaseWhenHasSeaAndInTheRain => moveSpeedIncreaseWhenHasSeaAndInTheRain;
+        internal float MoveSpeedIncreaseWhenHasSkyAndInTheAir => moveSpeedIncreaseWhenHasSkyAndInTheAir;
         internal float MoveAcceleration => moveAcceleration;
         internal float NativeHorizontalVelocityAttenuationRateOnGround => nativeHorizontalVelocityAttenuationRateOnGround;
         internal float NativeHorizontalVelocityAttenuationRateInAir => nativeHorizontalVelocityAttenuationRateInAir;
@@ -40,9 +40,9 @@
 
         [Space(10)]
         [Header("Sprint")]
-        [SerializeField] private float sprintSpeedMultiplier = 1.5f;
+        [SerializeField] private float sprintSpeedIncrease = 6.0f;
         [SerializeField, Tooltip("前方に対する視野角と同じ意味の開き角. この角度の範囲内の移動方向なら走行を許可 [度]")] private float sprintDirectionAllowedAngle = 120.0f;
-        internal float SprintSpeedMultiplier => sprintSpeedMultiplier;
+        internal float SprintSpeedIncrease => sprintSpeedIncrease;
 
         internal float SprintDirectionAllowedAngle => sprintDirectionAllowedAngle;
 
