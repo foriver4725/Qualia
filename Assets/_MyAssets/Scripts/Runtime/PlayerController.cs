@@ -58,9 +58,6 @@ namespace MyScripts.Runtime
         private Vector3 previousFramePosition = Vector3.zero; // 直前フレームの位置を記録して、戻せるようにする
         private int jumpCountWhenHasSky = 0; // 空のアニマを取得している時、空中ジャンプ出来るので、二段ジャンプより上を防止する用
 
-        // environment
-        private bool isRainingNow => rainMaker.isRaining;
-
         // timeout deltatime
         // Awake で初期化
         private SPlayerControl param;
@@ -342,9 +339,9 @@ namespace MyScripts.Runtime
                 bool isInsideOfWaterOnTheGround = 
                     (isGrounded && IsInsideOfArea(SWalkSound.Surface.Water, controller.transform.position)) ||
                     (!isGrounded && IsInsideOfArea(SWalkSound.Surface.Water, becameGroundedPosition));
-                bool isRaining = rainMaker.isRaining;
+                bool isRaining = rainMaker.IsRaining;
 
-                if (param.MoveSpeedMultiplierOverlapWhenHasSea)
+                if (param.MoveSpeedIncreaseOverlapWhenHasSea)
                 {
                     if (isInsideOfWaterOnTheGround) targetSpeed += param.MoveSpeedIncreaseWhenHasSea;
                     if (isRaining) targetSpeed += param.MoveSpeedIncreaseWhenHasSeaAndInTheRain;
