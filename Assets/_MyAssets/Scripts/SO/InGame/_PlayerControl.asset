@@ -13,27 +13,17 @@ MonoBehaviour:
   m_Name: _PlayerControl
   m_EditorClassIdentifier: 
   moveSpeed: 6
-<<<<<<< HEAD
   moveSpeedMultiplierWhenHasLand: 1.5
   moveSpeedMultiplierWhenHasSea: 3
   moveSpeedMultiplierWhenHasSeaAndInTheRain: 2.5
   moveSpeedMultiplierWhenHasSkyAndInTheAir: 2
-=======
-  moveSpeedIncreaseWhenHasLand: 3
-  moveSpeedIncreaseWhenHasSea: 12
-  moveSpeedIncreaseWhenHasSkyAndInTheAir: 6
->>>>>>> origin/develop
   moveAcceleration: 10
   nativeHorizontalVelocityAttenuationRateOnGround: 0.5
   nativeHorizontalVelocityAttenuationRateInAir: 0.02
   moveInputInsensitiveTiming: 2
   moveInputInsensitiveRate: 0.2
-<<<<<<< HEAD
   moveSpeedMultiplierOverlapWhenHasSea: 1
   sprintSpeedMultiplier: 2
-=======
-  sprintSpeedIncrease: 6
->>>>>>> origin/develop
   sprintDirectionAllowedAngle: 120
   rotationSpeed: 1
   cameraPitchRange: {x: -90, y: 90}

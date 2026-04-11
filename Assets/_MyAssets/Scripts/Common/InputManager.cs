@@ -15,20 +15,17 @@ namespace MyScripts.Common
         }
 
         // 現在使っているデバイスを返す
-        // 判定は単純で、列挙済みデバイスを末尾から見て Keyboard/Mouse/Gamepad に該当するものを返す
-        internal static Device GetCurrentDevice()
+        // 判定は単純で、最後に接続されたデバイスを返す
+        internal static Device GetCurrentDevice() => InputSystem.devices switch
         {
-            for (int i = InputSystem.devices.Count - 1; i >= 0; i--)
+            [] => Device.Unknown,
+            _ => InputSystem.devices[^1] switch
             {
-                InputDevice device = InputSystem.devices[i];
-
-                // 関係ない他のデバイスは無視する
-                if (device is Keyboard or Mouse) return Device.KeyboardAndMouse;
-                if (device is Gamepad) return Device.Gamepad;
+                Keyboard or Mouse => Device.KeyboardAndMouse,
+                Gamepad           => Device.Gamepad,
+                _                 => Device.Unknown,
             }
-
-            return Device.Unknown;
-        }
+        };
 
         /// <summary>
         /// Input Actions で管理されている入力によらず現在の入力値を参照して、<br/>
@@ -41,61 +38,8 @@ namespace MyScripts.Common
             {
                 if (device is Keyboard keyboard)
                 {
-                    // アルファベットキー
-                    if (keyboard.aKey.wasPressedThisFrame) return true;
-                    if (keyboard.bKey.wasPressedThisFrame) return true;
-                    if (keyboard.cKey.wasPressedThisFrame) return true;
-                    if (keyboard.dKey.wasPressedThisFrame) return true;
-                    if (keyboard.eKey.wasPressedThisFrame) return true;
-                    if (keyboard.fKey.wasPressedThisFrame) return true;
-                    if (keyboard.gKey.wasPressedThisFrame) return true;
-                    if (keyboard.hKey.wasPressedThisFrame) return true;
-                    if (keyboard.iKey.wasPressedThisFrame) return true;
-                    if (keyboard.jKey.wasPressedThisFrame) return true;
-                    if (keyboard.kKey.wasPressedThisFrame) return true;
-                    if (keyboard.lKey.wasPressedThisFrame) return true;
-                    if (keyboard.mKey.wasPressedThisFrame) return true;
-                    if (keyboard.nKey.wasPressedThisFrame) return true;
-                    if (keyboard.oKey.wasPressedThisFrame) return true;
-                    if (keyboard.pKey.wasPressedThisFrame) return true;
-                    if (keyboard.qKey.wasPressedThisFrame) return true;
-                    if (keyboard.rKey.wasPressedThisFrame) return true;
-                    if (keyboard.sKey.wasPressedThisFrame) return true;
-                    if (keyboard.tKey.wasPressedThisFrame) return true;
-                    if (keyboard.uKey.wasPressedThisFrame) return true;
-                    if (keyboard.vKey.wasPressedThisFrame) return true;
-                    if (keyboard.wKey.wasPressedThisFrame) return true;
-                    if (keyboard.xKey.wasPressedThisFrame) return true;
-                    if (keyboard.yKey.wasPressedThisFrame) return true;
-                    if (keyboard.zKey.wasPressedThisFrame) return true;
-                    // 数字キー
-                    if (keyboard.digit0Key.wasPressedThisFrame) return true;
-                    if (keyboard.digit1Key.wasPressedThisFrame) return true;
-                    if (keyboard.digit2Key.wasPressedThisFrame) return true;
-                    if (keyboard.digit3Key.wasPressedThisFrame) return true;
-                    if (keyboard.digit4Key.wasPressedThisFrame) return true;
-                    if (keyboard.digit5Key.wasPressedThisFrame) return true;
-                    if (keyboard.digit6Key.wasPressedThisFrame) return true;
-                    if (keyboard.digit7Key.wasPressedThisFrame) return true;
-                    if (keyboard.digit8Key.wasPressedThisFrame) return true;
-                    if (keyboard.digit9Key.wasPressedThisFrame) return true;
-                    // 矢印キー
-                    if (keyboard.upArrowKey.wasPressedThisFrame) return true;
-                    if (keyboard.leftArrowKey.wasPressedThisFrame) return true;
-                    if (keyboard.downArrowKey.wasPressedThisFrame) return true;
-                    if (keyboard.rightArrowKey.wasPressedThisFrame) return true;
-                    // その他のキー
-                    if (keyboard.spaceKey.wasPressedThisFrame) return true;
-                    if (keyboard.enterKey.wasPressedThisFrame) return true;
-                    if (keyboard.tabKey.wasPressedThisFrame) return true;
-                    if (keyboard.leftShiftKey.wasPressedThisFrame) return true;
-                    if (keyboard.rightShiftKey.wasPressedThisFrame) return true;
-                    if (keyboard.leftCtrlKey.wasPressedThisFrame) return true;
-                    if (keyboard.rightCtrlKey.wasPressedThisFrame) return true;
-                    if (keyboard.leftAltKey.wasPressedThisFrame) return true;
-                    if (keyboard.rightAltKey.wasPressedThisFrame) return true;
-                    if (keyboard.leftMetaKey.wasPressedThisFrame) return true;
-                    if (keyboard.rightMetaKey.wasPressedThisFrame) return true;
+                    // キーの精査はせず、これで簡易に判定
+                    if (keyboard.anyKey.wasPressedThisFrame) return true;
                 }
                 else if (device is Mouse mouse)
                 {
