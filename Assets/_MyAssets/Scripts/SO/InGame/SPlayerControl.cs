@@ -68,9 +68,15 @@
         [Header("Inertia Jump")]
         [SerializeField, Tooltip("加算する速度(プレイヤーから見た相対ベクトル)")] private Vector3 inertiaJumpVelocity = new(30.0f, 15.0f, 30.0f);
         [SerializeField, Tooltip("必要な水平速度 の平方")] private float inertiaJumpLimitSpeedSqr = 100.0f;
+        [SerializeField, Tooltip("地面から離地した時、目の前 〇m から下方向に △m 地面で無い(= 崖)ならば、慣性ジャンプを行える : 〇の値")]
+        private float inertiaJumpCliffCheckDistanceFromPlayer = 0.5f;
+        [SerializeField, Tooltip("地面から離地した時、目の前 〇m から下方向に △m 地面で無い(= 崖)ならば、慣性ジャンプを行える : △の値")]
+        private float inertiaJumpCliffCheckDistanceDownward = 10.0f;
         [SerializeField] private float inertiaJumpCoolTime = 0.2f;
         internal Vector3 InertiaJumpVelocity => inertiaJumpVelocity;
         internal float InertiaJumpLimitSpeedSqr => inertiaJumpLimitSpeedSqr;
+        internal float InertiaJumpCliffCheckDistanceFromPlayer => inertiaJumpCliffCheckDistanceFromPlayer;
+        internal float InertiaJumpCliffCheckDistanceDownward => inertiaJumpCliffCheckDistanceDownward;
         internal float InertiaJumpCoolTime => inertiaJumpCoolTime;
 
         [Space(10)]

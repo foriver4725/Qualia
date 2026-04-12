@@ -250,7 +250,16 @@ namespace MyScripts.Runtime
             // 現在、地面から離れたタイミングであるべき
             if (!hasBecameNotGroundedThisFrame) return;
 
-            //? 目の前が崖であるべきか？
+            // 目の前が崖であるべき
+            {
+                Ray ray = new(
+                    transform.position + Vector3.forward * param.InertiaJumpCliffCheckDistanceFromPlayer,
+                    Vector3.down
+                );
+
+                if (Physics.Raycast(ray, param.InertiaJumpCliffCheckDistanceDownward, param.GroundLayers))
+                    return;
+            }
 
             // 処理を行える
 
