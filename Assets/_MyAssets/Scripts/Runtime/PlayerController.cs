@@ -263,15 +263,14 @@ namespace MyScripts.Runtime
             if (!hasBecameNotGroundedThisFrame) return;
 
             // 目の前が崖であるべき
-            {
-                Ray ray = new(
-                    transform.position + Vector3.forward * param.InertiaJumpCliffCheckDistanceFromPlayer,
-                    Vector3.down
-                );
-
-                if (Physics.Raycast(ray, param.InertiaJumpCliffCheckDistanceDownward, param.GroundLayers))
-                    return;
-            }
+            if (Physics.Raycast(
+                    transform.position + transform.forward * param.InertiaJumpCliffCheckDistanceFromPlayer,
+                    Vector3.down,
+                    param.InertiaJumpCliffCheckDistanceDownward,
+                    param.GroundLayers,
+                    QueryTriggerInteraction.Ignore
+                ))
+                return;
 
             // 処理を行える
 
