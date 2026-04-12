@@ -263,14 +263,15 @@ namespace MyScripts.Runtime
             if (!hasBecameNotGroundedThisFrame) return;
 
             // 目の前が崖であるべき
-            if (Physics.Raycast(
-                    transform.position + transform.forward * param.InertiaJumpCliffCheckDistanceFromPlayer,
-                    Vector3.down,
-                    param.InertiaJumpCliffCheckDistanceDownward,
-                    param.GroundLayers,
-                    QueryTriggerInteraction.Ignore
-                ))
-                return;
+            {
+                if (!TryMeasureCliffHeight(param.InertiaJumpCliffCheckDistanceFromPlayerNear, out float heightNear))
+                    return; // 検出失敗
+                if (!TryMeasureCliffHeight(param.InertiaJumpCliffCheckDistanceFromPlayerFar, out float heightFar))
+                    return; // 検出失敗
+
+                if (heightFar - heightNear > param.InertiaJumpCliffCheckHeightDifferenceLimit)
+                    return;
+            }
 
             // 処理を行える
 
@@ -642,6 +643,37 @@ namespace MyScripts.Runtime
             return (Vector2.Dot(playerForwardXZ, moveDirectionXZ) > threshold);
         }
 
+        /// <summary>
+        /// プレイヤーの少し前方(足元)から下方向にレイを飛ばし、<br/>
+        /// 何m下部で地面にヒットしたかを検出する<br/>
+        /// </summary>
+        /// <param name="forwardDistance">プレイヤーの足元の座標より、前方に 〇[m] 離れたところからレイを飛ばす</param>
+        /// <param name="height">成功した場合、レイを飛ばした位置とヒットした地面のY座標の差の絶対値(正)<br/>
+        /// 失敗した場合、0.0f</param>
+        /// <returns>成功したら true、失敗したら false</returns>
+        private bool TryMeasureCliffHeight(float forwardDistance, out float height)
+        {
+            // 十分長く取る
+            const float RayLength = 1000.0f;
+
+            if (Physics.Raycast(
+                    transform.position + transform.forward * forwardDistance,
+                    Vector3.down,
+                    out RaycastHit hitInfo,
+                    RayLength,
+                    param.GroundLayers,
+                    QueryTriggerInteraction.Ignore
+                ))
+            {
+                height = hitInfo.distance;
+                return true;
+            }
+            else
+            {
+                height = 0.0f;
+                return false;
+            }
+        }
 
         private static bool IsInsideOfAnyBorder(IReadOnlyList<Border> borders, Vector3 position, byte targetLayer)
         {
