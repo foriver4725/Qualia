@@ -31,8 +31,8 @@ MonoBehaviour:
   ownGravityWhenHasSkyAndIsFalling: -0.6
   inertiaJumpVelocity: {x: 60, y: 15, z: 60}
   inertiaJumpLimitSpeedSqr: 100
-  inertiaJumpCliffCheckDistanceFromPlayer: 0.5
-  inertiaJumpCliffCheckDistanceDownward: 10
+  inertiaJumpCliffCheckDistanceFromPlayer: 0.4
+  inertiaJumpCliffCheckDistanceDownward: 0.3
   inertiaJumpCoolTime: 0.1
   jumpTimeout: 0.1
   fallTimeout: 0.15
