@@ -55,8 +55,8 @@ namespace MyScripts.Runtime
         private bool isSprinting = false;
         private bool isDoingInertiaJump = false;
         private bool onInertiaJumpCt = false;
-        private Vector3 appliedOuterVelocityWhenInertiaJumpBeganLast = Vector3.zero; // 直近の慣性ジャンプで加算した速度
-        private float velocityTotalAttenuatedRateSinceInertiaJumpBegan = 0.0f; // 慣性ジャンプ開始以降、トータルの速度減衰割合
+        private Vector2 appliedHorizontalOuterVelocityWhenInertiaJumpBeganLast = Vector2.zero; // 直近の慣性ジャンプで加算した水平速度
+        private float horizontalVelocityTotalAttenuatedRateSinceInertiaJumpBegan = 0.0f; // 慣性ジャンプ開始以降、トータルの水平速度 減衰割合
         private Vector3 previousFramePosition = Vector3.zero; // 直前フレームの位置を記録して、戻せるようにする
         private int jumpCountWhenHasSky = 0; // 空のアニマを取得している時、空中ジャンプ出来るので、二段ジャンプより上を防止する用
 
@@ -286,8 +286,8 @@ namespace MyScripts.Runtime
                 moveDirectionXZ.y * param.InertiaJumpVelocity.z
             );
 
-            appliedOuterVelocityWhenInertiaJumpBeganLast = velocity;
-            velocityTotalAttenuatedRateSinceInertiaJumpBegan = 1.0f;
+            appliedHorizontalOuterVelocityWhenInertiaJumpBeganLast = new Vector2(velocity.x, velocity.z);
+            horizontalVelocityTotalAttenuatedRateSinceInertiaJumpBegan = 1.0f;
             ApplyOuterVelocity(velocity);
 
             soundPlayer.LetPlay(SPlayerControlSound.Action.InertiaJump);
@@ -304,12 +304,12 @@ namespace MyScripts.Runtime
 
             // 慣性ジャンプによる速度増加を打ち消す
 
-            Vector3 cancelVelocity = appliedOuterVelocityWhenInertiaJumpBeganLast *
-                                     velocityTotalAttenuatedRateSinceInertiaJumpBegan;
-            ApplyOuterVelocity(-cancelVelocity);
+            Vector2 cancelHorizontalVelocity = appliedHorizontalOuterVelocityWhenInertiaJumpBeganLast *
+                                               horizontalVelocityTotalAttenuatedRateSinceInertiaJumpBegan;
+            ApplyOuterVelocity(new Vector3(-cancelHorizontalVelocity.x, 0.0f, -cancelHorizontalVelocity.y));
 
-            appliedOuterVelocityWhenInertiaJumpBeganLast = Vector3.zero;
-            velocityTotalAttenuatedRateSinceInertiaJumpBegan = 0.0f;
+            appliedHorizontalOuterVelocityWhenInertiaJumpBeganLast = Vector2.zero;
+            horizontalVelocityTotalAttenuatedRateSinceInertiaJumpBegan = 0.0f;
 
             isDoingInertiaJump = false;
         }
@@ -358,11 +358,11 @@ namespace MyScripts.Runtime
                 }
 
                 // update total attenuation record
-                if (velocityTotalAttenuatedRateSinceInertiaJumpBegan > 0.0f)
+                if (horizontalVelocityTotalAttenuatedRateSinceInertiaJumpBegan > 0.0f)
                 {
                     float attenuatedRate =
                         nativeHorizontalVelocity.magnitude / originalNativeHorizontalVelocity.magnitude;
-                    velocityTotalAttenuatedRateSinceInertiaJumpBegan *= attenuatedRate;
+                    horizontalVelocityTotalAttenuatedRateSinceInertiaJumpBegan *= attenuatedRate;
                 }
             }
         }
