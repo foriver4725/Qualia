@@ -23,20 +23,19 @@ namespace MyScripts.Runtime
             };
         }
 
+        // @formatter:off
         [Header("Player Control")]
         [SerializeField] private CharacterController controller;
-
         [SerializeField] private AnimalLeaveInvoker animalLeaveInvoker;
         [SerializeField] private CameraFOVManager cameraFOVManager;
         [SerializeField] private PlayerControlSoundPlayer soundPlayer;
         [SerializeField] private Transform cinemachineCameraTarget;
         [SerializeField] private Transform teleportBackPoint;
-
         [Space(10)]
         [Header("Walk Sound")]
         [SerializeField] private WalkSoundPlayer walkSoundPlayer;
-
         [SerializeField] private WalkSoundBorderRoots walkSoundBorderRoots;
+        // @formatter:on
 
         // cinemachine
         private float cinemachineTargetPitch;
@@ -56,8 +55,10 @@ namespace MyScripts.Runtime
         private bool isSprinting = false;
         private bool isDoingInertiaJump = false;
         private bool onInertiaJumpCt = false;
+        private Vector3 appliedOuterVelocityWhenInertiaJumpBeganLast = Vector3.zero; // 直近の慣性ジャンプで加算した速度
+        private float velocityTotalAttenuatedRateSinceInertiaJumpBegan = 0.0f; // 慣性ジャンプ開始以降、トータルの速度減衰割合
         private Vector3 previousFramePosition = Vector3.zero; // 直前フレームの位置を記録して、戻せるようにする
-        private int jumpCountWhenHasSky = 0;                  // 空のアニマを取得している時、空中ジャンプ出来るので、二段ジャンプより上を防止する用
+        private int jumpCountWhenHasSky = 0; // 空のアニマを取得している時、空中ジャンプ出来るので、二段ジャンプより上を防止する用
 
         // timeout deltatime
         // Awake で初期化
@@ -177,6 +178,7 @@ namespace MyScripts.Runtime
             JumpAndGravity();
             GroundedCheck();
             DoInertiaJumpIfTheTiming();
+            StopInertiaJumpWhenSprintEnd();
             AttenuateNativeHorizontalVelocity();
             InputAndFinallyMove();
             TeleportBackWhenInvalidPosition();
@@ -276,15 +278,40 @@ namespace MyScripts.Runtime
             // 処理を行える
 
             isDoingInertiaJump = true;
+
             Vector2 moveDirectionXZ = new Vector2(realHorizontalVelocity.x, realHorizontalVelocity.z).normalized;
             Vector3 velocity = new(
                 moveDirectionXZ.x * param.InertiaJumpVelocity.x,
                 param.InertiaJumpVelocity.y,
                 moveDirectionXZ.y * param.InertiaJumpVelocity.z
             );
+
+            appliedOuterVelocityWhenInertiaJumpBeganLast = velocity;
+            velocityTotalAttenuatedRateSinceInertiaJumpBegan = 1.0f;
             ApplyOuterVelocity(velocity);
 
             soundPlayer.LetPlay(SPlayerControlSound.Action.InertiaJump);
+        }
+
+        // 慣性ジャンプ 強制中止
+        private void StopInertiaJumpWhenSprintEnd()
+        {
+            // 慣性ジャンプ中のみ
+            if (!isDoingInertiaJump) return;
+
+            // ダッシュしていないなら
+            if (isSprinting) return;
+
+            // 慣性ジャンプによる速度増加を打ち消す
+
+            Vector3 cancelVelocity = appliedOuterVelocityWhenInertiaJumpBeganLast *
+                                     velocityTotalAttenuatedRateSinceInertiaJumpBegan;
+            ApplyOuterVelocity(-cancelVelocity);
+
+            appliedOuterVelocityWhenInertiaJumpBeganLast = Vector3.zero;
+            velocityTotalAttenuatedRateSinceInertiaJumpBegan = 0.0f;
+
+            isDoingInertiaJump = false;
         }
 
         private void CameraRotation()
@@ -318,6 +345,8 @@ namespace MyScripts.Runtime
             // attenuate the native velocity
             if (nativeHorizontalVelocity != Vector2.zero)
             {
+                Vector2 originalNativeHorizontalVelocity = nativeHorizontalVelocity;
+
                 float attenuationRate = isGrounded
                     ? param.NativeHorizontalVelocityAttenuationRateOnGround
                     : param.NativeHorizontalVelocityAttenuationRateInAir;
@@ -326,6 +355,14 @@ namespace MyScripts.Runtime
                 if (nativeHorizontalVelocity.sqrMagnitude < 1e-4f)
                 {
                     nativeHorizontalVelocity = Vector2.zero;
+                }
+
+                // update total attenuation record
+                if (velocityTotalAttenuatedRateSinceInertiaJumpBegan > 0.0f)
+                {
+                    float attenuatedRate =
+                        nativeHorizontalVelocity.magnitude / originalNativeHorizontalVelocity.magnitude;
+                    velocityTotalAttenuatedRateSinceInertiaJumpBegan *= attenuatedRate;
                 }
             }
         }
