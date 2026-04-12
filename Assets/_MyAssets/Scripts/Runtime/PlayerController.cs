@@ -311,8 +311,13 @@ namespace MyScripts.Runtime
             // 慣性ジャンプ開始時からの速度変化率
             // 減衰量を算出したいので、0~1に制限する
             Vector2 horizontalVelocityAttenuation =
-                nativeHorizontalVelocity / nativeHorizontalVelocityWhenInertiaJumpBeganLast;
-            float verticalVelocityAttenuation = verticalVelocity / verticalVelocityWhenInertiaJumpBeganLast;
+                nativeHorizontalVelocityWhenInertiaJumpBeganLast == Vector2.zero
+                    ? Vector2.zero
+                    : nativeHorizontalVelocity / nativeHorizontalVelocityWhenInertiaJumpBeganLast;
+            float verticalVelocityAttenuation =
+                verticalVelocityWhenInertiaJumpBeganLast == 0.0f
+                    ? 0.0f
+                    : verticalVelocity / verticalVelocityWhenInertiaJumpBeganLast;
             horizontalVelocityAttenuation.x = Mathf.Clamp01(horizontalVelocityAttenuation.x);
             horizontalVelocityAttenuation.y = Mathf.Clamp01(horizontalVelocityAttenuation.y);
             verticalVelocityAttenuation = Mathf.Clamp01(verticalVelocityAttenuation);
