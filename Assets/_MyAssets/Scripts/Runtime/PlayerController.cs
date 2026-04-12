@@ -23,20 +23,19 @@ namespace MyScripts.Runtime
             };
         }
 
+        // @formatter:off
         [Header("Player Control")]
         [SerializeField] private CharacterController controller;
-
         [SerializeField] private AnimalLeaveInvoker animalLeaveInvoker;
         [SerializeField] private CameraFOVManager cameraFOVManager;
         [SerializeField] private PlayerControlSoundPlayer soundPlayer;
         [SerializeField] private Transform cinemachineCameraTarget;
         [SerializeField] private Transform teleportBackPoint;
-
         [Space(10)]
         [Header("Walk Sound")]
         [SerializeField] private WalkSoundPlayer walkSoundPlayer;
-
         [SerializeField] private WalkSoundBorderRoots walkSoundBorderRoots;
+        // @formatter:on
 
         // cinemachine
         private float cinemachineTargetPitch;
@@ -56,8 +55,11 @@ namespace MyScripts.Runtime
         private bool isSprinting = false;
         private bool isDoingInertiaJump = false;
         private bool onInertiaJumpCt = false;
+        private Vector3 appliedOuterVelocityWhenInertiaJumpBeganLast = Vector3.zero; // 直近の慣性ジャンプ実行時の、速度増加を記録しておく
+        private Vector2 nativeHorizontalVelocityWhenInertiaJumpBeganLast = Vector2.zero; // 直近の慣性ジャンプ開始直後の、速度を記録しておく
+        private float verticalVelocityWhenInertiaJumpBeganLast = 0.0f; // 直近の慣性ジャンプ開始直後の、速度を記録しておく
         private Vector3 previousFramePosition = Vector3.zero; // 直前フレームの位置を記録して、戻せるようにする
-        private int jumpCountWhenHasSky = 0;                  // 空のアニマを取得している時、空中ジャンプ出来るので、二段ジャンプより上を防止する用
+        private int jumpCountWhenHasSky = 0; // 空のアニマを取得している時、空中ジャンプ出来るので、二段ジャンプより上を防止する用
 
         // timeout deltatime
         // Awake で初期化
@@ -177,6 +179,7 @@ namespace MyScripts.Runtime
             JumpAndGravity();
             GroundedCheck();
             DoInertiaJumpIfTheTiming();
+            StopInertiaJumpOnSprintEnd();
             AttenuateNativeHorizontalVelocity();
             InputAndFinallyMove();
             TeleportBackWhenInvalidPosition();
@@ -228,16 +231,14 @@ namespace MyScripts.Runtime
             if (hasBecameNotGroundedThisFrame)
                 becameNotGroundedPosition = transform.position;
 
-            // 地面に着地したら、少しだけ(クールタイム)待ってから、再度慣性ジャンプを行えるようにする
-            if (isGrounded && isDoingInertiaJump && !onInertiaJumpCt)
+            // 地面に着地したら、慣性ジャンプ終了
+            if (isGrounded)
             {
-                onInertiaJumpCt = true;
-
-                param.InertiaJumpCoolTime.SecAwaitThenDo(() =>
+                if (isDoingInertiaJump)
                 {
                     isDoingInertiaJump = false;
-                    onInertiaJumpCt = false;
-                }, ct: destroyCancellationToken).Forget();
+                    BeginInertiaCooldownCountAsync(destroyCancellationToken).Forget();
+                }
             }
         }
 
@@ -255,6 +256,9 @@ namespace MyScripts.Runtime
 
             // ジャンプ中ならダメ
             if (isJumping) return;
+
+            // クールタイム中ならダメ
+            if (onInertiaJumpCt) return;
 
             // 慣性ジャンプ中ならダメ
             if (isDoingInertiaJump) return;
@@ -276,15 +280,65 @@ namespace MyScripts.Runtime
             // 処理を行える
 
             isDoingInertiaJump = true;
+
             Vector2 moveDirectionXZ = new Vector2(realHorizontalVelocity.x, realHorizontalVelocity.z).normalized;
             Vector3 velocity = new(
                 moveDirectionXZ.x * param.InertiaJumpVelocity.x,
                 param.InertiaJumpVelocity.y,
                 moveDirectionXZ.y * param.InertiaJumpVelocity.z
             );
+
+            appliedOuterVelocityWhenInertiaJumpBeganLast = velocity;
             ApplyOuterVelocity(velocity);
 
+            nativeHorizontalVelocityWhenInertiaJumpBeganLast = nativeHorizontalVelocity;
+            verticalVelocityWhenInertiaJumpBeganLast = verticalVelocity;
+
             soundPlayer.LetPlay(SPlayerControlSound.Action.InertiaJump);
+        }
+
+        // 慣性ジャンプ 強制中止
+        private void StopInertiaJumpOnSprintEnd()
+        {
+            // 慣性ジャンプ中のみ
+            if (!isDoingInertiaJump) return;
+
+            // ダッシュしていないなら
+            if (isSprinting) return;
+
+            // 慣性ジャンプを終了する. また、開始時の速度増加を打ち消す
+
+            // 慣性ジャンプ開始時からの速度変化率
+            // 減衰量を算出したいので、0~1に制限する
+            Vector2 horizontalVelocityAttenuation =
+                nativeHorizontalVelocityWhenInertiaJumpBeganLast == Vector2.zero
+                    ? Vector2.zero
+                    : nativeHorizontalVelocity / nativeHorizontalVelocityWhenInertiaJumpBeganLast;
+            float verticalVelocityAttenuation =
+                verticalVelocityWhenInertiaJumpBeganLast == 0.0f
+                    ? 0.0f
+                    : verticalVelocity / verticalVelocityWhenInertiaJumpBeganLast;
+            horizontalVelocityAttenuation.x = Mathf.Clamp01(horizontalVelocityAttenuation.x);
+            horizontalVelocityAttenuation.y = Mathf.Clamp01(horizontalVelocityAttenuation.y);
+            verticalVelocityAttenuation = Mathf.Clamp01(verticalVelocityAttenuation);
+
+            // その減衰量に基づいて、慣性ジャンプ開始時に加えた速度を減衰させ、
+            // それを打ち消す速度を加える
+            Vector3 cancelVelocity = new Vector3(
+                appliedOuterVelocityWhenInertiaJumpBeganLast.x * horizontalVelocityAttenuation.x,
+                appliedOuterVelocityWhenInertiaJumpBeganLast.y * verticalVelocityAttenuation,
+                appliedOuterVelocityWhenInertiaJumpBeganLast.z * horizontalVelocityAttenuation.y
+            );
+            ApplyOuterVelocity(-cancelVelocity);
+
+            // 一応、記録した値をリセットしておく
+            appliedOuterVelocityWhenInertiaJumpBeganLast = Vector3.zero;
+            nativeHorizontalVelocityWhenInertiaJumpBeganLast = Vector2.zero;
+            verticalVelocityWhenInertiaJumpBeganLast = 0.0f;
+
+            // 慣性ジャンプ終了
+            isDoingInertiaJump = false;
+            BeginInertiaCooldownCountAsync(destroyCancellationToken).Forget();
         }
 
         private void CameraRotation()
@@ -673,6 +727,20 @@ namespace MyScripts.Runtime
                 height = 0.0f;
                 return false;
             }
+        }
+
+        // 慣性ジャンプのクールタイムフラグを立て、一定時間経過後に戻す
+        private async UniTask BeginInertiaCooldownCountAsync(Ct ct)
+        {
+            if (onInertiaJumpCt)
+            {
+                "既にクールタイムをカウント中です".Print(LogSettings.Warning);
+                return;
+            }
+
+            onInertiaJumpCt = true;
+            await param.InertiaJumpCoolTime.SecAwait(ct: ct);
+            onInertiaJumpCt = false;
         }
 
         private static bool IsInsideOfAnyBorder(IReadOnlyList<Border> borders, Vector3 position, byte targetLayer)
