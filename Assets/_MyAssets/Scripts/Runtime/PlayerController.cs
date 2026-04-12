@@ -231,16 +231,14 @@ namespace MyScripts.Runtime
             if (hasBecameNotGroundedThisFrame)
                 becameNotGroundedPosition = transform.position;
 
-            // 地面に着地したら、少しだけ(クールタイム)待ってから、再度慣性ジャンプを行えるようにする
-            if (isGrounded && isDoingInertiaJump && !onInertiaJumpCt)
+            // 地面に着地したら、慣性ジャンプ終了
+            if (isGrounded)
             {
-                onInertiaJumpCt = true;
-
-                param.InertiaJumpCoolTime.SecAwaitThenDo(() =>
+                if (isDoingInertiaJump)
                 {
                     isDoingInertiaJump = false;
-                    onInertiaJumpCt = false;
-                }, ct: destroyCancellationToken).Forget();
+                    BeginInertiaCooldownCountAsync(destroyCancellationToken).Forget();
+                }
             }
         }
 
@@ -258,6 +256,9 @@ namespace MyScripts.Runtime
 
             // ジャンプ中ならダメ
             if (isJumping) return;
+
+            // クールタイム中ならダメ
+            if (onInertiaJumpCt) return;
 
             // 慣性ジャンプ中ならダメ
             if (isDoingInertiaJump) return;
@@ -305,7 +306,7 @@ namespace MyScripts.Runtime
             // ダッシュしていないなら
             if (isSprinting) return;
 
-            // 慣性ジャンプによる速度増加を打ち消す
+            // 慣性ジャンプを終了する. また、開始時の速度増加を打ち消す
 
             // 慣性ジャンプ開始時からの速度変化率
             // 減衰量を算出したいので、0~1に制限する
@@ -330,7 +331,9 @@ namespace MyScripts.Runtime
             nativeHorizontalVelocityWhenInertiaJumpBeganLast = Vector2.zero;
             verticalVelocityWhenInertiaJumpBeganLast = 0.0f;
 
+            // 慣性ジャンプ終了
             isDoingInertiaJump = false;
+            BeginInertiaCooldownCountAsync(destroyCancellationToken).Forget();
         }
 
         private void CameraRotation()
@@ -719,6 +722,20 @@ namespace MyScripts.Runtime
                 height = 0.0f;
                 return false;
             }
+        }
+
+        // 慣性ジャンプのクールタイムフラグを立て、一定時間経過後に戻す
+        private async UniTask BeginInertiaCooldownCountAsync(Ct ct)
+        {
+            if (onInertiaJumpCt)
+            {
+                "既にクールタイムをカウント中です".Print(LogSettings.Warning);
+                return;
+            }
+
+            onInertiaJumpCt = true;
+            await param.InertiaJumpCoolTime.SecAwait(ct: ct);
+            onInertiaJumpCt = false;
         }
 
         private static bool IsInsideOfAnyBorder(IReadOnlyList<Border> borders, Vector3 position, byte targetLayer)
