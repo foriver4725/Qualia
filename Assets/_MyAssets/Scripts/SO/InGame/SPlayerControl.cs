@@ -25,7 +25,7 @@
         [SerializeField, Tooltip("移動入力を鈍感にするタイミング")]
         private MoveInputInsensitiveTimingType moveInputInsensitiveTiming = MoveInputInsensitiveTimingType.Never;
         [SerializeField, Tooltip("移動入力を鈍感にするとき,元の入力値の何倍にするか")] private float moveInputInsensitiveRate = 0.5f;
-        [SerializeField, Tooltip("水のアニマ取得時に雨と水辺の速度倍率を併用するか") ] private bool moveSpeed​​IncreaseOverlapWhenHasSea;
+        [SerializeField, Tooltip("水のアニマ取得時に雨と水辺の速度倍率を併用するか") ] private bool moveSpeedIncreaseOverlapWhenHasSea;
         internal float MoveSpeed => moveSpeed;
         internal float MoveSpeedIncreaseWhenHasLand => moveSpeedIncreaseWhenHasLand;
         internal float MoveSpeedIncreaseWhenHasSea => moveSpeedIncreaseWhenHasSea;
@@ -36,7 +36,7 @@
         internal float NativeHorizontalVelocityAttenuationRateInAir => nativeHorizontalVelocityAttenuationRateInAir;
         internal MoveInputInsensitiveTimingType MoveInputInsensitiveTiming => moveInputInsensitiveTiming;
         internal float MoveInputInsensitiveRate => moveInputInsensitiveRate;
-        internal bool MoveSpeed​​IncreaseOverlapWhenHasSea => moveSpeed​​IncreaseOverlapWhenHasSea;
+        internal bool MoveSpeedIncreaseOverlapWhenHasSea => moveSpeedIncreaseOverlapWhenHasSea;
 
         [Space(10)]
         [Header("Sprint")]

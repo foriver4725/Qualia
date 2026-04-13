@@ -350,7 +350,6 @@ namespace MyScripts.Runtime
                 {
                     if (isInsideOfWaterOnTheGround) targetSpeed += param.MoveSpeedIncreaseWhenHasSea;
                     else if (isRaining) targetSpeed += param.MoveSpeedIncreaseWhenHasSeaAndInTheRain;
-                    targetSpeed += param.MoveSpeedIncreaseWhenHasSea;
                 }
             }
             if (animalLeaveInvoker.IsPossessingType(CharacterType.Land))
