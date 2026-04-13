@@ -72,9 +72,22 @@
         [Header("Inertia Jump")]
         [SerializeField, Tooltip("加算する速度(プレイヤーから見た相対ベクトル)")] private Vector3 inertiaJumpVelocity = new(30.0f, 15.0f, 30.0f);
         [SerializeField, Tooltip("必要な水平速度 の平方")] private float inertiaJumpLimitSpeedSqr = 100.0f;
+        /*
+         * 地面から離地した時、目の前 x1[m] < x2[m] からそれぞれ下方向にレイを打つ
+         * レイがヒットした地点の、地面との高さの差分をそれぞれ y1[m], y2[m] > 0.0f とすると、
+         * y2 - y1 > 〇[m] の時、地面の傾きが急激に変化している = 目の前が崖であると判定して、
+         * 慣性ジャンプを行うことが出来る
+         */
+        [SerializeField, MinMaxRange(0.0f, 2.0f), Tooltip("崖判定において、レイを打つ水平距離 (near, far)")]
+        private Vector2 inertiaJumpCliffCheckDistanceFromPlayerRange = new(0.65f, 1.05f);
+        [SerializeField, Range(0.0f, 5.0f), Tooltip("崖判定において、レイのヒット地点の高低差が 〇m より大きければ、崖と判定する")]
+        private float inertiaJumpCliffCheckHeightDifferenceLimit = 0.22f;
         [SerializeField] private float inertiaJumpCoolTime = 0.2f;
         internal Vector3 InertiaJumpVelocity => inertiaJumpVelocity;
         internal float InertiaJumpLimitSpeedSqr => inertiaJumpLimitSpeedSqr;
+        internal float InertiaJumpCliffCheckDistanceFromPlayerNear => inertiaJumpCliffCheckDistanceFromPlayerRange.x;
+        internal float InertiaJumpCliffCheckDistanceFromPlayerFar => inertiaJumpCliffCheckDistanceFromPlayerRange.y;
+        internal float InertiaJumpCliffCheckHeightDifferenceLimit => inertiaJumpCliffCheckHeightDifferenceLimit;
         internal float InertiaJumpCoolTime => inertiaJumpCoolTime;
 
         [Space(10)]
