@@ -418,7 +418,7 @@ namespace MyScripts.Runtime
                     (!isGrounded && IsInsideOfArea(SWalkSound.Surface.Water, becameGroundedPosition));
                 bool isRaining = rainMaker.IsRaining;
 
-                if (param.MoveSpeedIncreaseOverlapWhenHasSea)
+                if (param.IsMoveSpeedIncreaseOverlapWhenHasSea)
                 {
                     if (isInsideOfWaterOnTheGround) targetSpeed += param.MoveSpeedIncreaseWhenHasSea;
                     if (isRaining) targetSpeed += param.MoveSpeedIncreaseWhenHasSeaAndInTheRain;
