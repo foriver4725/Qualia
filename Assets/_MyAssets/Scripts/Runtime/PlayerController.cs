@@ -35,6 +35,8 @@ namespace MyScripts.Runtime
         [Header("Walk Sound")]
         [SerializeField] private WalkSoundPlayer walkSoundPlayer;
         [SerializeField] private WalkSoundBorderRoots walkSoundBorderRoots;
+        [Header("Environment")]
+        [SerializeField] private RainMaker rainMaker;
         // @formatter:on
 
         // cinemachine
@@ -410,10 +412,21 @@ namespace MyScripts.Runtime
             // 特定のアニマを取得している場合、対応するエリア内で移動速度が速くなる
             if (animalLeaveInvoker.IsPossessingType(CharacterType.Sea))
             {
-                if ((isGrounded && IsInsideOfArea(SWalkSound.Surface.Water, controller.transform.position)) ||
-                    (!isGrounded && IsInsideOfArea(SWalkSound.Surface.Water, becameGroundedPosition)))
+
+                bool isInsideOfWaterOnTheGround = 
+                    (isGrounded && IsInsideOfArea(SWalkSound.Surface.Water, controller.transform.position)) ||
+                    (!isGrounded && IsInsideOfArea(SWalkSound.Surface.Water, becameGroundedPosition));
+                bool isRaining = rainMaker.IsRaining;
+
+                if (param.IsMoveSpeedIncreaseOverlapWhenHasSea)
                 {
-                    targetSpeed += param.MoveSpeedIncreaseWhenHasSea;
+                    if (isInsideOfWaterOnTheGround) targetSpeed += param.MoveSpeedIncreaseWhenHasSea;
+                    if (isRaining) targetSpeed += param.MoveSpeedIncreaseWhenHasSeaAndInTheRain;
+                }
+                else
+                {
+                    if (isInsideOfWaterOnTheGround) targetSpeed += param.MoveSpeedIncreaseWhenHasSea;
+                    else if (isRaining) targetSpeed += param.MoveSpeedIncreaseWhenHasSeaAndInTheRain;
                 }
             }
 
