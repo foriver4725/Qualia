@@ -16,7 +16,6 @@
         private static readonly int MoveTotal_ID = Shader.PropertyToID("_MoveTotal");
         private static readonly int Move_ID = Shader.PropertyToID("_Move");
         private static readonly int TargetPosition_ID = Shader.PropertyToID("_TargetPosition");
-        private static readonly int PrevInvMatrix_ID = Shader.PropertyToID("_PrevInvMatrix");
 
         private new Renderer renderer;
 
@@ -25,7 +24,6 @@
         private Color[] colors;
         private Vector2[] uvs;
         private float move = 0f;
-        private Matrix4x4 viewMatrixPrev;
 
         private void Awake()
         {
@@ -78,8 +76,6 @@
             meshFilter.sharedMesh = mesh;
             meshFilter.sharedMesh.SetIndices(indices, MeshTopology.Lines, 0);
 
-            viewMatrixPrev = playerCamera.worldToCameraMatrix;
-
             renderer.material.SetFloat(Range_ID, Range);
             renderer.material.SetFloat(RangeR_ID, RangeR);
             renderer.material.SetFloat(Move_ID, Speed);
@@ -92,10 +88,8 @@
 
             renderer.material.SetFloat(MoveTotal_ID, move);
             renderer.material.SetVector(TargetPosition_ID, target_position);
-            renderer.material.SetMatrix(PrevInvMatrix_ID, viewMatrixPrev * playerCamera.cameraToWorldMatrix);
 
             move = Mathf.Repeat(move + Speed, Range * 2f);
-            viewMatrixPrev = playerCamera.worldToCameraMatrix;
         }
     }
 }
