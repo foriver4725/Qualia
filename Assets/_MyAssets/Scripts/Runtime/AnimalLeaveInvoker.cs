@@ -83,15 +83,13 @@ namespace MyScripts.Runtime
         {
             var type = character.CharacterType;
 
-            // 同スロットに既存キャラがあれば内部解放（上書き取得）
-            if (possessingCharacters[type] != null)
+            // 同スロットに既存キャラがあれば、何もしなくて良い
+            if (possessingCharacters[type] == null)
             {
-                LeaveCharacterInternal(type);
+                possessingCharacters[type] = character;
+                possessingCharacters[type].SetVisible(false);
+                possessingCharacters[type].Collider.enabled = false;
             }
-
-            possessingCharacters[type] = character;
-            possessingCharacters[type].SetVisible(false);
-            possessingCharacters[type].Collider.enabled = false;
 
             // 陸のアニマなら、陸のSOSサインを表示させる
             if (type == CharacterType.Land)

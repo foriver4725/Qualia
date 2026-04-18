@@ -9,8 +9,6 @@
 
         [SerializeField] private new Collider collider;
 
-        internal Collider Collider => collider;
-
         private void Awake()
         {
             if (characterType is CharacterType.None)
