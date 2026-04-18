@@ -7,10 +7,6 @@
         [SerializeField] private GameObject[] seaObjects;
         [SerializeField] private ParticleSystem smokeParticle;
 
-        [SerializeField] private new Collider collider;
-
-        internal Collider Collider => collider;
-
         private void Awake()
         {
             if (characterType is CharacterType.None)
