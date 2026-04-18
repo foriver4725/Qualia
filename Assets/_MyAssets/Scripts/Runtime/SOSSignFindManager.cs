@@ -1,6 +1,7 @@
 ﻿using MyScripts.Common.SaveSystem;
 using MyScripts.Runtime.Log;
 using MyScripts.Runtime.UI.Main;
+using UnityEngine.Video;
 
 namespace MyScripts.Runtime
 {
@@ -17,12 +18,19 @@ namespace MyScripts.Runtime
         [SerializeField] private SOSSignRatioUIManager sosSignRatioUIManager;
         [SerializeField] private SOSSoundPlayer soundPlayer;
         [SerializeField] private TextMeshProUGUI sosAnimaArrangementSeedLabel;
+        [SerializeField] private SStoryMovie storyMovie;
 
         // Awake で初期化
         private SSOSSignLogText sosSignLogText;
         private int sosSignCountReal;
         private int removedSOSSignCount = -1;
         private Collider[] sosSigns; // コライダーはルートに付いている
+
+        // セーブデータから復元した初期達成率をもとに Start() で初期化する
+        // ロード再開時に既に超えたマイルストーンを再生しないためのフラグ
+        private bool hasPlayed33Movie;
+        private bool hasPlayed66Movie;
+        private bool hasPlayed100Movie;
 
         #region Interface Implementation
 
@@ -99,8 +107,14 @@ namespace MyScripts.Runtime
             // メソッドのコメントに従って、
             // - Awake() より後に呼び出す
             // - changeFillSmoothly は false にする
-            sosSignRatioUIManager.UpdateRatio(1.0f * removedSOSSignCount / Constants.SOSSignCount,
-                changeFillSmoothly: false);
+            float initialRatio = 1.0f * removedSOSSignCount / Constants.SOSSignCount;
+
+            // ロード再開時に既に超えていたマイルストーンは再生しない
+            hasPlayed33Movie  = initialRatio >= 1.0f / 3.0f;
+            hasPlayed66Movie  = initialRatio >= 2.0f / 3.0f;
+            hasPlayed100Movie = initialRatio >= 1.0f;
+
+            sosSignRatioUIManager.UpdateRatio(initialRatio, changeFillSmoothly: false);
         }
 
         // SOSサインを取得する
@@ -145,6 +159,7 @@ namespace MyScripts.Runtime
                                     sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnRemoveWithAnima));
 
                                 soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
+                                TryPlayMilestoneMovie();
                             }
                             else
                             {
@@ -177,6 +192,33 @@ namespace MyScripts.Runtime
                     })
                     .AddTo(collider);
             }
+        }
+
+        // 現在の達成率に応じて未再生のマイルストーン動画を再生する
+        // Start() でセーブデータから初期フラグを設定しているため、ロード再開時の誤再生は起きない
+        private void TryPlayMilestoneMovie()
+        {
+            float ratio = 1.0f * removedSOSSignCount / Constants.SOSSignCount;
+
+            SStoryMovie.GameProgress? progress = null;
+            if (!hasPlayed33Movie && ratio >= 1.0f / 3.0f)
+            {
+                hasPlayed33Movie = true;
+                progress = SStoryMovie.GameProgress.P33;
+            }
+            else if (!hasPlayed66Movie && ratio >= 2.0f / 3.0f)
+            {
+                hasPlayed66Movie = true;
+                progress = SStoryMovie.GameProgress.P66;
+            }
+            else if (!hasPlayed100Movie && ratio >= 1.0f)
+            {
+                hasPlayed100Movie = true;
+                progress = SStoryMovie.GameProgress.P100;
+            }
+
+            if (progress.HasValue)
+                CutScenePlayer.Instance.PlayAsync(storyMovie.Get(progress.Value), destroyCancellationToken).Forget();
         }
 
         // Click したなら true を、 Exit したなら false を返す

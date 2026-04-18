@@ -47,6 +47,12 @@ namespace MyScripts.Runtime
                 return;
             }
 
+            if (videoClip == null)
+            {
+                "VideoClip が設定されていません。".Print(LogSettings.Error);
+                return;
+            }
+
             IsPlaying = true;
 
             // フェードイン中に呼び出し元がキャンセルした場合、フェードインを止めてからフェードアウトへ移行するため

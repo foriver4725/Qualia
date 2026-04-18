@@ -2478,6 +2478,7 @@ MonoBehaviour:
   sosSignRatioUIManager: {fileID: 885902798}
   soundPlayer: {fileID: 195949041}
   sosAnimaArrangementSeedLabel: {fileID: 1661366117749799019}
+  storyMovie: {fileID: 11400000, guid: a3c3ad9930d7e894cb66aa5d272f446b, type: 2}
 --- !u!1 &670357120
 GameObject:
   m_ObjectHideFlags: 0
@@ -2527,7 +2528,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: f2fcae06477339a4c92004476d4a4c87, type: 3}
   - {fileID: 21300000, guid: fc0394e59f2de0740b7ca7bf5557f0fa, type: 3}
   - {fileID: 21300000, guid: 78ad3802a0854514e98974a55583e5a6, type: 3}
-  durationUntilPlay: 0.5
+  durationUntilStoryMovie: 0.5
+  durationUntilTutorialImages: 1
   playOptions:
     isAutoStepEnabled: 1
     isManualSkipEnabled: 1
