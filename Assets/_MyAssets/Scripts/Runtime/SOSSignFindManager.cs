@@ -32,6 +32,10 @@ namespace MyScripts.Runtime
         private bool hasPlayed66Movie;
         private bool hasPlayed100Movie;
 
+        // マイルストーン判定に使う達成率の閾値
+        private const float Ratio33 = 1.0f / 3.0f;
+        private const float Ratio66 = 2.0f / 3.0f;
+
         #region Interface Implementation
 
         public void GetDataAndUpdateMyProperties()
@@ -99,22 +103,26 @@ namespace MyScripts.Runtime
 
             GetDataAndUpdateMyProperties();
 
+            // removedSOSSignCount が確定した直後にフラグを初期化する
+            // ロード再開時に既に超えていたマイルストーンは再生しない
+            {
+                float initialRatio = 1.0f * removedSOSSignCount / Constants.SOSSignCount;
+                hasPlayed33Movie  = initialRatio >= Ratio33;
+                hasPlayed66Movie  = initialRatio >= Ratio66;
+                hasPlayed100Movie = initialRatio >= 1.0f;
+            }
+
             Setup(sosSigns);
         }
 
         private void Start()
         {
-            // メソッドのコメントに従って、
+            // UpdateRatio() のコメントに従って、
             // - Awake() より後に呼び出す
             // - changeFillSmoothly は false にする
-            float initialRatio = 1.0f * removedSOSSignCount / Constants.SOSSignCount;
-
-            // ロード再開時に既に超えていたマイルストーンは再生しない
-            hasPlayed33Movie  = initialRatio >= 1.0f / 3.0f;
-            hasPlayed66Movie  = initialRatio >= 2.0f / 3.0f;
-            hasPlayed100Movie = initialRatio >= 1.0f;
-
-            sosSignRatioUIManager.UpdateRatio(initialRatio, changeFillSmoothly: false);
+            sosSignRatioUIManager.UpdateRatio(
+                1.0f * removedSOSSignCount / Constants.SOSSignCount,
+                changeFillSmoothly: false);
         }
 
         // SOSサインを取得する
@@ -198,27 +206,42 @@ namespace MyScripts.Runtime
         // Start() でセーブデータから初期フラグを設定しているため、ロード再開時の誤再生は起きない
         private void TryPlayMilestoneMovie()
         {
+            if (storyMovie == null)
+            {
+                "SStoryMovie が設定されていません。".Print(LogSettings.Error);
+                return;
+            }
+
             float ratio = 1.0f * removedSOSSignCount / Constants.SOSSignCount;
 
+            // 今回到達したマイルストーンを特定する
             SStoryMovie.GameProgress? progress = null;
-            if (!hasPlayed33Movie && ratio >= 1.0f / 3.0f)
-            {
-                hasPlayed33Movie = true;
+            if (!hasPlayed33Movie && ratio >= Ratio33)
                 progress = SStoryMovie.GameProgress.P33;
-            }
-            else if (!hasPlayed66Movie && ratio >= 2.0f / 3.0f)
-            {
-                hasPlayed66Movie = true;
+            else if (!hasPlayed66Movie && ratio >= Ratio66)
                 progress = SStoryMovie.GameProgress.P66;
-            }
             else if (!hasPlayed100Movie && ratio >= 1.0f)
-            {
-                hasPlayed100Movie = true;
                 progress = SStoryMovie.GameProgress.P100;
+
+            if (!progress.HasValue) return;
+
+            // クリップを取得してから null チェックし、有効な場合のみフラグを立てて再生する
+            // フラグを先に立てると、クリップ未設定のマイルストーンが以後永久に再生不能になるため
+            VideoClip clip = storyMovie.Get(progress.Value);
+            if (clip == null)
+            {
+                $"マイルストーン {progress.Value} の VideoClip が設定されていません。".Print(LogSettings.Error);
+                return;
             }
 
-            if (progress.HasValue)
-                CutScenePlayer.Instance.PlayAsync(storyMovie.Get(progress.Value), destroyCancellationToken).Forget();
+            switch (progress.Value)
+            {
+                case SStoryMovie.GameProgress.P33:  hasPlayed33Movie  = true; break;
+                case SStoryMovie.GameProgress.P66:  hasPlayed66Movie  = true; break;
+                case SStoryMovie.GameProgress.P100: hasPlayed100Movie = true; break;
+            }
+
+            CutScenePlayer.Instance.PlayAsync(clip, destroyCancellationToken).Forget();
         }
 
         // Click したなら true を、 Exit したなら false を返す
