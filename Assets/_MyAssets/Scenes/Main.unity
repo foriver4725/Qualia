@@ -2536,6 +2536,7 @@ MonoBehaviour:
     bgFadeDurationSeconds: 0.5
     stepFadeDurationSeconds: 1
   pauseInvoker: {fileID: 196192313}
+  storyMovie: {fileID: 11400000, guid: a3c3ad9930d7e894cb66aa5d272f446b, type: 2}
 --- !u!1 &685558487
 GameObject:
   m_ObjectHideFlags: 0

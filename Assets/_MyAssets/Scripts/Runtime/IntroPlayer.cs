@@ -11,6 +11,7 @@ namespace MyScripts.Runtime
         [SerializeField, Range(0.0f, 10.0f)] private float durationUntilPlay = 0.5f;
         [SerializeField] private ImageSequencePlayerPlayOptions playOptions;
         [SerializeField] private PauseInvoker pauseInvoker;
+        [SerializeField] private SStoryMovie storyMovie;
 
         // 他の初期化後に実行する
         private void Start() => ImplAsync(destroyCancellationToken).Forget();
@@ -26,7 +27,7 @@ namespace MyScripts.Runtime
                 static pauseInvoker => !pauseInvoker.IsPaused, cancellationToken: ct);
 
             // まず動画を再生し、終了後にチュートリアルシーケンスを再生
-            await CutScenePlayer.Instance.PlayAsync(ct);
+            await CutScenePlayer.Instance.PlayAsync(storyMovie.Get(SStoryMovie.GameProgress.P0), ct);
             await ImageSequencePlayer.Instance.PlayAsync(sequenceSprites, playOptions, ct);
         }
     }

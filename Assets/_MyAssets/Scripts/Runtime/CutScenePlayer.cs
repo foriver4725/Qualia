@@ -8,7 +8,6 @@ namespace MyScripts.Runtime
         [SerializeField] private Image bg;
         [SerializeField] private RawImage rawImage;
         [SerializeField] private VideoPlayer videoPlayer;
-        [SerializeField] private VideoClip videoClip;
 
         internal bool IsPlaying { get; private set; } = false;
 
@@ -19,39 +18,32 @@ namespace MyScripts.Runtime
         {
             rawImage.enabled = false;
             videoPlayer.source = VideoSource.VideoClip;
-            videoPlayer.clip = videoClip;
 
             bgAlphaMax = bg.color.a;
             SetBgAlpha(0.0f);
             bg.enabled = false;
 
             videoPlayer.prepareCompleted += OnPrepareCompleted;
-            videoPlayer.started          += OnStarted;
+            videoPlayer.started += OnStarted;
             videoPlayer.loopPointReached += OnLoopPointReached;
-            videoPlayer.errorReceived    += OnErrorReceived;
+            videoPlayer.errorReceived += OnErrorReceived;
         }
 
         private void OnDestroy()
         {
             videoPlayer.prepareCompleted -= OnPrepareCompleted;
-            videoPlayer.started          -= OnStarted;
+            videoPlayer.started -= OnStarted;
             videoPlayer.loopPointReached -= OnLoopPointReached;
-            videoPlayer.errorReceived    -= OnErrorReceived;
+            videoPlayer.errorReceived -= OnErrorReceived;
         }
 
-        public async UniTask PlayAsync(Ct ct)
+        public async UniTask PlayAsync(VideoClip videoClip, Ct ct)
         {
             ct.ThrowIfCancellationRequested();
 
             if (IsPlaying)
             {
                 "既にカットシーンが再生中です。".Print(LogSettings.Warning);
-                return;
-            }
-
-            if (videoClip == null)
-            {
-                "VideoClip が設定されていません。".Print(LogSettings.Error);
                 return;
             }
 
@@ -71,7 +63,7 @@ namespace MyScripts.Runtime
 
             try
             {
-                await UniTask.WaitUntil(() => !IsPlaying, cancellationToken: ct);
+                await UniTask.WaitUntil(this, static self => !self.IsPlaying, cancellationToken: ct);
             }
             catch (OperationCanceledException)
             {
@@ -94,7 +86,7 @@ namespace MyScripts.Runtime
         #region 内部デリゲート
 
         private void OnPrepareCompleted(VideoPlayer _) => OnPrepareCompletedInternal();
-        private void OnStarted(VideoPlayer _)          => OnStartedInternal();
+        private void OnStarted(VideoPlayer _) => OnStartedInternal();
         private void OnLoopPointReached(VideoPlayer _) => OnLoopPointReachedInternal();
         private void OnErrorReceived(VideoPlayer _, string message) => OnErrorReceivedInternal(message);
 
@@ -142,9 +134,9 @@ namespace MyScripts.Runtime
             bg.enabled = true;
 
             await LMotion.Create(0.0f, bgAlphaMax, duration)
-                        .WithEase(Ease.OutQuad)
-                        .Bind(SetBgAlpha)
-                        .ToUniTask(cancellationToken: ct);
+                .WithEase(Ease.OutQuad)
+                .Bind(SetBgAlpha)
+                .ToUniTask(cancellationToken: ct);
         }
 
         private async UniTaskVoid OnEndPlayAsync(float duration, Ct ct)
@@ -154,9 +146,9 @@ namespace MyScripts.Runtime
             SetBgAlpha(bgAlphaMax);
 
             await LMotion.Create(bgAlphaMax, 0.0f, duration)
-                        .WithEase(Ease.InQuad)
-                        .Bind(SetBgAlpha)
-                        .ToUniTask(cancellationToken: ct);
+                .WithEase(Ease.InQuad)
+                .Bind(SetBgAlpha)
+                .ToUniTask(cancellationToken: ct);
 
             bg.enabled = false;
         }
