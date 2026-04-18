@@ -1,4 +1,4 @@
-﻿using UnityEngine.Video;
+using UnityEngine.Video;
 
 namespace MyScripts.Runtime
 {
@@ -9,19 +9,15 @@ namespace MyScripts.Runtime
         [SerializeField] private RawImage rawImage;
         [SerializeField] private VideoPlayer videoPlayer;
 
-        private bool isPlaying = false;
-        // 最後に再生したカットシーン種別 (再生終了後も保持)
-        private string currentPlayingId; // 動画のみが入る想定
+        internal bool IsPlaying { get; private set; } = false;
 
         // Awake で初期化
         private float bgAlphaMax;
 
-        internal bool IsPlaying => isPlaying;
-
         private void Awake()
         {
             rawImage.enabled = false;
-            videoPlayer.source = VideoSource.Url;
+            videoPlayer.source = VideoSource.VideoClip;
 
             bgAlphaMax = bg.color.a;
             SetBgAlpha(0.0f);
@@ -30,6 +26,7 @@ namespace MyScripts.Runtime
             videoPlayer.prepareCompleted += OnPrepareCompleted;
             videoPlayer.started += OnStarted;
             videoPlayer.loopPointReached += OnLoopPointReached;
+            videoPlayer.errorReceived += OnErrorReceived;
         }
 
         private void OnDestroy()
@@ -37,63 +34,51 @@ namespace MyScripts.Runtime
             videoPlayer.prepareCompleted -= OnPrepareCompleted;
             videoPlayer.started -= OnStarted;
             videoPlayer.loopPointReached -= OnLoopPointReached;
+            videoPlayer.errorReceived -= OnErrorReceived;
         }
 
-        public async UniTask PlayAsync(string id, Ct ct)
+        public async UniTask PlayAsync(VideoClip videoClip, Ct ct)
         {
             ct.ThrowIfCancellationRequested();
 
-            if (isPlaying)
+            if (IsPlaying)
             {
-                $"既に{currentPlayingId}のカットシーンが再生中です。".Print(LogSettings.Warning);
+                "既にカットシーンが再生中です。".Print(LogSettings.Warning);
                 return;
             }
 
-            // 状態を更新
-            isPlaying = true;
-            currentPlayingId = id; // 元に戻すことはない
-            OnBeginPlay();
+            IsPlaying = true;
 
-            "カットシーンのダウンロード中...".Print();
+            // フェードイン中に呼び出し元がキャンセルした場合、フェードインを止めてからフェードアウトへ移行するため
+            // ct と destroyCancellationToken の両方でキャンセルできるリンクトークンを渡す
+            using Cts linkedBeginCts = Cts.CreateLinkedTokenSource(ct, destroyCancellationToken);
+            OnBeginPlayAsync(bgFadeDuration, linkedBeginCts.Token).Forget();
 
-            string url = id;
-            (bool success, string savePath) = await DownloadManager.Instance.DownloadFileAsync(url, true, ct);
-            if (!success)
-            {
-                "カットシーンのダウンロードに失敗したため、再生を中止します。".Print(LogSettings.Error);
+            "カットシーンの再生準備中...".Print();
 
-                // 状態をリセット
-                OnEndPlay();
-                isPlaying = false;
-
-                return;
-            }
-
-            "カットシーンのダウンロードに成功しました。再生準備中...".Print();
-
-            // 再生する
-            videoPlayer.Stop(); // 念のため、明示的にストップ
-            videoPlayer.url = ""; // URLをクリアしないとPrepareが動作しない場合がある
-            videoPlayer.url = ZString.Format("file://{0}", savePath); // 元に戻すことはない
+            // VideoClip を設定して準備する
+            videoPlayer.Stop();
+            videoPlayer.clip = videoClip;
             videoPlayer.Prepare();
-
-            "カットシーンの再生を開始しました。".Print();
 
             try
             {
-                await UniTask.WaitUntil(() => !isPlaying, cancellationToken: ct);
+                await UniTask.WaitUntil(this, static self => !self.IsPlaying, cancellationToken: ct);
             }
             catch (OperationCanceledException)
             {
                 "カットシーンの再生がキャンセルされました。".Print(LogSettings.Warning);
             }
-            // キャンセル時、確実に状態をリセットする
             finally
             {
-                if (isPlaying)
+                if (IsPlaying)
                 {
-                    OnEndPlay();
-                    isPlaying = false;
+                    // フェードインが進行中ならここで停止させ、フェードアウトと競合しないようにする
+                    linkedBeginCts.Cancel();
+                    videoPlayer.Stop();
+                    rawImage.enabled = false;
+                    OnEndPlayAsync(bgFadeDuration, destroyCancellationToken).Forget();
+                    IsPlaying = false;
                 }
             }
         }
@@ -103,6 +88,7 @@ namespace MyScripts.Runtime
         private void OnPrepareCompleted(VideoPlayer _) => OnPrepareCompletedInternal();
         private void OnStarted(VideoPlayer _) => OnStartedInternal();
         private void OnLoopPointReached(VideoPlayer _) => OnLoopPointReachedInternal();
+        private void OnErrorReceived(VideoPlayer _, string message) => OnErrorReceivedInternal(message);
 
         private void OnPrepareCompletedInternal()
         {
@@ -113,51 +99,56 @@ namespace MyScripts.Runtime
         private void OnStartedInternal()
         {
             rawImage.enabled = true;
+            "カットシーンの再生を開始しました。".Print();
         }
 
         private void OnLoopPointReachedInternal()
         {
             rawImage.enabled = false;
 
-            OnEndPlay();
-            isPlaying = false;
+            OnEndPlayAsync(bgFadeDuration, destroyCancellationToken).Forget();
+            IsPlaying = false;
+        }
+
+        // Prepare 失敗など VideoPlayer 内部エラー時の後始末
+        // IsPlaying を false にすることで PlayAsync の WaitUntil を解除し、無限待機を防ぐ
+        private void OnErrorReceivedInternal(string message)
+        {
+            $"VideoPlayer でエラーが発生したため、再生を中止します。エラー: {message}".Print(LogSettings.Error);
+
+            if (!IsPlaying) return;
+
+            videoPlayer.Stop();
+            rawImage.enabled = false;
+            OnEndPlayAsync(bgFadeDuration, destroyCancellationToken).Forget();
+            IsPlaying = false;
         }
 
         #endregion
 
-        private void OnBeginPlay()
+        private async UniTaskVoid OnBeginPlayAsync(float duration, Ct ct)
         {
             InputManager.DisableAllInputs();
-            FadeInBgAsync(destroyCancellationToken).Forget();
-        }
 
-        private void OnEndPlay()
-        {
-            InputManager.EnableAllInputs();
-            FadeOutBgAsync(destroyCancellationToken).Forget();
-        }
-
-        // 重複実行はバグると思う
-        private async UniTaskVoid FadeInBgAsync(Ct ct)
-        {
             SetBgAlpha(0.0f);
             bg.enabled = true;
 
-            await LMotion.Create(0.0f, bgAlphaMax, bgFadeDuration)
-                        .WithEase(Ease.OutQuad)
-                        .Bind(SetBgAlpha)
-                        .ToUniTask(cancellationToken: ct);
+            await LMotion.Create(0.0f, bgAlphaMax, duration)
+                .WithEase(Ease.OutQuad)
+                .Bind(SetBgAlpha)
+                .ToUniTask(cancellationToken: ct);
         }
 
-        // 重複実行はバグると思う
-        private async UniTaskVoid FadeOutBgAsync(Ct ct)
+        private async UniTaskVoid OnEndPlayAsync(float duration, Ct ct)
         {
+            InputManager.EnableAllInputs();
+
             SetBgAlpha(bgAlphaMax);
 
-            await LMotion.Create(bgAlphaMax, 0.0f, bgFadeDuration)
-                        .WithEase(Ease.InQuad)
-                        .Bind(SetBgAlpha)
-                        .ToUniTask(cancellationToken: ct);
+            await LMotion.Create(bgAlphaMax, 0.0f, duration)
+                .WithEase(Ease.InQuad)
+                .Bind(SetBgAlpha)
+                .ToUniTask(cancellationToken: ct);
 
             bg.enabled = false;
         }
