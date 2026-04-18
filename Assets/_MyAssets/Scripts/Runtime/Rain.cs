@@ -3,8 +3,6 @@
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
     internal sealed class Rain : MonoBehaviour
     {
-        [SerializeField] private Camera playerCamera;
-
         private const int MaxPoint = 4096;
         private const float Speed = -1f;
 
