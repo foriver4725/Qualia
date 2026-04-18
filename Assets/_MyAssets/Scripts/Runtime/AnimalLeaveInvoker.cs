@@ -83,13 +83,16 @@ namespace MyScripts.Runtime
         {
             var type = character.CharacterType;
 
-            // 同スロットに既存キャラがあれば、何もしなくて良い
-            if (possessingCharacters[type] == null)
+            // 同スロットに既存アニマがあるなら、それを元に戻してから上書き取得する
+            if (possessingCharacters[type] != null)
             {
-                possessingCharacters[type] = character;
-                possessingCharacters[type].SetVisible(false);
-                possessingCharacters[type].Collider.enabled = false;
+                possessingCharacters[type].SetVisible(true);
+                possessingCharacters[type].Collider.enabled = true;
             }
+
+            possessingCharacters[type] = character;
+            possessingCharacters[type].SetVisible(false);
+            possessingCharacters[type].Collider.enabled = false;
 
             // 陸のアニマなら、陸のSOSサインを表示させる
             if (type == CharacterType.Land)
@@ -136,7 +139,14 @@ namespace MyScripts.Runtime
                 return;
             }
 
-            LeaveCharacterInternal(type);
+            possessingCharacters[type].SetVisible(true);
+            possessingCharacters[type].Collider.enabled = true;
+            possessingCharacters[type] = null;
+
+            // 陸のアニマなら、陸のSOSサインを非表示にする
+            if (type == CharacterType.Land)
+                foreach (var sosSign in landSOSSigns)
+                    sosSign.TrySetActiveSmokeOnlyWhenLand(false);
 
             // タイマー満了時など、CTS が残っている場合は解放する
             possessTimerCtses[type]?.Cancel();
@@ -160,22 +170,6 @@ namespace MyScripts.Runtime
         }
 
         // ======== private helpers ========
-
-        // UI 更新なし・サウンドなしでスロットを解放する内部処理
-        private void LeaveCharacterInternal(CharacterType type)
-        {
-            var character = possessingCharacters[type];
-            if (character == null) return;
-
-            // 陸のアニマなら、陸のSOSサインを非表示にする
-            if (type == CharacterType.Land)
-                foreach (var sosSign in landSOSSigns)
-                    sosSign.TrySetActiveSmokeOnlyWhenLand(false);
-
-            character.SetVisible(true);
-            character.Collider.enabled = true;
-            possessingCharacters[type] = null;
-        }
 
         // displayOrder の現在順に従いスロット0〜2を一括更新
         // タイマー満了・新規取得・上書き取得いずれのタイミングでも必ず呼ぶ
