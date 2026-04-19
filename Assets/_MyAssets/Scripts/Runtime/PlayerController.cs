@@ -16,13 +16,14 @@ namespace MyScripts.Runtime
             internal GameObject Get(SWalkSound.Surface surface) => surface switch
             {
                 SWalkSound.Surface.Grass => grass,
-                SWalkSound.Surface.Sand => sand,
-                SWalkSound.Surface.Rock => rock,
+                SWalkSound.Surface.Sand  => sand,
+                SWalkSound.Surface.Rock  => rock,
                 SWalkSound.Surface.Water => water,
-                _ => throw new ArgumentOutOfRangeException(nameof(surface), surface, null)
+                _                        => throw new ArgumentOutOfRangeException(nameof(surface), surface, null)
             };
         }
 
+        // @formatter:off
         [Header("Player Control")]
         [SerializeField] private CharacterController controller;
         [SerializeField] private AnimalLeaveInvoker animalLeaveInvoker;
@@ -34,6 +35,9 @@ namespace MyScripts.Runtime
         [Header("Walk Sound")]
         [SerializeField] private WalkSoundPlayer walkSoundPlayer;
         [SerializeField] private WalkSoundBorderRoots walkSoundBorderRoots;
+        [Header("Environment")]
+        [SerializeField] private RainMaker rainMaker;
+        // @formatter:on
 
         // cinemachine
         private float cinemachineTargetPitch;
@@ -47,12 +51,15 @@ namespace MyScripts.Runtime
         private bool isGrounded = true;
         private bool hasBecameGroundedThisFrame = false;
         private bool hasBecameNotGroundedThisFrame = false;
-        private Vector3 becameGroundedPosition = Vector3.zero; // 一番最後に地面に着地した位置を記録しておく
+        private Vector3 becameGroundedPosition = Vector3.zero;    // 一番最後に地面に着地した位置を記録しておく
         private Vector3 becameNotGroundedPosition = Vector3.zero; // 一番最後に地面から離れた位置を記録しておく
         private bool isJumping = false;
         private bool isSprinting = false;
         private bool isDoingInertiaJump = false;
         private bool onInertiaJumpCt = false;
+        private Vector3 appliedOuterVelocityWhenInertiaJumpBeganLast = Vector3.zero; // 直近の慣性ジャンプ実行時の、速度増加を記録しておく
+        private Vector2 nativeHorizontalVelocityWhenInertiaJumpBeganLast = Vector2.zero; // 直近の慣性ジャンプ開始直後の、速度を記録しておく
+        private float verticalVelocityWhenInertiaJumpBeganLast = 0.0f; // 直近の慣性ジャンプ開始直後の、速度を記録しておく
         private Vector3 previousFramePosition = Vector3.zero; // 直前フレームの位置を記録して、戻せるようにする
         private int jumpCountWhenHasSky = 0; // 空のアニマを取得している時、空中ジャンプ出来るので、二段ジャンプより上を防止する用
 
@@ -64,6 +71,7 @@ namespace MyScripts.Runtime
 
         // constraints
         private bool isOwnGravityEnabled = true;
+
         internal bool IsOwnGravityEnabled
         {
             get => isOwnGravityEnabled;
@@ -79,20 +87,26 @@ namespace MyScripts.Runtime
                 }
             }
         }
+
         internal bool CanApplyVelocityDelta { get; set; } = true;
 
         // walk sound
         private byte walkSoundUpdateIntervalFrames; // Awake で初期化
+
         private byte walkSoundUpdateFrameCounter = 0;
+
         // 最初の方 (= 上の地層にある地面) を優先して鳴らす
-        private static readonly ReadOnlyCollection<SWalkSound.Surface> WalkSoundPriority = Array.AsReadOnly(new SWalkSound.Surface[]
-        {
-            SWalkSound.Surface.Rock,
-            SWalkSound.Surface.Water,
-            SWalkSound.Surface.Sand,
-            SWalkSound.Surface.Grass,
-        });
-        private readonly Dictionary<SWalkSound.Surface, ReadOnlyCollection<Border>> walkSoundBorders = new(); // Awake で初期化
+        private static readonly ReadOnlyCollection<SWalkSound.Surface> WalkSoundPriority = Array.AsReadOnly(
+            new SWalkSound.Surface[]
+            {
+                SWalkSound.Surface.Rock,
+                SWalkSound.Surface.Water,
+                SWalkSound.Surface.Sand,
+                SWalkSound.Surface.Grass,
+            });
+
+        private readonly Dictionary<SWalkSound.Surface, ReadOnlyCollection<Border>>
+            walkSoundBorders = new(); // Awake で初期化
 
         #region Public Methods and Properties
 
@@ -167,6 +181,7 @@ namespace MyScripts.Runtime
             JumpAndGravity();
             GroundedCheck();
             DoInertiaJumpIfTheTiming();
+            StopInertiaJumpOnSprintEnd();
             AttenuateNativeHorizontalVelocity();
             InputAndFinallyMove();
             TeleportBackWhenInvalidPosition();
@@ -204,8 +219,10 @@ namespace MyScripts.Runtime
             bool isGroundedPrev = isGrounded;
 
             // set sphere position, with offset
-            Vector3 spherePosition = new(transform.position.x, transform.position.y + param.GroundCheckOffset, transform.position.z);
-            isGrounded = Physics.CheckSphere(spherePosition, param.GroundCheckRadius, param.GroundLayers, QueryTriggerInteraction.Ignore);
+            Vector3 spherePosition = new(transform.position.x, transform.position.y + param.GroundCheckOffset,
+                transform.position.z);
+            isGrounded = Physics.CheckSphere(spherePosition, param.GroundCheckRadius, param.GroundLayers,
+                QueryTriggerInteraction.Ignore);
 
             hasBecameGroundedThisFrame = isGrounded && !isGroundedPrev;
             hasBecameNotGroundedThisFrame = !isGrounded && isGroundedPrev;
@@ -216,16 +233,14 @@ namespace MyScripts.Runtime
             if (hasBecameNotGroundedThisFrame)
                 becameNotGroundedPosition = transform.position;
 
-            // 地面に着地したら、少しだけ(クールタイム)待ってから、再度慣性ジャンプを行えるようにする
-            if (isGrounded && isDoingInertiaJump && !onInertiaJumpCt)
+            // 地面に着地したら、慣性ジャンプ終了
+            if (isGrounded)
             {
-                onInertiaJumpCt = true;
-
-                param.InertiaJumpCoolTime.SecAwaitThenDo(() =>
+                if (isDoingInertiaJump)
                 {
                     isDoingInertiaJump = false;
-                    onInertiaJumpCt = false;
-                }, ct: destroyCancellationToken).Forget();
+                    BeginInertiaCooldownCountAsync(destroyCancellationToken).Forget();
+                }
             }
         }
 
@@ -244,26 +259,88 @@ namespace MyScripts.Runtime
             // ジャンプ中ならダメ
             if (isJumping) return;
 
+            // クールタイム中ならダメ
+            if (onInertiaJumpCt) return;
+
             // 慣性ジャンプ中ならダメ
             if (isDoingInertiaJump) return;
 
             // 現在、地面から離れたタイミングであるべき
             if (!hasBecameNotGroundedThisFrame) return;
 
-            //? 目の前が崖であるべきか？
+            // 目の前が崖であるべき
+            {
+                if (!TryMeasureCliffHeight(param.InertiaJumpCliffCheckDistanceFromPlayerNear, out float heightNear))
+                    return; // 検出失敗
+                if (!TryMeasureCliffHeight(param.InertiaJumpCliffCheckDistanceFromPlayerFar, out float heightFar))
+                    return; // 検出失敗
+
+                if (heightFar - heightNear > param.InertiaJumpCliffCheckHeightDifferenceLimit)
+                    return;
+            }
 
             // 処理を行える
 
             isDoingInertiaJump = true;
+
             Vector2 moveDirectionXZ = new Vector2(realHorizontalVelocity.x, realHorizontalVelocity.z).normalized;
             Vector3 velocity = new(
                 moveDirectionXZ.x * param.InertiaJumpVelocity.x,
                 param.InertiaJumpVelocity.y,
                 moveDirectionXZ.y * param.InertiaJumpVelocity.z
             );
+
+            appliedOuterVelocityWhenInertiaJumpBeganLast = velocity;
             ApplyOuterVelocity(velocity);
 
+            nativeHorizontalVelocityWhenInertiaJumpBeganLast = nativeHorizontalVelocity;
+            verticalVelocityWhenInertiaJumpBeganLast = verticalVelocity;
+
             soundPlayer.LetPlay(SPlayerControlSound.Action.InertiaJump);
+        }
+
+        // 慣性ジャンプ 強制中止
+        private void StopInertiaJumpOnSprintEnd()
+        {
+            // 慣性ジャンプ中のみ
+            if (!isDoingInertiaJump) return;
+
+            // ダッシュしていないなら
+            if (isSprinting) return;
+
+            // 慣性ジャンプを終了する. また、開始時の速度増加を打ち消す
+
+            // 慣性ジャンプ開始時からの速度変化率
+            // 減衰量を算出したいので、0~1に制限する
+            Vector2 horizontalVelocityAttenuation =
+                nativeHorizontalVelocityWhenInertiaJumpBeganLast == Vector2.zero
+                    ? Vector2.zero
+                    : nativeHorizontalVelocity / nativeHorizontalVelocityWhenInertiaJumpBeganLast;
+            float verticalVelocityAttenuation =
+                verticalVelocityWhenInertiaJumpBeganLast == 0.0f
+                    ? 0.0f
+                    : verticalVelocity / verticalVelocityWhenInertiaJumpBeganLast;
+            horizontalVelocityAttenuation.x = Mathf.Clamp01(horizontalVelocityAttenuation.x);
+            horizontalVelocityAttenuation.y = Mathf.Clamp01(horizontalVelocityAttenuation.y);
+            verticalVelocityAttenuation = Mathf.Clamp01(verticalVelocityAttenuation);
+
+            // その減衰量に基づいて、慣性ジャンプ開始時に加えた速度を減衰させ、
+            // それを打ち消す速度を加える
+            Vector3 cancelVelocity = new Vector3(
+                appliedOuterVelocityWhenInertiaJumpBeganLast.x * horizontalVelocityAttenuation.x,
+                appliedOuterVelocityWhenInertiaJumpBeganLast.y * verticalVelocityAttenuation,
+                appliedOuterVelocityWhenInertiaJumpBeganLast.z * horizontalVelocityAttenuation.y
+            );
+            ApplyOuterVelocity(-cancelVelocity);
+
+            // 一応、記録した値をリセットしておく
+            appliedOuterVelocityWhenInertiaJumpBeganLast = Vector3.zero;
+            nativeHorizontalVelocityWhenInertiaJumpBeganLast = Vector2.zero;
+            verticalVelocityWhenInertiaJumpBeganLast = 0.0f;
+
+            // 慣性ジャンプ終了
+            isDoingInertiaJump = false;
+            BeginInertiaCooldownCountAsync(destroyCancellationToken).Forget();
         }
 
         private void CameraRotation()
@@ -297,8 +374,9 @@ namespace MyScripts.Runtime
             // attenuate the native velocity
             if (nativeHorizontalVelocity != Vector2.zero)
             {
-                float attenuationRate = isGrounded ?
-                    param.NativeHorizontalVelocityAttenuationRateOnGround : param.NativeHorizontalVelocityAttenuationRateInAir;
+                float attenuationRate = isGrounded
+                    ? param.NativeHorizontalVelocityAttenuationRateOnGround
+                    : param.NativeHorizontalVelocityAttenuationRateInAir;
                 nativeHorizontalVelocity -= nativeHorizontalVelocity * attenuationRate;
 
                 if (nativeHorizontalVelocity.sqrMagnitude < 1e-4f)
@@ -312,16 +390,17 @@ namespace MyScripts.Runtime
         {
             // get input
             Vector2 input = InputManager.PlayerControl.Move;
-            Vector3 inputDirection = new Vector3(input.x, 0.0f, input.y).normalized;　// normalise input direction
-            bool isInputSpecifiedAngle = false; //入力方向と体のなす角が走行時の視野角に収まっているか
+            Vector3 inputDirection = new Vector3(input.x, 0.0f, input.y).normalized; // normalise input direction
+            bool isInputSpecifiedAngle = false;                                      //入力方向と体のなす角が走行時の視野角に収まっているか
             bool isSprintingInput = InputManager.PlayerControl.Sprint;
             // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             bool hasInput = input != Vector2.zero;
-            if(hasInput)
+            if (hasInput)
             {
                 inputDirection = transform.right * input.x + transform.forward * input.y;
                 isInputSpecifiedAngle = IsMovingForward(inputDirection);
             }
+
             inputDirection.Normalize();
             isSprinting = isSprintingInput && hasInput && isInputSpecifiedAngle; //ここに接地条件を入れてもよいかもしれない
 
@@ -333,12 +412,24 @@ namespace MyScripts.Runtime
             // 特定のアニマを取得している場合、対応するエリア内で移動速度が速くなる
             if (animalLeaveInvoker.IsPossessingType(CharacterType.Sea))
             {
-                if ((isGrounded && IsInsideOfArea(SWalkSound.Surface.Water, controller.transform.position)) ||
-                    (!isGrounded && IsInsideOfArea(SWalkSound.Surface.Water, becameGroundedPosition)))
+
+                bool isInsideOfWaterOnTheGround = 
+                    (isGrounded && IsInsideOfArea(SWalkSound.Surface.Water, controller.transform.position)) ||
+                    (!isGrounded && IsInsideOfArea(SWalkSound.Surface.Water, becameGroundedPosition));
+                bool isRaining = rainMaker.IsRaining;
+
+                if (param.IsMoveSpeedIncreaseOverlapWhenHasSea)
                 {
-                    targetSpeed += param.MoveSpeedIncreaseWhenHasSea;
+                    if (isInsideOfWaterOnTheGround) targetSpeed += param.MoveSpeedIncreaseWhenHasSea;
+                    if (isRaining) targetSpeed += param.MoveSpeedIncreaseWhenHasSeaAndInTheRain;
+                }
+                else
+                {
+                    if (isInsideOfWaterOnTheGround) targetSpeed += param.MoveSpeedIncreaseWhenHasSea;
+                    else if (isRaining) targetSpeed += param.MoveSpeedIncreaseWhenHasSeaAndInTheRain;
                 }
             }
+
             if (animalLeaveInvoker.IsPossessingType(CharacterType.Land))
             {
                 // Water 以外の場所を陸上とみなす
@@ -348,6 +439,7 @@ namespace MyScripts.Runtime
                     targetSpeed += param.MoveSpeedIncreaseWhenHasLand;
                 }
             }
+
             if (animalLeaveInvoker.IsPossessingType(CharacterType.Sky))
             {
                 if (jumpCountWhenHasSky > 0) targetSpeed += param.MoveSpeedIncreaseWhenHasSkyAndInTheAir;
@@ -377,11 +469,13 @@ namespace MyScripts.Runtime
 
             // accelerate or decelerate to target speed
             float speed;
-            if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
+            if (currentHorizontalSpeed < targetSpeed - speedOffset ||
+                currentHorizontalSpeed > targetSpeed + speedOffset)
             {
                 // creates curved result rather than a linear one giving a more organic speed change
                 // note T in Lerp is clamped, so we don't need to clamp our speed
-                speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * param.MoveAcceleration);
+                speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
+                    Time.deltaTime * param.MoveAcceleration);
 
                 // round speed to 3 decimal places
                 speed = Mathf.Round(speed * 1000f) / 1000f;
@@ -399,7 +493,8 @@ namespace MyScripts.Runtime
                     inputDirection *= param.MoveInputInsensitiveRate;
                 }
             }
-            else if (param.MoveInputInsensitiveTiming == SPlayerControl.MoveInputInsensitiveTimingType.WhileInAirAndWhenOuterVelocityIsNotZero)
+            else if (param.MoveInputInsensitiveTiming ==
+                     SPlayerControl.MoveInputInsensitiveTimingType.WhileInAirAndWhenOuterVelocityIsNotZero)
             {
                 if (!isGrounded && nativeHorizontalVelocity != Vector2.zero)
                 {
@@ -408,7 +503,8 @@ namespace MyScripts.Runtime
             }
 
             // calculate the real velocity
-            realHorizontalVelocity = inputDirection * speed + new Vector3(nativeHorizontalVelocity.x, 0.0f, nativeHorizontalVelocity.y);
+            realHorizontalVelocity = inputDirection * speed +
+                                     new Vector3(nativeHorizontalVelocity.x, 0.0f, nativeHorizontalVelocity.y);
             Vector3 realVelocity = realHorizontalVelocity + new Vector3(0.0f, verticalVelocity, 0.0f);
 
             // 外力による速度増加分を加算
@@ -542,9 +638,9 @@ namespace MyScripts.Runtime
             // ゲーム世界の範囲外か?
             // 初期位置に戻す
             if (controller.transform.position is
-            { x: < -1600 or > 1600 } or
-            { y: < -50 or > 500 } or
-            { z: < -1600 or > 1600 })
+                { x: < -1600 or > 1600 } or
+                { y: < -50 or > 500 } or
+                { z: < -1600 or > 1600 })
                 controller.transform.position = teleportBackPoint.position;
         }
 
@@ -614,7 +710,51 @@ namespace MyScripts.Runtime
             return (Vector2.Dot(playerForwardXZ, moveDirectionXZ) > threshold);
         }
 
+        /// <summary>
+        /// プレイヤーの少し前方(足元)から下方向にレイを飛ばし、<br/>
+        /// 何m下部で地面にヒットしたかを検出する<br/>
+        /// </summary>
+        /// <param name="forwardDistance">プレイヤーの足元の座標より、前方に 〇[m] 離れたところからレイを飛ばす</param>
+        /// <param name="height">成功した場合、レイを飛ばした位置とヒットした地面のY座標の差の絶対値(正)<br/>
+        /// 失敗した場合、0.0f</param>
+        /// <returns>成功したら true、失敗したら false</returns>
+        private bool TryMeasureCliffHeight(float forwardDistance, out float height)
+        {
+            // 十分長く取る
+            const float RayLength = 1000.0f;
 
+            if (Physics.Raycast(
+                    transform.position + transform.forward * forwardDistance,
+                    Vector3.down,
+                    out RaycastHit hitInfo,
+                    RayLength,
+                    param.GroundLayers,
+                    QueryTriggerInteraction.Ignore
+                ))
+            {
+                height = hitInfo.distance;
+                return true;
+            }
+            else
+            {
+                height = 0.0f;
+                return false;
+            }
+        }
+
+        // 慣性ジャンプのクールタイムフラグを立て、一定時間経過後に戻す
+        private async UniTask BeginInertiaCooldownCountAsync(Ct ct)
+        {
+            if (onInertiaJumpCt)
+            {
+                "既にクールタイムをカウント中です".Print(LogSettings.Warning);
+                return;
+            }
+
+            onInertiaJumpCt = true;
+            await param.InertiaJumpCoolTime.SecAwait(ct: ct);
+            onInertiaJumpCt = false;
+        }
 
         private static bool IsInsideOfAnyBorder(IReadOnlyList<Border> borders, Vector3 position, byte targetLayer)
         {
@@ -624,6 +764,7 @@ namespace MyScripts.Runtime
                 if (border.DoesContain(position, targetLayer))
                     return true;
             }
+
             return false;
         }
 

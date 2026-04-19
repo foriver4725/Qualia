@@ -41,26 +41,16 @@ namespace MyScripts.Runtime
 
         #region Public Properties
 
-        internal Transform Transform => transform;
         internal Collider Collider => collider;
 
         internal CharacterType CharacterType => characterType;
-        internal MeshRenderer Container => container;
-        internal SpriteRenderer Icon => icon;
 
         internal Color MaterialColor => container.material.color;
 
-        internal bool SetVisible(bool isVisible)
+        internal void SetVisible(bool isVisible)
         {
             container.enabled = isVisible;
             icon.enabled = isVisible;
-            return isVisible;
-        }
-
-        internal void Teleport(Vector3 position, Vector3 forward)
-        {
-            transform.position = position;
-            transform.forward = forward;
         }
 
         #endregion

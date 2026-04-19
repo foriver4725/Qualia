@@ -2478,6 +2478,7 @@ MonoBehaviour:
   sosSignRatioUIManager: {fileID: 885902798}
   soundPlayer: {fileID: 195949041}
   sosAnimaArrangementSeedLabel: {fileID: 1661366117749799019}
+  storyMovie: {fileID: 11400000, guid: a3c3ad9930d7e894cb66aa5d272f446b, type: 2}
 --- !u!1 &670357120
 GameObject:
   m_ObjectHideFlags: 0
@@ -2527,7 +2528,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: f2fcae06477339a4c92004476d4a4c87, type: 3}
   - {fileID: 21300000, guid: fc0394e59f2de0740b7ca7bf5557f0fa, type: 3}
   - {fileID: 21300000, guid: 78ad3802a0854514e98974a55583e5a6, type: 3}
-  durationUntilPlay: 0.5
+  durationUntilStoryMovie: 0.5
+  durationUntilTutorialImages: 1
   playOptions:
     isAutoStepEnabled: 1
     isManualSkipEnabled: 1
@@ -2536,6 +2538,7 @@ MonoBehaviour:
     bgFadeDurationSeconds: 0.5
     stepFadeDurationSeconds: 1
   pauseInvoker: {fileID: 196192313}
+  storyMovie: {fileID: 11400000, guid: a3c3ad9930d7e894cb66aa5d272f446b, type: 2}
 --- !u!1 &685558487
 GameObject:
   m_ObjectHideFlags: 0
@@ -6476,6 +6479,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8645547747250865677, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
+      propertyPath: rainMaker
+      value: 
+      objectReference: {fileID: 2038202300}
     - target: {fileID: 8645547747250865677, guid: 9b0ba2617392f314fb828b712e8d2d59, type: 3}
       propertyPath: soundPlayer
       value: 
