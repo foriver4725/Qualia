@@ -88,26 +88,28 @@ namespace OpalStudio.CustomToolbar.Editor.Core
 
                   var leftDock = new VisualElement
                   {
-                              name = "OpalStudio_LeftDock",
-                              style =
-                              {
-                                          flexGrow = 1,
-                                          flexDirection = FlexDirection.Row,
-                                          justifyContent = Justify.FlexEnd,
-                                          alignItems = Align.Center
-                              }
+                        name = "OpalStudio_LeftDock",
+                        style =
+                        {
+                              flexGrow = 1,
+                              flexBasis = 0,
+                              flexDirection = FlexDirection.Row,
+                              justifyContent = Justify.FlexEnd,
+                              alignItems = Align.Center
+                        }
                   };
 
                   var rightDock = new VisualElement
                   {
-                              name = "OpalStudio_RightDock",
-                              style =
-                              {
-                                          flexGrow = 1,
-                                          flexDirection = FlexDirection.Row,
-                                          justifyContent = Justify.FlexStart,
-                                          alignItems = Align.Center
-                              }
+                        name = "OpalStudio_RightDock",
+                        style =
+                        {
+                              flexGrow = 1,
+                              flexBasis = 0,
+                              flexDirection = FlexDirection.Row,
+                              justifyContent = Justify.FlexStart,
+                              alignItems = Align.Center
+                        }
                   };
 
                   parentContainer.Insert(parentContainer.IndexOf(middleContainer), leftDock);
@@ -120,7 +122,6 @@ namespace OpalStudio.CustomToolbar.Editor.Core
             }
 
 #else
-
             private readonly static Type UnityToolbarType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.Toolbar");
             private readonly static FieldInfo UnityToolbarRootField = UnityToolbarType?.GetField("m_Root", BindingFlags.NonPublic | BindingFlags.Instance);
             private static ScriptableObject currentToolbar;
