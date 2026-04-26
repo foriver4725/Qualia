@@ -20,6 +20,13 @@
         {
             base.OnClickSucceeded();
 
+            // インゲームの入力と干渉しないように、1フレームだけ無効化しておく.
+            InputManager.PlayerControl.MakeJumpInputDisabledUntilNextFrame();
+            InputManager.PlayerControl.MakeSprintInputDisabledUntilNextFrame();
+            InputManager.InGame.MakeSubmitInputDisabledUntilNextFrame();
+            InputManager.InGame.MakeCancelInputDisabledUntilNextFrame();
+            InputManager.InGame.MakeEscapeInputDisabledUntilNextFrame();
+
             _ = pauseInvoker.TryUnpause();
         }
     }
