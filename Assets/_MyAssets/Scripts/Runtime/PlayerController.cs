@@ -271,7 +271,7 @@ namespace MyScripts.Runtime
             // 現在、地面から離れたタイミングであるべき
             if (!hasBecameNotGroundedThisFrame) return;
 
-            // 目の前が崖であるべき
+            // 設定で有効な場合のみ、目の前の崖チェックを行う
             if (param.HasCliffCheckOnInertiaJump)
             {
                 if (!TryMeasureCliffHeight(param.InertiaJumpCliffCheckDistanceFromPlayerNear, out float heightNear))
