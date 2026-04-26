@@ -2197,7 +2197,7 @@ MonoBehaviour:
   spriteSettingsType: 0
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
-  left: {fileID: 0}
+  left: {fileID: 1855569470}
   right: {fileID: 0}
   down: {fileID: 0}
   up: {fileID: 1855569470}
@@ -5458,7 +5458,7 @@ MonoBehaviour:
   soundSetting: {fileID: 11400000, guid: 75bfab427d4e6204b82e719191f16bb0, type: 2}
   soundPlayer: {fileID: 1707663799}
   left: {fileID: 0}
-  right: {fileID: 0}
+  right: {fileID: 817813686}
   down: {fileID: 817813686}
   up: {fileID: 0}
   slotIndex: 0
