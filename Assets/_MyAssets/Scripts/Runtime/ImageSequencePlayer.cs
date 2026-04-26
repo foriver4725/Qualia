@@ -159,7 +159,7 @@
 
         private async UniTaskVoid OnEndPlayAsync(TimeSpan bgFadeDuration, Ct ct)
         {
-            PauseInvoker.MakeInGameInputsDisabledUntilNextFrame();
+            InputManager.MakePlayerControlAndInGameInputsDisabledUntilNextFrame();
             InputManager.EnableAllInputs();
 
             SetAlpha(bg, bgAlphaMax);

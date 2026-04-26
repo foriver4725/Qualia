@@ -147,7 +147,7 @@ namespace MyScripts.Runtime
 
         private async UniTaskVoid OnEndPlayAsync(float duration, Ct ct)
         {
-            PauseInvoker.MakeInGameInputsDisabledUntilNextFrame();
+            InputManager.MakePlayerControlAndInGameInputsDisabledUntilNextFrame();
             InputManager.EnableAllInputs();
 
             SetBgAlpha(bgAlphaMax);

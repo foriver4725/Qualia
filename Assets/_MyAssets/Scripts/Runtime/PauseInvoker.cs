@@ -42,7 +42,7 @@ namespace MyScripts.Runtime
             if (!IsPaused) return false;
             IsPaused = false;
 
-            MakeInGameInputsDisabledUntilNextFrame();
+            InputManager.MakePlayerControlAndInGameInputsDisabledUntilNextFrame();
             InputManager.PlayerControl.Enabled = true;
             InputManager.InGame.Enabled = true;
 
@@ -50,15 +50,6 @@ namespace MyScripts.Runtime
             CursorAdjuster.SetCursorEnabled(false);
 
             return true;
-        }
-
-        internal static void MakeInGameInputsDisabledUntilNextFrame()
-        {
-            InputManager.PlayerControl.MakeJumpInputDisabledUntilNextFrame();
-            InputManager.PlayerControl.MakeSprintInputDisabledUntilNextFrame();
-            InputManager.InGame.MakeSubmitInputDisabledUntilNextFrame();
-            InputManager.InGame.MakeCancelInputDisabledUntilNextFrame();
-            InputManager.InGame.MakeEscapeInputDisabledUntilNextFrame();
         }
     }
 }
