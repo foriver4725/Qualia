@@ -164,6 +164,62 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 2390642557826304886}
+--- !u!1 &79239636
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 79239637}
+  - component: {fileID: 79239638}
+  m_Layer: 0
+  m_Name: DemoClearDetector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &79239637
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79239636}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 143727389}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &79239638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79239636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c95b5f45a89849649c9bb50ee9c80c6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: MyScripts::MyScripts.Runtime.DemoClearDetector
+  sequenceSprites:
+  - {fileID: 21300000, guid: 4cce1ddea667fb3428d6c242ceb26cb4, type: 3}
+  durationUntilClearImages: 0.5
+  playOptions:
+    isAutoStepEnabled: 1
+    isManualSkipEnabled: 0
+    autoStepDurationSeconds: 10
+    manualSkipInputCheckWay: 0
+    bgFadeDurationSeconds: 0.5
+    stepFadeDurationSeconds: 1
+  pauseInvoker: {fileID: 196192313}
+  sosAnimaArrangement: {fileID: 11400000, guid: 0b53474f0619d7149b0700d653a6806c, type: 2}
 --- !u!224 &99269219 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4001766289401707828, guid: 8ffa784e778602041b5c574dc4ae8685, type: 3}
@@ -447,6 +503,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2720853608967336444, guid: 8b6c269a2ec98dc45937ad69eab4df54, type: 3}
       insertIndex: -1
       addedObject: {fileID: 670357121}
+    - targetCorrespondingSourceObject: {fileID: 2720853608967336444, guid: 8b6c269a2ec98dc45937ad69eab4df54, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 79239637}
     - targetCorrespondingSourceObject: {fileID: 2720853608967336444, guid: 8b6c269a2ec98dc45937ad69eab4df54, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1249322455}
@@ -2479,6 +2538,7 @@ MonoBehaviour:
   soundPlayer: {fileID: 195949041}
   sosAnimaArrangementSeedLabel: {fileID: 1661366117749799019}
   storyMovie: {fileID: 11400000, guid: a3c3ad9930d7e894cb66aa5d272f446b, type: 2}
+  sosAnimaArrangement: {fileID: 11400000, guid: 0b53474f0619d7149b0700d653a6806c, type: 2}
 --- !u!1 &670357120
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,6 +19,7 @@ namespace MyScripts.Runtime
         [SerializeField] private SOSSoundPlayer soundPlayer;
         [SerializeField] private TextMeshProUGUI sosAnimaArrangementSeedLabel;
         [SerializeField] private SStoryMovie storyMovie;
+        [SerializeField] private SSOSAnimaArrangement sosAnimaArrangement;
 
         // Awake で初期化
         private SSOSSignLogText sosSignLogText;
@@ -120,9 +121,12 @@ namespace MyScripts.Runtime
             // UpdateRatio() のコメントに従って、
             // - Awake() より後に呼び出す
             // - changeFillSmoothly は false にする
-            sosSignRatioUIManager.UpdateRatio(
-                1.0f * removedSOSSignCount / Constants.SOSSignCount,
-                changeFillSmoothly: false);
+            // sosSignRatioUIManager.UpdateRatio(
+            //     1.0f * removedSOSSignCount / Constants.SOSSignCount,
+            //     changeFillSmoothly: false);
+            float removedRatio = Mathf.Clamp01(1.0f * removedSOSSignCount /
+                                               sosAnimaArrangement.DemoClearSOSCount);
+            sosSignRatioUIManager.UpdateRatio(removedRatio, changeFillSmoothly: false);
         }
 
         // SOSサインを取得する
@@ -155,8 +159,11 @@ namespace MyScripts.Runtime
                                 selfCollider.gameObject.SetActive(false);
                                 {
                                     removedSOSSignCount++;
-                                    sosSignRatioUIManager.UpdateRatio(1.0f * removedSOSSignCount /
-                                                                      Constants.SOSSignCount);
+                                    // sosSignRatioUIManager.UpdateRatio(1.0f * removedSOSSignCount /
+                                    //                                   Constants.SOSSignCount);
+                                    float removedRatio = Mathf.Clamp01(1.0f * removedSOSSignCount /
+                                                                       sosAnimaArrangement.DemoClearSOSCount);
+                                    sosSignRatioUIManager.UpdateRatio(removedRatio);
 
                                     // このタイミングで、セーブデータに反映しておく
                                     SetMyPropertiesToData();
