@@ -279,7 +279,7 @@ namespace MyScripts.Runtime
                 if (!TryMeasureCliffHeight(param.InertiaJumpCliffCheckDistanceFromPlayerFar, out float heightFar))
                     return; // 検出失敗
 
-                if (heightFar - heightNear > param.InertiaJumpCliffCheckHeightDifferenceLimit)
+                if (heightFar - heightNear <= param.InertiaJumpCliffCheckHeightDifferenceLimit)
                     return;
             }
 
