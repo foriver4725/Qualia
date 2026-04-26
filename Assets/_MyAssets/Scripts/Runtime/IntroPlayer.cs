@@ -22,9 +22,9 @@ namespace MyScripts.Runtime
             if (!Variables.IsFirstPlay)
                 return;
 
-            await durationUntilStoryMovie.SecAwait(ct: ct);
-            await WaitUntilUnPaused(ct);
-            await CutScenePlayer.Instance.PlayAsync(storyMovie.Get(SStoryMovie.GameProgress.P0), ct);
+            // await durationUntilStoryMovie.SecAwait(ct: ct);
+            // await WaitUntilUnPaused(ct);
+            // await CutScenePlayer.Instance.PlayAsync(storyMovie.Get(SStoryMovie.GameProgress.P0), ct);
 
             await durationUntilTutorialImages.SecAwait(ct: ct);
             await WaitUntilUnPaused(ct);

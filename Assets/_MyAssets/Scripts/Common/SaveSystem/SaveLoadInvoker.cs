@@ -20,7 +20,7 @@ internal static class SaveLoadInvoker
             if (string.IsNullOrEmpty(json))
                 throw new Exception("<JsonUtility.ToJson> resulted in null or empty string.");
 
-            string saveDirectoryPath = Steam.CloudSavePathProvider.CreateDirectoryPath(Application.persistentDataPath);
+            string saveDirectoryPath = SaveDirectoryPath;
             if (!Directory.Exists(saveDirectoryPath))
                 Directory.CreateDirectory(saveDirectoryPath);
 
@@ -51,7 +51,8 @@ internal static class SaveLoadInvoker
     {
         try
         {
-            string saveDirectoryPath = Steam.CloudSavePathProvider.CreateDirectoryPath(Application.persistentDataPath);
+            // string saveDirectoryPath = Steam.CloudSavePathProvider.CreateDirectoryPath(Application.persistentDataPath);
+            string saveDirectoryPath = SaveDirectoryPath;
             if (!Directory.Exists(saveDirectoryPath))
             {
                 data = Data.CreateDefault();
@@ -85,4 +86,7 @@ internal static class SaveLoadInvoker
             return;
         }
     }
+
+    private static readonly string SaveDirectoryPath =
+        Path.Combine(Application.persistentDataPath, "SaveData", "GameDungeon12", "TestUser");
 }

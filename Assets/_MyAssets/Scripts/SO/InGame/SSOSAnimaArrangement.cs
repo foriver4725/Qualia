@@ -68,6 +68,9 @@
         internal FixedPositionCreateSettings FixedPositionCreate => fixedPositionCreate;
         // @formatter:on
 
+        [SerializeField, Tooltip("デモ版 : 何個集めるのを目標にするか")] private int demoClearSOSCount = 30;
+        internal int DemoClearSOSCount => demoClearSOSCount;
+
         internal GameObject GetPrefab(Group group) => group switch
         {
             Group.SOS_Land   => sosLandPrefab,
