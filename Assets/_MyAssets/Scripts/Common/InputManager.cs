@@ -154,6 +154,16 @@ namespace MyScripts.Common
 #endif
         }
 
+        internal static void MakePlayerControlAndInGameInputsDisabledUntilNextFrame()
+        {
+            PlayerControl.MakeJumpInputDisabledUntilNextFrame();
+            PlayerControl.MakeSprintInputDisabledUntilNextFrame();
+
+            InGame.MakeSubmitInputDisabledUntilNextFrame();
+            InGame.MakeCancelInputDisabledUntilNextFrame();
+            InGame.MakeEscapeInputDisabledUntilNextFrame();
+        }
+
         private sealed class MakeClickInputDisabledUntilNextFrameInfo
         {
             internal bool IsEnabled { get; private set; } = true;

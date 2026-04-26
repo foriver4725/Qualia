@@ -42,6 +42,7 @@ namespace MyScripts.Runtime
             if (!IsPaused) return false;
             IsPaused = false;
 
+            InputManager.MakePlayerControlAndInGameInputsDisabledUntilNextFrame();
             InputManager.PlayerControl.Enabled = true;
             InputManager.InGame.Enabled = true;
 

@@ -247,6 +247,9 @@ namespace MyScripts.Runtime
         // 慣性ジャンプ
         private void DoInertiaJumpIfTheTiming()
         {
+            // 慣性ジャンプ機能が有効でないならダメ
+            if (!param.IsInertiaJumpEnabled) return;
+            
             // 陸のアニマを取得していないとダメ
             if (!animalLeaveInvoker.IsPossessingType(CharacterType.Land)) return;
 
@@ -268,14 +271,15 @@ namespace MyScripts.Runtime
             // 現在、地面から離れたタイミングであるべき
             if (!hasBecameNotGroundedThisFrame) return;
 
-            // 目の前が崖であるべき
+            // 設定で有効な場合のみ、目の前の崖チェックを行う
+            if (param.HasCliffCheckOnInertiaJump)
             {
                 if (!TryMeasureCliffHeight(param.InertiaJumpCliffCheckDistanceFromPlayerNear, out float heightNear))
                     return; // 検出失敗
                 if (!TryMeasureCliffHeight(param.InertiaJumpCliffCheckDistanceFromPlayerFar, out float heightFar))
                     return; // 検出失敗
 
-                if (heightFar - heightNear > param.InertiaJumpCliffCheckHeightDifferenceLimit)
+                if (heightFar - heightNear <= param.InertiaJumpCliffCheckHeightDifferenceLimit)
                     return;
             }
 
