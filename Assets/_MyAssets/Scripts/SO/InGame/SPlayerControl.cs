@@ -70,6 +70,8 @@
         [Space(10)]
 
         [Header("Inertia Jump")]
+        [SerializeField] private bool isInertiaJumpEnabled = true;
+        [SerializeField] private bool hasCliffCheckOnInertiaJump = true;
         [SerializeField, Tooltip("加算する速度(プレイヤーから見た相対ベクトル)")] private Vector3 inertiaJumpVelocity = new(30.0f, 15.0f, 30.0f);
         [SerializeField, Tooltip("必要な水平速度 の平方")] private float inertiaJumpLimitSpeedSqr = 100.0f;
         /*
@@ -83,6 +85,8 @@
         [SerializeField, Range(0.0f, 5.0f), Tooltip("崖判定において、レイのヒット地点の高低差が 〇m より大きければ、崖と判定する")]
         private float inertiaJumpCliffCheckHeightDifferenceLimit = 0.22f;
         [SerializeField] private float inertiaJumpCoolTime = 0.2f;
+        internal bool IsInertiaJumpEnabled => isInertiaJumpEnabled;
+        internal bool HasCliffCheckOnInertiaJump => hasCliffCheckOnInertiaJump;
         internal Vector3 InertiaJumpVelocity => inertiaJumpVelocity;
         internal float InertiaJumpLimitSpeedSqr => inertiaJumpLimitSpeedSqr;
         internal float InertiaJumpCliffCheckDistanceFromPlayerNear => inertiaJumpCliffCheckDistanceFromPlayerRange.x;
