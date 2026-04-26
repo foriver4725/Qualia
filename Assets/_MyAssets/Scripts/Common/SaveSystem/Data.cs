@@ -77,7 +77,7 @@ internal static class Constants
     // UTF8 (BOMなし)
     internal static readonly System.Text.Encoding SaveFileEncoding = new System.Text.UTF8Encoding(false);
 
-    internal const int SlotCount = 3;
+    internal const int SlotCount = 1;
     internal const int SOSSignCount = 100;
 }
 

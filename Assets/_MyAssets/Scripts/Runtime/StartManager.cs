@@ -19,28 +19,28 @@
 
             SetImageAlpha(0.0f);
 
-            foreach (Sprite sprite in sprites)
-            {
-                await disabledDuration.SecAwait(ct: ct);
-
-                image.sprite = sprite;
-                image.enabled = true;
-
-                await LMotion.Create(0.0f, 1.0f, fadeDuration)
-                   .WithEase(Ease.OutQuad)
-                   .Bind(SetImageAlpha)
-                   .ToUniTask(cancellationToken: ct);
-
-                await enabledDuration.SecAwait(ct: ct);
-
-                await LMotion.Create(1.0f, 0.0f, fadeDuration)
-                   .WithEase(Ease.InQuad)
-                   .Bind(SetImageAlpha)
-                   .ToUniTask(cancellationToken: ct);
-
-                image.sprite = null;
-                image.enabled = false;
-            }
+            // foreach (Sprite sprite in sprites)
+            // {
+            //     await disabledDuration.SecAwait(ct: ct);
+            //
+            //     image.sprite = sprite;
+            //     image.enabled = true;
+            //
+            //     await LMotion.Create(0.0f, 1.0f, fadeDuration)
+            //        .WithEase(Ease.OutQuad)
+            //        .Bind(SetImageAlpha)
+            //        .ToUniTask(cancellationToken: ct);
+            //
+            //     await enabledDuration.SecAwait(ct: ct);
+            //
+            //     await LMotion.Create(1.0f, 0.0f, fadeDuration)
+            //        .WithEase(Ease.InQuad)
+            //        .Bind(SetImageAlpha)
+            //        .ToUniTask(cancellationToken: ct);
+            //
+            //     image.sprite = null;
+            //     image.enabled = false;
+            // }
 
             ct.ThrowIfCancellationRequested();
             Scene.Title.LoadAsync().Forget();

@@ -18,16 +18,16 @@ MonoBehaviour:
   animaLandPrefab: {fileID: 8578134028366970569, guid: e3c5db7b9f2eadf40bf228ea43e90e98, type: 3}
   animaSeaPrefab: {fileID: 7245798877572402704, guid: aeb96043e18df644db526e8938a536ab, type: 3}
   animaSkyPrefab: {fileID: 1787280822401375338, guid: b6531bd4154ccab44a3659089300e86f, type: 3}
-  sosLandCount: 70
+  sosLandCount: 60
   sosSeaCount: 20
-  sosSkyCount: 10
-  animaLandCount: 60
-  animaSeaCount: 15
-  animaSkyCount: 15
+  sosSkyCount: 20
+  animaLandCount: 30
+  animaSeaCount: 10
+  animaSkyCount: 10
   positionCreate:
     maxAttempts: 100
-    center: {x: -500, y: 350}
-    maxRange: 600
+    center: {x: -96, y: 110}
+    maxRange: 300
     heightAboveGround: 0.1
   fixedPositionCreate:
     distanceRangeFromPlayer: {x: 8, y: 16}

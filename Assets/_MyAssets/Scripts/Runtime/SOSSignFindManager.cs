@@ -206,42 +206,42 @@ namespace MyScripts.Runtime
         // Start() でセーブデータから初期フラグを設定しているため、ロード再開時の誤再生は起きない
         private void TryPlayMilestoneMovie()
         {
-            if (storyMovie == null)
-            {
-                "SStoryMovie が設定されていません。".Print(LogSettings.Error);
-                return;
-            }
-
-            float ratio = 1.0f * removedSOSSignCount / Constants.SOSSignCount;
-
-            // 今回到達したマイルストーンを特定する
-            SStoryMovie.GameProgress? progress = null;
-            if (!hasPlayed33Movie && ratio >= Ratio33)
-                progress = SStoryMovie.GameProgress.P33;
-            else if (!hasPlayed66Movie && ratio >= Ratio66)
-                progress = SStoryMovie.GameProgress.P66;
-            else if (!hasPlayed100Movie && ratio >= 1.0f)
-                progress = SStoryMovie.GameProgress.P100;
-
-            if (!progress.HasValue) return;
-
-            // クリップを取得してから null チェックし、有効な場合のみフラグを立てて再生する
-            // フラグを先に立てると、クリップ未設定のマイルストーンが以後永久に再生不能になるため
-            VideoClip clip = storyMovie.Get(progress.Value);
-            if (clip == null)
-            {
-                $"マイルストーン {progress.Value} の VideoClip が設定されていません。".Print(LogSettings.Error);
-                return;
-            }
-
-            switch (progress.Value)
-            {
-                case SStoryMovie.GameProgress.P33:  hasPlayed33Movie  = true; break;
-                case SStoryMovie.GameProgress.P66:  hasPlayed66Movie  = true; break;
-                case SStoryMovie.GameProgress.P100: hasPlayed100Movie = true; break;
-            }
-
-            CutScenePlayer.Instance.PlayAsync(clip, destroyCancellationToken).Forget();
+            // if (storyMovie == null)
+            // {
+            //     "SStoryMovie が設定されていません。".Print(LogSettings.Error);
+            //     return;
+            // }
+            //
+            // float ratio = 1.0f * removedSOSSignCount / Constants.SOSSignCount;
+            //
+            // // 今回到達したマイルストーンを特定する
+            // SStoryMovie.GameProgress? progress = null;
+            // if (!hasPlayed33Movie && ratio >= Ratio33)
+            //     progress = SStoryMovie.GameProgress.P33;
+            // else if (!hasPlayed66Movie && ratio >= Ratio66)
+            //     progress = SStoryMovie.GameProgress.P66;
+            // else if (!hasPlayed100Movie && ratio >= 1.0f)
+            //     progress = SStoryMovie.GameProgress.P100;
+            //
+            // if (!progress.HasValue) return;
+            //
+            // // クリップを取得してから null チェックし、有効な場合のみフラグを立てて再生する
+            // // フラグを先に立てると、クリップ未設定のマイルストーンが以後永久に再生不能になるため
+            // VideoClip clip = storyMovie.Get(progress.Value);
+            // if (clip == null)
+            // {
+            //     $"マイルストーン {progress.Value} の VideoClip が設定されていません。".Print(LogSettings.Error);
+            //     return;
+            // }
+            //
+            // switch (progress.Value)
+            // {
+            //     case SStoryMovie.GameProgress.P33:  hasPlayed33Movie  = true; break;
+            //     case SStoryMovie.GameProgress.P66:  hasPlayed66Movie  = true; break;
+            //     case SStoryMovie.GameProgress.P100: hasPlayed100Movie = true; break;
+            // }
+            //
+            // CutScenePlayer.Instance.PlayAsync(clip, destroyCancellationToken).Forget();
         }
 
         // Click したなら true を、 Exit したなら false を返す
