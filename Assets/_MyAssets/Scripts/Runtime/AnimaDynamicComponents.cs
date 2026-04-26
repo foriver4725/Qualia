@@ -9,11 +9,13 @@
         [SerializeField] private PlayerController pc;
         [SerializeField] private Camera playerCamera;
         [SerializeField] private AnimalLeaveInvoker animalLeaveInvoker;
+        [SerializeField] private PauseInvoker pauseInvoker;
         [SerializeField] private SOSSoundPlayer soundPlayer;
 
         internal PlayerController Pc => pc;
         internal Camera PlayerCamera => playerCamera;
         internal AnimalLeaveInvoker AnimalLeaveInvoker => animalLeaveInvoker;
+        internal PauseInvoker PauseInvoker => pauseInvoker;
         internal SOSSoundPlayer SoundPlayer => soundPlayer;
     }
 }

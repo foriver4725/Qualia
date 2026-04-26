@@ -5836,6 +5836,7 @@ MonoBehaviour:
   pc: {fileID: 1986410594}
   playerCamera: {fileID: 1348024044}
   animalLeaveInvoker: {fileID: 817192304}
+  pauseInvoker: {fileID: 196192313}
   soundPlayer: {fileID: 195949041}
 --- !u!1001 &549236258278958475
 PrefabInstance:

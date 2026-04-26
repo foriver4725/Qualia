@@ -62,6 +62,7 @@ namespace MyScripts.Runtime
             playerCamera = dynamicComponents.PlayerCamera;
             PlayerController pc = dynamicComponents.Pc;
             AnimalLeaveInvoker animalLeaveInvoker = dynamicComponents.AnimalLeaveInvoker;
+            PauseInvoker pauseInvoker = dynamicComponents.PauseInvoker;
             SOSSoundPlayer soundPlayer = dynamicComponents.SoundPlayer;
 
             UpdateModel(characterType);
@@ -69,13 +70,14 @@ namespace MyScripts.Runtime
             // 憑依
             collider.OnTriggerEnterAsObservable()
                 .Select(
-                    (this, collider, pc, animalLeaveInvoker, soundPlayer),
+                    (this, collider, pc, animalLeaveInvoker, pauseInvoker, soundPlayer),
                     static (other, param) => (
                         This: param.Item1,
                         SelfCollider: param.collider,
                         PlayerController: param.pc,
                         PossessInvoker: param.animalLeaveInvoker,
                         SoundPlayer: param.soundPlayer,
+                        PauseInvoker: param.pauseInvoker,
                         OtherCollider: other
                     )
                 )
@@ -112,7 +114,14 @@ namespace MyScripts.Runtime
                             while (t > 0.0f)
                             {
                                 await UniTask.NextFrame(cancellationToken: ct);
-                                t -= Time.deltaTime;
+
+                                if (!param.PauseInvoker.IsPaused &&          // ポーズ中はタイマーを止める
+                                    !CutScenePlayer.Instance.IsPlaying &&    // カットシーン再生中もタイマーを止める
+                                    !ImageSequencePlayer.Instance.IsPlaying) // 画像シーケンス再生中もタイマーを止める
+                                {
+                                    t -= Time.deltaTime;
+                                }
+
                                 param.PossessInvoker.SetDisplayImageFillAmount(type, t / duration);
                             }
 
