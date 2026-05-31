@@ -116,3 +116,7 @@ InitTestScene*.unity*
 
 # Secrets
 steam_appid.txt
+
+# Weise
+Qualia_WwiseProject/.cache/
+*.wlog
