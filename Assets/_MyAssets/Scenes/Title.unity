@@ -4613,6 +4613,63 @@ Transform:
   - {fileID: 2110565853}
   m_Father: {fileID: 1868473676}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1539936320
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1539936322}
+  - component: {fileID: 1539936321}
+  m_Layer: 0
+  m_Name: WwiseGlobal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1539936321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539936320}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfaf9a94aafab884a9021dbe92c1d7f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkInitializer
+  InitializationSettings: {fileID: 11400000, guid: 88bc58aad6227c644a7bfb0d424085c0, type: 2}
+  basePath: 
+  language: 
+  defaultPoolSize: 0
+  lowerPoolSize: 0
+  streamingPoolSize: 0
+  memoryCutoffThreshold: 0
+  monitorPoolSize: 0
+  monitorQueuePoolSize: 0
+  callbackManagerBufferSize: 0
+  spatialAudioPoolSize: 0
+  maxSoundPropagationDepth: 0
+  engineLogging: 0
+--- !u!4 &1539936322
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539936320}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1606980511
 GameObject:
   m_ObjectHideFlags: 0
@@ -4934,19 +4991,66 @@ PrefabInstance:
       propertyPath: m_Name
       value: OutGameSceneMainCamera
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9100828262119585679, guid: a68a503cba3e95843ac0c29ef1ad84c8, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8354624215194704719, guid: a68a503cba3e95843ac0c29ef1ad84c8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1158902083}
+    - targetCorrespondingSourceObject: {fileID: 8354624215194704719, guid: a68a503cba3e95843ac0c29ef1ad84c8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1726104297}
+    - targetCorrespondingSourceObject: {fileID: 8354624215194704719, guid: a68a503cba3e95843ac0c29ef1ad84c8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1726104296}
   m_SourcePrefab: {fileID: 100100000, guid: a68a503cba3e95843ac0c29ef1ad84c8, type: 3}
 --- !u!20 &1726104295 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 6437839709001834909, guid: a68a503cba3e95843ac0c29ef1ad84c8, type: 3}
   m_PrefabInstance: {fileID: 1726104294}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1726104296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158902078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87e35b092875d124db47b9309f0e4071, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkAudioListener
+  isDefaultListener: 1
+  bOverrideScalingFactor: 0
+  scalingFactor: -1
+  listenerId: 0
+--- !u!114 &1726104297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158902078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3ae7d1614dbb6a45818ea7519721eb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AK.Wwise.Unity.MonoBehaviour::AkGameObj
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 1
+  usePositionOffsetData: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!114 &1757423830 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 807467596171801816, guid: 576c53d7afdc23b45b5565207d562caa, type: 3}
@@ -6412,3 +6516,4 @@ SceneRoots:
   - {fileID: 1726104294}
   - {fileID: 1783931375}
   - {fileID: 4161899629835139685}
+  - {fileID: 1539936322}
