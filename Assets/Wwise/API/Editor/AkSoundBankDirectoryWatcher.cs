@@ -1,4 +1,4 @@
-/*******************************************************************************
+﻿/*******************************************************************************
 The content of this file includes portions of the proprietary AUDIOKINETIC Wwise
 Technology released in source code form as part of the game integration package.
 The content of this file may not be used without valid licenses to the
@@ -42,6 +42,7 @@ namespace Wwise.API.Editor.SoundBankDirectoryWatcher.Common
 
 		private AkSoundBankDirectoryWatcher()
 		{
+			return;
 			platformName = AkBasePathGetter.GetPlatformName();
 			UnityEditor.EditorApplication.update += OnEditorUpdate;
 			WwiseProjectDatabase.SoundBankDirectoryUpdated += AkPlatformPluginList.ExecuteParse;
