@@ -245,8 +245,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: OutGameSceneMainCamera
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 9100828262119585679, guid: a68a503cba3e95843ac0c29ef1ad84c8, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
