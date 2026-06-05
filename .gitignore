@@ -116,3 +116,11 @@ InitTestScene*.unity*
 
 # Secrets
 steam_appid.txt
+
+# Wwise
+Qualia_WwiseProject/.cache/
+.cache/
+*.cache
+*.wlog
+logRunSetup.txt
+*.akd
