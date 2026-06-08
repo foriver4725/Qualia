@@ -42,7 +42,7 @@ namespace Wwise.API.Editor.SoundBankDirectoryWatcher.Common
 
 		private AkSoundBankDirectoryWatcher()
 		{
-			return; //サウンドバンク未生成エラーを防ぐため一時的に停止
+			//return; //サウンドバンク未生成エラーを防ぐため一時的に停止
 			platformName = AkBasePathGetter.GetPlatformName();
 			UnityEditor.EditorApplication.update += OnEditorUpdate;
 			WwiseProjectDatabase.SoundBankDirectoryUpdated += AkPlatformPluginList.ExecuteParse;
