@@ -6,6 +6,14 @@
         {
             internal bool IsSprinting { get; init; }
         }
+        //再生用のイベントとスイッチとピッチのデータ、いずれSOに移植するかも
+        [SerializeField] private AK.Wwise.Event Play_Walk;
+        [SerializeField] private AK.Wwise.Event Stop_Walk;
+        [SerializeField] private AK.Wwise.Switch GrassSwitch;
+        [SerializeField] private AK.Wwise.Switch SandSwitch;
+        [SerializeField] private AK.Wwise.Switch RockSwitch;
+        [SerializeField] private AK.Wwise.Switch WaterSwitch;
+        [SerializeField] private AK.Wwise.RTPC WalkPitch;
 
         private AudioSource[] audioSources = null;
         private MotionHandle[] fadeOutTweens = null;
@@ -20,58 +28,48 @@
         internal sealed override void LetPlay(SWalkSound.Surface type, Options options)
         {
             if (type == currentSurface && options.IsSprinting == isCurrentSprinting) return;
-            currentSurface = type;
-            isCurrentSprinting = options.IsSprinting;
-
-            bool couldPlay = false;
-            for (int _i = 0; _i < Param.MaxSoundAmount; _i++)
+            if (type == SWalkSound.Surface.None)
             {
-                int i = _i;
+                Stop_Walk.Post(gameObject);
+                currentSurface = type;
+                return;
+            } 
+            WalkPitch.SetValue(gameObject,options.IsSprinting ? 1f : 0f);
+            isCurrentSprinting = options.IsSprinting;
+            if(currentSurface != type)Stop_Walk.Post(gameObject);
+            switch (type)
+            {
+                case SWalkSound.Surface.Grass:
+                    GrassSwitch.SetValue(gameObject);
+                    break;
 
-                if (arePlaying[i])
-                {
-                    if (fadeOutTweens[i].IsActive())
-                        fadeOutTweens[i].Cancel();
-                    fadeOutTweens[i] = LMotion.Create(audioSources[i].volume, 0.0f, Param.FadeOutDuration)
-                        .WithEase(Ease.OutQuad)
-                        .WithOnComplete(() =>
-                        {
-                            audioSources[i].LetStop();
-                            fadeOutTweens[i] = default;
+                case SWalkSound.Surface.Sand:
+                    SandSwitch.SetValue(gameObject);
+                    break;
 
-                            arePlaying[i] = false;
-                        })
-                        .BindToVolume(audioSources[i]);
-                }
-                else if (!couldPlay)
-                {
-                    AudioClip clip = Param.GetClip(currentSurface);
-                    if (clip == null)
-                    {
-                        // 何も鳴らさない
-                        couldPlay = true;
-                        continue;
-                    }
+                case SWalkSound.Surface.Rock:
+                    RockSwitch.SetValue(gameObject);
+                    break;
 
-                    audioSources[i].LetPlay
-                    (
-                        clip,
-                        volume: Param.Volume,
-                        pitch: isCurrentSprinting ? Param.SprintPitch : Param.WalkPitch
-                    );
-                    arePlaying[i] = true;
+                case SWalkSound.Surface.Water:
+                    WaterSwitch.SetValue(gameObject);
+                    break;
 
-                    couldPlay = true;
-                    continue;
-                }
+                case SWalkSound.Surface.None:
+                    return;
+
+                default:
+                    return;
             }
 
-            if (!couldPlay)
-                "All audio sources are playing. Cannot play new walk sound.".Print(LogSettings.Warning);
+
+            if (currentSurface != type) Play_Walk.Post(gameObject);
+            currentSurface = type;
         }
 
         private protected sealed override void Init()
         {
+            return; //今回は導入が出来るかの検証も兼ねているため複数ファイルの変更をしないために関数の削除ではなく、returnで止めている
             audioSources = new AudioSource[Param.MaxSoundAmount];
             fadeOutTweens = new MotionHandle[Param.MaxSoundAmount];
             arePlaying = new bool[Param.MaxSoundAmount];
