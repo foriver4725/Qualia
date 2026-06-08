@@ -1,0 +1,19 @@
+Event	ID	Name			Wwise Object Path	Notes
+	1589278981	Play_Walk			\Default Work Unit\InGame\Walk\Play_Walk	
+	3140964691	Stop_Walk			\Default Work Unit\InGame\Walk\Stop_Walk	
+
+Switch Group	ID	Name			Wwise Object Path	Notes
+	2108779966	Walk			\Default Work Unit\InGame\Walk	
+
+Switch	ID	Name	Switch Group			Notes
+	803837735	sand	Walk			
+	2144363834	rock	Walk			
+	2654748154	water	Walk			
+	4248645337	grass	Walk			
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	74037301	ingame_walk_sand	.cache\4D\{4DF3E73F-6A33-EE6A-BC76-E341CD2AD94B}.wem		\Containers\Default Work Unit\InGame\Walk\sand\ingame_walk_sand		1588064
+	153892738	ingame_walk_rock	.cache\86\{861C2628-0F02-598D-CCFF-FEB0A55DD568}.wem		\Containers\Default Work Unit\InGame\Walk\rock\ingame_walk_rock		1799552
+	241602777	ingame_walk_water	.cache\23\{2350F9A6-65C6-2EC6-9E52-9C8826C63BBA}.wem		\Containers\Default Work Unit\InGame\Walk\water\ingame_walk_water		1229472
+	536688114	ingame_walk_grass	.cache\B1\{B1EA4799-507C-21DB-DC17-DF27F7E3032C}.wem		\Containers\Default Work Unit\InGame\Walk\grass\ingame_walk_grass		3068760
+

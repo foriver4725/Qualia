@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{27486C22-2C48-4E65-AB50-2D9936C8DBB3}" SchemaVersion="133">
 	<GameParameters>
-		<WorkUnit Name="Default Work Unit" ID="{27486C22-2C48-4E65-AB50-2D9936C8DBB3}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{27486C22-2C48-4E65-AB50-2D9936C8DBB3}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="InGame" ID="{20448CAB-5D26-4836-8C55-2EAC3ADD5AEB}" ShortID="396385792">
+					<ChildrenList>
+						<Folder Name="Walk" ID="{612A8C63-4E9F-4D59-894D-5AE27A288230}" ShortID="805874984">
+							<ChildrenList>
+								<GameParameter Name="WalkPitch" ID="{657CAE7A-BAB5-4BD4-9420-E010127228B1}">
+									<PropertyList>
+										<Property Name="InitialValue" Type="Real64" Value="0"/>
+										<Property Name="Max" Type="Real64" Value="1"/>
+									</PropertyList>
+								</GameParameter>
+							</ChildrenList>
+						</Folder>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
 	</GameParameters>
 </WwiseDocument>

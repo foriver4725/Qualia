@@ -1,6 +1,312 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{3865EBEB-F485-46B4-A0EC-F4BEB763D54E}" SchemaVersion="133">
 	<Containers>
-		<WorkUnit Name="Default Work Unit" ID="{3865EBEB-F485-46B4-A0EC-F4BEB763D54E}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{3865EBEB-F485-46B4-A0EC-F4BEB763D54E}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="InGame" ID="{CE13985F-C8F1-4447-BF0A-446E005A0F51}" ShortID="247119464">
+					<ChildrenList>
+						<SwitchContainer Name="Walk" ID="{21B24184-B23A-489E-8178-3B6E74BB79EA}" ShortID="113975350">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{77141438-E01F-4BF5-8099-2966D043F08D}"/>
+								</Reference>
+								<Reference Name="DefaultSwitchOrState">
+									<ObjectRef Name="grass" ID="{FB85784C-4EB9-4007-8D05-725DF725709E}" WorkUnitID="{18F5E9EC-07C9-4CE6-BD0D-35C23F62B845}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Walk" ID="{63F4F1DB-ED1B-4F7B-9E5C-19D71B76C486}" WorkUnitID="{29E67A1E-9849-467D-B0E2-B130195F995D}"/>
+								</Reference>
+								<Reference Name="SwitchGroupOrStateGroup">
+									<ObjectRef Name="Walk" ID="{5B407580-27C0-4215-8919-96C4BE5B56B6}" WorkUnitID="{18F5E9EC-07C9-4CE6-BD0D-35C23F62B845}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<RandomSequenceContainer Name="grass" ID="{70359633-4960-45D0-8F23-A30AFDD1BD30}" ShortID="64613272">
+									<PropertyList>
+										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{77141438-E01F-4BF5-8099-2966D043F08D}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{29E67A1E-9849-467D-B0E2-B130195F995D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="ingame_walk_grass" ID="{A56EBC15-25BD-4161-81F7-EA36EB5734A4}" ShortID="433229856">
+											<PropertyList>
+												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{77141438-E01F-4BF5-8099-2966D043F08D}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{29E67A1E-9849-467D-B0E2-B130195F995D}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="ingame_walk_grass" ID="{87232DB7-3E27-4649-87E4-74D48B7A4FD2}">
+													<Language>SFX</Language>
+													<AudioFile>Walk\grass\ingame_walk_grass.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="536688114"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="ingame_walk_grass" ID="{87232DB7-3E27-4649-87E4-74D48B7A4FD2}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Playlist">
+											<PluginInnerObject Name="" ID="{5CA391DB-7448-4E49-BB07-B73D74AA3B78}" PluginName="PlaylistSlot" CompanyID="0" PluginID="86">
+												<ReferenceList>
+													<Reference Name="PlaylistObject">
+														<ObjectRef Name="ingame_walk_grass" ID="{A56EBC15-25BD-4161-81F7-EA36EB5734A4}" WorkUnitID="{3865EBEB-F485-46B4-A0EC-F4BEB763D54E}"/>
+													</Reference>
+												</ReferenceList>
+											</PluginInnerObject>
+										</ObjectList>
+									</ObjectLists>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="rock" ID="{2A83ACDB-0B39-4938-8637-98CFFC58283A}" ShortID="387766887">
+									<PropertyList>
+										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{77141438-E01F-4BF5-8099-2966D043F08D}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{29E67A1E-9849-467D-B0E2-B130195F995D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="ingame_walk_rock" ID="{C6532BAF-29E6-44A9-9810-FAC7BF4AB258}" ShortID="369990143">
+											<PropertyList>
+												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{77141438-E01F-4BF5-8099-2966D043F08D}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{29E67A1E-9849-467D-B0E2-B130195F995D}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="ingame_walk_rock" ID="{DDD306E3-CEE1-4660-A7D8-EDD5CD234D91}">
+													<Language>SFX</Language>
+													<AudioFile>Walk\rock\ingame_walk_rock.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="153892738"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="ingame_walk_rock" ID="{DDD306E3-CEE1-4660-A7D8-EDD5CD234D91}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Playlist">
+											<PluginInnerObject Name="" ID="{6D603B52-B2B3-4EA2-9FF2-DEC8EB0743FF}" PluginName="PlaylistSlot" CompanyID="0" PluginID="86">
+												<ReferenceList>
+													<Reference Name="PlaylistObject">
+														<ObjectRef Name="ingame_walk_rock" ID="{C6532BAF-29E6-44A9-9810-FAC7BF4AB258}" WorkUnitID="{3865EBEB-F485-46B4-A0EC-F4BEB763D54E}"/>
+													</Reference>
+												</ReferenceList>
+											</PluginInnerObject>
+										</ObjectList>
+									</ObjectLists>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="sand" ID="{7FAF3FB4-2B7F-4983-A204-3A7DBFE8E0BC}" ShortID="903307990">
+									<PropertyList>
+										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{77141438-E01F-4BF5-8099-2966D043F08D}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{29E67A1E-9849-467D-B0E2-B130195F995D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="ingame_walk_sand" ID="{E739CAC2-06D6-401B-9A68-8E4220DBBA21}" ShortID="902347802">
+											<PropertyList>
+												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{77141438-E01F-4BF5-8099-2966D043F08D}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{29E67A1E-9849-467D-B0E2-B130195F995D}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="ingame_walk_sand" ID="{BFDC7243-ADFA-407D-B1DC-9F469D0CB547}">
+													<Language>SFX</Language>
+													<AudioFile>Walk\sand\ingame_walk_sand.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="74037301"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="ingame_walk_sand" ID="{BFDC7243-ADFA-407D-B1DC-9F469D0CB547}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Playlist">
+											<PluginInnerObject Name="" ID="{7429B29E-901E-4DF7-B77C-CE73FFA50FAA}" PluginName="PlaylistSlot" CompanyID="0" PluginID="86">
+												<ReferenceList>
+													<Reference Name="PlaylistObject">
+														<ObjectRef Name="ingame_walk_sand" ID="{E739CAC2-06D6-401B-9A68-8E4220DBBA21}" WorkUnitID="{3865EBEB-F485-46B4-A0EC-F4BEB763D54E}"/>
+													</Reference>
+												</ReferenceList>
+											</PluginInnerObject>
+										</ObjectList>
+									</ObjectLists>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="water" ID="{1D0129CA-368E-40ED-A310-406D52067249}" ShortID="574390530">
+									<PropertyList>
+										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{77141438-E01F-4BF5-8099-2966D043F08D}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{29E67A1E-9849-467D-B0E2-B130195F995D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="ingame_walk_water" ID="{06E89521-F079-4E7D-9400-78C9A6E27327}" ShortID="333743831">
+											<PropertyList>
+												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{77141438-E01F-4BF5-8099-2966D043F08D}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{29E67A1E-9849-467D-B0E2-B130195F995D}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="ingame_walk_water" ID="{E79A7AFD-2426-4B74-B352-F3BF4807D07D}">
+													<Language>SFX</Language>
+													<AudioFile>Walk\water\ingame_walk_water.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="241602777"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="ingame_walk_water" ID="{E79A7AFD-2426-4B74-B352-F3BF4807D07D}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Playlist">
+											<PluginInnerObject Name="" ID="{256182E3-BED9-4986-B828-09753CCE5D83}" PluginName="PlaylistSlot" CompanyID="0" PluginID="86">
+												<ReferenceList>
+													<Reference Name="PlaylistObject">
+														<ObjectRef Name="ingame_walk_water" ID="{06E89521-F079-4E7D-9400-78C9A6E27327}" WorkUnitID="{3865EBEB-F485-46B4-A0EC-F4BEB763D54E}"/>
+													</Reference>
+												</ReferenceList>
+											</PluginInnerObject>
+										</ObjectList>
+									</ObjectLists>
+								</RandomSequenceContainer>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<RTPC Name="" ID="{FDB06FD7-CC0F-4694-AF8E-A006A55BF953}" ShortID="669563559">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="Pitch"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="WalkPitch" ID="{657CAE7A-BAB5-4BD4-9420-E010127228B1}" WorkUnitID="{27486C22-2C48-4E65-AB50-2D9936C8DBB3}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{585A5806-6731-48B7-A6CB-7EBAAB6C16A3}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="65537"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>0</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>1</XPos>
+																<YPos>180</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</ObjectList>
+							</ObjectLists>
+							<GroupingInfo>
+								<GroupingBehaviorList>
+									<GroupingBehavior>
+										<ItemRef Name="grass" ID="{70359633-4960-45D0-8F23-A30AFDD1BD30}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="sand" ID="{7FAF3FB4-2B7F-4983-A204-3A7DBFE8E0BC}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="water" ID="{1D0129CA-368E-40ED-A310-406D52067249}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="rock" ID="{2A83ACDB-0B39-4938-8637-98CFFC58283A}"/>
+									</GroupingBehavior>
+								</GroupingBehaviorList>
+								<GroupingList>
+									<Grouping>
+										<SwitchRef Name="sand" ID="{980A901A-223D-4607-A9E8-8900AA1E49BF}"/>
+										<ItemList>
+											<ItemRef Name="sand" ID="{7FAF3FB4-2B7F-4983-A204-3A7DBFE8E0BC}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="rock" ID="{663F3522-CF94-46D6-9C75-D1F6A48992E3}"/>
+										<ItemList>
+											<ItemRef Name="rock" ID="{2A83ACDB-0B39-4938-8637-98CFFC58283A}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="grass" ID="{FB85784C-4EB9-4007-8D05-725DF725709E}"/>
+										<ItemList>
+											<ItemRef Name="grass" ID="{70359633-4960-45D0-8F23-A30AFDD1BD30}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="water" ID="{47C1C39E-216C-45A0-A53E-6D24D58E0B69}"/>
+										<ItemList>
+											<ItemRef Name="water" ID="{1D0129CA-368E-40ED-A310-406D52067249}"/>
+										</ItemList>
+									</Grouping>
+								</GroupingList>
+							</GroupingInfo>
+						</SwitchContainer>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
 	</Containers>
 </WwiseDocument>

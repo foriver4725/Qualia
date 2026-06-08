@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{172D10D9-6690-4EE7-B5D0-0C8E0F6FFD2B}" SchemaVersion="133">
 	<States>
-		<WorkUnit Name="Default Work Unit" ID="{172D10D9-6690-4EE7-B5D0-0C8E0F6FFD2B}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{172D10D9-6690-4EE7-B5D0-0C8E0F6FFD2B}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="InGame" ID="{D6D68CBA-C178-46C5-9787-B338BEEB23C1}" ShortID="371070586">
+					<ChildrenList>
+						<Folder Name="Walk" ID="{62C248EA-FE94-418C-A45F-D13EE86FF10C}" ShortID="456968107"/>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
 	</States>
 </WwiseDocument>

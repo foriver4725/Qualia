@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{18F5E9EC-07C9-4CE6-BD0D-35C23F62B845}" SchemaVersion="133">
 	<Switches>
-		<WorkUnit Name="Default Work Unit" ID="{18F5E9EC-07C9-4CE6-BD0D-35C23F62B845}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{18F5E9EC-07C9-4CE6-BD0D-35C23F62B845}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="InGame" ID="{166D253F-FFA3-46A7-8A88-3BADA78C1906}" ShortID="1049911044">
+					<ChildrenList>
+						<SwitchGroup Name="Walk" ID="{5B407580-27C0-4215-8919-96C4BE5B56B6}">
+							<ChildrenList>
+								<Switch Name="grass" ID="{FB85784C-4EB9-4007-8D05-725DF725709E}"/>
+								<Switch Name="sand" ID="{980A901A-223D-4607-A9E8-8900AA1E49BF}"/>
+								<Switch Name="rock" ID="{663F3522-CF94-46D6-9C75-D1F6A48992E3}"/>
+								<Switch Name="water" ID="{47C1C39E-216C-45A0-A53E-6D24D58E0B69}"/>
+							</ChildrenList>
+						</SwitchGroup>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
 	</Switches>
 </WwiseDocument>
