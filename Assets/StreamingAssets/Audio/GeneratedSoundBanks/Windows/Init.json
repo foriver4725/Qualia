@@ -1,0 +1,95 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "1355168291",
+    "Type": "User",
+    "GUID": "{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}",
+    "Language": "SFX",
+    "Hash": "{AE8DE899-5533-8D49-4C4F-5D234DF9DF96}",
+    "ObjectPath": "Init",
+    "ShortName": "Init",
+    "Path": "Init.bnk",
+    "Plugins": {
+     "AudioDevices": [
+      {
+       "Id": "2317455096",
+       "Name": "No_Output",
+       "ObjectPath": "\\Devices\\Default Work Unit\\No_Output",
+       "GUID": "{AFA25037-A79C-49E8-A0E2-28901994683E}",
+       "LibName": "No Output",
+       "LibId": "11862023"
+      },
+      {
+       "Id": "3859886410",
+       "Name": "System",
+       "ObjectPath": "\\Devices\\Default Work Unit\\System",
+       "GUID": "{6B11FD9D-0AE2-4B54-9C28-B40494300565}",
+       "LibName": "System",
+       "LibId": "11403271"
+      }
+     ]
+    },
+    "Busses": [
+     {
+      "Id": "1584861537",
+      "Name": "SE",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Main Audio Bus\\SE",
+      "GUID": "{E4F99D08-E178-4DFD-BDA0-24105AFB4DF1}"
+     },
+     {
+      "Id": "2108779966",
+      "Name": "Walk",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Main Audio Bus\\SE\\Walk",
+      "GUID": "{63F4F1DB-ED1B-4F7B-9E5C-19D71B76C486}"
+     },
+     {
+      "Id": "2246998526",
+      "Name": "Main Audio Bus",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Main Audio Bus",
+      "GUID": "{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}"
+     }
+    ],
+    "SwitchGroups": [
+     {
+      "Id": "2108779966",
+      "Name": "Walk",
+      "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\Walk",
+      "GUID": "{5B407580-27C0-4215-8919-96C4BE5B56B6}",
+      "Switches": [
+       {
+        "Id": "803837735",
+        "Name": "sand",
+        "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\Walk\\sand",
+        "GUID": "{980A901A-223D-4607-A9E8-8900AA1E49BF}"
+       },
+       {
+        "Id": "2144363834",
+        "Name": "rock",
+        "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\Walk\\rock",
+        "GUID": "{663F3522-CF94-46D6-9C75-D1F6A48992E3}"
+       },
+       {
+        "Id": "2654748154",
+        "Name": "water",
+        "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\Walk\\water",
+        "GUID": "{47C1C39E-216C-45A0-A53E-6D24D58E0B69}"
+       },
+       {
+        "Id": "4248645337",
+        "Name": "grass",
+        "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\Walk\\grass",
+        "GUID": "{FB85784C-4EB9-4007-8D05-725DF725709E}"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{0DDB8C89-F1ED-2E33-B7D8-92E6174744C9}"
+ }
+}

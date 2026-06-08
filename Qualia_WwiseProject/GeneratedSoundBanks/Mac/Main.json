@@ -1,0 +1,171 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Mac",
+  "BasePlatform": "Mac",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "3161908922",
+    "Type": "User",
+    "GUID": "{6B20D166-66F4-4D98-99FF-6867CEC082B2}",
+    "Language": "SFX",
+    "Hash": "{8FE6324A-A19C-36F6-B811-CDCEA3C163E8}",
+    "ObjectPath": "\\SoundBanks\\Default Work Unit\\Main",
+    "ShortName": "Main",
+    "Path": "Main.bnk",
+    "Media": [
+     {
+      "Id": "74037301",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Walk\\sand\\ingame_walk_sand.wav",
+      "CachePath": "14/{14A111D4-BC5F-40FD-A10E-9360588187ED}.wem"
+     },
+     {
+      "Id": "153892738",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Walk\\rock\\ingame_walk_rock.wav",
+      "CachePath": "AA/{AAC1AB00-0332-8077-3045-EDE627FC9143}.wem"
+     },
+     {
+      "Id": "241602777",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Walk\\water\\ingame_walk_water.wav",
+      "CachePath": "C0/{C0F36482-4A1F-75D2-E5D0-5C483FC365B5}.wem"
+     },
+     {
+      "Id": "536688114",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Walk\\grass\\ingame_walk_grass.wav",
+      "CachePath": "92/{92243A4C-9906-2311-A180-80C9BB4083C2}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "1589278981",
+      "Name": "Play_Walk",
+      "ObjectPath": "\\Events\\Default Work Unit\\InGame\\Walk\\Play_Walk",
+      "GUID": "{7193B182-0DE8-4C5A-BB53-E9674E179503}",
+      "DurationType": "Infinite",
+      "SwitchContainers": [
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "2108779966",
+         "Id": "803837735",
+         "GUID": "{980A901A-223D-4607-A9E8-8900AA1E49BF}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "74037301"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "2108779966",
+         "Id": "2144363834",
+         "GUID": "{663F3522-CF94-46D6-9C75-D1F6A48992E3}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "153892738"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "2108779966",
+         "Id": "4248645337",
+         "GUID": "{FB85784C-4EB9-4007-8D05-725DF725709E}",
+         "Default": "true"
+        },
+        "MediaRefs": [
+         {
+          "Id": "536688114"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "2108779966",
+         "Id": "2654748154",
+         "GUID": "{47C1C39E-216C-45A0-A53E-6D24D58E0B69}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "241602777"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "Id": "3140964691",
+      "Name": "Stop_Walk",
+      "ObjectPath": "\\Events\\Default Work Unit\\InGame\\Walk\\Stop_Walk",
+      "GUID": "{8388B089-C283-4F7B-8BD8-4BF2DA62EF75}",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     }
+    ],
+    "GameParameters": [
+     {
+      "Id": "1559442200",
+      "Name": "WalkPitch",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\InGame\\Walk\\WalkPitch",
+      "GUID": "{657CAE7A-BAB5-4BD4-9420-E010127228B1}"
+     }
+    ],
+    "SwitchGroups": [
+     {
+      "Id": "2108779966",
+      "Name": "Walk",
+      "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\Walk",
+      "GUID": "{5B407580-27C0-4215-8919-96C4BE5B56B6}",
+      "Switches": [
+       {
+        "Id": "803837735",
+        "Name": "sand",
+        "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\Walk\\sand",
+        "GUID": "{980A901A-223D-4607-A9E8-8900AA1E49BF}"
+       },
+       {
+        "Id": "2144363834",
+        "Name": "rock",
+        "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\Walk\\rock",
+        "GUID": "{663F3522-CF94-46D6-9C75-D1F6A48992E3}"
+       },
+       {
+        "Id": "2654748154",
+        "Name": "water",
+        "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\Walk\\water",
+        "GUID": "{47C1C39E-216C-45A0-A53E-6D24D58E0B69}"
+       },
+       {
+        "Id": "4248645337",
+        "Name": "grass",
+        "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\Walk\\grass",
+        "GUID": "{FB85784C-4EB9-4007-8D05-725DF725709E}"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{C5D10031-BCCB-64CE-053F-A4C1585CE54D}"
+ }
+}

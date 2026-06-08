@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{C77632C5-3DD3-4022-8569-0B162C1DC743}" SchemaVersion="133">
 	<Events>
-		<WorkUnit Name="Default Work Unit" ID="{C77632C5-3DD3-4022-8569-0B162C1DC743}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{C77632C5-3DD3-4022-8569-0B162C1DC743}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="InGame" ID="{2DF9021F-C368-4C69-A432-9D579DB832B8}" ShortID="501436534">
+					<ChildrenList>
+						<Folder Name="Walk" ID="{D49B0AC4-4B55-4501-ADC2-BFBB439FE165}" ShortID="586101298">
+							<ChildrenList>
+								<Event Name="Play_Walk" ID="{7193B182-0DE8-4C5A-BB53-E9674E179503}">
+									<ChildrenList>
+										<Action Name="" ID="{6C9FE0F9-A437-44FA-AC4F-C6FDEA490109}" ShortID="480684718">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="Walk" ID="{21B24184-B23A-489E-8178-3B6E74BB79EA}" WorkUnitID="{3865EBEB-F485-46B4-A0EC-F4BEB763D54E}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Stop_Walk" ID="{8388B089-C283-4F7B-8BD8-4BF2DA62EF75}">
+									<ChildrenList>
+										<Action Name="" ID="{32A58DCD-E1D2-4FD2-9FFB-D918ABBFC2C3}" ShortID="445174177">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="2"/>
+												<Property Name="FadeTime" Type="Real64" Value="0.2"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="Walk" ID="{21B24184-B23A-489E-8178-3B6E74BB79EA}" WorkUnitID="{3865EBEB-F485-46B4-A0EC-F4BEB763D54E}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+							</ChildrenList>
+						</Folder>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
 	</Events>
 </WwiseDocument>
