@@ -1,4 +1,5 @@
 Audio Bus	ID	Name			Wwise Object Path	Notes
+	412724365	BGM			\Default Work Unit\Main Audio Bus\BGM	
 	1584861537	SE			\Default Work Unit\Main Audio Bus\SE	
 	2108779966	Walk			\Default Work Unit\Main Audio Bus\SE\Walk	
 	2246998526	Main Audio Bus			\Default Work Unit\Main Audio Bus	

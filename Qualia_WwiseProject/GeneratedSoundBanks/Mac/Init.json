@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}",
     "Language": "SFX",
-    "Hash": "{5BC4789F-DD54-6C5A-9236-EB340CD5D5C4}",
+    "Hash": "{E4CFC6CC-3013-5C0B-7F80-93CA18DAED9E}",
     "ObjectPath": "Init",
     "ShortName": "Init",
     "Path": "Init.bnk",
@@ -35,6 +35,12 @@
      ]
     },
     "Busses": [
+     {
+      "Id": "412724365",
+      "Name": "BGM",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Main Audio Bus\\BGM",
+      "GUID": "{E0B15BBB-A55F-4B9D-9C4D-8D76C4ABCC1C}"
+     },
      {
       "Id": "1584861537",
       "Name": "SE",
@@ -63,6 +69,86 @@
      }
     ],
     "SwitchGroups": [
+     {
+      "Id": "544238338",
+      "Name": "SOS",
+      "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\SOS",
+      "GUID": "{BF6151DE-AD13-49B7-A57D-66DD3EC9902F}",
+      "Switches": [
+       {
+        "Id": "1444079976",
+        "Name": "NotRemove",
+        "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\SOS\\NotRemove",
+        "GUID": "{24095F8F-1DDB-4D0E-A11D-340BD9F2106D}"
+       },
+       {
+        "Id": "2335605169",
+        "Name": "Remove",
+        "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\SOS\\Remove",
+        "GUID": "{0BFD195C-1DE1-4203-B60B-DFBB3B643979}"
+       }
+      ]
+     },
+     {
+      "Id": "977454165",
+      "Name": "Button",
+      "ObjectPath": "\\Switches\\Default Work Unit\\OutGame\\Button",
+      "GUID": "{CEC9EBBB-C6F0-4863-9B11-DB447D04926D}",
+      "Switches": [
+       {
+        "Id": "1584507803",
+        "Name": "Click",
+        "ObjectPath": "\\Switches\\Default Work Unit\\OutGame\\Button\\Click",
+        "GUID": "{68DBC8FC-3418-423B-8885-86FB2814B0C7}"
+       },
+       {
+        "Id": "3753593413",
+        "Name": "Hover",
+        "ObjectPath": "\\Switches\\Default Work Unit\\OutGame\\Button\\Hover",
+        "GUID": "{B404E69D-470A-4730-884A-40E16BC95D52}"
+       }
+      ]
+     },
+     {
+      "Id": "1625523386",
+      "Name": "CharacterTrigger",
+      "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\CharacterTrigger",
+      "GUID": "{D4D940C7-21F5-4898-9442-8484EE8609DA}",
+      "Switches": [
+       {
+        "Id": "349818688",
+        "Name": "Begin",
+        "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\CharacterTrigger\\Begin",
+        "GUID": "{001C015D-C114-4614-A22C-B13A1DB6FCCD}"
+       },
+       {
+        "Id": "529726532",
+        "Name": "End",
+        "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\CharacterTrigger\\End",
+        "GUID": "{0900C843-3A82-4F38-B043-3AC9DCE09D1B}"
+       }
+      ]
+     },
+     {
+      "Id": "1888685156",
+      "Name": "Disaster",
+      "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\Disaster",
+      "GUID": "{DB586E64-B896-47A8-BB79-88918848DE30}",
+      "Switches": [
+       {
+        "Id": "3009375806",
+        "Name": "windstorm",
+        "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\Disaster\\windstorm",
+        "GUID": "{CC6A9C29-3FED-4326-A861-79EAB5E218B9}"
+       },
+       {
+        "Id": "3610151219",
+        "Name": "blizzard",
+        "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\Disaster\\blizzard",
+        "GUID": "{690846B4-4EFC-47B1-8EA6-3E6FE842E9D3}"
+       }
+      ]
+     },
      {
       "Id": "2108779966",
       "Name": "Walk",
@@ -98,6 +184,6 @@
     ]
    }
   ],
-  "FileHash": "{C61ED133-922A-7D27-9EF6-973384D54BB5}"
+  "FileHash": "{53A9C3DF-8F5E-5715-5776-FF164A5DE3FF}"
  }
 }

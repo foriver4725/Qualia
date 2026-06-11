@@ -5,7 +5,12 @@
 			<ChildrenList>
 				<SoundBank Name="Main" ID="{6B20D166-66F4-4D98-99FF-6867CEC082B2}">
 					<ObjectInclusionList>
+						<ObjectRef Name="Play_Disaster" ID="{E5E57CA4-EF0A-4522-BC22-FA06049BC248}" WorkUnitID="{C77632C5-3DD3-4022-8569-0B162C1DC743}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Trigger" ID="{FF0F79E2-B297-463A-876D-795139BC530E}" WorkUnitID="{C77632C5-3DD3-4022-8569-0B162C1DC743}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Stop_Disaster" ID="{09AB8630-47BE-49AE-AAE7-E3DEC73B7475}" WorkUnitID="{C77632C5-3DD3-4022-8569-0B162C1DC743}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_SOS" ID="{33288E3A-365A-4B6E-B787-3A469288A987}" WorkUnitID="{C77632C5-3DD3-4022-8569-0B162C1DC743}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_Walk" ID="{7193B182-0DE8-4C5A-BB53-E9674E179503}" WorkUnitID="{C77632C5-3DD3-4022-8569-0B162C1DC743}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Button" ID="{82E4AA44-7F37-4E6E-83D8-814B446AEE32}" WorkUnitID="{C77632C5-3DD3-4022-8569-0B162C1DC743}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_Walk" ID="{8388B089-C283-4F7B-8BD8-4BF2DA62EF75}" WorkUnitID="{C77632C5-3DD3-4022-8569-0B162C1DC743}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
