@@ -304,6 +304,348 @@
 								</GroupingList>
 							</GroupingInfo>
 						</SwitchContainer>
+						<SwitchContainer Name="Sos" ID="{67E228A9-E49B-4A9A-BBEE-E46CCB4AB05D}" ShortID="12941066">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{77141438-E01F-4BF5-8099-2966D043F08D}"/>
+								</Reference>
+								<Reference Name="DefaultSwitchOrState">
+									<ObjectRef Name="NotRemove" ID="{24095F8F-1DDB-4D0E-A11D-340BD9F2106D}" WorkUnitID="{18F5E9EC-07C9-4CE6-BD0D-35C23F62B845}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SE" ID="{E4F99D08-E178-4DFD-BDA0-24105AFB4DF1}" WorkUnitID="{29E67A1E-9849-467D-B0E2-B130195F995D}"/>
+								</Reference>
+								<Reference Name="SwitchGroupOrStateGroup">
+									<ObjectRef Name="SOS" ID="{BF6151DE-AD13-49B7-A57D-66DD3EC9902F}" WorkUnitID="{18F5E9EC-07C9-4CE6-BD0D-35C23F62B845}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="ingame_sos_could-not-remove" ID="{5ED69590-C12D-4AF8-AB51-0CF18E6586BF}" ShortID="321002336">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{77141438-E01F-4BF5-8099-2966D043F08D}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{29E67A1E-9849-467D-B0E2-B130195F995D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="ingame_sos_could-not-remove" ID="{13D455C8-957B-4677-9319-B2EEA8AF77FE}">
+											<Language>SFX</Language>
+											<AudioFile>Sos\ingame_sos_could-not-remove.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="235061059"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="ingame_sos_could-not-remove" ID="{13D455C8-957B-4677-9319-B2EEA8AF77FE}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="ingame_sos_could-remove" ID="{270A5390-BA41-4674-B2F8-6CC625F7EA2B}" ShortID="718732789">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{77141438-E01F-4BF5-8099-2966D043F08D}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{29E67A1E-9849-467D-B0E2-B130195F995D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="ingame_sos_could-remove" ID="{890D6B6F-5AC4-4E9E-880E-03451F45DB5A}">
+											<Language>SFX</Language>
+											<AudioFile>Sos\ingame_sos_could-remove.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="621995699"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="ingame_sos_could-remove" ID="{890D6B6F-5AC4-4E9E-880E-03451F45DB5A}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<GroupingInfo>
+								<GroupingBehaviorList>
+									<GroupingBehavior>
+										<ItemRef Name="ingame_sos_could-remove" ID="{270A5390-BA41-4674-B2F8-6CC625F7EA2B}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="ingame_sos_could-not-remove" ID="{5ED69590-C12D-4AF8-AB51-0CF18E6586BF}"/>
+									</GroupingBehavior>
+								</GroupingBehaviorList>
+								<GroupingList>
+									<Grouping>
+										<SwitchRef Name="Remove" ID="{0BFD195C-1DE1-4203-B60B-DFBB3B643979}"/>
+										<ItemList>
+											<ItemRef Name="ingame_sos_could-remove" ID="{270A5390-BA41-4674-B2F8-6CC625F7EA2B}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="NotRemove" ID="{24095F8F-1DDB-4D0E-A11D-340BD9F2106D}"/>
+										<ItemList>
+											<ItemRef Name="ingame_sos_could-not-remove" ID="{5ED69590-C12D-4AF8-AB51-0CF18E6586BF}"/>
+										</ItemList>
+									</Grouping>
+								</GroupingList>
+							</GroupingInfo>
+						</SwitchContainer>
+						<SwitchContainer Name="Disaster" ID="{389F7927-3392-4A45-BCEE-744DA2C04D4F}" ShortID="541934494">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{77141438-E01F-4BF5-8099-2966D043F08D}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="BGM" ID="{E0B15BBB-A55F-4B9D-9C4D-8D76C4ABCC1C}" WorkUnitID="{29E67A1E-9849-467D-B0E2-B130195F995D}"/>
+								</Reference>
+								<Reference Name="SwitchGroupOrStateGroup">
+									<ObjectRef Name="Disaster" ID="{DB586E64-B896-47A8-BB79-88918848DE30}" WorkUnitID="{18F5E9EC-07C9-4CE6-BD0D-35C23F62B845}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="ingame_disaster_blizzard" ID="{50D24074-A5C3-481F-8DF8-B37BBCD2D7D7}" ShortID="821330614">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{77141438-E01F-4BF5-8099-2966D043F08D}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{29E67A1E-9849-467D-B0E2-B130195F995D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="ingame_disaster_blizzard" ID="{6E1FBED8-AFDB-4BC1-9C60-CAE0C5F5CE4C}">
+											<Language>SFX</Language>
+											<AudioFile>Disaster\ingame_disaster_blizzard.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="353653129"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="ingame_disaster_blizzard" ID="{6E1FBED8-AFDB-4BC1-9C60-CAE0C5F5CE4C}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="ingame_disaster_windstorm" ID="{6BDFB815-5F25-41A6-AC5F-CC828F8BDFB3}" ShortID="760367708">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{77141438-E01F-4BF5-8099-2966D043F08D}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{29E67A1E-9849-467D-B0E2-B130195F995D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="ingame_disaster_windstorm" ID="{AAA881E1-F4E3-4933-8DFB-A8856EC86C8F}">
+											<Language>SFX</Language>
+											<AudioFile>Disaster\ingame_disaster_windstorm.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="835511227"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="ingame_disaster_windstorm" ID="{AAA881E1-F4E3-4933-8DFB-A8856EC86C8F}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<GroupingInfo>
+								<GroupingBehaviorList>
+									<GroupingBehavior>
+										<ItemRef Name="ingame_disaster_windstorm" ID="{6BDFB815-5F25-41A6-AC5F-CC828F8BDFB3}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="ingame_disaster_blizzard" ID="{50D24074-A5C3-481F-8DF8-B37BBCD2D7D7}"/>
+									</GroupingBehavior>
+								</GroupingBehaviorList>
+								<GroupingList>
+									<Grouping>
+										<SwitchRef Name="windstorm" ID="{CC6A9C29-3FED-4326-A861-79EAB5E218B9}"/>
+										<ItemList>
+											<ItemRef Name="ingame_disaster_windstorm" ID="{6BDFB815-5F25-41A6-AC5F-CC828F8BDFB3}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="blizzard" ID="{690846B4-4EFC-47B1-8EA6-3E6FE842E9D3}"/>
+										<ItemList>
+											<ItemRef Name="ingame_disaster_blizzard" ID="{50D24074-A5C3-481F-8DF8-B37BBCD2D7D7}"/>
+										</ItemList>
+									</Grouping>
+								</GroupingList>
+							</GroupingInfo>
+						</SwitchContainer>
+						<SwitchContainer Name="CharacterTrigger" ID="{2A5B1C72-20EC-4ACC-86EE-C8A8610A7E0B}" ShortID="652830170">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{77141438-E01F-4BF5-8099-2966D043F08D}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SE" ID="{E4F99D08-E178-4DFD-BDA0-24105AFB4DF1}" WorkUnitID="{29E67A1E-9849-467D-B0E2-B130195F995D}"/>
+								</Reference>
+								<Reference Name="SwitchGroupOrStateGroup">
+									<ObjectRef Name="CharacterTrigger" ID="{D4D940C7-21F5-4898-9442-8484EE8609DA}" WorkUnitID="{18F5E9EC-07C9-4CE6-BD0D-35C23F62B845}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="ingame_character-trigger_begin" ID="{65CBEF75-D7C9-4F4A-BF8D-D09B5C77E43B}" ShortID="1064485980">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{77141438-E01F-4BF5-8099-2966D043F08D}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{29E67A1E-9849-467D-B0E2-B130195F995D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="ingame_character-trigger_begin" ID="{A2FA9602-D6F8-4774-B81F-E8F29BF542C2}">
+											<Language>SFX</Language>
+											<AudioFile>CharacterTrigger\ingame_character-trigger_begin.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="634847526"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="ingame_character-trigger_begin" ID="{A2FA9602-D6F8-4774-B81F-E8F29BF542C2}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="ingame_character-trigger_close-to-end" ID="{9F81650D-478C-4E6C-952A-311460057BC5}" ShortID="373307627">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{77141438-E01F-4BF5-8099-2966D043F08D}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{29E67A1E-9849-467D-B0E2-B130195F995D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="ingame_character-trigger_close-to-end" ID="{465FE38D-2725-4347-AB47-051B42AA3D13}">
+											<Language>SFX</Language>
+											<AudioFile>CharacterTrigger\ingame_character-trigger_close-to-end.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="378063811"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="ingame_character-trigger_close-to-end" ID="{465FE38D-2725-4347-AB47-051B42AA3D13}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<GroupingInfo>
+								<GroupingBehaviorList>
+									<GroupingBehavior>
+										<ItemRef Name="ingame_character-trigger_close-to-end" ID="{9F81650D-478C-4E6C-952A-311460057BC5}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="ingame_character-trigger_begin" ID="{65CBEF75-D7C9-4F4A-BF8D-D09B5C77E43B}"/>
+									</GroupingBehavior>
+								</GroupingBehaviorList>
+								<GroupingList>
+									<Grouping>
+										<SwitchRef Name="End" ID="{0900C843-3A82-4F38-B043-3AC9DCE09D1B}"/>
+										<ItemList>
+											<ItemRef Name="ingame_character-trigger_close-to-end" ID="{9F81650D-478C-4E6C-952A-311460057BC5}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="Begin" ID="{001C015D-C114-4614-A22C-B13A1DB6FCCD}"/>
+										<ItemList>
+											<ItemRef Name="ingame_character-trigger_begin" ID="{65CBEF75-D7C9-4F4A-BF8D-D09B5C77E43B}"/>
+										</ItemList>
+									</Grouping>
+								</GroupingList>
+							</GroupingInfo>
+						</SwitchContainer>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="OutGame" ID="{A9A178D4-7045-4C29-A4FD-1D0C5C1B5E2D}" ShortID="79501600">
+					<ChildrenList>
+						<SwitchContainer Name="Button" ID="{8C280BA6-B660-40E9-92AF-58341DB79E2C}" ShortID="989241344">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{77141438-E01F-4BF5-8099-2966D043F08D}"/>
+								</Reference>
+								<Reference Name="DefaultSwitchOrState">
+									<ObjectRef Name="Click" ID="{68DBC8FC-3418-423B-8885-86FB2814B0C7}" WorkUnitID="{18F5E9EC-07C9-4CE6-BD0D-35C23F62B845}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SE" ID="{E4F99D08-E178-4DFD-BDA0-24105AFB4DF1}" WorkUnitID="{29E67A1E-9849-467D-B0E2-B130195F995D}"/>
+								</Reference>
+								<Reference Name="SwitchGroupOrStateGroup">
+									<ObjectRef Name="Button" ID="{CEC9EBBB-C6F0-4863-9B11-DB447D04926D}" WorkUnitID="{18F5E9EC-07C9-4CE6-BD0D-35C23F62B845}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="outgame_button_click" ID="{D483C1D8-706B-44EB-935A-889D8B4FD83B}" ShortID="1003705195">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{77141438-E01F-4BF5-8099-2966D043F08D}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{29E67A1E-9849-467D-B0E2-B130195F995D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="outgame_button_click" ID="{94186011-2FF5-4AD0-9FF4-EBFDF78191F6}">
+											<Language>SFX</Language>
+											<AudioFile>Button\outgame_button_click.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="563615152"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="outgame_button_click" ID="{94186011-2FF5-4AD0-9FF4-EBFDF78191F6}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="outgame_button_hover" ID="{4D018A8D-3C44-44C1-A357-A68041215B34}" ShortID="181938190">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{77141438-E01F-4BF5-8099-2966D043F08D}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{29E67A1E-9849-467D-B0E2-B130195F995D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="outgame_button_hover" ID="{705ECB3D-69FD-4B9D-A3AD-CD67727B84EF}">
+											<Language>SFX</Language>
+											<AudioFile>Button\outgame_button_hover.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="290337868"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="outgame_button_hover" ID="{705ECB3D-69FD-4B9D-A3AD-CD67727B84EF}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<GroupingInfo>
+								<GroupingBehaviorList>
+									<GroupingBehavior>
+										<ItemRef Name="outgame_button_hover" ID="{4D018A8D-3C44-44C1-A357-A68041215B34}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="outgame_button_click" ID="{D483C1D8-706B-44EB-935A-889D8B4FD83B}"/>
+									</GroupingBehavior>
+								</GroupingBehaviorList>
+							</GroupingInfo>
+						</SwitchContainer>
 					</ChildrenList>
 				</Folder>
 			</ChildrenList>

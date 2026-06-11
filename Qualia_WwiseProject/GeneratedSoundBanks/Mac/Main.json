@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{6B20D166-66F4-4D98-99FF-6867CEC082B2}",
     "Language": "SFX",
-    "Hash": "{8FE6324A-A19C-36F6-B811-CDCEA3C163E8}",
+    "Hash": "{A5E9B1E3-3EC5-0684-0265-C60F44559E27}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Main",
     "ShortName": "Main",
     "Path": "Main.bnk",
@@ -32,6 +32,14 @@
       "CachePath": "AA/{AAC1AB00-0332-8077-3045-EDE627FC9143}.wem"
      },
      {
+      "Id": "235061059",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Sos\\ingame_sos_could-not-remove.wav",
+      "CachePath": "49/{490625F2-361A-8CC0-884A-71BFB9A66CC0}.wem"
+     },
+     {
       "Id": "241602777",
       "Language": "SFX",
       "Streaming": "false",
@@ -40,15 +48,178 @@
       "CachePath": "C0/{C0F36482-4A1F-75D2-E5D0-5C483FC365B5}.wem"
      },
      {
+      "Id": "353653129",
+      "Language": "SFX",
+      "Streaming": "true",
+      "Location": "Loose",
+      "ShortName": "Disaster\\ingame_disaster_blizzard.wav",
+      "Path": "Media/353653129.wem",
+      "CachePath": "11/{11BF61F1-AFD7-1308-DBC3-91829B53B57E}.wem"
+     },
+     {
+      "Id": "378063811",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "CharacterTrigger\\ingame_character-trigger_close-to-end.wav",
+      "CachePath": "A9/{A9004274-84E9-E384-9E0A-7D58A08736B2}.wem"
+     },
+     {
       "Id": "536688114",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Walk\\grass\\ingame_walk_grass.wav",
       "CachePath": "92/{92243A4C-9906-2311-A180-80C9BB4083C2}.wem"
+     },
+     {
+      "Id": "621995699",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Sos\\ingame_sos_could-remove.wav",
+      "CachePath": "8C/{8C6AC7FA-A019-D739-A32E-14CDE5EF2A90}.wem"
+     },
+     {
+      "Id": "634847526",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "CharacterTrigger\\ingame_character-trigger_begin.wav",
+      "CachePath": "6B/{6B3BC69E-26BD-D397-1C71-06CD6D2E90E8}.wem"
+     },
+     {
+      "Id": "835511227",
+      "Language": "SFX",
+      "Streaming": "true",
+      "Location": "Loose",
+      "ShortName": "Disaster\\ingame_disaster_windstorm.wav",
+      "Path": "Media/835511227.wem",
+      "CachePath": "BA/{BA94CCC2-C449-68CD-0DA9-48E822EC8D55}.wem"
      }
     ],
     "Events": [
+     {
+      "Id": "2099555730",
+      "Name": "Play_Button",
+      "ObjectPath": "\\Events\\Default Work Unit\\OutGame\\Button\\Play_Button",
+      "GUID": "{82E4AA44-7F37-4E6E-83D8-814B446AEE32}",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     },
+     {
+      "Id": "1755577099",
+      "Name": "Play_Disaster",
+      "ObjectPath": "\\Events\\Default Work Unit\\InGame\\Disaster\\Play_Disaster",
+      "GUID": "{E5E57CA4-EF0A-4522-BC22-FA06049BC248}",
+      "DurationType": "OneShot",
+      "DurationMin": "22.49601",
+      "DurationMax": "23.765985",
+      "SwitchContainers": [
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "1888685156",
+         "Id": "3009375806",
+         "GUID": "{CC6A9C29-3FED-4326-A861-79EAB5E218B9}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "835511227"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "1888685156",
+         "Id": "3610151219",
+         "GUID": "{690846B4-4EFC-47B1-8EA6-3E6FE842E9D3}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "353653129"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "Id": "2990131299",
+      "Name": "Play_SOS",
+      "ObjectPath": "\\Events\\Default Work Unit\\InGame\\SOS\\Play_SOS",
+      "GUID": "{33288E3A-365A-4B6E-B787-3A469288A987}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.30639455",
+      "DurationMax": "0.9661678",
+      "SwitchContainers": [
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "544238338",
+         "Id": "2335605169",
+         "GUID": "{0BFD195C-1DE1-4203-B60B-DFBB3B643979}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "621995699"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "544238338",
+         "Id": "1444079976",
+         "GUID": "{24095F8F-1DDB-4D0E-A11D-340BD9F2106D}",
+         "Default": "true"
+        },
+        "MediaRefs": [
+         {
+          "Id": "235061059"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "Id": "166031882",
+      "Name": "Play_Trigger",
+      "ObjectPath": "\\Events\\Default Work Unit\\InGame\\CharacterTrigger\\Play_Trigger",
+      "GUID": "{FF0F79E2-B297-463A-876D-795139BC530E}",
+      "DurationType": "OneShot",
+      "DurationMin": "1.877347",
+      "DurationMax": "2.1359863",
+      "SwitchContainers": [
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "1625523386",
+         "Id": "529726532",
+         "GUID": "{0900C843-3A82-4F38-B043-3AC9DCE09D1B}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "378063811"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "1625523386",
+         "Id": "349818688",
+         "GUID": "{001C015D-C114-4614-A22C-B13A1DB6FCCD}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "634847526"
+         }
+        ]
+       }
+      ]
+     },
      {
       "Id": "1589278981",
       "Name": "Play_Walk",
@@ -112,6 +283,16 @@
       ]
      },
      {
+      "Id": "441389605",
+      "Name": "Stop_Disaster",
+      "ObjectPath": "\\Events\\Default Work Unit\\InGame\\Disaster\\Stop_Disaster",
+      "GUID": "{09AB8630-47BE-49AE-AAE7-E3DEC73B7475}",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     },
+     {
       "Id": "3140964691",
       "Name": "Stop_Walk",
       "ObjectPath": "\\Events\\Default Work Unit\\InGame\\Walk\\Stop_Walk",
@@ -131,6 +312,86 @@
      }
     ],
     "SwitchGroups": [
+     {
+      "Id": "544238338",
+      "Name": "SOS",
+      "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\SOS",
+      "GUID": "{BF6151DE-AD13-49B7-A57D-66DD3EC9902F}",
+      "Switches": [
+       {
+        "Id": "1444079976",
+        "Name": "NotRemove",
+        "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\SOS\\NotRemove",
+        "GUID": "{24095F8F-1DDB-4D0E-A11D-340BD9F2106D}"
+       },
+       {
+        "Id": "2335605169",
+        "Name": "Remove",
+        "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\SOS\\Remove",
+        "GUID": "{0BFD195C-1DE1-4203-B60B-DFBB3B643979}"
+       }
+      ]
+     },
+     {
+      "Id": "977454165",
+      "Name": "Button",
+      "ObjectPath": "\\Switches\\Default Work Unit\\OutGame\\Button",
+      "GUID": "{CEC9EBBB-C6F0-4863-9B11-DB447D04926D}",
+      "Switches": [
+       {
+        "Id": "1584507803",
+        "Name": "Click",
+        "ObjectPath": "\\Switches\\Default Work Unit\\OutGame\\Button\\Click",
+        "GUID": "{68DBC8FC-3418-423B-8885-86FB2814B0C7}"
+       },
+       {
+        "Id": "3753593413",
+        "Name": "Hover",
+        "ObjectPath": "\\Switches\\Default Work Unit\\OutGame\\Button\\Hover",
+        "GUID": "{B404E69D-470A-4730-884A-40E16BC95D52}"
+       }
+      ]
+     },
+     {
+      "Id": "1625523386",
+      "Name": "CharacterTrigger",
+      "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\CharacterTrigger",
+      "GUID": "{D4D940C7-21F5-4898-9442-8484EE8609DA}",
+      "Switches": [
+       {
+        "Id": "349818688",
+        "Name": "Begin",
+        "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\CharacterTrigger\\Begin",
+        "GUID": "{001C015D-C114-4614-A22C-B13A1DB6FCCD}"
+       },
+       {
+        "Id": "529726532",
+        "Name": "End",
+        "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\CharacterTrigger\\End",
+        "GUID": "{0900C843-3A82-4F38-B043-3AC9DCE09D1B}"
+       }
+      ]
+     },
+     {
+      "Id": "1888685156",
+      "Name": "Disaster",
+      "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\Disaster",
+      "GUID": "{DB586E64-B896-47A8-BB79-88918848DE30}",
+      "Switches": [
+       {
+        "Id": "3009375806",
+        "Name": "windstorm",
+        "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\Disaster\\windstorm",
+        "GUID": "{CC6A9C29-3FED-4326-A861-79EAB5E218B9}"
+       },
+       {
+        "Id": "3610151219",
+        "Name": "blizzard",
+        "ObjectPath": "\\Switches\\Default Work Unit\\InGame\\Disaster\\blizzard",
+        "GUID": "{690846B4-4EFC-47B1-8EA6-3E6FE842E9D3}"
+       }
+      ]
+     },
      {
       "Id": "2108779966",
       "Name": "Walk",
@@ -166,6 +427,6 @@
     ]
    }
   ],
-  "FileHash": "{C5D10031-BCCB-64CE-053F-A4C1585CE54D}"
+  "FileHash": "{63E19CA4-8A3C-B2C6-B409-BDE0D3663B29}"
  }
 }

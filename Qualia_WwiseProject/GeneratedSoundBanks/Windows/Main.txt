@@ -1,11 +1,28 @@
 Event	ID	Name			Wwise Object Path	Notes
+	166031882	Play_Trigger			\Default Work Unit\InGame\CharacterTrigger\Play_Trigger	
+	441389605	Stop_Disaster			\Default Work Unit\InGame\Disaster\Stop_Disaster	
 	1589278981	Play_Walk			\Default Work Unit\InGame\Walk\Play_Walk	
+	1755577099	Play_Disaster			\Default Work Unit\InGame\Disaster\Play_Disaster	
+	2099555730	Play_Button			\Default Work Unit\OutGame\Button\Play_Button	
+	2990131299	Play_SOS			\Default Work Unit\InGame\SOS\Play_SOS	
 	3140964691	Stop_Walk			\Default Work Unit\InGame\Walk\Stop_Walk	
 
 Switch Group	ID	Name			Wwise Object Path	Notes
+	544238338	SOS			\Default Work Unit\InGame\SOS	
+	977454165	Button			\Default Work Unit\OutGame\Button	
+	1625523386	CharacterTrigger			\Default Work Unit\InGame\CharacterTrigger	
+	1888685156	Disaster			\Default Work Unit\InGame\Disaster	
 	2108779966	Walk			\Default Work Unit\InGame\Walk	
 
 Switch	ID	Name	Switch Group			Notes
+	1444079976	NotRemove	SOS			
+	2335605169	Remove	SOS			
+	1584507803	Click	Button			
+	3753593413	Hover	Button			
+	349818688	Begin	CharacterTrigger			
+	529726532	End	CharacterTrigger			
+	3009375806	windstorm	Disaster			
+	3610151219	blizzard	Disaster			
 	803837735	sand	Walk			
 	2144363834	rock	Walk			
 	2654748154	water	Walk			
@@ -17,6 +34,14 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	74037301	ingame_walk_sand	.cache\14\{14A111D4-BC5F-40FD-A10E-9360588187ED}.wem		\Containers\Default Work Unit\InGame\Walk\sand\ingame_walk_sand		1588064
 	153892738	ingame_walk_rock	.cache\AA\{AAC1AB00-0332-8077-3045-EDE627FC9143}.wem		\Containers\Default Work Unit\InGame\Walk\rock\ingame_walk_rock		1799552
+	235061059	ingame_sos_could-not-remove	.cache\49\{490625F2-361A-8CC0-884A-71BFB9A66CC0}.wem		\Containers\Default Work Unit\InGame\Sos\ingame_sos_could-not-remove		170528
 	241602777	ingame_walk_water	.cache\C0\{C0F36482-4A1F-75D2-E5D0-5C483FC365B5}.wem		\Containers\Default Work Unit\InGame\Walk\water\ingame_walk_water		1229472
+	378063811	ingame_character-trigger_close-to-end	.cache\A9\{A9004274-84E9-E384-9E0A-7D58A08736B2}.wem		\Containers\Default Work Unit\InGame\CharacterTrigger\ingame_character-trigger_close-to-end		331260
 	536688114	ingame_walk_grass	.cache\92\{92243A4C-9906-2311-A180-80C9BB4083C2}.wem		\Containers\Default Work Unit\InGame\Walk\grass\ingame_walk_grass		3068760
+	621995699	ingame_sos_could-remove	.cache\8C\{8C6AC7FA-A019-D739-A32E-14CDE5EF2A90}.wem		\Containers\Default Work Unit\InGame\Sos\ingame_sos_could-remove		54144
+	634847526	ingame_character-trigger_begin	.cache\6B\{6B3BC69E-26BD-D397-1C71-06CD6D2E90E8}.wem		\Containers\Default Work Unit\InGame\CharacterTrigger\ingame_character-trigger_begin		376884
+
+Streamed Audio	ID	Name	Audio source file	Generated audio file	Wwise Object Path	Notes
+	353653129	ingame_disaster_blizzard	.cache\11\{11BF61F1-AFD7-1308-DBC3-91829B53B57E}.wem	353653129.wem	\Containers\Default Work Unit\InGame\Disaster\ingame_disaster_blizzard	
+	835511227	ingame_disaster_windstorm	.cache\BA\{BA94CCC2-C449-68CD-0DA9-48E822EC8D55}.wem	835511227.wem	\Containers\Default Work Unit\InGame\Disaster\ingame_disaster_windstorm	
 
