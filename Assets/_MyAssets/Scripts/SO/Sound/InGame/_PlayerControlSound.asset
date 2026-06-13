@@ -15,3 +15,13 @@ MonoBehaviour:
   group: {fileID: -4774688437313742651, guid: 14acf68a80de7bc46b972bdbda1e8aa5, type: 2}
   volume: 0.1
   inertiaJump: {fileID: 8300000, guid: abd597eed5196e94d9fd1a7a40523e7a, type: 3}
+  Play_InertiaJump:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: bef63c913089e79448710408369a4fde, type: 2}
+  InertiaJump:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 10b45096d3edada4082f0db97249c644, type: 2}

@@ -14,5 +14,7 @@
         where TClipType : Enum
     {
         internal abstract AudioClip GetClip(TClipType type);
+        internal abstract AK.Wwise.Switch GetSwitch(TClipType type);
+        internal abstract AK.Wwise.Event GetEvent();
     }
 }

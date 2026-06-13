@@ -16,3 +16,19 @@ MonoBehaviour:
   volume: 1
   hover: {fileID: 8300000, guid: f4070e1521c44794fa7981dfa2c30f75, type: 3}
   click: {fileID: 8300000, guid: 8de2584c4918ea540976a1a327d28ba5, type: 3}
+  Play_Button:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 3b8a02c963ca52f4b9c07e54dbb61f03, type: 2}
+  Hover:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 4f91e2dfb3c5d5542b812d307fe24768, type: 2}
+  Click:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 10b45096d3edada4082f0db97249c644, type: 2}

@@ -16,3 +16,20 @@ MonoBehaviour:
   volume: 1
   windstorm: {fileID: 8300000, guid: d3b94e0edaa759a44851b37ecce656e3, type: 3}
   blizzard: {fileID: 8300000, guid: 637fe624fc04cac408e939405f86f55e, type: 3}
+  fadeOutDuration: 0.2
+  Play_Disaster:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: fce8cbbfbb1fd88499221edf2fb76b36, type: 2}
+  Windstorm:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 6470f608cfa470448a7c203a709e4dc2, type: 2}
+  Blizzard:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 80cea8423fbcbd646990b1d061574afa, type: 2}

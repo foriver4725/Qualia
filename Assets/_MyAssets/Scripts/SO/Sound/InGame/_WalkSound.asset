@@ -13,7 +13,48 @@ MonoBehaviour:
   m_Name: _WalkSound
   m_EditorClassIdentifier: 
   group: {fileID: 4848499782209731890, guid: 14acf68a80de7bc46b972bdbda1e8aa5, type: 2}
+  volume: 1
   grass: {fileID: 8300000, guid: 5e456c4999a2a944ab67c8067cdea1b5, type: 3}
   sand: {fileID: 8300000, guid: 61a746d3ba8158c4081fd6937a99caca, type: 3}
   rock: {fileID: 8300000, guid: 4745f3ef8d26e6c4c8b2b6e57f8ea77f, type: 3}
   water: {fileID: 8300000, guid: 0fcadef19113c4847a75f61987a359b5, type: 3}
+  maxSoundAmount: 8
+  fadeOutDuration: 0.2
+  walkPitch: 1.2
+  sprintPitch: 1.5
+  play_Walk:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 6f3e1cd8240360745b2c2f2616a54f21, type: 2}
+  stop_Walk:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 862aeb016363ee142b9e94c13126fe90, type: 2}
+  Grass:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: d5fdcfaec0501414b99fa8e10dc72f46, type: 2}
+  Sand:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 9721dae5cf5ac2e43a5f50ad56a686d2, type: 2}
+  Rock:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: c4977162960a9d84fa501c8c33daedae, type: 2}
+  Water:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: ae0c206cde786214ab0f34d6d9cf9092, type: 2}
+  w_walkPitch:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 44390ab6adf2e56428db2aeed7751927, type: 2}

@@ -16,3 +16,19 @@ MonoBehaviour:
   volume: 0.5
   couldRemove: {fileID: 8300000, guid: c2ee38c29e8e2b44bb242bf0c4153630, type: 3}
   couldNotRemove: {fileID: 8300000, guid: 9f96e25e81bbf3b418a0522683b95bc9, type: 3}
+  Play_SOS:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: fd878ca8266e16948954ce89f7865dd3, type: 2}
+  Remove:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 7f17386c520ac9643aec384eeaec2a0e, type: 2}
+  NotRemove:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 7b27d5684adb5624084c9fdbbc0cca51, type: 2}

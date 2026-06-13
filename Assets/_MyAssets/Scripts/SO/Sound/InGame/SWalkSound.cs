@@ -1,4 +1,6 @@
-﻿namespace MyScripts.SO
+﻿using UnityEngine;
+
+namespace MyScripts.SO
 {
     [CreateAssetMenu(fileName = "_WalkSound", menuName = "SO/Sound/InGame/Walk")]
     internal sealed class SWalkSound : ASSoundWithType<SWalkSound.Surface>
@@ -13,11 +15,21 @@
         [Space(10)]
         [SerializeField, Range(0.5f, 2.0f)] private float walkPitch = 1.2f;
         [SerializeField, Range(0.5f, 2.0f)] private float sprintPitch = 1.5f;
+        [SerializeField] private AK.Wwise.Event play_Walk;
+        [SerializeField] private AK.Wwise.Event stop_Walk;
+        [SerializeField] private AK.Wwise.Switch Grass;
+        [SerializeField] private AK.Wwise.Switch Sand;
+        [SerializeField] private AK.Wwise.Switch Rock;
+        [SerializeField] private AK.Wwise.Switch Water;
+        [SerializeField] private AK.Wwise.RTPC w_walkPitch;
 
         internal byte MaxSoundAmount => maxSoundAmount;
         internal float FadeOutDuration => fadeOutDuration;
         internal float WalkPitch => walkPitch;
         internal float SprintPitch => sprintPitch;
+        internal AK.Wwise.Event Play_Walk => play_Walk;
+        internal AK.Wwise.Event Stop_Walk => stop_Walk;
+        internal AK.Wwise.RTPC W_WalkPitch => w_walkPitch;
 
         internal enum Surface : byte
         {
@@ -38,5 +50,21 @@
             Surface.Water => water,
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
+
+        internal sealed override AK.Wwise.Switch GetSwitch(Surface type) => type switch
+        {
+            Surface.None => null,
+            Surface.Grass => Grass,
+            Surface.Sand => Sand,
+            Surface.Rock => Rock,
+            Surface.Water => Water,
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+        };
+
+        internal sealed override AK.Wwise.Event GetEvent()
+        {
+            return play_Walk;
+        }
+
     }
 }

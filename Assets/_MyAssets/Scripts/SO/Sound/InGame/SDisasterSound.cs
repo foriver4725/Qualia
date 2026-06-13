@@ -6,6 +6,9 @@
         [SerializeField] private AudioClip windstorm;
         [SerializeField] private AudioClip blizzard;
         [SerializeField, Range(0.0f, 0.5f), Tooltip("フェードアウトするまでの時間")] private float fadeOutDuration = 0.2f;
+        [SerializeField] private AK.Wwise.Event Play_Disaster;
+        [SerializeField] private AK.Wwise.Switch Windstorm;
+        [SerializeField] private AK.Wwise.Switch Blizzard;
 
         internal float FadeOutDuration => fadeOutDuration;
 
@@ -21,5 +24,17 @@
             Disaster.Blizzard => blizzard,
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
+
+        internal sealed override AK.Wwise.Switch GetSwitch(Disaster type) => type switch
+        {
+            Disaster.Windstorm => Windstorm,
+            Disaster.Blizzard => Blizzard,
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+        };
+
+        internal sealed override AK.Wwise.Event GetEvent()
+        {
+            return Play_Disaster;
+        }
     }
 }

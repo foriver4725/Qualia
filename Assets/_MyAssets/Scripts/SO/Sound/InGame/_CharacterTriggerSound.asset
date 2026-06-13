@@ -16,4 +16,20 @@ MonoBehaviour:
   volume: 0.1
   begin: {fileID: 8300000, guid: f714e0bd7634ea14d9981b21c9a78259, type: 3}
   closeToEnd: {fileID: 8300000, guid: d643b9884dc14a545886a48cec761d35, type: 3}
-  end: {fileID: 8300000, guid: 82b8b91b5a1425e448cc25478dfa6474, type: 3}
+  closeToEndTimeOffset: 1
+  Play_CharacterTrigger:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: a89db0c1c15879844bf7ba18b10021c5, type: 2}
+  Begin:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 8626d11d77cc2af4d82ab5ba44dcf8fa, type: 2}
+  CloseToEnd:
+    idInternal: 0
+    valueGuidInternal: 
+    groupIdInternal: 0
+    groupGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 40d0537a5cdea2945bcb9b291ed24ea6, type: 2}

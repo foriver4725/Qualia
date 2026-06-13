@@ -5,7 +5,9 @@
     {
         [SerializeField] private AudioClip hover;
         [SerializeField] private AudioClip click;
-
+        [SerializeField] private AK.Wwise.Event Play_Button;
+        [SerializeField] private AK.Wwise.Switch Hover;
+        [SerializeField] private AK.Wwise.Switch Click;
         internal enum Action : byte
         {
             Hover,
@@ -18,5 +20,17 @@
             Action.Click => click,
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
+
+        internal sealed override AK.Wwise.Switch GetSwitch(Action type) => type switch
+        {
+            Action.Hover => Hover,
+            Action.Click => Click,
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+        };
+
+        internal sealed override AK.Wwise.Event GetEvent()
+        {
+            return Play_Button;
+        }
     }
 }

@@ -43,6 +43,16 @@
             );
         }
 
+        internal virtual void LetPlayWwise(TClipTypeByte type)
+        {
+            AK.Wwise.Switch switchValue = Param.GetSwitch(type);
+            if (switchValue != null) switchValue.SetValue(gameObject);
+            else "No valid switch  exists to set.".Print(LogSettings.Warning);
+            Param.GetEvent().Post(gameObject);
+            
+        }
+
+
         private protected byte TypeCount
         {
             get
@@ -81,6 +91,7 @@
             where TClipTypeByte : struct, Enum
             where TOptions : struct, ISoundPlayerOptions
     {
-        internal abstract void LetPlay(TClipTypeByte type, TOptions options);
+        //internal abstract void LetPlay(TClipTypeByte type, TOptions options);
+        internal abstract void LetPlayWwise(TClipTypeByte type, TOptions options);
     }
 }
