@@ -6,14 +6,7 @@
         {
             internal bool IsSprinting { get; init; }
         }
-        //再生用のイベントとスイッチとピッチのデータ、いずれSOに移植するかも
-        [SerializeField] private AK.Wwise.Event Play_Walk;
-        [SerializeField] private AK.Wwise.Event Stop_Walk;
-        [SerializeField] private AK.Wwise.Switch GrassSwitch;
-        [SerializeField] private AK.Wwise.Switch SandSwitch;
-        [SerializeField] private AK.Wwise.Switch RockSwitch;
-        [SerializeField] private AK.Wwise.Switch WaterSwitch;
-        [SerializeField] private AK.Wwise.RTPC WalkPitch;
+        
 
         private AudioSource[] audioSources = null;
         private MotionHandle[] fadeOutTweens = null;
@@ -25,47 +18,25 @@
         /// <summary>
         /// プレイヤーの地面の、更新通知を送る
         /// </summary>
-        internal sealed override void LetPlay(SWalkSound.Surface type, Options options)
+        internal sealed override void LetPlayWwise(SWalkSound.Surface type, Options options)
         {
             if (type == currentSurface && options.IsSprinting == isCurrentSprinting) return;
             if (type == SWalkSound.Surface.None)
             {
-                Stop_Walk.Post(gameObject);
+                Param.Stop_Walk.Post(gameObject);
                 currentSurface = type;
                 return;
             } 
-            WalkPitch.SetValue(gameObject,options.IsSprinting ? 1f : 0f);
+            Param.W_WalkPitch.SetValue(gameObject,options.IsSprinting ? 1f : 0f);
             isCurrentSprinting = options.IsSprinting;
-            if(currentSurface != type)Stop_Walk.Post(gameObject);
-            switch (type)
-            {
-                case SWalkSound.Surface.Grass:
-                    GrassSwitch.SetValue(gameObject);
-                    break;
+            if(currentSurface != type)Param.Stop_Walk.Post(gameObject);
 
-                case SWalkSound.Surface.Sand:
-                    SandSwitch.SetValue(gameObject);
-                    break;
-
-                case SWalkSound.Surface.Rock:
-                    RockSwitch.SetValue(gameObject);
-                    break;
-
-                case SWalkSound.Surface.Water:
-                    WaterSwitch.SetValue(gameObject);
-                    break;
-
-                case SWalkSound.Surface.None:
-                    return;
-
-                default:
-                    return;
-            }
-
-
-            if (currentSurface != type) Play_Walk.Post(gameObject);
+            Param.GetSwitch(type).SetValue(gameObject);
+            if (currentSurface != type) Param.Play_Walk.Post(gameObject);
             currentSurface = type;
         }
+
+
 
         private protected sealed override void Init()
         {

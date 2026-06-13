@@ -5,7 +5,7 @@
         // フェードアウトのため、2つを交互に使う
         private bool[] areUsingFirst = null;
 
-        internal sealed override void LetPlay(SDisasterSound.Disaster type)
+        internal sealed override void LetPlayWwise(SDisasterSound.Disaster type)
         {
             AudioClip clip = Param.GetClip(type);
             if (clip == null)

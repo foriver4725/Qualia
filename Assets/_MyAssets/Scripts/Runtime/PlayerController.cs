@@ -664,7 +664,7 @@ namespace MyScripts.Runtime
             walkSoundUpdateFrameCounter = 0;
 
             var surface = GetSurfaceUnderfoot();
-            walkSoundPlayer.LetPlay(surface, new() { IsSprinting = isSprinting });
+            walkSoundPlayer.LetPlayWwise(surface, new() { IsSprinting = isSprinting });
         }
 
         private void RecordPreviousFramePosition()

@@ -1,4 +1,4 @@
-using MyScripts.Runtime.Log;
+﻿using MyScripts.Runtime.Log;
 
 namespace MyScripts.Runtime
 {
@@ -105,7 +105,7 @@ namespace MyScripts.Runtime
 
             RefreshAllDisplaySlots();
             // TODO: SOSサインのサウンドを使いまわす!
-            soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
+            soundPlayer.LetPlayWwise(SSOSSound.Situation.CouldRemove);
         }
 
         // 初めて取得した場合、ログを表示する
@@ -158,7 +158,7 @@ namespace MyScripts.Runtime
 
             RefreshAllDisplaySlots();
             // TODO: SOSサインのサウンドを使いまわす!
-            soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
+            soundPlayer.LetPlayWwise(SSOSSound.Situation.CouldRemove);
         }
 
         internal void SetDisplayImageFillAmount(CharacterType type, float amount)

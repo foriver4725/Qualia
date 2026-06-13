@@ -166,7 +166,7 @@ namespace MyScripts.Runtime
                                 LogManager.Instance.ShowAutomatically(
                                     sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnRemoveWithAnima));
 
-                                soundPlayer.LetPlay(SSOSSound.Situation.CouldRemove);
+                                soundPlayer.LetPlayWwise(SSOSSound.Situation.CouldRemove);
                                 TryPlayMilestoneMovie();
                             }
                             else
@@ -186,7 +186,7 @@ namespace MyScripts.Runtime
                                     LogManager.Instance.ShowManually(
                                         sosSignLogText.GetRandom(SSOSSignLogText.LogType.OnRemoveWithoutAnima));
 
-                                    soundPlayer.LetPlay(SSOSSound.Situation.CouldNotRemove);
+                                    soundPlayer.LetPlayWwise(SSOSSound.Situation.CouldNotRemove);
                                     continue;
                                 }
                                 else

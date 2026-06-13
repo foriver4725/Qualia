@@ -70,14 +70,14 @@ namespace MyScripts.Runtime.UI.Button
             base.PlayHoverSe();
 
             if (soundSetting.DoesPlayButtonHoverSe)
-                soundPlayer.LetPlay(SButtonSound.Action.Hover);
+                soundPlayer.LetPlayWwise(SButtonSound.Action.Hover);
         }
 
         private protected sealed override void PlayClickSe()
         {
             base.PlayClickSe();
 
-            soundPlayer.LetPlay(SButtonSound.Action.Click);
+            soundPlayer.LetPlayWwise(SButtonSound.Action.Click);
         }
     }
 }
