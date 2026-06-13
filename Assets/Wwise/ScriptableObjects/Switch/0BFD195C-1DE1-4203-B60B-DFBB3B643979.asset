@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27b7db388624a95439e55ebf5f698412, type: 3}
+  m_Name: 0BFD195C-1DE1-4203-B60B-DFBB3B643979
+  m_EditorClassIdentifier: AK.Wwise.Unity.API.WwiseTypes::WwiseSwitchReference
+  objectName: Remove
+  id: 2335605169
+  guid: 0BFD195C-1DE1-4203-B60B-DFBB3B643979
+  WwiseSwitchGroupReference: {fileID: 11400000, guid: 59c2e25ba18cd7b47ba277f895e4bf8b, type: 2}
